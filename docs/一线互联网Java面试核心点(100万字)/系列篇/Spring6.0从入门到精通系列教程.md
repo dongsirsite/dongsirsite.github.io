@@ -374,7 +374,7 @@ public class MyBean implements DisposableBean {
 }
 ```
 
-第二种方式是通过在Bean的配置文件中使用<bean>标签的destroy-method属性来指定一个销毁方法。当Spring容器关闭时，会调用该方法来销毁Bean。
+第二种方式是通过在Bean的配置文件中使用`<bean>`标签的destroy-method属性来指定一个销毁方法。当Spring容器关闭时，会调用该方法来销毁Bean。
 
 例如，下面是一个在配置文件中指定销毁方法的例子：
 
