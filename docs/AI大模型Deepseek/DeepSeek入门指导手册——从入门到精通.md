@@ -599,7 +599,7 @@ if __name__ == "__main__":
 > + 关键指标
 > + 异常预警
 > + 明⽇建议
-> + 发送邮件⾄<manager@company.com>
+> + 发送邮件⾄`<manager@company.com>`
 >
 
 + **异常处理机制**

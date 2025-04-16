@@ -56,11 +56,11 @@
 
 **API key：**填入 DeepSeek API key
 
-**URL：** <https://api.deepseek.com/chat/completions>
+**URL：** `<https://api.deepseek.com/chat/completions>`
 
 ![1738824890811-d161fc98-5612-49b1-bd9d-fa4a49858329.png](./img/IZgVRkEqdbsTeaL-/1738824890811-d161fc98-5612-49b1-bd9d-fa4a49858329-317818.png)
 
-参考配置文档<https://api-docs.deepseek.com/zh-cn/>   **将模型改为 R1 模型**
+参考配置文档`<https://api-docs.deepseek.com/zh-cn/> `  **将模型改为 R1 模型**
 
 ![1738826899911-0deac04f-01f6-43b0-9fd4-9a7d6b1ef789.png](./img/IZgVRkEqdbsTeaL-/1738826899911-0deac04f-01f6-43b0-9fd4-9a7d6b1ef789-299650.png)
 

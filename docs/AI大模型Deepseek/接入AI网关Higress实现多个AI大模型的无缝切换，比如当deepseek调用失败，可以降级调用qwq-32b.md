@@ -18,7 +18,7 @@
 curl -sS https://higress.cn/ai-gateway/install.sh | bash
 ```
 
-安装完成后访问控制台<http://localhost:8001，完成初始化配置。>
+安装完成后访问控制台`<http://localhost:8001，完成初始化配置。>`
 
 ![1741669057034-48f3ecba-5aad-4237-b963-3b42d1f27a57.png](./img/0L-CuNkt1mXzFGRf/1741669057034-48f3ecba-5aad-4237-b963-3b42d1f27a57-985282.png)
 

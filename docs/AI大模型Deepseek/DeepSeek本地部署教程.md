@@ -63,7 +63,7 @@ deepseek最近非常火，有时很卡顿，用不了，**那么本地部署的�
 是时候告别黑乎乎的窗口了！咱们请出颜值担当：
 
 🔥 ChatBox客户端  
-▌官网直达：<https://chatboxai.app>
+▌官网直达：`<https://chatboxai.app>`
 
 ![1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4.png](./img/j7bFAx6rfeXrZshZ/1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4-997074.png)
 

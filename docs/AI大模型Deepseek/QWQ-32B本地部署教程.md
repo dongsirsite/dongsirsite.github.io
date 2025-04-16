@@ -55,7 +55,7 @@ deepseek国内大模型一哥的位置都没坐热， 阿里就推出了qwq-32b�
 是时候告别黑乎乎的窗口了！咱们请出颜值担当：
 
 🔥 ChatBox客户端  
-▌官网直达：<https://chatboxai.app>
+▌官网直达：`<https://chatboxai.app>`
 
 ![1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4.png](./img/2KsFD2gXYAk9XFcE/1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4-560829.png)
 

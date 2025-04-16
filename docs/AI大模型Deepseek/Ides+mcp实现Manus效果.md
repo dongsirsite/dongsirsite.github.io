@@ -108,7 +108,7 @@ MCP 遵循客户端-服务器架构（client-server），其中包含以下几�
 
 **配置 firecrawl-mcp-server**
 
-firecrawl 是一个 AI 友好的网络爬虫工具，他会读取指定URL的内容，并且返回为AI能够识别的 markdown 等格式。firecrawl的网址是 <https://www.firecrawl.dev>
+firecrawl 是一个 AI 友好的网络爬虫工具，他会读取指定URL的内容，并且返回为AI能够识别的 markdown 等格式。firecrawl的网址是 `<https://www.firecrawl.dev>`
 
 你可以使用他的API服务，也可以自己在本地搭建。  
 以下是我使用本地部署的方式，firecrawl的MCP配置方式是：

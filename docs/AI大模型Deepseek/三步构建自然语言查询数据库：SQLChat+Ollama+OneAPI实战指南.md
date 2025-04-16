@@ -37,11 +37,11 @@
 
 #### 安装 ollama（基于 Windows 演示）
 
-访问 ollama 官网：<https://ollama.com/> ，下载对应操作系统安装包  
+访问 ollama 官网：`<https://ollama.com/>` ，下载对应操作系统安装包  
 
 ![1742712717661-1a61b529-c277-4121-a645-29e62b4a8c68.png](./img/KxBXWjtCKrOOL2NJ/1742712717661-1a61b529-c277-4121-a645-29e62b4a8c68-932951.png)
 
-下载安装后访问：<http://localhost:11434/>  出现以下信息说明安装成功
+下载安装后访问：`<http://localhost:11434/>`  出现以下信息说明安装成功
 
 ![1742712957706-01b9ac23-1e8e-4cc7-82ce-cc775ea6b92c.png](./img/KxBXWjtCKrOOL2NJ/1742712957706-01b9ac23-1e8e-4cc7-82ce-cc775ea6b92c-823255.png)
 
@@ -72,7 +72,7 @@ windows 用户复制对应的命令直接在 cmd 中执行就行，我已经提�
 
 ### 部署 one-api 并配置 ollama 本地模型以及硅基流动平台模型（docker 部署）
 
-通过 docker 部署非常的方便，执行以下命令即可，其他方式部署参考 github 项目：<https://github.com/songquanpeng/one-api>
+通过 docker 部署非常的方便，执行以下命令即可，其他方式部署参考 github 项目：`<https://github.com/songquanpeng/one-api>`
 
 ps.在部署之前大家还需要准备 docker + MySQL
 
@@ -138,7 +138,7 @@ http://host.docker.internal:11434
 
 ### 部署 sqlChat（docker 部署）
 
-整个过程按照教程不复杂，如果有问题，请仔细查看教程。更多的细节查看： <https://github.com/sqlchat/sqlchat>
+整个过程按照教程不复杂，如果有问题，请仔细查看教程。更多的细节查看： `<https://github.com/sqlchat/sqlchat>`
 
 ```powershell
 -- OPENAI_API_KEY: openAI 令牌， 配置oneApi 生成的令牌
