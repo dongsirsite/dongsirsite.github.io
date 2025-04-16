@@ -71,6 +71,7 @@ public class ReentrantLockExample {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">适用场景</font>
+
 - `**<font style="color:rgba(0, 0, 0, 0.82);">synchronized</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：适用于简单的同步需求。由于其语法简单且嵌入在Java语言中，特别适合锁定范围与方法等价的情况。小规模、多线程竞争不高的情况下表现优异。适合开发者不想处理锁的复杂生命周期时使用。</font>
 - `**<font style="color:rgba(0, 0, 0, 0.82);">ReentrantLock</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：适用于需要更高级的同步控制，或者锁定范围与方法不同时。特别是在需要公平锁、可中断锁操作、尝试获取带超时功能的锁，或者需要多个条件等待时，应选择</font>`<font style="color:rgba(0, 0, 0, 0.82);">ReentrantLock</font>`<font style="color:rgba(0, 0, 0, 0.82);">。当系统规模较大、线程数较多，且具有复杂同步需求的情境时表现突出。</font>
 

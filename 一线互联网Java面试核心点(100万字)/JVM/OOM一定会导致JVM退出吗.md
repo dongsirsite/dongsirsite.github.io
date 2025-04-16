@@ -70,10 +70,12 @@ Exception in thread "main" java.lang.OutOfMemoryError: Requested array size exce
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">行为解释</font>
+
 - <font style="color:rgba(0, 0, 0, 0.82);">在主线程中，如果未捕获的OOM发生，程序将立即终止。</font>
 - <font style="color:rgba(0, 0, 0, 0.82);">在线程</font>`<font style="color:rgba(0, 0, 0, 0.82);">thread</font>`<font style="color:rgba(0, 0, 0, 0.82);">中，我们捕获了OOM并进行了打印处理。即使发生了OOM，该子线程停止，但主线程继续执行主线程外的任务。如果没有捕获，子线程停止，但JVM不会退出，因为主线程仍在运行。</font>
 - <font style="color:rgba(0, 0, 0, 0.82);">此示例代码通过捕获异常展示了如何使程序在发生OOM时继续执行，但开发者应合理处理这些错误以避免不必要的错误传播和程序行为失常。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">注意事项</font>
+
 - <font style="color:rgba(0, 0, 0, 0.82);">不建议频繁捕获OOM并继续执行程序，因为这样可能表明程序有严重的内存管理问题，应尽量优化内存使用。</font>
 - <font style="color:rgba(0, 0, 0, 0.82);">在关键路径中发生OOM时，通常应记录日志并考虑安全停机，因为无法保证系统在内存压力下的正确性。</font>

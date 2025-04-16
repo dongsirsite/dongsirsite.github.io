@@ -79,6 +79,7 @@ public class ArrayStack {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">说明</font>
+
 - **<font style="color:rgba(0, 0, 0, 0.82);">初始化</font>**<font style="color:rgba(0, 0, 0, 0.82);">：构造函数</font>`<font style="color:rgba(0, 0, 0, 0.82);">ArrayStack(int capacity)</font>`<font style="color:rgba(0, 0, 0, 0.82);">用于初始化栈的容量和数组。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">入栈</font>**`**<font style="color:rgba(0, 0, 0, 0.82);">push</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：在栈顶插入一个元素，并更新</font>`<font style="color:rgba(0, 0, 0, 0.82);">top</font>`<font style="color:rgba(0, 0, 0, 0.82);">索引。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">出栈</font>**`**<font style="color:rgba(0, 0, 0, 0.82);">pop</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：移除并返回栈顶元素，更新</font>`<font style="color:rgba(0, 0, 0, 0.82);">top</font>`<font style="color:rgba(0, 0, 0, 0.82);">索引。</font>

@@ -94,6 +94,7 @@ docker run --name one-api -d --restart always -p 3000:3000 -e SQL_DSN="root:1qaz
 ![1742715419662-a6e8a155-ef50-4a07-adc6-6fcf0d68268e.png](./img/KxBXWjtCKrOOL2NJ/1742715419662-a6e8a155-ef50-4a07-adc6-6fcf0d68268e-427335.png)
 
 #### <font style="background-color:rgb(247, 248, 250);">配置模型渠道</font>
+
 - <font style="color:rgb(29, 33, 41);">配置 ollama 本地大模型</font>
 
 ```powershell

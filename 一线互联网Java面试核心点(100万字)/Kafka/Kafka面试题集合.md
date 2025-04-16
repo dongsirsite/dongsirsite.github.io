@@ -274,7 +274,7 @@ Leader维护了一个动态的in-sync replica set (ISR-同步副本列表)，意
 + ISR(In-Sync Replicas )：与leader保持同步的follower集合
 + AR(Assigned Replicas)：分区的所有副本
   + ISR是由leader维护，follower从leader同步数据有一些延迟（包括延迟时间replica.lag.time.max.ms和延迟条数replica.lag.max.messages两个维度, 当前最新的版本0.10.x中只支持replica.lag.time.max.ms这个维度），任意一个超过阈值都会把follower剔除出ISR， 存入OSR(Outof-Sync Replicas)列表，新加入的follower也会先存放在OSR中。
-  + AR=ISR+OSR。 
+  + AR=ISR+OSR。
 
 #### <font style="color:rgb(51, 51, 51);">ISR的伸缩</font>
 

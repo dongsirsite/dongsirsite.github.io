@@ -44,6 +44,7 @@ public class JVMExitExample {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">解释</font>
+
 - **<font style="color:rgba(0, 0, 0, 0.82);">正常程序终止</font>**<font style="color:rgba(0, 0, 0, 0.82);">：默认情况下，</font>`<font style="color:rgba(0, 0, 0, 0.82);">main</font>`<font style="color:rgba(0, 0, 0, 0.82);">执行完毕后，所有非守护线程完成，程序正常退出。</font>
 - `**<font style="color:rgba(0, 0, 0, 0.82);">System.exit()</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：调用</font>`<font style="color:rgba(0, 0, 0, 0.82);">System.exit(0)</font>`<font style="color:rgba(0, 0, 0, 0.82);">立即终止JVM。非零参数值通常被用来指示异常终止。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">未捕获的异常</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在</font>`<font style="color:rgba(0, 0, 0, 0.82);">willCauseException()</font>`<font style="color:rgba(0, 0, 0, 0.82);">中，我们故意抛出一个未捕获的</font>`<font style="color:rgba(0, 0, 0, 0.82);">RuntimeException</font>`<font style="color:rgba(0, 0, 0, 0.82);">，导致程序退出。</font>

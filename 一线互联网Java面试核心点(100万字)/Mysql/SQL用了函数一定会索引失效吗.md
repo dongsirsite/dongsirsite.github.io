@@ -32,6 +32,7 @@ SELECT UPPER(username) FROM users WHERE username = 'john';  -- 索引用于WHERE
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">优化建议：</font>
+
 - **<font style="color:rgba(0, 0, 0, 0.82);">使用生成列</font>**<font style="color:rgba(0, 0, 0, 0.82);">：如果定期需要函数值，可以考虑使用生成列来预计算值并索引它。</font>
 
 ```sql

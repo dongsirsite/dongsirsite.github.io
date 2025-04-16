@@ -120,6 +120,7 @@ public class CouponExpirationListener implements RocketMQListener<Long> {
     - `<font style="color:rgba(0, 0, 0, 0.82);">CouponExpirationListener</font>`<font style="color:rgba(0, 0, 0, 0.82);">监听指定的主题，消费消息并将对应优惠券标记为无效。这一过程依赖于RocketMQ的延时消息特性。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">项目亮点</font>
+
 - **<font style="color:rgba(0, 0, 0, 0.82);">自动过期</font>**<font style="color:rgba(0, 0, 0, 0.82);">：通过延时消息自动管理优惠券的过期，无需手动干预。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">降低复杂度</font>**<font style="color:rgba(0, 0, 0, 0.82);">：避免手动调度任务或定时任务，完全依靠消息中间件实现。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">节省资源</font>**<font style="color:rgba(0, 0, 0, 0.82);">：只有在消息到期时才触发处理逻辑，节省系统资源。</font>

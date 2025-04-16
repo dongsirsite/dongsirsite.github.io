@@ -60,6 +60,7 @@ class Person {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">内存部分的解释</font>
+
 - **<font style="color:rgba(0, 0, 0, 0.82);">堆内存</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在内存分配的循环中创建了多个实例对象，它们存储于堆内存中。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">栈内存</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>`<font style="color:rgba(0, 0, 0, 0.82);">calculateFactorial</font>`<font style="color:rgba(0, 0, 0, 0.82);">方法进行递归调用，每次调用在栈上创建新的栈帧以存储局部变量和返回信息。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">直接内存</font>**<font style="color:rgba(0, 0, 0, 0.82);">：使用</font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuffer.allocateDirect(1024)</font>`<font style="color:rgba(0, 0, 0, 0.82);">分配直接内存，通常用于高性能I/O操作。</font>

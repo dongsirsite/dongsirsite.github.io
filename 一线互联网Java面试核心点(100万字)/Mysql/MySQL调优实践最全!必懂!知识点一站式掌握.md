@@ -1139,7 +1139,7 @@ select min(password) from users;
 
 ![1681039399639-75db39c7-cf2f-49c0-92fb-b00364a29c8d.png](./img/4_xIH9kdrSNB7IMN/1681039399639-75db39c7-cf2f-49c0-92fb-b00364a29c8d-251748.png)
 
-### 
+###
 
 ### <font style="background-color:#FFFFFF;">5.索引优化最佳实践</font>  
 
@@ -1216,7 +1216,7 @@ EXPLAIN SELECT * FROM employees WHERE name= '张三' AND position = 'beijing';
 
 #### 3.不在索引列上做任何操作（计算、函数、（自动or手动）类型转换），会导致索引失效而转向全表扫描
 
-#### 
+####
 
 ```sql
 EXPLAIN SELECT * FROM employees WHERE name = '张三';
@@ -1968,4 +1968,4 @@ SQL优化是提高数据库性能的重要方法，在实际开发中我们的SQ
 3. 减少交互次数
 4. 减少服务器CPU及内存开销
 
-# 
+#

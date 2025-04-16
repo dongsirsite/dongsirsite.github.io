@@ -39,6 +39,7 @@
 ---
 
 #### **<font style="color:rgba(6, 8, 31, 0.88);">4. 应用场景</font>**
+
 - **<font style="color:rgba(6, 8, 31, 0.88);">电商网站：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">在大促销期间，部分算法或次要功能（如推荐或优惠券）被暂时关闭，保证用户能够完成下单和支付流程。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">分布式系统：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">通过多机房部署，当某个机房宕机时，其他机房接管流量，确保服务可用。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">CDN 服务：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> 用户请求的非核心静态文件（如图片）可能存在延迟或缓存过期更新的情况，但页面主内容仍然正常加载。</font>
@@ -80,6 +81,7 @@
 ---
 
 #### **<font style="color:rgba(6, 8, 31, 0.88);">4. 应用场景</font>**
+
 - **<font style="color:rgba(6, 8, 31, 0.88);">电商系统</font>**<font style="color:rgba(6, 8, 31, 0.88);">：购物车显示的某些信息（例如：价格或库存）可能会延迟更新，但不会影响最终下单。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">分布式缓存</font>**<font style="color:rgba(6, 8, 31, 0.88);">：Redis 或 Memcached 中的数据可能是一个阶段性软状态。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">社交媒体系统</font>**<font style="color:rgba(6, 8, 31, 0.88);">：例如用户评论、点赞数等可能短时间不同步，但最终数据保持一致。</font>
@@ -123,6 +125,7 @@
 ---
 
 #### **<font style="color:rgba(6, 8, 31, 0.88);">4. 应用场景</font>**
+
 - **<font style="color:rgba(6, 8, 31, 0.88);">电商库存系统</font>**<font style="color:rgba(6, 8, 31, 0.88);">：</font>
   - <font style="color:rgba(6, 8, 31, 0.88);">下单后短暂显示旧的库存数据，通过后台修复最终实现数据同步。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">社交平台消息系统</font>**<font style="color:rgba(6, 8, 31, 0.88);">：</font>

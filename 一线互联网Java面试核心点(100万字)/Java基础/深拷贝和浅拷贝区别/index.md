@@ -186,10 +186,12 @@ Copy Address: Address{street='456 New St', city='City'}
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.9);">3.</font><font style="color:rgba(0, 0, 0, 0.9);"> </font>**<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝和深拷贝的区别是什么？</font>**
+
 - **<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：只复制对象本身，引用的其他对象不复制，新对象和原对象共享引用的其他对象。</font>
 - **<font style="color:rgba(0, 0, 0, 0.9);">深拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：递归地复制对象及其引用的所有对象，新对象和原对象完全独立。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.9);">4.</font><font style="color:rgba(0, 0, 0, 0.9);"> </font>**<font style="color:rgba(0, 0, 0, 0.9);">如何实现深拷贝和浅拷贝？</font>**
+
 - **<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：使用 </font>`<font style="color:rgba(0, 0, 0, 0.9);">Object.clone()</font>`<font style="color:rgba(0, 0, 0, 0.9);"> 方法，或者通过构造方法或手动复制字段</font>
 - **<font style="color:rgba(0, 0, 0, 0.9);">深拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：手动实现深拷贝，或者使用序列化。</font>
 

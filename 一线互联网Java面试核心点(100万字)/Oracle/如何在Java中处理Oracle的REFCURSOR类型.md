@@ -118,6 +118,7 @@ public class RefCursorExample {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">最佳实践</font>
+
 - <font style="color:rgba(6, 8, 31, 0.88);">使用try-with-resources管理资源</font>
 - <font style="color:rgba(6, 8, 31, 0.88);">实现连接池</font>
 - <font style="color:rgba(6, 8, 31, 0.88);">添加详细的日志记录</font>

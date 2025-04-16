@@ -372,7 +372,7 @@ Tinyid 的原理比较简单，其架构如下图所示：
 
 Tinyid 的优缺点这里就不分析了，结合数据库号段模式的优缺点和 Tinyid 的原理就能知道。
 
-#### 
+####
 
 #### <font style="color:rgb(51, 51, 51);">IdGenerator(个人)</font>
 

@@ -42,6 +42,7 @@ public class SafePointExample {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">重要性</font>
+
 - **<font style="color:rgba(0, 0, 0, 0.82);">最小化暂停时间</font>**<font style="color:rgba(0, 0, 0, 0.82);">：通过仅在安全点暂停线程，可最大程度减少程序因为GC等操作而暂停执行的时间。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">性能和一致性</font>**<font style="color:rgba(0, 0, 0, 0.82);">：安全点设计能够确保为GC等需要程序一致性暂停的操作提供合适控制，同时尽可能保持程序性能。</font>
 

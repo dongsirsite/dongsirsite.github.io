@@ -231,7 +231,7 @@ init是对对象级别的变量或非静态代码块进行初始化的
 
 clinit静态变量或者静态代码块谁来初始化呢
 
-## 5、对象内存分配方式 
+## 5、对象内存分配方式
 
 :::info
 薪资范围：6-16K
@@ -1121,6 +1121,7 @@ jmap -dump:file=d:\user.hprof 1246
 <font style="color:rgb(74, 74, 74);">Full GC的排查思路大概如下：</font>
 
 1. <font style="color:rgb(1, 1, 1);">清楚从程序角度，有哪些原因导致FGC？</font>
+
 - **<font style="color:rgb(74, 74, 74);">大对象</font>**<font style="color:rgb(1, 1, 1);">：系统一次性加载了过多数据到内存中（比如SQL查询未做分页），导致大对象进入了老年代。</font>
 - **<font style="color:rgb(74, 74, 74);">内存泄漏</font>**<font style="color:rgb(1, 1, 1);">：频繁创建了大量对象，但是无法被回收（比如IO对象使用完后未调用close方法释放资源），先引发FGC，最后导致OOM.</font>
 - <font style="color:rgb(1, 1, 1);">程序频繁生成一些</font>**<font style="color:rgb(74, 74, 74);">长生命周期的对象</font>**<font style="color:rgb(1, 1, 1);">，当这些对象的存活年龄超过分代年龄时便会进入老年代，最后引发FGC. </font>
@@ -1129,6 +1130,7 @@ jmap -dump:file=d:\user.hprof 1246
 - <font style="color:rgb(1, 1, 1);">JVM参数设置问题：包括总内存大小、新生代和老年代的大小、Eden区和S区的大小、元空间大小、垃圾回收算法等等。</font>
 
 1. <font style="color:rgb(1, 1, 1);">清楚排查问题时能使用哪些工具</font>
+
 - <font style="color:rgb(1, 1, 1);">公司的监控系统：大部分公司都会有，可全方位监控JVM的各项指标。</font>
 - <font style="color:rgb(1, 1, 1);">JDK的自带工具，包括jmap、jstat等常用命令：</font>
 
@@ -1144,6 +1146,7 @@ jmap -dump:format=b,file=heap pid
 - <font style="color:rgb(1, 1, 1);">可视化的堆内存分析工具：JVisualVM、MAT等</font>
 
 1. <font style="color:rgb(1, 1, 1);">排查指南</font>
+
 - <font style="color:rgb(1, 1, 1);">查看监控，以了解出现问题的时间点以及当前FGC的频率（可对比正常情况看频率是否正常）</font>
 - <font style="color:rgb(1, 1, 1);">了解该时间点之前有没有程序上线、基础组件升级等情况。</font>
 - <font style="color:rgb(1, 1, 1);">了解JVM的参数设置，包括：堆空间各个区域的大小设置，新生代和老年代分别采用了哪些垃圾收集器，然后分析JVM参数设置是否合理。</font>
@@ -1190,4 +1193,4 @@ Heap dump file created
     1. <font style="color:rgb(1, 1, 1);">在 dump 文析结果中查找存在大量的对象，再查对其的引用。</font>
     2. <font style="color:rgb(1, 1, 1);">dump 文件分析</font>
 
-## 
+##

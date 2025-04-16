@@ -30,6 +30,7 @@
     - **<font style="color:rgba(0, 0, 0, 0.82);">数据过期</font>**<font style="color:rgba(0, 0, 0, 0.82);">：合理使用 TTL 来控制数据的生命周期，避免无用数据长期占用内存。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">通用设计建议</font>
+
 - **<font style="color:rgba(0, 0, 0, 0.82);">预估容量和并发</font>**<font style="color:rgba(0, 0, 0, 0.82);">：评估不同数据结构在不同容量与并发情况下的表现，选择最优的数据存储结构。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">多环境测试</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在生产环境部署前，在开发和测试环境中进行充足的测试，验证 Key 和 Value 设计的有效性和可行性。</font>
 - **<font style="color:rgba(0, 0, 0, 0.82);">性能监控</font>**<font style="color:rgba(0, 0, 0, 0.82);">：部署 Redis 监控工具以观察实际使用中的状态和负载，及时调整 Key 和 Value 设计。</font>

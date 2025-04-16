@@ -59,12 +59,14 @@
 ### <font style="color:rgba(6, 8, 31, 0.88);">GitFlow 的优缺点</font>
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">优点：</font>
+
 - <font style="color:rgba(6, 8, 31, 0.88);">分支管理明确，分工清晰，可应对复杂的大型团队协作。</font>
 - <font style="color:rgba(6, 8, 31, 0.88);">每个分支定义了明确的职责，降低了代码冲突风险。</font>
 - <font style="color:rgba(6, 8, 31, 0.88);">提供了完整的开发→测试→发布工作流，有助于保证代码的稳定性。</font>
 - <font style="color:rgba(6, 8, 31, 0.88);">通过</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>`<font style="color:rgba(6, 8, 31, 0.88);">release</font>`<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">和</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>`<font style="color:rgba(6, 8, 31, 0.88);">hotfix</font>`<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">分支，能够对线上的版本和问题进行快速响应。</font>
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">缺点：</font>
+
 - **<font style="color:rgba(6, 8, 31, 0.88);">复杂性高：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">对小型团队或简单项目而言，GitFlow 的流程可能显得繁琐。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">学习成本：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">新手需要花费较多时间学习不同分支的用途及其操作。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">不适合持续交付：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">GitFlow 偏向阶段性发布，而不是高频率的小版本更新。</font>
@@ -72,6 +74,7 @@
 ---
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">GitFlow 的适用场景</font>
+
 - **<font style="color:rgba(6, 8, 31, 0.88);">中大型团队协作：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">GitFlow 非常适合多个团队合作的大型项目，明确的分支结构让成员分工更加清晰。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">阶段性发布项目：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">如果项目以大版本的形式完成迭代，可以充分利用</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>`<font style="color:rgba(6, 8, 31, 0.88);">release</font>`<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">分支进行测试和修复。</font>
 - **<font style="color:rgba(6, 8, 31, 0.88);">高稳定性需求：</font>**<font style="color:rgba(6, 8, 31, 0.88);"> 适合追求稳定和高质量代码的项目，尤其是在各版本正式发布前需要严密测试的场景。</font>
