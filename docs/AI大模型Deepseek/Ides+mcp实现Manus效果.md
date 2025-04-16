@@ -13,35 +13,35 @@
 
 ## 什么是 MCP
 
-<font style="color:rgba(6, 8, 31, 0.88);">对于熟悉</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>**<font style="color:rgba(6, 8, 31, 0.88);">LangChain4j</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">以及</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>**<font style="color:rgba(6, 8, 31, 0.88);">SpringAI</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">的小伙伴来说，理解这一点并不难。在对接大模型时，我们常常会遇到基础大模型无法直接给出答案的情况。</font>
+对于熟悉 **LangChain4j** 以及 **SpringAI** 的小伙伴来说，理解这一点并不难。在对接大模型时，我们常常会遇到基础大模型无法直接给出答案的情况。
 
-<font style="color:rgba(6, 8, 31, 0.88);">比如一些简单却又常用的场景：</font>
+比如一些简单却又常用的场景：
 
-+ <font style="color:rgba(6, 8, 31, 0.88);">获取当前时间</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">查询当前天气</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">获取股价或订单状态等动态信息</font>
++ 获取当前时间
++ 查询当前天气
++ 获取股价或订单状态等动态信息
 
-<font style="color:rgba(6, 8, 31, 0.88);">这是因为大模型无法访问超出其训练数据时间戳范围的动态数据或实时信息，这些情况下，就需要开发者自己实现一套工具，帮助模型完成类似的信息获取。</font>
+这是因为大模型无法访问超出其训练数据时间戳范围的动态数据或实时信息，这些情况下，就需要开发者自己实现一套工具，帮助模型完成类似的信息获取。
 
-<font style="color:rgba(6, 8, 31, 0.88);">而 </font>**<font style="color:rgba(6, 8, 31, 0.88);">MCP（Model Context Protocol）</font>**<font style="color:rgba(6, 8, 31, 0.88);"> 可以理解为一个 AI 的标准化工具箱。它提供了一套标准化的协议，方便所有开发者将自定义的功能模块轻松对接到大模型中。</font>
+而 **MCP（Model Context Protocol）** 可以理解为一个 AI 的标准化工具箱。它提供了一套标准化的协议，方便所有开发者将自定义的功能模块轻松对接到大模型中。
 
-### <font style="color:rgba(6, 8, 31, 0.88);">MCP 架构设计</font>
+### MCP 架构设计
 
-<font style="color:rgb(52, 52, 60);">MCP 遵循客户端-服务器架构（client-server），其中包含以下几个核心概念：</font>
+MCP 遵循客户端-服务器架构（client-server），其中包含以下几个核心概念：
 
-+ <font style="color:rgb(52, 52, 60);">MCP 主机（MCP Hosts）：发起请求的 LLM 应用程序（例如 Claude Desktop、IDE 或 AI 工具）。</font>
-+ <font style="color:rgb(52, 52, 60);">MCP 客户端（MCP Clients）：在主机程序内部，与 MCP server 保持 1:1 的连接。</font>
-+ <font style="color:rgb(52, 52, 60);">MCP 服务器（MCP Servers）：为 MCP client 提供上下文、工具和 prompt 信息。</font>
-+ <font style="color:rgb(52, 52, 60);">本地资源（Local Resources）：本地计算机中可供 MCP server 安全访问的资源（例如文件、数据库）。</font>
-+ <font style="color:rgb(52, 52, 60);">远程资源（Remote Resources）：MCP server 可以连接到的远程资源（例如通过 API）。</font>
++ MCP 主机（MCP Hosts）：发起请求的 LLM 应用程序（例如 Claude Desktop、IDE 或 AI 工具）。
++ MCP 客户端（MCP Clients）：在主机程序内部，与 MCP server 保持 1:1 的连接。
++ MCP 服务器（MCP Servers）：为 MCP client 提供上下文、工具和 prompt 信息。
++ 本地资源（Local Resources）：本地计算机中可供 MCP server 安全访问的资源（例如文件、数据库）。
++ 远程资源（Remote Resources）：MCP server 可以连接到的远程资源（例如通过 API）。
 
 ![1742389521876-a8843876-d24d-4da6-99f9-1d493741fcd5.png](./img/C_bQ1NR0xnzXcC99/1742389521876-a8843876-d24d-4da6-99f9-1d493741fcd5-895661.png)
 
-<font style="color:rgba(6, 8, 31, 0.88);">这样架构划分带来的好处显而易见：开发者无需为每次需求重新开发独立的功能模块，而是可以通过一次性开发实现全局复用，大幅降低开发成本。</font>
+这样架构划分带来的好处显而易见：开发者无需为每次需求重新开发独立的功能模块，而是可以通过一次性开发实现全局复用，大幅降低开发成本。
 
-### <font style="color:rgba(6, 8, 31, 0.88);">MCP 工作流程</font>
+### MCP 工作流程
 
-<font style="color:rgba(6, 8, 31, 0.88);">当大模型识别到非自身原生能力的请求时，MCP 会自动将请求路由到对应的工具模块，执行任务并将结构化的结果返回给大模型，从而实现更高效的交互和扩展性。</font>
+当大模型识别到非自身原生能力的请求时，MCP 会自动将请求路由到对应的工具模块，执行任务并将结构化的结果返回给大模型，从而实现更高效的交互和扩展性。
 
 ![1742460076971-dba69e38-dbdb-41e3-ad47-751190c0bb3f.png](./img/C_bQ1NR0xnzXcC99/1742460076971-dba69e38-dbdb-41e3-ad47-751190c0bb3f-232900.png)
 
@@ -64,7 +64,7 @@
 
 具体的设置方式是：通过右下角的“Windsurf - Settings”，点击“Memories and Rules”，点击 Manage
 
-同时在这里打开<font style="color:rgb(34, 34, 34);">自动化效果。</font>
+同时在这里打开自动化效果。
 
 ![1742387672695-dfd8f79d-ed78-41ad-be03-e8d0bb114282.png](./img/C_bQ1NR0xnzXcC99/1742387672695-dfd8f79d-ed78-41ad-be03-e8d0bb114282-080737.png)
 

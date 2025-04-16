@@ -1,44 +1,44 @@
 # QWQ-32B本地部署教程
 
-<font style="color:rgba(0, 0, 0, 0.9);">deepseek国内大模型一哥的位置都没坐热， 阿里就推出了qwq-32b， 性能差不多，相比deepeseek满血版的6710亿参数， qwq-32b只有320亿参数， 成本降低了20倍，本地部署成本只需要一张消费级显卡RXT8090即可，</font>**<font style="color:rgba(0, 0, 0, 0.9);">那么本地部署的需求也随之而来，很多人是有这个需求的。</font>**
+deepseek国内大模型一哥的位置都没坐热， 阿里就推出了qwq-32b， 性能差不多，相比deepeseek满血版的6710亿参数， qwq-32b只有320亿参数， 成本降低了20倍，本地部署成本只需要一张消费级显卡RXT8090即可，**那么本地部署的需求也随之而来，很多人是有这个需求的。**
 
-<font style="color:rgba(0, 0, 0, 0.9);">其实很简单，几分钟就可以安装完。</font>
+其实很简单，几分钟就可以安装完。
 
-<font style="color:rgba(0, 0, 0, 0.9);">  
-</font>**<font style="color:rgba(0, 0, 0, 0.9);">🚀</font>****<font style="color:rgba(0, 0, 0, 0.9);"> 十分钟搞定！Windows电脑玩转DeepSeek本地部署</font>**
+  
+**🚀**** 十分钟搞定！Windows电脑玩转DeepSeek本地部署**
 
-<font style="color:rgba(0, 0, 0, 0.9);">  
-</font>**<font style="color:rgba(0, 0, 0, 0.9);">🌈</font>****<font style="color:rgba(0, 0, 0, 0.9);"> 步骤一：安装灵魂工具Ollama</font>**<font style="color:rgba(0, 0, 0, 0.9);">  
-</font><font style="color:rgba(0, 0, 0, 0.9);">▌官网下载直通车：</font><font style="color:rgba(0, 0, 0, 0.9);">👉</font><font style="color:rgba(0, 0, 0, 0.9);"> https://ollama.com  
-</font>
+  
+**🌈**** 步骤一：安装灵魂工具Ollama**  
+▌官网下载直通车：👉 https://ollama.com  
+
 
 ![1738743300127-433b94b7-4509-4f69-bb6f-f7ebb5d66b53.png](./img/2KsFD2gXYAk9XFcE/1738743300127-433b94b7-4509-4f69-bb6f-f7ebb5d66b53-862598.png)
 
-<font style="color:rgba(0, 0, 0, 0.9);">操作就像安装QQ一样简单，点击Download</font>
+操作就像安装QQ一样简单，点击Download
 
-1. <font style="color:rgba(0, 0, 0, 0.9);">双击下载的.exe安装包</font>
-2. <font style="color:rgba(0, 0, 0, 0.9);">狂点「下一步」直到完成</font>
+1. 双击下载的.exe安装包
+2. 狂点「下一步」直到完成
 
 ![1738743300113-5a08960f-dc7f-4099-9644-59426dcb73ae.png](./img/2KsFD2gXYAk9XFcE/1738743300113-5a08960f-dc7f-4099-9644-59426dcb73ae-970315.png)
 
 🌈**步骤二：回到ollama的官网，搜索框里搜索qwq，选择要安装的模型**
 
-![1741267966136-47319a75-6954-4005-985b-7cdbfaf7a640.png](./img/2KsFD2gXYAk9XFcE/1741267966136-47319a75-6954-4005-985b-7cdbfaf7a640-714353.png)<font style="color:rgba(0, 0, 0, 0.9);">  
+![1741267966136-47319a75-6954-4005-985b-7cdbfaf7a640.png](./img/2KsFD2gXYAk9XFcE/1741267966136-47319a75-6954-4005-985b-7cdbfaf7a640-714353.png)  
   
-</font><font style="color:rgba(0, 0, 0, 0.9);">只有一个32b版本，  需要20G存储空间，  至少32G运行内存，  一张H100或者RXT8090即可</font>
+只有一个32b版本，  需要20G存储空间，  至少32G运行内存，  一张H100或者RXT8090即可
 
-<font style="color:rgba(0, 0, 0, 0.9);">  
-</font>**<font style="color:rgba(0, 0, 0, 0.9);">🌈</font>****<font style="color:rgba(0, 0, 0, 0.9);"> 步骤三：复制右边的这串代码“ollama run qwq”</font>**
+  
+**🌈**** 步骤三：复制右边的这串代码“ollama run qwq”**
 
 ![1741268046537-b39119b3-be1c-48fd-a2b4-087279c01e85.png](./img/2KsFD2gXYAk9XFcE/1741268046537-b39119b3-be1c-48fd-a2b4-087279c01e85-051742.png)
 
-<font style="color:rgba(0, 0, 0, 0.9);">  
-</font>**<font style="color:rgba(0, 0, 0, 0.9);">🌈</font>****<font style="color:rgba(0, 0, 0, 0.9);"> 步骤四：安装模型</font>**
+  
+**🌈**** 步骤四：安装模型**
 
-<font style="color:rgba(0, 0, 0, 0.9);">按下键盘上的win+R，调出运行窗口，输入cmd回车，调出命令行窗口。</font>
+按下键盘上的win+R，调出运行窗口，输入cmd回车，调出命令行窗口。
 
-![1738743300521-ef78c0de-206f-422c-a4ca-5424851467db.png](./img/2KsFD2gXYAk9XFcE/1738743300521-ef78c0de-206f-422c-a4ca-5424851467db-962392.png)<font style="color:rgba(0, 0, 0, 0.9);">  
-</font>
+![1738743300521-ef78c0de-206f-422c-a4ca-5424851467db.png](./img/2KsFD2gXYAk9XFcE/1738743300521-ef78c0de-206f-422c-a4ca-5424851467db-962392.png)  
+
 
 **把复制的代码“ollama run qwq”粘贴到命令行中，再点击回车，如下图所示。**
 
@@ -59,11 +59,11 @@
 
 ![1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4.png](./img/2KsFD2gXYAk9XFcE/1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4-560829.png)
 
-<font style="color:rgba(0, 0, 0, 0.9);">安装姿势：</font>
+安装姿势：
 
-1. <font style="color:rgba(0, 0, 0, 0.9);">点击免费下载后，解压后双击ChatBoxSetup.exe</font>
-2. <font style="color:rgba(0, 0, 0, 0.9);">自定义安装路径（别放C盘！建议装D盘）</font>
-3. <font style="color:rgba(0, 0, 0, 0.9);">Chatbox安装好后，打开后，选择“使用自己的 API Key 或本地模型”。</font>
+1. 点击免费下载后，解压后双击ChatBoxSetup.exe
+2. 自定义安装路径（别放C盘！建议装D盘）
+3. Chatbox安装好后，打开后，选择“使用自己的 API Key 或本地模型”。
 
 ![1738743300852-2a616e68-87d9-41e5-8eb2-f83f6994243e.png](./img/2KsFD2gXYAk9XFcE/1738743300852-2a616e68-87d9-41e5-8eb2-f83f6994243e-874031.png)
 
