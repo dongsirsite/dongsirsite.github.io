@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">在使用 Redis 进行数据存储时，合理的 Key 和 Value 设计能够显著影响 Redis 的性能、维护性和可扩展性。以下是一些设计原则和建议，可以帮助优化 Redis 中的 Key 和 Value 设计：</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">Key 设计原则</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">短小精炼</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - **<font style="color:rgba(0, 0, 0, 0.82);">避免过长</font>**<font style="color:rgba(0, 0, 0, 0.82);">：Key 应该尽量短小，以节省内存和提高操作速度，通常不超过 256 字节。</font>
     - **<font style="color:rgba(0, 0, 0, 0.82);">含义明确</font>**<font style="color:rgba(0, 0, 0, 0.82);">：使用具有清晰含义的 Key，以便于理解和维护。</font>
@@ -16,6 +17,7 @@
     - **<font style="color:rgba(0, 0, 0, 0.82);">使用业务标识</font>**<font style="color:rgba(0, 0, 0, 0.82);">：结合业务逻辑，如使用用户ID、产品ID等。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">Value 设计原则</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">选择合适的数据结构</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - **<font style="color:rgba(0, 0, 0, 0.82);">对应使用</font>**<font style="color:rgba(0, 0, 0, 0.82);">：根据不同的需求选择适当的数据类型，如 String、List、Set、Hash、Sorted Set 等。</font>
     - **<font style="color:rgba(0, 0, 0, 0.82);">避免存储过大对象</font>**<font style="color:rgba(0, 0, 0, 0.82);">：如需存储大对象，建议先进行拆分或压缩。</font>
@@ -28,9 +30,8 @@
     - **<font style="color:rgba(0, 0, 0, 0.82);">数据过期</font>**<font style="color:rgba(0, 0, 0, 0.82);">：合理使用 TTL 来控制数据的生命周期，避免无用数据长期占用内存。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">通用设计建议</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">预估容量和并发</font>**<font style="color:rgba(0, 0, 0, 0.82);">：评估不同数据结构在不同容量与并发情况下的表现，选择最优的数据存储结构。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">多环境测试</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在生产环境部署前，在开发和测试环境中进行充足的测试，验证 Key 和 Value 设计的有效性和可行性。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">性能监控</font>**<font style="color:rgba(0, 0, 0, 0.82);">：部署 Redis 监控工具以观察实际使用中的状态和负载，及时调整 Key 和 Value 设计。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">预估容量和并发</font>**<font style="color:rgba(0, 0, 0, 0.82);">：评估不同数据结构在不同容量与并发情况下的表现，选择最优的数据存储结构。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">多环境测试</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在生产环境部署前，在开发和测试环境中进行充足的测试，验证 Key 和 Value 设计的有效性和可行性。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">性能监控</font>**<font style="color:rgba(0, 0, 0, 0.82);">：部署 Redis 监控工具以观察实际使用中的状态和负载，及时调整 Key 和 Value 设计。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">通过遵循这些原则，可以确保 Redis 在提供高性能服务的同时，也保持良好的可扩展性和易维护性。</font>
-

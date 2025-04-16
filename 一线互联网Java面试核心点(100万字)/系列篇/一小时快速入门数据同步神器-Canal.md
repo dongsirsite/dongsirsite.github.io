@@ -1,6 +1,7 @@
 # 👍 一小时快速入门数据同步神器-Canal
 
 # <font style="color:rgb(0, 0, 0);">前言</font>
+
 <font style="color:rgb(36, 41, 46);">之前在讲解 Redis、MySQL 双写一致性问题的时候，提到我们可以采用 canal 组件，来</font><font style="color:rgb(38, 38, 38);">实现数据一致性，那本文就带大家快速上手 canal 组件的使用。</font>
 
 <font style="color:rgb(38, 38, 38);">本文主要是从五个维度带大家快速上手 canal 组件。</font>
@@ -8,6 +9,7 @@
 ![画板](./img/bVPs796BjEMbVN29/1721224740934-2abd89ec-e824-413d-a129-455d51e8603a-564934.jpeg)
 
 # <font style="color:rgb(0, 0, 0);">一、Canal是什么</font>
+
 基友网地址：[https://github.com/alibaba/canal](https://github.com/alibaba/canal)
 
 <font style="color:rgb(36, 41, 46);">官网的介绍</font>
@@ -25,12 +27,12 @@ Canal，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增
 
 ![1720592884882-0cfe2cee-dd50-48dd-acc8-15daa8e9c890.png](./img/bVPs796BjEMbVN29/1720592884882-0cfe2cee-dd50-48dd-acc8-15daa8e9c890-283653.png)
 
-
-
 # <font style="color:rgb(36, 41, 46);">二、Canal 工作原理</font>
+
 在了解 Canal 工作原理之前，大家需要先对 MySQL 的主从复制原理有所了解，因为 Canal 就是借助 MySQL 的主从机制来工作滴。
 
 ## <font style="color:rgb(36, 41, 46);">MySQL主从复制原理</font>
+
 ![1721219501871-684b8454-3c93-4037-8b9c-d88e169831de.jpeg](./img/bVPs796BjEMbVN29/1721219501871-684b8454-3c93-4037-8b9c-d88e169831de-929947.jpeg)
 
 + <font style="color:rgb(36, 41, 46);">MySQL master 将数据变更写入二进制日志binary log，简称Binlog。</font>
@@ -38,6 +40,7 @@ Canal，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增
 + <font style="color:rgb(36, 41, 46);">MySQL slave 重放 relay log 操作，将变更数据同步到最新。</font>
 
 ## Canal 工作原理
+
 ![1720592884882-0cfe2cee-dd50-48dd-acc8-15daa8e9c890.png](./img/bVPs796BjEMbVN29/1720592884882-0cfe2cee-dd50-48dd-acc8-15daa8e9c890-958769.webp)
 
 + Canal 将自己伪装为 MySQL slave(从库) ，向 MySQL master (主库) 发送dump 协议
@@ -45,6 +48,7 @@ Canal，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增
 + Canal 接收并解析 Binlog 日志，得到变更数据，**<font style="color:rgb(36, 41, 46);">再发送到存储目的地</font>**<font style="color:rgb(36, 41, 46);">，比如MySQL，Kafka，Elastic Search等等</font>
 
 ## <font style="color:rgb(36, 41, 46);">MySQL Binlog日志</font>
+
 <font style="color:rgb(36, 41, 46);">MySQL 的Binlog可以说 MySQL 最重要的日志，它记录了所有的 DDL 和 DML语句，以事件形式记录。</font>
 
 <font style="color:rgb(36, 41, 46);">MySQL默认情况下是不开启Binlog，因为记录Binlog日志需要消耗时间，官方给出的数据是有1%的性能损耗。</font>
@@ -57,6 +61,7 @@ Canal，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增
 + <font style="color:rgb(36, 41, 46);">数据恢复了，通过使用 MySQL Binlog 工具来使恢复数据。</font>
 
 ### <font style="color:rgb(36, 41, 46);">Binlog的分类</font>
+
 <font style="color:rgb(36, 41, 46);">MySQL Binlog 的格式有三种，分别是 STATEMENT,MIXED,ROW。在配置文件中可以选择配</font>
 
 <font style="color:rgb(36, 41, 46);">置 binlog_format= </font>**statement**<font style="color:rgb(36, 41, 46);">|</font>**mixed**<font style="color:rgb(36, 41, 46);">|</font>**row**<font style="color:rgb(36, 41, 46);">。</font>
@@ -67,50 +72,60 @@ Canal，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增
 | <font style="color:rgb(36, 41, 46);">ROW</font> | <font style="color:rgb(36, 41, 46);">行级，记录每次操作后每行记录的变化。假如一个update的sql执行结果是1万行statement只存一条，如果是row的话会把这个1万行的结果存着。</font> | <font style="color:rgb(36, 41, 46);">保持数据的绝对一致性。因为不管sql是什么，引用了什么函数，他只记录执行后的效果</font> | <font style="color:rgb(36, 41, 46);">占用较大空间</font> |
 | <font style="color:rgb(36, 41, 46);">MIXED</font> | <font style="color:rgb(36, 41, 46);">是对statement的升级，如当函数中包含 UUID() 时，包含 AUTO_INCREMENT 字段的表被更新时，执行 INSERT DELAYED 语句时，用 UDF 时，会按照 ROW的方式进行处理</font> | <font style="color:rgb(36, 41, 46);">节省空间，同时兼顾了一定的一致性</font> | <font style="color:rgb(36, 41, 46);">还有些极个别情况依旧会造成不一致，另外statement和mixed对于需要对binlog的监控的情况都不方便</font> |
 
-
 **综合上面对比，Canal 想做监控分析，选择 row 格式比较合适。**
 
 # <font style="color:rgb(0, 0, 0);">三、Canal 运用场景</font>
+
 ## 数据同步
+
 <font style="color:rgb(51, 51, 51);">Canal 可以帮助用户进行多种数据同步操作，如实时同步 MySQL 数据到 Elasticsearch、Redis 等数据存储介质中。</font>![](images/image-20230509125645254.png)
 
 ![1721224286403-e7d7ff73-ab3e-40eb-ace3-e85b036579d4.png](./img/bVPs796BjEMbVN29/1721224286403-e7d7ff73-ab3e-40eb-ace3-e85b036579d4-106427.png)
 
 ## <font style="color:rgb(51, 51, 51);">数据库实时监控</font>
+
 <font style="color:rgb(51, 51, 51);">Canal 可以实时监控 MySQL 的更新操作，对于敏感数据的修改可以及时通知相关人员。</font>
 
 ![1721224339026-e1c0f6b1-192c-4009-8ef2-a6c039cf9416.png](./img/bVPs796BjEMbVN29/1721224339026-e1c0f6b1-192c-4009-8ef2-a6c039cf9416-843090.png)
 
 ## <font style="color:rgb(51, 51, 51);">数据分析和挖掘</font>
+
 <font style="color:rgb(51, 51, 51);">Canal 可以将 MySQL 增量数据投递到 Kafka 等消息队列中，为数据分析和挖掘提供数据来源。</font>
 
 ![1721224398696-e458faa1-d9ba-48e1-8c89-87165a7257b1.png](./img/bVPs796BjEMbVN29/1721224398696-e458faa1-d9ba-48e1-8c89-87165a7257b1-566471.png)<font style="color:rgb(51, 51, 51);"></font>
 
 ## <font style="color:rgb(51, 51, 51);">数据库备份</font>
+
 <font style="color:rgb(51, 51, 51);">Canal 可以将 MySQL 主库上的数据增量日志复制到备库上，实现数据库备份。</font>
 
 ![1721224419071-4445cef7-2eee-40cc-a89e-9fac2fa7dd12.png](./img/bVPs796BjEMbVN29/1721224419071-4445cef7-2eee-40cc-a89e-9fac2fa7dd12-846523.png)
 
 ## <font style="color:rgb(51, 51, 51);">数据集成</font>
+
 <font style="color:rgb(51, 51, 51);">Canal 可以将多个 MySQL 数据库中的数据进行集成，为数据处理提供更加高效可靠的解决方案。</font>
 
 ![1721224436833-10718b79-4fd4-4071-9942-5351df7b41dc.png](./img/bVPs796BjEMbVN29/1721224436833-10718b79-4fd4-4071-9942-5351df7b41dc-966701.png)
 
 ## <font style="color:rgb(51, 51, 51);">数据库迁移</font>
+
 <font style="color:rgb(51, 51, 51);">Canal 可以协助完成 MySQL 数据库的版本升级及数据迁移任务。</font>
 
 ![1721224470227-e0f3cf87-ef26-4a13-80d7-afbe70647a29.png](./img/bVPs796BjEMbVN29/1721224470227-e0f3cf87-ef26-4a13-80d7-afbe70647a29-379561.png)
 
 # <font style="color:rgb(0, 0, 0);">四、Canal安装部署</font>
+
 ## <font style="color:rgb(24, 24, 24) !important;">MySQL 配置</font>
-首先我们需要一个 MySQL 的服务，如果没有 MySQL 服务，可以看下这个教程[入门+安装+面试题](https://www.yuque.com/tulingzhouyu/db22bv/bkgyx9eokguvv3tm?singleDoc# 《一小时快速入门MySQL》 密码：yk3o)
+
+首先我们需要一个 MySQL 的服务，如果没有 MySQL 服务，可以看下这个教程[入门+安装+面试题](<https://www.yuque.com/tulingzhouyu/db22bv/bkgyx9eokguvv3tm?singleDoc#> 《一小时快速入门MySQL》 密码：yk3o)
 
 <font style="color:rgb(36, 41, 46);">当前的 canal 支持 MySQL 版本包括 5.1.x , 5.5.x , 5.6.x , 5.7.x , 8.0.x</font>
 
 <font style="color:rgb(36, 41, 46);">我当前 Linux服务器安装的MySQL服务器是 8.x 版本。</font>
 
 ### <font style="color:rgb(36, 41, 46);">MySQL 服务器配置文件处理</font>
+
 #### 检查配置是否正常
+
 有了 MySQL 服务之后，大家可以执行下面的 SQL 查看 MySQL 的配置是否正常。
 
 ```plsql
@@ -127,7 +142,9 @@ SHOW VARIABLES LIKE 'server_id';
 ```
 
 #### 配置不正常
+
 ##### 修改启动配置加载项
+
 如果说没有上面的配置，与预期不符，大家需要修改配置文件 my.cnf（Linux）或者 my.ini（windows）
 
 同时需要注意，Linux 环境下，需要检查服务是否加载了 my.cnf，如果没有需要修改启动加载配置文件。
@@ -165,6 +182,7 @@ vim /usr/lib/systemd/system/mysqld.service
 ![1721293781704-f874bd2f-0abd-46db-849b-d8b86b90cacb.png](./img/bVPs796BjEMbVN29/1721293781704-f874bd2f-0abd-46db-849b-d8b86b90cacb-947484.png)
 
 ##### 修改 my.cnf 配置文件
+
 ```powershell
 vim /etc/my.cnf
 ```
@@ -206,6 +224,7 @@ grant SELECT, REPLICATION SLAVE, REPLICATION CLIENT on *.* to 'canal'@'%' identi
 ```
 
 ### MySQL 数据配置
+
 创建测试库、表
 
 ```plsql
@@ -247,6 +266,7 @@ DELETE FROM test WHERE id = 1;
 ```
 
 ## <font style="color:rgb(24, 24, 24) !important;">安装 Canal</font>
+
 <font style="color:rgb(36, 41, 46);">去官网下载页面进行下载：</font>[https://github.com/alibaba/canal/releases](https://github.com/alibaba/canal/releases)
 
 <font style="color:rgb(36, 41, 46);">我这里下载的是1.1.8-alpha 版本（测试 1.1.8-alpha-2 有点问题）：</font>
@@ -287,6 +307,7 @@ rm -rf canal.admin-1.1.8-SNAPSHOT.tar.gz
 由于我们采用的 admin 来管理 Canal，因此我们只需要将 Canal 服务注册到 admin，然后通过 admin 来创建 instance 同步 MySQL 的变更。
 
 ### Canal-admin 服务
+
 ```plsql
 # 切换到admin目录
 cd /opt/software/canal/canal-admin
@@ -347,6 +368,7 @@ canal:
 ![1721311313858-f5305f57-2827-46c3-a961-ec6e725cb681.png](./img/bVPs796BjEMbVN29/1721311313858-f5305f57-2827-46c3-a961-ec6e725cb681-571727.png)
 
 ### Canal-deployer 服务
+
 接下来完成 deployer 的配置，然后注册到 admin
 
 ```plsql
@@ -387,6 +409,7 @@ canal.admin.register.name = 999
 ![1721565012882-bcf1b0f8-0e20-4ae7-859e-990c5b221832.png](./img/bVPs796BjEMbVN29/1721565012882-bcf1b0f8-0e20-4ae7-859e-990c5b221832-587057.png)
 
 ### Canal-Instance 服务
+
 **<font style="color:#DF2A3F;">如果创建 Instance 后启动失败，需要手动导入 druid Jar 包</font>**
 
 直接在 admin 页面创建 Instance 服务。
@@ -434,11 +457,13 @@ canal.instance.filter.black.regex=
 ![1721566809952-2851e44f-5ba1-4220-b72f-47c2e179f6da.png](./img/bVPs796BjEMbVN29/1721566809952-2851e44f-5ba1-4220-b72f-47c2e179f6da-173273.png)
 
 # <font style="color:rgb(0, 0, 0);">五、Canal 实战</font>
+
 环境：SpringBoot3 + JDK17 + Maven + Canal 1.1.8
 
 快速创建一个 SpringBoot 项目
 
 ## 导入依赖
+
 ```xml
 <dependency>
   <groupId>com.alibaba.otter</groupId>
@@ -460,6 +485,7 @@ canal.instance.filter.black.regex=
 ```
 
 ## 修改 application 配置
+
 ```yaml
 spring:
   application:
@@ -480,6 +506,7 @@ canal:
 ```
 
 ## Protocal 对象数据格式
+
 ```plsql
 Entry  
     Header  
@@ -522,6 +549,7 @@ value       [具体的内容，注意为string文本]
 ```
 
 ## 创建监听器
+
 ```java
 package com.baili.springboot3.listener;
 
@@ -645,11 +673,7 @@ public class CanalListener {
 ```
 
 ## 测试
+
 ![1721290611454-1d5ed330-189c-44a7-839a-89ae9f0ef03f.png](./img/bVPs796BjEMbVN29/1721290611454-1d5ed330-189c-44a7-839a-89ae9f0ef03f-933516.png)
 
-
-
-
-
 <font style="color:rgb(64, 64, 64);"></font>
-

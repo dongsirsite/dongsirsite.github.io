@@ -9,6 +9,7 @@
 ![1740056605348-9a3a3b72-b974-4a61-9de6-bd441da7ec58.png](./img/SAavQ8UrWOj2h6ra/1740056605348-9a3a3b72-b974-4a61-9de6-bd441da7ec58-342829.png)
 
 # 索引存储结构（<font style="color:#DF2A3F;">工欲善其事必先利其器</font><font style="color:rgba(6, 8, 31, 0.88);">）</font>
+
 在讲解失效场景之前，需要知道**索引的存储结构**，才能更好的理解索引失效的问题。
 
 <font style="color:rgba(6, 8, 31, 0.88);">索引的存储结构与 MySQL 所使用的存储引擎密切相关，因为存储引擎负责将数据持久化到磁盘，不同的引擎采用不同的索引数据结构。</font>
@@ -33,11 +34,13 @@
 ![1740031673415-b7b4cbde-a602-402e-93e0-790ff58cd27d.png](./img/SAavQ8UrWOj2h6ra/1740031673415-b7b4cbde-a602-402e-93e0-790ff58cd27d-369182.png)
 
 ## <font style="color:rgb(44, 62, 80);">MyISAM 存储引擎</font>
+
 <font style="color:rgb(44, 62, 80);">B+ 树索引的叶子节点保存数据的物理地址，即用户数据的指针</font>
 
 ![1740031730722-2a23c448-2170-44c7-b135-e1a37d175aa9.png](./img/SAavQ8UrWOj2h6ra/1740031730722-2a23c448-2170-44c7-b135-e1a37d175aa9-531969.png)
 
 ## <font style="color:rgb(44, 62, 80);">InnoDB 存储引擎</font>
+
 <font style="color:rgb(44, 62, 80);">B+ 树索引的叶子节点保存数据本身</font>
 
 ![1740031994033-a85c76c1-3ce1-4aae-9c7f-3fd89243bf8d.jpeg](./img/SAavQ8UrWOj2h6ra/1740031994033-a85c76c1-3ce1-4aae-9c7f-3fd89243bf8d-548000.jpeg)
@@ -80,6 +83,7 @@ ALTER TABLE t_user ADD INDEX idx_name (name);
 <font style="color:rgba(6, 8, 31, 0.88);">了解了InnoDB存储引擎的聚簇索引和二级索引的存储结构后，我们来看几个查询示例，以理解查询过程中如何选择索引类型。</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">主键索引查询</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">当我们使用主键索引字段进行查询时，如果数据在聚簇索引的叶子节点上，查询则会在B+树中直接找到对应的节点并读取数据。例如：</font>
 
 ```plsql
@@ -88,6 +92,7 @@ SELECT * FROM t_user WHERE id=1;
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">二级索引查询（</font><font style="color:rgba(6, 8, 31, 0.88);">回表与覆盖索引</font><font style="color:rgba(6, 8, 31, 0.88);">）</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">使用二级索引字段查询时，若数据在聚簇索引的叶子节点上，查询需要检索两个B+树：</font>
 
 1. <font style="color:rgba(6, 8, 31, 0.88);">首先在二级索引的B+树中找到叶子节点并获取主键值；</font>
@@ -114,7 +119,9 @@ SELECT id FROM t_user WHERE name="林某";
 **<font style="color:rgba(6, 8, 31, 0.88);">（</font>**<font style="color:rgba(6, 8, 31, 0.88);">所有演示都基于 </font>**<font style="color:rgb(44, 62, 80);">MySQL </font>**`**<font style="color:rgb(71, 101, 130);">8.2</font>**`**<font style="color:rgb(71, 101, 130);">）</font>**
 
 # <font style="color:rgb(44, 62, 80);">索引失效场景</font>
+
 ## <font style="color:rgb(44, 62, 80);">对索引使用左或者左右模糊匹配</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">在使用</font>`<font style="color:rgba(6, 8, 31, 0.88);">LIKE</font>`<font style="color:rgba(6, 8, 31, 0.88);">关键字进行模糊匹配时，如</font>`<font style="color:rgba(6, 8, 31, 0.88);">LIKE '%xx'</font>`<font style="color:rgba(6, 8, 31, 0.88);">或</font>`<font style="color:rgba(6, 8, 31, 0.88);">LIKE '%xx%'</font>`<font style="color:rgba(6, 8, 31, 0.88);">，都会导致索引失效，从而引发全表扫描。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">例如，以下查询用于查找名称以「林」结尾的用户：</font>
@@ -151,6 +158,7 @@ SELECT * FROM t_user WHERE name LIKE '林%';
 <font style="color:rgba(6, 8, 31, 0.88);">如果查询条件是</font>`<font style="color:rgba(6, 8, 31, 0.88);">LIKE '%林'</font>`<font style="color:rgba(6, 8, 31, 0.88);">，因无法确定从哪个索引值开始比较，导致必须进行全表扫描。</font>
 
 ## <font style="color:rgb(44, 62, 80);">对索引使用函数</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">在使用MySQL时，我们常常依赖内置函数来获取所需的查询结果。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">然而，需要特别注意的是，如果在查询条件中对索引字段</font>**<font style="color:rgba(6, 8, 31, 0.88);">使用了函数，这通常会导致索引失效，从而导致全表扫描</font>**<font style="color:rgba(6, 8, 31, 0.88);">。</font>
@@ -183,6 +191,7 @@ ALTER TABLE t_user ADD KEY idx_name_length ((LENGTH(name)));
 <font style="color:rgba(6, 8, 31, 0.88);">在这种情况下，当我们使用类似的查询时，数据库将能够利用索引来加速查询过程。</font>
 
 ## <font style="color:rgb(44, 62, 80);">对索引进行表达式计算</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">在查询条件中进行表达式计算通常会导致无法使用索引。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">举个例子，以下查询语句在执行计划中显示为类型 </font>`<font style="color:rgba(6, 8, 31, 0.88);">ALL</font>`<font style="color:rgba(6, 8, 31, 0.88);">，表明使用了全表扫描：</font>
@@ -202,6 +211,7 @@ EXPLAIN SELECT * FROM t_user WHERE id + 1 = 10;
 <font style="color:rgba(6, 8, 31, 0.88);">原因与对索引使用函数类似，索引中保存的是字段的原始值，而不是经过计算的结果，因此数据库必须先取出字段所有的值，然后逐个进行计算，从而导致全表扫描。</font>
 
 ## <font style="color:rgb(44, 62, 80);">对索引隐式类型转换</font>
+
 如果索引字段是字符串类型，但是在条件查询中，输入的参数是整型的话，查看执行计划结果可以发现这条语句会走全表扫描。
 
 <font style="color:rgba(6, 8, 31, 0.88);">在</font>`<font style="color:rgba(6, 8, 31, 0.88);">t_user</font>`<font style="color:rgba(6, 8, 31, 0.88);">表中，我增加了一个</font>`<font style="color:rgba(6, 8, 31, 0.88);">phone</font>`<font style="color:rgba(6, 8, 31, 0.88);">字段，该字段为二级索引，类型为</font>`<font style="color:rgba(6, 8, 31, 0.88);">VARCHAR</font>`<font style="color:rgba(6, 8, 31, 0.88);">。</font>
@@ -282,6 +292,7 @@ SELECT * FROM t_user WHERE id = CAST('1' AS SIGNED);
 <font style="color:rgba(6, 8, 31, 0.88);">在这种情况下，</font>`**<font style="color:rgba(6, 8, 31, 0.88);">CAST</font>**`**<font style="color:rgba(6, 8, 31, 0.88);">函数应用于输入参数</font>**<font style="color:rgba(6, 8, 31, 0.88);">，确保了索引的有效使用，从而实现索引扫描。</font>
 
 ## <font style="color:rgb(44, 62, 80);">联合索引非最左匹配</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">在数据库索引中，对主键字段建立的索引称为</font>**<font style="color:rgba(6, 8, 31, 0.88);">聚簇索引</font>**<font style="color:rgba(6, 8, 31, 0.88);">，而对普通字段建立的索引则称为</font>**<font style="color:rgba(6, 8, 31, 0.88);">二级索引</font>**<font style="color:rgba(6, 8, 31, 0.88);">。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">当</font>**<font style="color:rgba(6, 8, 31, 0.88);">多个普通字段组合</font>**<font style="color:rgba(6, 8, 31, 0.88);">在一起创建索引时，称为</font>**<font style="color:rgba(6, 8, 31, 0.88);">联合索引</font>**<font style="color:rgba(6, 8, 31, 0.88);">（或组合索引）。</font>
@@ -345,6 +356,7 @@ SELECT * FROM test_index WHERE a = 3 and c = 2;
 <font style="color:rgba(6, 8, 31, 0.88);">因此，若希望利用联合索引中尽可能多的列，查询条件中的各列必须从最左侧开始连续匹配。</font>
 
 ## <font style="color:rgb(44, 62, 80);">WHERE 子句中的 OR</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">如果在 </font>`<font style="color:rgba(6, 8, 31, 0.88);">WHERE</font>`<font style="color:rgba(6, 8, 31, 0.88);"> 子句中，</font>`<font style="color:rgba(6, 8, 31, 0.88);">OR</font>`<font style="color:rgba(6, 8, 31, 0.88);"> 前的条件列是索引列，而 </font>`<font style="color:rgba(6, 8, 31, 0.88);">OR</font>`<font style="color:rgba(6, 8, 31, 0.88);"> 后的条件列不是索引列，将会面临全表扫描的问题。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">举个例子，考虑以下查询语句：</font>
@@ -373,6 +385,7 @@ ALTER TABLE t_user ADD INDEX idx_age (age);
 <font style="color:rgba(6, 8, 31, 0.88);">通过这种方式，可以显著提升查询性能，减少数据库的负载。</font>
 
 # <font style="color:rgba(6, 8, 31, 0.88);">总结</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">在数据库优化中，索引的有效使用至关重要。</font>
 
 1. <font style="color:rgba(6, 8, 31, 0.88);">使用模糊匹配（如</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>`<font style="color:rgba(6, 8, 31, 0.88);">LIKE %xx</font>`<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">或</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>`<font style="color:rgba(6, 8, 31, 0.88);">LIKE %xx%</font>`<font style="color:rgba(6, 8, 31, 0.88);">）时，索引将失效。</font>
@@ -381,4 +394,3 @@ ALTER TABLE t_user ADD INDEX idx_age (age);
 4. <font style="color:rgba(6, 8, 31, 0.88);">当字符串与数字进行比较时，MySQL会自动将字符串转换为数字，这种隐式类型转换会导致索引失效。</font>
 5. <font style="color:rgba(6, 8, 31, 0.88);">联合索引的使用必须遵循最左匹配原则，否则会导致索引失效。</font>
 6. <font style="color:rgba(6, 8, 31, 0.88);">在 WHERE 子句中，如果 OR 前的条件是索引列而 OR 后的条件不是，索引也会失效。</font>
-

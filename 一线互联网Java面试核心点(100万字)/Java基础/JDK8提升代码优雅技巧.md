@@ -1,6 +1,7 @@
 # JDK8提升代码优雅技巧
 
 # <font style="color:#01B2BC;">Lambda小课堂：巧用“Function”让代码优雅起来~</font>
+
 在开发过程中经常会使用if...else...进行判断抛出异常、分支处理等操作。这些if...else...充斥在代码中严重影响了代码代码的美观，这时我们可以利用Java 8的Function接口来消灭if...else...
 
 ```java
@@ -16,11 +17,13 @@ if (...){
 ```
 
 ## <font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Function</font><font style="color:rgb(37, 41, 51);"> 函数式接口</font>
+
 使用注解@FunctionalInterface标识，并且只包含一个抽象方法的接口是函数式接口。函数式接口主要分为Supplier供给型函数、Consumer消费型函数、Runnable无参无返回型函数和Function有参有返回型函数。
 
 Function可以看作转换型函数
 
 ### Supplier供给型函数
+
 Supplier的表现形式为不接受参数、只返回数据
 
 ```java
@@ -51,6 +54,7 @@ public interface Supplier<T> {
 ```
 
 ### <font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Function</font><font style="color:rgb(37, 41, 51);">函数</font>
+
 <font style="color:rgb(37, 41, 51);">表现形式为接收一个参数，并返回一个值。</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Supplier</font><font style="color:rgb(37, 41, 51);">、</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Consumer</font><font style="color:rgb(37, 41, 51);">和</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Runnable</font><font style="color:rgb(37, 41, 51);">可以看作</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Function</font><font style="color:rgb(37, 41, 51);">的一种特殊表现形式</font>
 
 ```java
@@ -129,6 +133,7 @@ public interface Function<T, R> {
 ```
 
 ### <font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Consumer</font><font style="color:rgb(37, 41, 51);">消费型函数</font>
+
 <font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Consumer</font><font style="color:rgb(37, 41, 51);">消费型函数和</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Supplier</font><font style="color:rgb(37, 41, 51);">刚好相反。</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Consumer</font><font style="color:rgb(37, 41, 51);">接收一个参数，没有返回值</font>
 
 ```java
@@ -162,6 +167,7 @@ public interface Consumer<T> {
 ```
 
 ### <font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Runnable</font><font style="color:rgb(37, 41, 51);">无参无返回型函数</font>
+
 <font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Runnable</font><font style="color:rgb(37, 41, 51);">的表现形式为即没有参数也没有返回值</font>
 
 ```java
@@ -183,7 +189,9 @@ public interface Runnable {
 ```
 
 ## <font style="color:rgb(37, 41, 51);">使用小技巧</font>
+
 ### <font style="color:rgb(37, 41, 51);">处理抛出异常的if</font>
+
 1. <font style="color:rgb(37, 41, 51);">定义函数 定义一个抛出异常的形式的</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">函数式接口</font><font style="color:rgb(37, 41, 51);">, 这个接口只有参数没有返回值是个</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">消费型接口</font>
 
 ```java
@@ -232,6 +240,7 @@ BeimingUtil.isTure(false).isthrowMessage("哎呀，一不小心就报错啦");
 ```
 
 ### <font style="color:rgb(37, 41, 51);">处理if分支操作</font>
+
 1. <font style="color:rgb(37, 41, 51);">定义函数式接口 创建一个名为</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">BranchHandle</font><font style="color:rgb(37, 41, 51);">的函数式接口，接口的参数为两个</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Runnable</font><font style="color:rgb(37, 41, 51);">接口。这两个两个</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Runnable</font><font style="color:rgb(37, 41, 51);">接口分别代表了为</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">true</font><font style="color:rgb(37, 41, 51);">或</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">false</font><font style="color:rgb(37, 41, 51);">时要进行的操作</font>
 
 ```java
@@ -276,14 +285,15 @@ public static BranchHandle isTureOrFalse(boolean b){
 ```java
 // 参数为true时，执行trueHandle
 BeimingUtil.isTureOrFalse(true)
-        	.trueorFalseHandle ( trueHandle: O -> {
-					System.out.printin("true，没毛病”)；
-			},falseHandle: () -> {
-					System.out.println("有毛病");
-			}
+         .trueorFalseHandle ( trueHandle: O -> {
+     System.out.printin("true，没毛病”)；
+   },falseHandle: () -> {
+     System.out.println("有毛病");
+   }
 ```
 
 ### <font style="color:rgb(37, 41, 51);">如果存在值执行消费操作，否则执行基于空的操作</font>
+
 1. <font style="color:rgb(37, 41, 51);">定义函数 创建一个名为</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">PresentOrElseHandler</font><font style="color:rgb(37, 41, 51);">的函数式接口，接口的参数一个为</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Consumer</font><font style="color:rgb(37, 41, 51);">接口。一个为</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Runnable</font><font style="color:rgb(37, 41, 51);">,分别代表值不为空时执行消费操作和值为空时执行的其他操作</font>
 
 ```java
@@ -329,13 +339,17 @@ public static PresentOrElseHandler<?> isBlankOrNoBlank(String str){
 3. <font style="color:rgb(37, 41, 51);">使用方式 调用工具类参数参数后，调用</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">函数式接口</font><font style="color:rgb(37, 41, 51);">的</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">presentOrElseHandle</font><font style="color:rgb(37, 41, 51);">方法传入一个</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Consumer</font><font style="color:rgb(37, 41, 51);">和</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Runnable</font>
 
 ## <font style="color:rgb(37, 41, 51);">结尾</font>
+
 <font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Function</font><font style="color:rgb(37, 41, 51);">函数式接口是</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">java 8</font><font style="color:rgb(37, 41, 51);">非常重要的特性，利用好</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">Function</font><font style="color:rgb(37, 41, 51);">函数可以极大的简化代码。</font>
 
 # <font style="color:#01B2BC;">怎么理解Java里面的双冒号“::”</font>
+
 ## “::”是什么含义
+
 在Java中，双冒号"::"是方法引用（Method Reference）的语法。方法引用是一种简化Lambda表达式的语法结构，使代码更加简洁易读。并且在使用方法引用时，会根据上下文推断参数类型，因此特别适用于直接引用已有方法的情况。
 
 ## “::”用法
+
 方法引用的一般形式是：
 
 ```java
@@ -345,6 +359,7 @@ ClassName::methodName
 其中，ClassName 是包含静态方法 methodName 的类名。根据引用的方法类型，有不同的情况：
 
 ### 静态方法引用
+
 假设我们有一个自定义的工具类MathUtil，其中包含一个静态方法square，用于计算一个整数的平方。现在我们想要计算一个整数列表中所有元素的平方和。
 
 ```java
@@ -369,6 +384,7 @@ public class MathUtil {
 在上述代码中，我们通过使用静态方法引用MathUtil::square，将square方法传递给mapToInt方法，以便对列表中的每个元素进行平方运算。
 
 ### 实例方法引用
+
 假设我们有一个字符串列表，我们想要按照字符串长度进行排序。我们可以使用Lambda表达式编写比较器，也可以使用实例方法引用简化代码。
 
 ```java
@@ -391,6 +407,7 @@ public class StringSorter {
 在上述代码中，我们首先使用Lambda表达式编写了一个比较器(a, b) -> a.compareTo(b)来进行字符串比较。然后，我们使用实例方法引用String::compareTo来简化比较器的写法。
 
 ### 对象方法引用
+
 假设我们有一个自定义的Person类，其中包含姓名和年龄属性。我们想要根据Person对象的年龄进行排序。
 
 ```java
@@ -444,6 +461,7 @@ static class Person {
 在上述代码中，我们首先使用Lambda表达式编写了一个比较器(p1, p2) -> p1.getAge() - p2.getAge()来根据年龄进行排序。然后，我们使用对象方法引用Person::compareByAge来简化比较器的写法。
 
 ### 构造方法引用
+
 假设我们需要创建一个空的ArrayList，可以使用构造方法引用来实现。
 
 ```java
@@ -460,15 +478,16 @@ public class ArrayListCreator {
 }
 ```
 
-
-
 # <font style="color:#01B2BC;">提升编码效率的15种 Stream API</font>
+
 ![1715664744704-4c276cdf-650a-4bd8-aab2-3687a8a31648.png](./img/hVD5ePpT2d4EhPt6/1715664744704-4c276cdf-650a-4bd8-aab2-3687a8a31648-029306.png)
 
 本文给大家收集了工作常用的 15 种 Java Stream API，可用于进行各种数据处理和操作。具体如下：
 
-## collect()：将流中的元素收集到集合中，例如列表、集合、映射等。
-## filter()：根据指定的条件过滤流中的元素。
+## collect()：将流中的元素收集到集合中，例如列表、集合、映射等
+
+## filter()：根据指定的条件过滤流中的元素
+
 ```java
 List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
 
@@ -480,7 +499,8 @@ List<String> filteredNames = names.stream()
 System.out.println(filteredNames); // Output: [Alice]
 ```
 
-## map()：对流中的每个元素执行指定的映射操作，将元素映射为另一个值。
+## map()：对流中的每个元素执行指定的映射操作，将元素映射为另一个值
+
 ```java
 List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
 
@@ -492,7 +512,8 @@ List<Integer> nameLengths = names.stream()
 System.out.println(nameLengths); // Output: [5, 3, 7, 5]
 ```
 
-## forEach()：对流中的每个元素执行指定的操作。
+## forEach()：对流中的每个元素执行指定的操作
+
 ```java
 List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
 
@@ -505,7 +526,8 @@ names.forEach(name -> upperCaseNames.add(name.toUpperCase()));
 System.out.println(upperCaseNames); // 输出：[ALICE, BOB, CHARLIE, DAVID]
 ```
 
-## flatMap()：将流中的每个元素转换为一个流，然后将这些流连接成一个流。
+## flatMap()：将流中的每个元素转换为一个流，然后将这些流连接成一个流
+
 ```java
 List<List<Integer>> numbers = Arrays.asList(
     Arrays.asList(1, 2, 3),
@@ -521,7 +543,8 @@ List<Integer> flattenedList = numbers.stream()
 System.out.println(flattenedList); // Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-## reduce()：对流中的元素进行累积操作，例如求和、求最大值、求最小值等。
+## reduce()：对流中的元素进行累积操作，例如求和、求最大值、求最小值等
+
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 
@@ -532,7 +555,8 @@ int sum = numbers.stream()
 System.out.println(sum); // Output: 15
 ```
 
-## distinct()：去除流中的重复元素。
+## distinct()：去除流中的重复元素
+
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 2, 4, 3, 5);
 
@@ -543,7 +567,8 @@ List<Integer> distinctNumbers = numbers.stream()
 System.out.println(distinctNumbers); // Output: [1, 2, 3, 4, 5]
 ```
 
-## sorted()：对流中的元素进行排序。
+## sorted()：对流中的元素进行排序
+
 ```java
 List<Integer> numbers = Arrays.asList(3, 1, 4, 1, 5, 9, 2, 6, 5);
 
@@ -554,7 +579,8 @@ List<Integer> sortedNumbers = numbers.stream()
 System.out.println(sortedNumbers); // Output: [1, 1, 2, 3, 4, 5, 5, 6, 9]
 ```
 
-## limit()：截断流，保留指定数量的元素。
+## limit()：截断流，保留指定数量的元素
+
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
@@ -567,7 +593,8 @@ List<Integer> limitedNumbers = numbers.stream()
 System.out.println(limitedNumbers); // Output: [6, 7, 8]
 ```
 
-## skip()：跳过指定数量的元素。
+## skip()：跳过指定数量的元素
+
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 
@@ -579,7 +606,8 @@ List<Integer> skippedNumbers = numbers.stream()
 System.out.println(skippedNumbers); // Output: [3, 4, 5]
 ```
 
-## anyMatch()、allMatch()、noneMatch()：用于判断流中是否存在满足指定条件的元素。
+## anyMatch()、allMatch()、noneMatch()：用于判断流中是否存在满足指定条件的元素
+
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 
@@ -597,7 +625,8 @@ System.out.println("All match: " + allMatch); // Output: true
 System.out.println("None match: " + noneMatch); // Output: true
 ```
 
-## findFirst()、findAny()：用于查找流中的第一个元素或任意一个元素。
+## findFirst()、findAny()：用于查找流中的第一个元素或任意一个元素
+
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 
@@ -611,7 +640,8 @@ System.out.println("First: " + first.orElse(null)); // Output: 1
 System.out.println("Any: " + any.orElse(null)); // Output: 1 or any other element
 ```
 
-## min()、max()：查找流中的最小值或最大值。
+## min()、max()：查找流中的最小值或最大值
+
 ```java
 List<Integer> numbers = Arrays.asList(3, 1, 4, 1, 5);
 
@@ -625,7 +655,8 @@ System.out.println("Min: " + min.orElse(null)); // Output: 1
 System.out.println("Max: " + max.orElse(null)); // Output: 5
 ```
 
-## groupBy()：将流中的元素按照指定的条件分组。
+## groupBy()：将流中的元素按照指定的条件分组
+
 ```java
 List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
 
@@ -637,7 +668,8 @@ Map<Character, List<String>> groupedNames
 System.out.println(groupedNames); // Output: {A=[Alice], B=[Bob], C=[Charlie], D=[David]}
 ```
 
-## partitioningBy()：将流中的元素按照指定的条件分成两个部分。
+## partitioningBy()：将流中的元素按照指定的条件分成两个部分
+
 ```java
 List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
 
@@ -650,11 +682,13 @@ System.out.println(partitionedNames); // Output: {false=[Bob], true=[Alice, Char
 ```
 
 ## IDEA 小技巧
+
 使用 idea 编码时，如果不知道输入什么，请使用 ctrl + shift + 空格
 
 ![1715677647733-d1ee8224-530a-4601-ae0d-c5dd9914a5c5.png](./img/hVD5ePpT2d4EhPt6/1715677647733-d1ee8224-530a-4601-ae0d-c5dd9914a5c5-559130.png)
 
 ## 完整测试代码
+
 ```java
 package com.baili.springboot3;
 
@@ -825,7 +859,9 @@ public class StreamApiTest {
 ```
 
 # 提高生产力：这10个Lambda表达式必须掌握
+
 ## 使用Lambda表达式进行集合遍历
+
 ❌ 未使用Lambda表达式：
 
 ```java
@@ -843,6 +879,7 @@ list.forEach(fruit -> System.out.println(fruit));
 ```
 
 ## 使用Lambda表达式进行排序
+
 ❌  未使用Lambda表达式：
 
 ```java
@@ -862,6 +899,7 @@ Collections.sort(list, (s1, s2) -> s1.compareTo(s2));
 ```
 
 ## 使用Lambda表达式进行过滤
+
 ❌  未使用Lambda表达式：
 
 ```java
@@ -879,10 +917,11 @@ for (String fruit : list) {
 ```java
 List list = Arrays.asList("apple", "banana", "orange");
 List filteredList = list.stream().filter(fruit -> fruit.startsWith("a"))
-								.collect(Collectors.toList());
+        .collect(Collectors.toList());
 ```
 
 ## 使用Lambda表达式进行映射
+
 ❌  未使用Lambda表达式：
 
 ```java
@@ -898,18 +937,19 @@ for (String fruit : list) {
 ```java
 List list = Arrays.asList("apple", "banana", "orange");
 List lengths = list.stream()
-                	.map(fruit -> fruit.length())
-                	.collect(Collectors.toList());
+                 .map(fruit -> fruit.length())
+                 .collect(Collectors.toList());
 ```
 
 ## 使用Lambda表达式进行归约
+
 ❌  未使用Lambda表达式：
 
 ```java
 List list = Arrays.asList(1, 2, 3, 4, 5);
 int sum = 0;
 for (int i : list) {
-	sum += i;
+ sum += i;
 }
 ```
 
@@ -921,6 +961,7 @@ int sum = list.stream().reduce(0, (a, b) -> a + b);
 ```
 
 ## 使用Lambda表达式进行分组
+
 ❌  未使用Lambda表达式：
 
 ```java
@@ -940,10 +981,11 @@ for (String fruit : list) {
 ```java
 List list = Arrays.asList("apple", "banana", "orange");
 Map<Integer, List> grouped = list.stream()
-				.collect(Collectors.groupingBy(fruit -> fruit.length()));
+    .collect(Collectors.groupingBy(fruit -> fruit.length()));
 ```
 
 ## 使用Lambda表达式进行函数式接口的实现
+
 ❌  未使用Lambda表达式：
 
 ```java
@@ -952,9 +994,9 @@ public interface MyInterface {
 }
 
 MyInterface myObject = new MyInterface() {
-	public void doSomething(String input) {
-		System.out.println(input);
-	}
+ public void doSomething(String input) {
+  System.out.println(input);
+ }
 };
 
 myObject.doSomething("Hello World");
@@ -969,12 +1011,13 @@ myObject.doSomething("Hello World");
 ```
 
 ## 使用Lambda表达式进行线程的创建
+
 ❌  未使用Lambda表达式：
 
 ```java
 Thread thread = new Thread(new Runnable() {
     public void run() {
-    	System.out.println("Thread is running.");
+     System.out.println("Thread is running.");
     }
 });
 thread.start();
@@ -988,12 +1031,13 @@ thread.start();
 ```
 
 ## 使用Lambda表达式进行Optional的操作
+
 ❌  未使用Lambda表达式：
 
 ```java
 String str = "Hello World";
 if (str != null) {
-	System.out.println(str.toUpperCase());
+ System.out.println(str.toUpperCase());
 }
 ```
 
@@ -1002,10 +1046,11 @@ if (str != null) {
 ```java
 Optional str = Optional.ofNullable("Hello World");
 str.map(String::toUpperCase)
-	.ifPresent(System.out::println);
+ .ifPresent(System.out::println);
 ```
 
 ## 使用Lambda表达式进行Stream的流水线操作
+
 ❌  未使用Lambda表达式：
 
 ```java
@@ -1024,8 +1069,7 @@ Collections.sort(filteredList);
 ```java
 List list = Arrays.asList("apple", "banana", "orange");
 List filteredList = list.stream().filter(fruit -> fruit.startsWith("a"))
-								.map(String::toUpperCase)
-								.sorted()
-								.collect(Collectors.toList());
+        .map(String::toUpperCase)
+        .sorted()
+        .collect(Collectors.toList());
 ```
-

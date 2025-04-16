@@ -158,16 +158,12 @@
 
 <font style="color:rgb(62, 62, 62);">Netty 常用编码器类型：</font>
 
-
-
 ```plain
 MessageToByteEncoder //对象编码成字节流；
 MessageToMessageEncoder //一种消息类型编码成另外一种消息类型。
 ```
 
 <font style="color:rgb(62, 62, 62);">Netty 常用解码器类型：</font>
-
-
 
 ```plain
 ByteToMessageDecoder/ReplayingDecoder //将字节流解码为消息对象；
@@ -425,8 +421,6 @@ Timer小根堆队列，deadline 任务位于堆顶端，弹出的始终是最优
 
 <font style="color:rgb(62, 62, 62);">不论有多少任务被加入数组，始终由 异步线程TimerThread 负责处理。TimerThread 会定时轮询 TaskQueue 中的任务，如果堆顶的任务的 deadline 已到，那么执行任务；如果是周期性任务，执行完成后重新计算下一次任务的 deadline，并再次放入小根堆；如果是单次执行的任务，执行结束后会从 TaskQueue 中删除。</font>
 
-
-
 ```plain
 DelayedQueue 采用优先级队列 PriorityQueue延迟获取对象的阻塞队列。DelayQueue中的每个对象都必须实现Delayed 接口，并重写 compareTo 和 getDelay 方法。
 ```
@@ -438,8 +432,6 @@ DelayedQueue 采用优先级队列 PriorityQueue延迟获取对象的阻塞队�
 ```plain
 
 ```
-
-
 
 ```plain
 为了解决 Timer 的设计缺陷，JDK 提供了功能更加丰富的 ScheduledThreadPoolExecutor，多线程、相对时间、对异常
@@ -476,9 +468,9 @@ public HashedWheelTimer(        ThreadFactory threadFactory, //线程池，但�
 
 **<font style="color:rgb(62, 62, 62);">3、select、poll、epoll的区别</font>**
 
-**<font style="color:rgb(62, 62, 62);">select</font>**<font style="color:rgb(62, 62, 62);"> （windows）**poll **(linux)本质上和select没有区别，查询每个fd对应的设备状态，如果设备就绪则在设备等待队列中加入一项并继续遍历，如果遍历完所有fd后没有发现就绪设备，则挂起当前进程，直到设备就绪或者主动超时，被唤醒后它又要再次遍历fd。</font>
+**<font style="color:rgb(62, 62, 62);">select</font>**<font style="color:rgb(62, 62, 62);"> （windows）**poll**(linux)本质上和select没有区别，查询每个fd对应的设备状态，如果设备就绪则在设备等待队列中加入一项并继续遍历，如果遍历完所有fd后没有发现就绪设备，则挂起当前进程，直到设备就绪或者主动超时，被唤醒后它又要再次遍历fd。</font>
 
-<font style="color:rgb(62, 62, 62);">**epoll **支持水平触发和边缘触发，最大的特点在于边缘触发，它只告诉进程哪些fd刚刚变为就绪态，并且只会通知一次。还有一个特点是，epoll使用“事件”的就绪通知方式，通过epoll_ctl注册fd，一旦该fd就绪，内核就会采用类似callback的回调机制来激活该fd，epoll_wait便可以收到通知。</font>
+<font style="color:rgb(62, 62, 62);">**epoll**支持水平触发和边缘触发，最大的特点在于边缘触发，它只告诉进程哪些fd刚刚变为就绪态，并且只会通知一次。还有一个特点是，epoll使用“事件”的就绪通知方式，通过epoll_ctl注册fd，一旦该fd就绪，内核就会采用类似callback的回调机制来激活该fd，epoll_wait便可以收到通知。</font>
 
 <font style="color:rgb(255, 104, 39);">Epoll空轮询漏洞</font>
 
@@ -489,4 +481,3 @@ long time = System.nanoTime();if (/*事件轮询的持续时间大于等于 time
 ```
 
 <font style="color:rgb(62, 62, 62);">NioEventLoop 线程的可靠性至关重要，一旦 NioEventLoop 发生阻塞或者陷入空轮询，就会导致整个系统不可用。</font>
-

@@ -11,4 +11,3 @@
 5. **<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">安全的通信协议</font>**<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">：在传输敏感信息和访问令牌时，应使用安全的通信协议（如HTTPS）以确保信息不被拦截或篡改。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">以上是一般的做法，但实际操作中可能还需要考虑其他因素，比如数据的备份和恢复策略、对第三方服务的信任程度等。</font>
-

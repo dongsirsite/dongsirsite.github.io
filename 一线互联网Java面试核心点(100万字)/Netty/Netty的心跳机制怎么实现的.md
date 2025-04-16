@@ -5,6 +5,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">以下是如何在 Netty 中实现心跳机制的详细步骤和示例代码：</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">步骤</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">添加 IdleStateHandler</font>**<font style="color:rgba(0, 0, 0, 0.82);">：  
 </font><font style="color:rgba(0, 0, 0, 0.82);">Netty 提供的</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">IdleStateHandler</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">可以检测连接的空闲状态，根据设定的时间触发相应的事件。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">实现处理心跳事件的处理器</font>**<font style="color:rgba(0, 0, 0, 0.82);">：  
@@ -13,9 +14,11 @@
 </font><font style="color:rgba(0, 0, 0, 0.82);">将</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">IdleStateHandler</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">和自定义的心跳处理器添加到 ChannelPipeline 中。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">示例代码</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">以下示例展示了如何实现一个简单的 Netty 心跳机制：</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">服务端</font>
+
 ```java
 import io.netty.bootstrap.ServerBootstrap;  
 import io.netty.channel.ChannelInitializer;  
@@ -94,6 +97,7 @@ public class ServerHeartbeatHandler extends ChannelInboundHandlerAdapter {
 ```
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">客户端</font>
+
 ```java
 import io.netty.bootstrap.Bootstrap;  
 import io.netty.channel.ChannelInitializer;  
@@ -172,6 +176,7 @@ public class ClientHeartbeatHandler extends ChannelInboundHandlerAdapter {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">代码解释</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">服务端代码解释</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - `<font style="color:rgba(0, 0, 0, 0.82);">ServerBootstrap</font>`<font style="color:rgba(0, 0, 0, 0.82);">：配置和启动 NIO 服务端。</font>
     - `<font style="color:rgba(0, 0, 0, 0.82);">NioServerSocketChannel</font>`<font style="color:rgba(0, 0, 0, 0.82);">：指定服务端的通道类型为 NIO。</font>
@@ -184,4 +189,3 @@ public class ClientHeartbeatHandler extends ChannelInboundHandlerAdapter {
     - `<font style="color:rgba(0, 0, 0, 0.82);">ClientHeartbeatHandler</font>`<font style="color:rgba(0, 0, 0, 0.82);">：自定义的处理器，处理空闲事件（心跳检测）。在发生读写空闲事件时，发送心跳消息“HEARTBEAT”给服务器。处理服务器的心跳响应消息并打印。遇到异常时关闭连接。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">通过以上代码示例和详细注释，您可以更好地理解 Netty 中心跳机制的实现方式。Netty 提供的 </font>`<font style="color:rgba(0, 0, 0, 0.82);">IdleStateHandler</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 非常便利，能够有效简化心跳检测的实现，确保连接在长时间闲置时保持活跃状态。</font>
-

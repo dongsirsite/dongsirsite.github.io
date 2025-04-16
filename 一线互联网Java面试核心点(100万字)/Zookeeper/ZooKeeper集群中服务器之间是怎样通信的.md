@@ -1,6 +1,5 @@
 # ZooKeeper 集群中服务器之间是怎样通信的
 
-  
 ZooKeeper集群中的服务器之间使用TCP协议进行通信，这个通信过程包括以下关键部分：
 
 1. Leader和Follower：在ZooKeeper集群中，有一个服务器被选为领导者（Leader），其余服务器成为跟随者（Follower）。Leader负责处理所有客户端请求，而Followers主要用于接收Leader的数据更新。
@@ -13,4 +12,3 @@ ZooKeeper集群中的服务器之间使用TCP协议进行通信，这个通信�
 
 <font style="color:rgb(0, 0, 0);">  
 </font>
-

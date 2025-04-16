@@ -1,15 +1,12 @@
 # 🔥那些面试官最喜欢问的Spring全家桶经典面试题
 
 ## 单例Bean是单例模式吗？
+
 ![画板](./img/cxYXMQXjUem-9uqd/1675060239249-8eec8c4a-fcca-497a-b58e-ac35fec3e647-910954.jpeg)
 
 通常来说，单例模式是指在一个JVM中，一个类只能构造出来一个对象，有很多方法来实现单例模式，比如懒汉模式，但是我们通常讲的单例模式有一个前提条件就是规定在一个JVM中，那如果要在两个JVM中保证单例呢？那可能就要用分布式锁这些技术，这里的重点是，我们在讨论单例模式时，是要考虑范围的。
 
-
-
 而Spring中的单例Bean也是一种单例模式，只不过范围比较小，范围是beanName，一个beanName对应同一个Bean对象，不同beanName可以对应不同的Bean对象（就算是同一个类也是可以的）。
-
-
 
 比如：
 
@@ -23,15 +20,13 @@ public class BailiService {
 
 以上我们定义了一个单例Bean，beanName为 bailiService，类型为 BailiService，我们可以继续用@Bean来进一步定义：
 
-
-
 ```java
 @ComponentScan("com.baili")
 public class AppConfig {
     
     @Bean
     public BailiService bailiService1(){
-        return new BailiService();		
+        return new BailiService();  
     }
 
     @Bean
@@ -43,12 +38,9 @@ public class AppConfig {
 
 以上，Spring容器中将有三个BailiService类型的bean对象，他们的名字不一样。
 
-
-
 ## Bean的实例化和Bean的初始化有什么区别？
+
 ![画板](./img/cxYXMQXjUem-9uqd/1675061302100-9156da1d-9be2-4595-a11d-d991cbdda832-765764.jpeg)
-
-
 
 Spring在创建一个Bean对象时，会先创建出来一个Java对象，会通过反射来执行类的构造方法从而得到一个Java对象，而这个过程就是Bean的实例化。
 
@@ -58,48 +50,36 @@ Spring在创建一个Bean对象时，会先创建出来一个Java对象，会通
 @Component
 public class BailiService {
 
-	public void a(){
-		System.out.println("baili init");
-	}
-	
+ public void a(){
+  System.out.println("baili init");
+ }
+ 
 }
 ```
-
-
-
-
 
 ```java
 @ComponentScan("com.baili")
 public class AppConfig {
 
-	@Bean(initMethod = "a")
-	public BailiService bailiService1(){
-    	return new BailiService();		
-	}
+ @Bean(initMethod = "a")
+ public BailiService bailiService1(){
+     return new BailiService();  
+ }
 }
 ```
 
-
-
 ## Spring AOP是如何实现的？它和AspectJ有什么区别？
-
 
 ![画板](./img/cxYXMQXjUem-9uqd/1675062313920-030e1318-f0e2-4ac1-a941-dbb3b2a43dbb-042236.jpeg)
 
-
-
 Spring AOP是利用的动态代理机制，如果一个Bean实现了接口，那么就会采用JDK动态代理来生成该接口的代理对象，如果一个Bean没有实现接口，那么就会采用CGLIB来生成当前类的一个代理对象。代理对象的作用就是代理原本的Bean对象，代理对象在执行某个方法时，会在该方法的基础上增加一些切面逻辑，使得我们可以利用AOP来实现一些诸如登录校验、权限控制、日志记录等统一功能。
 
-
-
 Spring AOP和AspectJ之间并没有特别强的关系，AOP表示面向切面编程，这是一种思想，各个组织和个人都可以通过技术来实现这种思想，AspectJ就是其中之一，它会在编译期来对类进行增强，所以要用AspectJ，得用AspectJ开发的编译器来编译你的项目。而Spring AOP则是采用动态代理的方式来实现AOP，只不过觉得AspectJ中设计的那几个注解比较好，比如@Before、@After、@Around等，同时也不给程序员造成困扰，所以Spring AOP中会对这几个注解进行支持，虽然注解是相同的，但是底层的支持实现是完全不一样的。
-
-
 
 **<font style="color:#DF2A3F;"></font>**
 
 ## Spring中的事务是如何实现的？
+
 1. Spring事务底层是基于数据库事务和AOP机制的
 2. 首先对于使用了@Transactional注解的Bean，Spring会创建一个代理对象作为Bean
 3. 当调用代理对象的方法时，会先判断该方法上是否加了@Transactional注解
@@ -112,18 +92,13 @@ Spring AOP和AspectJ之间并没有特别强的关系，AOP表示面向切面编
 10. Spring事务的传播机制是Spring事务自己实现的，也是Spring事务中最复杂的
 11. Spring事务的传播机制是基于数据库连接来做的，一个数据库连接一个事务，如果传播机制配置为需要新开一个事务，那么实际上就是先建立一个数据库连接，在此新数据库连接上执行sql
 
-
-
 ![1622966825505-41961ccc-19e0-4f70-8182-e6e3337eb3af.png](./img/cxYXMQXjUem-9uqd/1622966825505-41961ccc-19e0-4f70-8182-e6e3337eb3af-704999.png)
-
-
 
 **<font style="color:#DF2A3F;"></font>**
 
 ## 你是如何理解Spring事务的传播机制的？底层是如何实现的？
+
 ![画板](./img/cxYXMQXjUem-9uqd/1633591520178-89c5ca58-a58a-4584-90b1-473a6c4ad80f-300966.jpeg)
-
-
 
 一个线程在运行过程中，可能会连续调用好几个方法，在调用某一个方法时，可能就开启了一个Spring事务，那么在调用接下来的方法时，到底是共用同一个事务呢？还是新开一个事务呢？这就是传播机制，程序员可以根据不同的业务场景进行配置，比如：
 
@@ -135,19 +110,14 @@ Spring AOP和AspectJ之间并没有特别强的关系，AOP表示面向切面编
 6. NEVER：不使用事务，如果当前事务存在，则抛出异常
 7. NESTED：如果当前事务存在，则在嵌套事务中执行，否则和REQUIRED的操作一样（开启一个事务）
 
-
-
 在Spring中，一个Spring事务就是对应一个数据库连接，新开一个Spring事务其实就是新开一个数据库连接，比如执行某个方法时需要开启一个Spring事务，那么就会创建一个数据库连接，然后开始执行方法，如果方法中调用了其他方法，此时就会看这个其他方法怎么配置的：
 
 1. 比如是REQUIRES_NEW，那么就会新开一个数据库连接，这个其中方法中的sql就会在这个新开的数据库连接中执行
 2. 比如是REQUIRED，那么就不会新开，而是基于之前的数据库连接来执行方法中的sql
 
-
-
 **<font style="color:#DF2A3F;"></font>**
 
 ## 哪些情况下会导致Spring事务失效，对应的原因是什么？
-
 
 1. 方法内的自调用：Spring事务是基于AOP的，只要使用代理对象调用某个方法时，Spring事务才能生效，而在一个方法中调用使用this.xxx()调用方法时，this并不是代理对象，所以会导致事务失效。
     1. 解放办法1：把调用方法拆分到另外一个Bean中
@@ -161,11 +131,10 @@ Spring AOP和AspectJ之间并没有特别强的关系，AOP表示面向切面编
 7. 类没有被Spring管理
 8. 数据库不支持事务
 
-
-
 **<font style="color:#DF2A3F;"></font>**
 
 ## Spring中的Bean创建的生命周期有哪些步骤
+
 Spring中一个Bean的创建大概分为以下几个步骤：
 
 1. 推断构造方法
@@ -176,36 +145,29 @@ Spring中一个Bean的创建大概分为以下几个步骤：
 6. 初始化，处理InitializingBean接口
 7. 初始化后，进行AOP
 
-
-
 当然其实真正的步骤更加细致，可以看下面的流程图
 
 ![1625729452241-4bc1dbb0-a827-49f1-83b8-70e61fd29a65.png](./img/cxYXMQXjUem-9uqd/1625729452241-4bc1dbb0-a827-49f1-83b8-70e61fd29a65-784148.png)
 
-
-
 **<font style="color:#DF2A3F;"></font>**
 
 ## Spring中Bean是线程安全的吗
+
 Spring本身并没有针对Bean做线程安全的处理，所以：
 
 1. 如果Bean是无状态的，那么Bean则是线程安全的
 2. 如果Bean是有状态的，那么Bean则不是线程安全的
 
-
-
 另外，Bean是不是线程安全，跟Bean的作用域没有关系，Bean的作用域只是表示Bean的生命周期范围，对于任何生命周期的Bean都是一个对象，这个对象是不是线程安全的，还是得看这个Bean对象本身。
 
-
-
 ## ApplicationContext和BeanFactory有什么区别
+
 BeanFactory是Spring中非常核心的组件，表示Bean工厂，可以生成Bean，维护Bean，而ApplicationContext继承了BeanFactory，所以ApplicationContext拥有BeanFactory所有的特点，也是一个Bean工厂，但是ApplicationContext除开继承了BeanFactory之外，还继承了诸如EnvironmentCapable、MessageSource、ApplicationEventPublisher等接口，从而ApplicationContext还有获取系统环境变量、国际化、事件发布等功能，这是BeanFactory所不具备的
-
-
 
 **<font style="color:#DF2A3F;"></font>**
 
 ## Spring容器启动流程是怎样的
+
 1. 在创建Spring容器，也就是启动Spring时：
 2. 首先会进行扫描，扫描得到所有的BeanDefinition对象，并存在一个Map中
 3. 然后筛选出非懒加载的单例BeanDefinition进行创建Bean，对于多例Bean不需要在启动过程中去进行创建，对于多例Bean会在每次获取Bean时利用BeanDefinition去创建
@@ -222,6 +184,7 @@ BeanFactory是Spring中非常核心的组件，表示Bean工厂，可以生成Be
 **<font style="color:#DF2A3F;"></font>**
 
 ## @SpringBootApplication注解有什么用？为什么一定要写它？
+
 @SpringBootApplication是一个复合注解：
 
 ```java
@@ -235,34 +198,26 @@ public @interface SpringBootApplication {
 
 ```
 
-
-
 是以上三个注解的整合，在一个类上只要加了@SpringBootApplication，就相当于同时加了以上的三个注解，当Spring容器在启动时，当解析到一个类上有@SpringBootApplication，那么就相当于这个类上有：
 
 1. @ComponentScan，从而Spring容器会进行扫描，扫描路径为当前在解析的这个类所在的包路径。
 2. @EnableAutoConfiguration，这个注解会负责进行自动配置类的导入，也就是将项目中的自动配置类导入到Spring容器中，从而得到解析
 3. @SpringBootConfiguration，它其实就相当于是@Configuration，表示当前类是一个配置类
 
-
-
 所以，在使用SpringBoot时，我们一般会加上@SpringBootApplication这个注解，因为只要加上了它，SpringBoot就会进行扫描，就会导入自动配置类并解析解析。
-
-
 
 **<font style="color:#DF2A3F;"></font>**
 
 ## SpringBoot中的spring.factories文件有什么作用？
+
 spring.factories是SpringBoot SPI机制实现的核心，SPI机制表示扩展机制，所以spring.factories文件的作用就是用来对SpringBoot进行扩展的，比如我们可以通过在该文件中去添加ApplicationListener、ApplicationContextInitializer、配置类等等，只需要在该文件中添加就可以了，而不用额外的去写什么代码。
 
-
-
 SpringBoot在启动的过程中，会找出项目中所有的spring.factories文件，包括jar中spring.factories，从而向Spring容器中添加各个spring.factories文件中指定的ApplicationListener、ApplicationContextInitializer、配置类等组件，使得对SpringBoot做扩展非常容易了，只要引入一个jar，这个jar中有spring.factories文件，就可以把ApplicationListener等添加到Spring容器中。
-
-
 
 **<font style="color:#DF2A3F;"></font>**
 
 ## 你是如何理解SpringBoot中的自动配置的？
+
 在Spring中，我们通常需要去配置很多的Bean：
 
 + 比如用Mybatis，我们要配置SqlSessionFactory的Bean对象
@@ -270,8 +225,6 @@ SpringBoot在启动的过程中，会找出项目中所有的spring.factories文
 + 用Spring事务，我们需要配置DataSourceTransactionManager的Bean对象
 + 用RabbitMQ，我们要配置RabbitTemplate的Bean对象
 + 等等
-
-
 
 而我们用SpringBoot时，我们基本不用再去配这些了，因为SpringBoot帮我们配置好了，怎么做到的呢？其实就是SpringBoot内置了很多的配置类，比如
 
@@ -285,11 +238,10 @@ SpringBoot在启动的过程中，会找出项目中所有的spring.factories文
 
 ![1673876857703-8dd2abe1-6432-4585-b439-9e0233c101ac.png](./img/cxYXMQXjUem-9uqd/1673876857703-8dd2abe1-6432-4585-b439-9e0233c101ac-483804.png)
 
-
-
 这其实就是SpringBoot的自动配置，帮程序员提前配置了很多东西，Bean或者注解。
 
 ## springboot3 的自动配置原理？
+
 1.通过@SpringBootConfiguration 引入了**<font style="color:rgb(223, 64, 42);">@EnableAutoConfiguration</font>** (负责启动自动配置功能）
 
 2.@EnableAutoConfiguration 引入了**<font style="color:rgb(223, 64, 42);">@Import</font>**
@@ -309,13 +261,12 @@ SpringBoot在启动的过程中，会找出项目中所有的spring.factories文
 **<font style="color:#DF2A3F;"></font>**
 
 ## <font style="color:#121212;">Spring Boot启动过程中做了哪些事情？</font>
+
 1. 首先，判断当前的应用类型，比如是不是web应用，如果是，那是servlet应用还是webflux应用，不同类型后续会创建不同的Spring容器
 2. 根据应用类型创建Spring容器
 3. 解析启动类，从而进行扫描、导入自动配置类并解析解析
 4. 启动Tomcat或者jetty、undertow
 5. 调用ApplicationRunner或CommandLineRunner
-
-
 
 以上至少一些核心的，其实整个启动过程中还包含了SpringApplicationRunListeners的调用、banner的打印、ApplicationContextInitializer的执行等，具体可以参照源码。
 
@@ -324,6 +275,7 @@ SpringBoot在启动的过程中，会找出项目中所有的spring.factories文
 **<font style="color:#DF2A3F;"></font>**
 
 ## SpringMVC处理请求的流程是什么？
+
 1. 在启动Tomcat过程中，会创建DispatcherServlet对象，并执行它的初始化逻辑
 2. DispatcherServlet初始化过程中会创建Spring容器（根据用户的Spring配置）
 3. 然后初始化过程中还是初始化HandlerMapping、HandlerAdapter等等
@@ -343,9 +295,10 @@ SpringBoot在启动的过程中，会找出项目中所有的spring.factories文
 **<font style="color:#DF2A3F;"></font>**
 
 ## SpringMVC中的重定向和转发分别是如何实现的？
+
 1. 我们可以使用**forward:**来对当前请求进行转发
 2. 可以用**redirect:**来对当前请求进行重定向
 3. 当SpringMVC接收到一个请求后，会先处理请求，如果后续方法要进行转发，就会利用RequestDispatcher将当前请求转发到指定地址，这种情况下，一直是同一个请求，只不过两次请求的路径不一样，并且转发对于浏览器而言是透明的
 4. 而如果SpringMVC接收到一个请求，并进行处理后，发现要进行重定向，此时SpringMVC会向浏览器响应303，同时会告诉浏览器要重定向的路径，表示告诉浏览器要访问另外一个路径，由浏览器自己来访问，所以重定向是需要浏览器参与的，是不同的两个请求
 
-## 
+##

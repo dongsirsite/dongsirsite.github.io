@@ -10,4 +10,3 @@
 6. <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">使用性能分析工具：可以使用性能分析工具，如pt-query-digest、Percona Toolkit等，对执行时间较长的SQL语句进行更深入的分析。这些工具可以帮助定位问题，并提供详细的性能指标和建议。</font>
 
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">通过以上的方法，可以帮助定位慢SQL的产生原因，并优化相应的SQL语句和数据库配置，提升数据库的查询性能。</font>
-

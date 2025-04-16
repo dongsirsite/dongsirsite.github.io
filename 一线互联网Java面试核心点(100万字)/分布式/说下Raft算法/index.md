@@ -1,10 +1,13 @@
 # 说下Raft算法
 
 ### <font style="color:rgb(1, 1, 1);">Raft算法</font>**<font style="color:rgb(72, 179, 120);">Raft算法是什么？</font>**
+
 <font style="color:rgb(40, 202, 113);">Raft</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">也是一个</font><font style="color:rgb(74, 74, 74);"> </font>**<font style="color:rgb(74, 74, 74);">一致性算法</font>**<font style="color:rgb(74, 74, 74);">，和</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(40, 202, 113);">Paxos</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">目标相同。但它还有另一个名字 -</font><font style="color:rgb(74, 74, 74);"> </font>**<font style="color:rgb(74, 74, 74);">易于理解的一致性算法</font>**<font style="color:rgb(74, 74, 74);">。</font><font style="color:rgb(40, 202, 113);">Paxos</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">和</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(40, 202, 113);">Raft</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">都是为了实现</font><font style="color:rgb(74, 74, 74);"> </font>**<font style="color:rgb(74, 74, 74);">一致性</font>**<font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">产生的。这个过程如同选举一样，</font>**<font style="color:rgb(74, 74, 74);">参选者</font>**<font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">需要说服</font><font style="color:rgb(74, 74, 74);"> </font>**<font style="color:rgb(74, 74, 74);">大多数选民</font>**<font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">(Server) 投票给他，一旦选定后就跟随其操作。</font><font style="color:rgb(40, 202, 113);">Paxos</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">和</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(40, 202, 113);">Raft</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">的区别在于选举的</font><font style="color:rgb(74, 74, 74);"> </font>**<font style="color:rgb(74, 74, 74);">具体过程</font>**<font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">不同。</font>
 
 ### **<font style="color:rgb(72, 179, 120);">Raft算法的工作流程？</font>**
+
 #### <font style="color:black;">Raft算法的角色</font>
+
 <font style="color:rgb(40, 202, 113);">Raft</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">协议将</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(40, 202, 113);">Server</font><font style="color:rgb(74, 74, 74);"> </font><font style="color:rgb(74, 74, 74);">进程分为三种角色：</font>
 
 + **<font style="color:rgb(74, 74, 74);">Leader（领导者）</font>**
@@ -24,6 +27,7 @@
 <font style="color:rgb(136, 136, 136);">Raft三种角色变迁图</font>
 
 #### <font style="color:black;">Leader选举过程</font>
+
 <font style="color:rgb(74, 74, 74);">Raft 使用心跳（heartbeat）触发Leader选举。当Server启动时，初始化为Follower。Leader向所有Followers周期性发送heartbeat。如果Follower在选举超时时间内没有收到Leader的heartbeat，就会等待一段随机的时间后发起一次Leader选举。</font>
 
 <font style="color:rgb(74, 74, 74);">Follower将其当前term加一然后转换为Candidate。它首先给自己投票并且给集群中的其他服务器发送 RequestVote RPC 。结果有以下三种情况：</font>
@@ -37,4 +41,3 @@
 <font style="color:rgb(136, 136, 136);">Leader选举</font>
 
 <font style="color:rgb(74, 74, 74);">选出 </font><font style="color:rgb(40, 202, 113);">Leader</font><font style="color:rgb(74, 74, 74);"> 后，</font><font style="color:rgb(40, 202, 113);">Leader</font><font style="color:rgb(74, 74, 74);"> 通过 </font>**<font style="color:rgb(74, 74, 74);">定期</font>**<font style="color:rgb(74, 74, 74);"> 向所有 </font><font style="color:rgb(40, 202, 113);">Follower</font><font style="color:rgb(74, 74, 74);"> 发送 </font>**<font style="color:rgb(74, 74, 74);">心跳信息</font>**<font style="color:rgb(74, 74, 74);"> 维持其统治。若 </font><font style="color:rgb(40, 202, 113);">Follower</font><font style="color:rgb(74, 74, 74);"> 一段时间未收到 </font><font style="color:rgb(40, 202, 113);">Leader</font><font style="color:rgb(74, 74, 74);"> 的 </font>**<font style="color:rgb(74, 74, 74);">心跳</font>**<font style="color:rgb(74, 74, 74);">，则认为 </font><font style="color:rgb(40, 202, 113);">Leader</font><font style="color:rgb(74, 74, 74);"> 可能已经挂了，然后再次发起 </font>**<font style="color:rgb(74, 74, 74);">选举</font>**<font style="color:rgb(74, 74, 74);"> 过程。</font>
-

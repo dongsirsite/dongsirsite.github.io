@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">RocketMQ的集群架构设计旨在提高系统的可用性、可靠性和可扩展性。它通过多种组件协同工作，实现消息的生产、存储、分发和消费。以下是关于RocketMQ集群架构及其使用场景的详细说明。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">RocketMQ集群架构</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">NameServer</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">它是一个几乎无状态的节点，可以集群部署用于服务发现。</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">NameServer为Producer和Consumer提供路由信息。</font>
@@ -18,6 +19,7 @@
     - <font style="color:rgba(0, 0, 0, 0.82);">支持Push和Pull两种消费方式，可以是集群消费或广播消费。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">使用场景</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">高可用性</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">通过Master-Slave配置和Broker高可用机制，保证系统在部分节点失效的情况下仍能正常运行。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">消息持久化</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
@@ -28,7 +30,9 @@
     - <font style="color:rgba(0, 0, 0, 0.82);">可以按需添加NameServer和Broker节点，进行水平扩展。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">代码示例</font>
+
 #### <font style="color:rgba(0, 0, 0, 0.82);">创建NameServer集群</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">NameServer无状态，可以简单地在不同的服务器上启动多个实例：</font>
 
 ```java
@@ -38,6 +42,7 @@ nohup sh mqnamesrv &
 <font style="color:rgba(0, 0, 0, 0.82);">多台服务器上重复上述操作。</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">配置和启动Broker集群</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">配置文件（</font>`<font style="color:rgba(0, 0, 0, 0.82);">broker-a.properties</font>`<font style="color:rgba(0, 0, 0, 0.82);">）示例：</font>
 
 ```java
@@ -54,6 +59,7 @@ nohup sh mqbroker -c broker-a.properties &
 ```
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">生产者与消费者代码示例</font>
+
 **<font style="color:rgba(0, 0, 0, 0.82);">生产者：</font>**
 
 ```java
@@ -110,5 +116,5 @@ public class ClusterConsumerExample {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">总结</font>
-<font style="color:rgba(0, 0, 0, 0.82);">RocketMQ的集群架构通过NameServer、Broker的灵活组合，实现了高可用、弹性伸缩和负载均衡，适用于各种规模的分布式系统。通过合理配置和使用，RocketMQ可以支持广泛的应用场景，如在线业务系统、异步处理和事件驱动架构。</font>
 
+<font style="color:rgba(0, 0, 0, 0.82);">RocketMQ的集群架构通过NameServer、Broker的灵活组合，实现了高可用、弹性伸缩和负载均衡，适用于各种规模的分布式系统。通过合理配置和使用，RocketMQ可以支持广泛的应用场景，如在线业务系统、异步处理和事件驱动架构。</font>

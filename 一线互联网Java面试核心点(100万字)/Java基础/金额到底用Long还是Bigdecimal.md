@@ -4,11 +4,7 @@
 
 ![1706530855651-396388ef-45c6-4e34-b042-ef1ef942116a.png](./img/ZHaMYgjalY_6z9f7/1706530855651-396388ef-45c6-4e34-b042-ef1ef942116a-471905.png)
 
-
-
 ![1706530870745-dd744075-c10d-4491-983c-d9f6213cf9b9.png](./img/ZHaMYgjalY_6z9f7/1706530870745-dd744075-c10d-4491-983c-d9f6213cf9b9-690940.png)
-
-
 
 ![1706530889905-1fc70ee5-7323-4dc3-8acb-8781a3e2ac01.png](./img/ZHaMYgjalY_6z9f7/1706530889905-1fc70ee5-7323-4dc3-8acb-8781a3e2ac01-469184.png)
 
@@ -20,21 +16,11 @@
 
 ![1706530970468-46a71bb9-ba30-40d5-ab04-54a1e5abff4e.png](./img/ZHaMYgjalY_6z9f7/1706530970468-46a71bb9-ba30-40d5-ab04-54a1e5abff4e-057668.png)
 
-
-
-
-
-
-
 我来说说我的观点， 大家也可以评论区说说你的观点：
-
-
 
  首先float和double肯定是排除的，因为<font style="color:rgb(37, 41, 51);">它们内部使用科学计数法，转换二进制的时候有可能出现无限小数位的问题 </font>
 
 ![1706531677813-da8ab11d-7fbd-44c8-99fd-6e8449b33eb7.jpeg](./img/ZHaMYgjalY_6z9f7/1706531677813-da8ab11d-7fbd-44c8-99fd-6e8449b33eb7-665063.jpeg)
-
-
 
 那么大家就会选择Long和<font style="color:rgb(37, 41, 51);">BigDecimal， Long类型在存储时(比如保留2位小数点)x100,  取出来/100。</font>
 
@@ -52,10 +38,6 @@
 
 + <font style="color:rgb(55, 65, 81);">整数类型（如 </font>**long**<font style="color:rgb(55, 65, 81);">）通常在计算机硬件上的性能更好，因为它们的操作可以在硬件层面上更有效地执行。</font>
 + **BigDecimal**<font style="color:rgb(55, 65, 81);">  需要额外的空间和计算开销。</font>
-
-
-
-
 
 <font style="color:rgb(37, 41, 51);"> </font>![1706533593289-04bb4fa9-ab67-45da-ae32-433843c76619.png](./img/ZHaMYgjalY_6z9f7/1706533593289-04bb4fa9-ab67-45da-ae32-433843c76619-745455.png)
 
@@ -77,4 +59,3 @@
 <font style="color:rgb(37, 41, 51);"></font>
 
 <font style="color:rgb(37, 41, 51);"></font>
-

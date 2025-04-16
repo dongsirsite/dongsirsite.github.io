@@ -3,6 +3,7 @@
 <font style="color:rgba(6, 8, 31, 0.88);">Oracle REF CURSOR在Java中的处理是一个相对复杂的过程，我将通过一个完整的示例来说明具体实现：</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">Oracle数据库端存储过程</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">首先，我们在Oracle数据库中创建一个返回REF CURSOR的存储过程：</font>
 
 ```sql
@@ -20,6 +21,7 @@ END;
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">Java代码实现</font>
+
 ```java
 import java.sql.CallableStatement;  
 import java.sql.Connection;  
@@ -87,6 +89,7 @@ public class RefCursorExample {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">关键处理步骤说明</font>
+
 1. **<font style="color:rgba(6, 8, 31, 0.88);">REF CURSOR注册</font>**<font style="color:rgba(6, 8, 31, 0.88);">：</font>
     - <font style="color:rgba(6, 8, 31, 0.88);">使用</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>`<font style="color:rgba(6, 8, 31, 0.88);">stmt.registerOutParameter(2, OracleTypes.CURSOR)</font>`<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">注册输出参数</font>
     - <font style="color:rgba(6, 8, 31, 0.88);">这是Oracle JDBC驱动特有的方法，标准JDBC不支持</font>
@@ -98,12 +101,14 @@ public class RefCursorExample {
     - <font style="color:rgba(6, 8, 31, 0.88);">将游标转换为</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>`<font style="color:rgba(6, 8, 31, 0.88);">ResultSet</font>`<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">进行数据处理</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">注意事项</font>
+
 1. <font style="color:rgba(6, 8, 31, 0.88);">需要添加Oracle JDBC驱动依赖</font>
 2. <font style="color:rgba(6, 8, 31, 0.88);">确保正确处理数据库资源的关闭</font>
 3. <font style="color:rgba(6, 8, 31, 0.88);">异常处理很重要</font>
 4. <font style="color:rgba(6, 8, 31, 0.88);">建议使用连接池管理数据库连接</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">Maven依赖示例</font>
+
 ```xml
 <dependency>  
   <groupId>com.oracle.database.jdbc</groupId>  
@@ -113,10 +118,9 @@ public class RefCursorExample {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">最佳实践</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">使用try-with-resources管理资源</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">实现连接池</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">添加详细的日志记录</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">考虑使用ORM框架简化数据库操作</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">使用try-with-resources管理资源</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">实现连接池</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">添加详细的日志记录</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">考虑使用ORM框架简化数据库操作</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">这个示例展示了在Java中处理Oracle REF CURSOR的标准方法。通过注册自定义游标类型并使用Oracle特定的JDBC扩展，可以灵活地处理动态结果集。</font>
-

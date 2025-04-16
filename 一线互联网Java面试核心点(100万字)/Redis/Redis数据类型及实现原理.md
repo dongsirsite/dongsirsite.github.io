@@ -1,15 +1,19 @@
 # Redis数据类型及实现原理
 
 ## <font style="color:rgb(51, 51, 51);">Redis常用数据结构</font>
+
 <font style="color:rgb(51, 51, 51);">Redis提供了一些数据结构供我们往Redis中存取数据，最常用的的有5种，字符串（String）、哈希(Hash)、列表（list）、集合（set）、有序集合（ZSET）。另外RedisObject和3种高级类型Bitmaps,Hyperloglog,GEO也一并给大家整理到这里了</font>
 
 ### <font style="color:rgb(51, 51, 51);">字符串（String）</font>
+
 <font style="color:rgb(51, 51, 51);">字符串类型是Redis最基础的数据结构。首先键都是字符串类型，而且其他几种数据结构都是在字符串类型基础上构建的，所以字符串类型能为其他四种数据结构的学习奠定基础。字符串类型的值实际可以是字符串(简单的字符串、复杂的字符串(例如JSON、XML))、数字(整数、浮点数)，甚至是二进制(图片、音频、视频)，但是值最大不能超过512MB。（磁盘扇区512个字节）</font>
 
 <font style="color:rgb(51, 51, 51);">（虽然Redis是C写的，C里面有字符串</font><font style="color:rgb(51, 51, 51);"><</font><font style="color:rgb(51, 51, 51);">本质使用char数组来实现>，但是处于种种考虑，Redis还是自己实现了字符串类型）</font>
 
 #### <font style="color:rgb(51, 51, 51);">操作命令</font>
+
 ##### <font style="color:rgb(51, 51, 51);">set 设置值</font>
+
 <font style="color:rgb(51, 51, 51);">set key value</font>
 
 <font style="color:rgb(51, 51, 51);">set命令有几个选项:</font>
@@ -51,16 +55,19 @@
 <font style="color:rgb(51, 51, 51);">有什么应用场景吗?以setnx命令为例子，由于Redis的单线程命令处理机制，如果有多个客户端同时执行setnx key value，根据setnx的特性只有一个客户端能设置成功，setnx可以作为分布式锁的一种实现方案。当然分布式锁没有不是只有一个命令就OK了，其中还有很多的东西要注意，我们后面会用单独的章节来讲述基于Redis的分布式锁。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">get 获取值</font>
+
 <font style="color:rgb(51, 51, 51);">如果要获取的键不存在,则返回nil(空):</font>
 
 ![1737695325680-ce2b38b9-bc7b-4925-adbb-8100bbc63c6f.png](./img/DtcwJpKZx7YddKSP/1737695325680-ce2b38b9-bc7b-4925-adbb-8100bbc63c6f-821989.png)
 
 ##### <font style="color:rgb(51, 51, 51);">mset 批量设置值</font>
+
 <font style="color:rgb(51, 51, 51);">通过mset命令一次性设置4个键值对</font>
 
 ![1737695325678-daa44f9c-9f1a-4cce-832c-fefe404c4278.png](./img/DtcwJpKZx7YddKSP/1737695325678-daa44f9c-9f1a-4cce-832c-fefe404c4278-624130.png)
 
 ##### <font style="color:rgb(51, 51, 51);">mget 批量获取值</font>
+
 ![1737695325772-82528f1f-4533-4a23-94a7-de24eef6df5f.png](./img/DtcwJpKZx7YddKSP/1737695325772-82528f1f-4533-4a23-94a7-de24eef6df5f-870432.png)
 
 <font style="color:rgb(51, 51, 51);">批量获取了键a、b、c、d的值:</font>
@@ -78,6 +85,7 @@
 <font style="color:rgb(51, 51, 51);">Redis可以支撑每秒数万的读写操作，但是这指的是Redis服务端的处理能力，对于客户端来说，一次命令除了命令时间还是有网络时间，假设网络时间为1毫秒，命令时间为0.1毫秒(按照每秒处理1万条命令算)，那么执行1000次 get命令需要1.1秒(1000</font>_<font style="color:rgb(51, 51, 51);">1+1000</font>_<font style="color:rgb(51, 51, 51);">0.1=1100ms)，1次mget命令的需要0.101秒(1</font>_<font style="color:rgb(51, 51, 51);">1+1000</font>_<font style="color:rgb(51, 51, 51);">0.1=101ms)。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">Incr 数字运算</font>
+
 <font style="color:rgb(51, 51, 51);">incr命令用于对值做自增操作,返回结果分为三种情况：</font>
 
 <font style="color:rgb(51, 51, 51);">值不是整数,返回错误。</font>
@@ -91,11 +99,13 @@
 <font style="color:rgb(51, 51, 51);">除了incr命令，Redis提供了decr(自减)、 incrby(自增指定数字)、decrby(自减指定数字)、incrbyfloat（自增浮点数)，具体效果请同学们自行尝试。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">append追加指令</font>
+
 <font style="color:rgb(51, 51, 51);">append可以向字符串尾部追加值</font>
 
 ![1737695325710-7dcd9283-2c33-49f5-9c17-cadf180f45ab.png](./img/DtcwJpKZx7YddKSP/1737695325710-7dcd9283-2c33-49f5-9c17-cadf180f45ab-999702.png)
 
 ##### <font style="color:rgb(51, 51, 51);">strlen 字符串长度</font>
+
 <font style="color:rgb(51, 51, 51);">返回字符串长度</font>
 
 ![1737695326123-bbdb7615-37d9-4912-8bcc-f78a8fadfaba.png](./img/DtcwJpKZx7YddKSP/1737695326123-bbdb7615-37d9-4912-8bcc-f78a8fadfaba-153126.png)
@@ -103,24 +113,29 @@
 <font style="color:rgb(51, 51, 51);">注意：每个中文占3个字节</font>
 
 ##### <font style="color:rgb(51, 51, 51);">getset 设置并返回原值</font>
+
 <font style="color:rgb(51, 51, 51);">getset和set一样会设置值,但是不同的是，它同时会返回键原来的值</font>
 
 ![1737695326120-f2c17a49-31b0-4dcf-b94b-403cca384795.png](./img/DtcwJpKZx7YddKSP/1737695326120-f2c17a49-31b0-4dcf-b94b-403cca384795-487629.png)
 
 ##### <font style="color:rgb(51, 51, 51);">setrange 设置指定位置的字符</font>
+
 ![1737695326069-8019e3bf-3f37-498d-9d65-06c058fdbab5.png](./img/DtcwJpKZx7YddKSP/1737695326069-8019e3bf-3f37-498d-9d65-06c058fdbab5-946758.png)
 
 <font style="color:rgb(51, 51, 51);">下标从0开始计算。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">getrange 截取字符串</font>
+
 <font style="color:rgb(51, 51, 51);">getrange 截取字符串中的一部分，形成一个子串，需要指明开始和结束的偏移量，截取的范围是个闭区间。</font>
 
 ![1737695326208-05ae16fc-1295-4455-bf0a-77812b5c2a30.png](./img/DtcwJpKZx7YddKSP/1737695326208-05ae16fc-1295-4455-bf0a-77812b5c2a30-940861.png)
 
 #### <font style="color:rgb(51, 51, 51);">命令的时间复杂度</font>
+
 <font style="color:rgb(51, 51, 51);">字符串这些命令中，除了del 、mset、 mget支持多个键的批量操作，时间复杂度和键的个数相关，为O(n)，getrange和字符串长度相关，也是O(n)，其余的命令基本上都是O(1)的时间复杂度，在速度上还是非常快的。</font>
 
 #### <font style="color:rgb(51, 51, 51);">存储结构：</font>
+
 <font style="color:rgb(51, 51, 51);">源码src/sds.c</font>
 
 ![1737695564410-f1c6468b-19e6-414a-9d91-d027690c2225.png](./img/DtcwJpKZx7YddKSP/1737695564410-f1c6468b-19e6-414a-9d91-d027690c2225-139979.png)
@@ -131,7 +146,7 @@
 
 <font style="color:rgb(51, 51, 51);">embstr 格式的动态字符串</font>**<font style="color:rgb(51, 51, 51);">SDS</font>**<font style="color:rgb(51, 51, 51);">(sdshdr) 存储44个字节的字符串； </font>
 
-<font style="color:rgb(51, 51, 51);">				</font><font style="color:rgb(51, 51, 51);">一次内存分配，只读，效率更快</font>
+<font style="color:rgb(51, 51, 51);">    </font><font style="color:rgb(51, 51, 51);">一次内存分配，只读，效率更快</font>
 
 <font style="color:rgb(51, 51, 51);">修改拼接之后会直接升级为raw</font>
 
@@ -168,7 +183,7 @@
 
 **<font style="color:rgb(51, 51, 51);">内存预分配：</font>**<font style="color:rgb(51, 51, 51);">较少内核用户态切换</font>
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">初始len和alloc相同，</font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">初始len和alloc相同，</font>
 
 <font style="color:rgb(51, 51, 51);">修改字符串，如果新字符串小于1M，则为拓展后字符串长度翻倍；</font>
 
@@ -176,15 +191,16 @@
 
 **<font style="color:rgb(51, 51, 51);">为什么不用C语言的String?</font>**
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">由于C语言以\0结束标识，无法存放任意字符，修改追加后遍历麻烦</font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">由于C语言以\0结束标识，无法存放任意字符，修改追加后遍历麻烦</font>
 
 <font style="color:rgb(51, 51, 51);">遍历不以\0结束标志，操作字符串皆以二进制方式处理buf[],len遍历中间可任意字符串确保二进制安全</font>
 
 **<font style="color:rgb(51, 51, 51);">优点：</font>**
 
-<font style="color:rgb(51, 51, 51);">		</font><font style="color:rgb(51, 51, 51);">快速获取长度；支持动态扩容；减少内存分配次数；二进制安全</font>
+<font style="color:rgb(51, 51, 51);">  </font><font style="color:rgb(51, 51, 51);">快速获取长度；支持动态扩容；减少内存分配次数；二进制安全</font>
 
 #### <font style="color:rgb(51, 51, 51);">使用场景</font>
+
 <font style="color:rgb(51, 51, 51);">字符串类型的使用场景很广泛：</font>
 
 **<font style="color:rgb(51, 51, 51);">缓存功能</font>**
@@ -207,15 +223,18 @@
 
 **<font style="color:rgb(51, 51, 51);">分布式锁</font>**
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">set 加nx参数 或者setnx (命令执行是单线程的)</font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">set 加nx参数 或者setnx (命令执行是单线程的)</font>
 
 ### <font style="color:rgb(51, 51, 51);">哈希(Hash)</font>
+
 <font style="color:rgb(51, 51, 51);">Java里提供了HashMap，Redis中也有类似的数据结构，就是哈希类型。但是要注意，哈希类型中的映射关系叫作field-value，注意这里的value是指field对应的值，不是键对应的值。</font>
 
 #### <font style="color:rgb(51, 51, 51);">操作命令</font>
+
 <font style="color:rgb(51, 51, 51);">基本上，哈希的操作命令和字符串的操作命令很类似，很多命令在字符串类型的命令前面加上了h字母，代表是操作哈希类型，同时还要指明要操作的field的值。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">hset设值</font>
+
 <font style="color:rgb(51, 51, 51);">hset user:1 name tianming</font>
 
 ![1737695326258-4a329248-2cde-4a02-a2e2-cabaaeeb48bd.png](./img/DtcwJpKZx7YddKSP/1737695326258-4a329248-2cde-4a02-a2e2-cabaaeeb48bd-761270.png)
@@ -223,6 +242,7 @@
 <font style="color:rgb(51, 51, 51);">如果设置成功会返回1，反之会返回0。此外Redis提供了hsetnx命令，它们的关系就像set和setnx命令一样,只不过作用域由键变为field。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">hget取值</font>
+
 <font style="color:rgb(51, 51, 51);">hget user:1 name</font>
 
 <font style="color:rgb(51, 51, 51);">如果键或field不存在，会返回nil。</font>
@@ -230,47 +250,59 @@
 ![1737695326551-61357667-817e-45d2-b0d7-6cb7061dde43.png](./img/DtcwJpKZx7YddKSP/1737695326551-61357667-817e-45d2-b0d7-6cb7061dde43-587943.png)
 
 ##### <font style="color:rgb(51, 51, 51);">hdel删除field</font>
+
 <font style="color:rgb(51, 51, 51);">hdel会删除一个或多个field，返回结果为成功删除field的个数。</font>
 
 ![1737695326527-badfebe8-952d-47f8-8d95-35fd1c22503d.png](./img/DtcwJpKZx7YddKSP/1737695326527-badfebe8-952d-47f8-8d95-35fd1c22503d-134137.png)
 
 ##### <font style="color:rgb(51, 51, 51);">hlen计算field个数</font>
+
 ![1737695326568-1e18d87d-3908-4599-bf26-4cc68a0b413c.png](./img/DtcwJpKZx7YddKSP/1737695326568-1e18d87d-3908-4599-bf26-4cc68a0b413c-023449.png)
 
 ##### <font style="color:rgb(51, 51, 51);">hmset批量设值</font>
+
 ![1737695326643-717debcd-794a-4db2-8beb-69f2eb1e8cd6.png](./img/DtcwJpKZx7YddKSP/1737695326643-717debcd-794a-4db2-8beb-69f2eb1e8cd6-384980.png)
 
 ##### <font style="color:rgb(51, 51, 51);">hmget批量取值</font>
+
 ![1737695326700-4e676c04-d5f3-4ed6-827e-cebae3092e9d.png](./img/DtcwJpKZx7YddKSP/1737695326700-4e676c04-d5f3-4ed6-827e-cebae3092e9d-902753.png)
 
 ##### <font style="color:rgb(51, 51, 51);">hexists判断field是否存在</font>
+
 ![1737695326955-a0c0cb88-52e5-490f-8fbd-81d0903c4fee.png](./img/DtcwJpKZx7YddKSP/1737695326955-a0c0cb88-52e5-490f-8fbd-81d0903c4fee-913301.png)
 
 <font style="color:rgb(51, 51, 51);">若存在返回1，不存在返回0</font>
 
 ##### <font style="color:rgb(51, 51, 51);">hkeys获取所有field</font>
+
 <font style="color:rgb(51, 51, 51);">它返回指定哈希键所有的field</font>
 
 ![1737695327011-35113efb-a002-4ec4-8b2e-d564366330b7.png](./img/DtcwJpKZx7YddKSP/1737695327011-35113efb-a002-4ec4-8b2e-d564366330b7-051292.png)
 
 ##### <font style="color:rgb(51, 51, 51);">hvals获取所有value</font>
+
 ![1737695327079-7c4623f2-a384-4bb1-96aa-4c8df5b885b9.png](./img/DtcwJpKZx7YddKSP/1737695327079-7c4623f2-a384-4bb1-96aa-4c8df5b885b9-079884.png)
 
 ##### <font style="color:rgb(51, 51, 51);">hgetall获取所有field与value</font>
+
 ![1737695327094-e9026160-4156-4c14-9d3a-978c3f1003bb.png](./img/DtcwJpKZx7YddKSP/1737695327094-e9026160-4156-4c14-9d3a-978c3f1003bb-855728.png)
 
 <font style="color:rgb(51, 51, 51);">在使用hgetall时，如果哈希元素个数比较多，会存在阻塞Redis的可能。如果只需要获取部分field，可以使用hmget，如果一定要获取全部field-value，可以使用hscan命令，该命令会渐进式遍历哈希类型，hscan将在后面的章节介绍。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">hincrby增加</font>
+
 <font style="color:rgb(51, 51, 51);">hincrby和 hincrbyfloat，就像incrby和incrbyfloat命令一样，但是它们的作用域是filed。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">hstrlen 计算value的字符串长度</font>
+
 ![1737695327145-ebc248fd-f185-41ee-9571-46a9568fc012.png](./img/DtcwJpKZx7YddKSP/1737695327145-ebc248fd-f185-41ee-9571-46a9568fc012-146859.png)
 
 #### <font style="color:rgb(51, 51, 51);">命令的时间复杂度</font>
+
 <font style="color:rgb(51, 51, 51);">哈希类型的操作命令中，hdel,hmget,hmset的时间复杂度和命令所带的field的个数相关O(k)，hkeys,hgetall,hvals和存储的field的总数相关，O(N)。其余的命令时间复杂度都是O(1)。</font>
 
 #### <font style="color:rgb(51, 51, 51);">存储结构</font>
+
 ![1737695599096-53f45e20-ba27-4a34-b483-931f39b777c1.png](./img/DtcwJpKZx7YddKSP/1737695599096-53f45e20-ba27-4a34-b483-931f39b777c1-812636.png)
 
 <font style="color:rgb(51, 51, 51);">最大kv存储量 2^32-1 近40亿个</font>
@@ -289,11 +321,11 @@
 
 **<font style="color:rgb(51, 51, 51);">Dict扩容 ReSize</font>**
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">新增时检测负载因子(LoadFactor=used/size), </font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">新增时检测负载因子(LoadFactor=used/size), </font>
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">两种情况触发 ：loadFactor>=1，服务没有bgsave或bgreWriteAof</font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">两种情况触发 ：loadFactor>=1，服务没有bgsave或bgreWriteAof</font>
 
-<font style="color:rgb(51, 51, 51);">					</font><font style="color:rgb(51, 51, 51);">loadFactor>=5 ，扩容到比（used+1）大的最小的</font>**<font style="color:rgb(51, 51, 51);">2^n</font>**
+<font style="color:rgb(51, 51, 51);">     </font><font style="color:rgb(51, 51, 51);">loadFactor>=5 ，扩容到比（used+1）大的最小的</font>**<font style="color:rgb(51, 51, 51);">2^n</font>**
 
 <font style="color:rgb(51, 51, 51);">附源码截图：</font>
 
@@ -303,9 +335,10 @@
 
 <font style="color:rgb(51, 51, 51);">删除元素时，也会检测负载因子，当loadFactor<0.1时会缩容</font>
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">是否bgsave/bgrewriteaof/rehash，是则报错，否则重置为比used大的最小的2^n</font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">是否bgsave/bgrewriteaof/rehash，是则报错，否则重置为比used大的最小的2^n</font>
 
 #### <font style="color:rgb(51, 51, 51);">使用场景</font>
+
 <font style="color:rgb(51, 51, 51);">从前面的操作可以看出，String和Hash的操作非常类似，那为什么要弄一个hash出来存储。</font>
 
 <font style="color:rgb(51, 51, 51);">哈希类型比较适宜存放</font>**<font style="color:rgb(51, 51, 51);">对象类型</font>**<font style="color:rgb(51, 51, 51);">的数据，我们可以比较下，如果数据库中表记录user为：</font>
@@ -314,7 +347,6 @@
 | :--- | :--- | :--- |
 | <font style="color:rgb(51, 51, 51);">1</font> | <font style="color:rgb(51, 51, 51);">tianming</font> | <font style="color:rgb(51, 51, 51);">18</font> |
 | <font style="color:rgb(51, 51, 51);">2</font> | <font style="color:rgb(51, 51, 51);">tuling</font> | <font style="color:rgb(51, 51, 51);">20</font> |
-
 
 **<font style="color:rgb(51, 51, 51);">1、使用String类型</font>**
 
@@ -351,6 +383,7 @@
 **<font style="color:rgb(51, 51, 51);">缺点：要控制内部编码格式，不恰当的格式会消耗更多内存</font>**
 
 ### <font style="color:rgb(51, 51, 51);">列表（list）</font>
+
 <font style="color:rgb(51, 51, 51);">列表( list)类型是用来存储多个有序的字符串，a、b、c、c、b四个元素从左到右组成了一个有序的列表,列表中的每个字符串称为元素(element)，一个列表最多可以存储(2^32-1)个元素(</font>_<font style="color:rgb(51, 51, 51);">4294967295</font>_<font style="color:rgb(51, 51, 51);">)。</font>
 
 ![1737695327267-5ea405b2-ebd1-4199-8718-f302fa9150e5.png](./img/DtcwJpKZx7YddKSP/1737695327267-5ea405b2-ebd1-4199-8718-f302fa9150e5-133443.png)
@@ -364,7 +397,9 @@
 <font style="color:rgb(51, 51, 51);">第二、列表中的元素可以是重复的。</font>
 
 #### <font style="color:rgb(51, 51, 51);">操作命令</font>
+
 ##### <font style="color:rgb(51, 51, 51);">lrange 获取指定范围内的元素列表（不会删除元素）</font>
+
 <font style="color:rgb(51, 51, 51);">key start end</font>
 
 <font style="color:rgb(51, 51, 51);">索引下标特点：从左到右为0到N-1</font>
@@ -372,16 +407,19 @@
 <font style="color:rgb(51, 51, 51);">lrange 0 -1命令可以从左到右获取列表的所有元素</font>
 
 ##### <font style="color:rgb(51, 51, 51);">rpush 向右插入</font>
+
 ![1737695327469-7aef34ed-642c-4cb1-8c01-d7f1959abd97.png](./img/DtcwJpKZx7YddKSP/1737695327469-7aef34ed-642c-4cb1-8c01-d7f1959abd97-674590.png)
 
 ![1737695327488-c84a767d-eca7-4ffd-a826-c25310e06fb1.png](./img/DtcwJpKZx7YddKSP/1737695327488-c84a767d-eca7-4ffd-a826-c25310e06fb1-189116.png)
 
 ##### <font style="color:rgb(51, 51, 51);">lpush 向左插入</font>
+
 ![1737695327418-468d41eb-5f0b-4e45-b37f-589244c12c88.png](./img/DtcwJpKZx7YddKSP/1737695327418-468d41eb-5f0b-4e45-b37f-589244c12c88-416354.png)
 
 ![1737695327592-8c2ea205-4313-4de4-972d-6c1aedf8a7d9.png](./img/DtcwJpKZx7YddKSP/1737695327592-8c2ea205-4313-4de4-972d-6c1aedf8a7d9-517208.png)
 
 ##### <font style="color:rgb(51, 51, 51);">linsert 在某个元素前或后插入新元素</font>
+
 ![1737695327699-d01c0861-5ad1-45e7-89f0-50ad9c6ef4a7.png](./img/DtcwJpKZx7YddKSP/1737695327699-d01c0861-5ad1-45e7-89f0-50ad9c6ef4a7-242103.png)
 
 ![1737695327852-dafbdfb4-6ba9-4f23-96d7-7e4913d70fc7.png](./img/DtcwJpKZx7YddKSP/1737695327852-dafbdfb4-6ba9-4f23-96d7-7e4913d70fc7-180777.png)
@@ -391,16 +429,19 @@
 <font style="color:rgb(51, 51, 51);">这三个返回结果为命令完成后当前列表的长度，也就是列表中包含的元素个数，同时rpush和lpush都支持同时插入多个元素。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">lpop 从列表左侧弹出（会删除元素）</font>
+
 ![1737695327958-9e4f11ca-e0b9-4844-a73e-3ecf6c7a5f5f.png](./img/DtcwJpKZx7YddKSP/1737695327958-9e4f11ca-e0b9-4844-a73e-3ecf6c7a5f5f-937072.png)<font style="color:rgb(51, 51, 51);">r</font>
 
 <font style="color:rgb(51, 51, 51);">请注意，弹出来元素就没了。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">rpop 从列表右侧弹出</font>
+
 <font style="color:rgb(51, 51, 51);">rpop将会把列表最右侧的元素d弹出。</font>
 
 ![1737695328004-0bbea451-e891-457b-92fe-4a9441b0b541.png](./img/DtcwJpKZx7YddKSP/1737695328004-0bbea451-e891-457b-92fe-4a9441b0b541-228640.png)
 
 ##### <font style="color:rgb(51, 51, 51);">lrem 对指定元素进行删除</font>
+
 ![1737695328140-2dc1128f-b852-4fbe-91dd-9eb6af641630.png](./img/DtcwJpKZx7YddKSP/1737695328140-2dc1128f-b852-4fbe-91dd-9eb6af641630-135638.png)
 
 <font style="color:rgb(51, 51, 51);">lrem命令会从列表中找到等于value的元素进行删除，根据count的不同分为三种情况：</font>
@@ -422,20 +463,25 @@
 <font style="color:rgb(51, 51, 51);">返回值是实际删除元素的个数。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">ltirm 按照索引范围修剪列表</font>
+
 <font style="color:rgb(51, 51, 51);">例如想保留列表中第0个到第1个元素</font>
 
 ![1737695328583-496384d4-0981-44e4-92db-a5f6d352c4cd.png](./img/DtcwJpKZx7YddKSP/1737695328583-496384d4-0981-44e4-92db-a5f6d352c4cd-264566.png)<font style="color:rgb(51, 51, 51);">ls</font>
 
 ##### <font style="color:rgb(51, 51, 51);">lset修改指定索引下标的元素</font>
+
 ![1737695328688-5e1b600e-8c78-4bdd-a40a-0c72d11afb70.png](./img/DtcwJpKZx7YddKSP/1737695328688-5e1b600e-8c78-4bdd-a40a-0c72d11afb70-060481.png)
 
 ##### <font style="color:rgb(51, 51, 51);">lindex 获取列表指定索引下标的元素</font>
+
 ![1737695328842-fc6a543a-c553-4dfb-9f05-d4dd341aa5b0.png](./img/DtcwJpKZx7YddKSP/1737695328842-fc6a543a-c553-4dfb-9f05-d4dd341aa5b0-772232.png)<font style="color:rgb(51, 51, 51);">l</font>
 
 ##### <font style="color:rgb(51, 51, 51);">llen 获取列表长度</font>
+
 ![1737695328813-94169f0f-6e36-4968-970d-f3a9f4f04322.png](./img/DtcwJpKZx7YddKSP/1737695328813-94169f0f-6e36-4968-970d-f3a9f4f04322-281649.png)
 
 ##### <font style="color:rgb(51, 51, 51);">blpop和brpop阻塞式弹出元素</font>
+
 <font style="color:rgb(51, 51, 51);">blpop和brpop是lpop和rpop的阻塞版本，除此之外还支持多个列表类型，也支持设定阻塞时间，单位秒，如果阻塞时间为0，表示一直阻塞下去。我们以brpop为例说明。</font>
 
 ![1737695328766-c0206bab-c023-4d27-9d8c-fb4b89bd9870.png](./img/DtcwJpKZx7YddKSP/1737695328766-c0206bab-c023-4d27-9d8c-fb4b89bd9870-047842.png)
@@ -455,6 +501,7 @@
 <font style="color:rgb(51, 51, 51);">注意：brpop后面如果是多个键，那么brpop会从左至右遍历键，一旦有一个键能弹出元素，客户端立即返回。</font>
 
 #### <font style="color:rgb(51, 51, 51);">存储结构</font>
+
 <font style="color:rgb(51, 51, 51);">源码：ziplist.c quickList.c</font>
 
 ![1737695628738-0b53800f-3e20-42bb-8496-c34b63fb4bb8.png](./img/DtcwJpKZx7YddKSP/1737695628738-0b53800f-3e20-42bb-8496-c34b63fb4bb8-488914.png)
@@ -474,6 +521,7 @@
 <font style="color:rgb(51, 51, 51);">附源码：quicklist.h</font>
 
 #### <font style="color:rgb(51, 51, 51);">使用场景</font>
+
 <font style="color:rgb(51, 51, 51);">列表类型可以用于比如：</font>
 
 <font style="color:rgb(51, 51, 51);">消息队列，Redis 的 lpush+brpop命令组合即可实现阻塞队列，生产者客户端使用lrpush从列表左侧插入元素，多个消费者客户端使用brpop命令阻塞式的“抢”列表尾部的元素,多个客户端保证了消费的负载均衡和高可用性。</font>
@@ -493,6 +541,7 @@
 <font style="color:rgb(51, 51, 51);">lpush+brpop=Message Queue(消息队列)</font>
 
 ### <font style="color:rgb(51, 51, 51);">集合（set）</font>
+
 ![1737695329250-936555bc-1a78-4429-b2d2-f7d377f422da.png](./img/DtcwJpKZx7YddKSP/1737695329250-936555bc-1a78-4429-b2d2-f7d377f422da-641205.png)
 
 <font style="color:rgb(51, 51, 51);">集合( set）类型也是用来保存多个的字符串元素,但和列表类型不一样的是，集合中不允许有重复元素,并且集合中的元素是无序的,不能通过索引下标获取元素。</font>
@@ -500,54 +549,67 @@
 <font style="color:rgb(51, 51, 51);">一个集合最多可以存储2的32次方-1个元素。Redis除了支持集合内的增删改查，同时还支持多个集合取交集、并集、差集，合理地使用好集合类型,能在实际开发中解决很多实际问题。</font>
 
 #### <font style="color:rgb(51, 51, 51);">集合内操作命令</font>
+
 ##### <font style="color:rgb(51, 51, 51);">sadd 添加元素</font>
+
 <font style="color:rgb(51, 51, 51);">允许添加多个，返回结果为添加成功的元素个数</font>
 
 ![1737695329329-c791c5ba-e1d6-462c-a71d-231e6267ea64.png](./img/DtcwJpKZx7YddKSP/1737695329329-c791c5ba-e1d6-462c-a71d-231e6267ea64-597752.png)
 
 ##### <font style="color:rgb(51, 51, 51);">srem 删除元素</font>
+
 <font style="color:rgb(51, 51, 51);">允许删除多个，返回结果为成功删除元素个数</font>
 
 ![1737695329324-e1c8a724-a506-445d-bc4e-f4d622599431.png](./img/DtcwJpKZx7YddKSP/1737695329324-e1c8a724-a506-445d-bc4e-f4d622599431-085904.png)
 
 ##### <font style="color:rgb(51, 51, 51);">scard 计算元素个数</font>
+
 ![1737695329542-3bdff2d7-4105-459a-aa82-b5f05bd59a3b.png](./img/DtcwJpKZx7YddKSP/1737695329542-3bdff2d7-4105-459a-aa82-b5f05bd59a3b-845820.png)
 
 ##### <font style="color:rgb(51, 51, 51);">sismember 判断元素是否在集合中</font>
+
 <font style="color:rgb(51, 51, 51);">如果给定元素element在集合内返回1，反之返回0</font>
 
 ![1737695329631-8463732a-74fa-428e-bc73-6c2fbb671895.png](./img/DtcwJpKZx7YddKSP/1737695329631-8463732a-74fa-428e-bc73-6c2fbb671895-876257.png)
 
 ##### <font style="color:rgb(51, 51, 51);">srandmember 随机从集合返回指定个数元素</font>
+
 <font style="color:rgb(51, 51, 51);">指定个数如果不写默认为1</font>
 
 ![1737695329629-84d48efa-394e-42f6-9ce5-15a1539ce343.png](./img/DtcwJpKZx7YddKSP/1737695329629-84d48efa-394e-42f6-9ce5-15a1539ce343-509714.png)
 
 ##### <font style="color:rgb(51, 51, 51);">spop 从集合随机弹出元素</font>
+
 <font style="color:rgb(51, 51, 51);">同样可以指定个数，如果不写默认为1，注意，既然是弹出，spop命令执行后,元素会从集合中删除,而srandmember不会。</font>
 
 ![1737695329729-ef225406-5367-4a17-bd09-3285ac7b5266.png](./img/DtcwJpKZx7YddKSP/1737695329729-ef225406-5367-4a17-bd09-3285ac7b5266-642415.png)
 
 ##### <font style="color:rgb(51, 51, 51);">smembers 获取所有元素(不会弹出元素)</font>
+
 <font style="color:rgb(51, 51, 51);">返回结果是无序的</font>
 
 ![1737695329772-224047de-d929-4d7e-b632-0a09e1cea289.png](./img/DtcwJpKZx7YddKSP/1737695329772-224047de-d929-4d7e-b632-0a09e1cea289-635516.png)
 
 #### <font style="color:rgb(51, 51, 51);">集合间操作命令</font>
+
 <font style="color:rgb(51, 51, 51);">现在有两个集合,它们分别是set1和set2</font>
 
 ![1737695329923-ad42a4f9-be3a-47f1-8dec-52e61f23a992.png](./img/DtcwJpKZx7YddKSP/1737695329923-ad42a4f9-be3a-47f1-8dec-52e61f23a992-539881.png)
 
 ##### <font style="color:rgb(51, 51, 51);">sinter 求多个集合的交集</font>
+
 ![1737695330009-c05ce195-f275-4a3d-9a24-62ba4a0b02e2.png](./img/DtcwJpKZx7YddKSP/1737695330009-c05ce195-f275-4a3d-9a24-62ba4a0b02e2-036478.png)
 
 ##### <font style="color:rgb(51, 51, 51);">suinon 求多个集合的并集</font>
+
 ![1737695330003-3751105e-ce41-4dc9-a007-fb3e411e3918.png](./img/DtcwJpKZx7YddKSP/1737695330003-3751105e-ce41-4dc9-a007-fb3e411e3918-207358.png)
 
 ##### <font style="color:rgb(51, 51, 51);">sdiff 求多个集合的差集</font>
+
 ![1737695330119-183e1dbf-a411-4a54-a0a5-70c3cbfef7bb.png](./img/DtcwJpKZx7YddKSP/1737695330119-183e1dbf-a411-4a54-a0a5-70c3cbfef7bb-059497.png)
 
 ##### <font style="color:rgb(51, 51, 51);">将交集、并集、差集的结果保存</font>
+
 ```plain
 sinterstore destination key [key ...]
 suionstore destination key [key ...]
@@ -559,6 +621,7 @@ sdiffstore destination key [key ...]
 ![1737695330236-824c92ee-6580-4e39-842f-66a2c4f73bd2.png](./img/DtcwJpKZx7YddKSP/1737695330236-824c92ee-6580-4e39-842f-66a2c4f73bd2-742548.png)
 
 #### <font style="color:rgb(51, 51, 51);">存储结构</font>
+
 ![1737695659470-b5aed7f4-6a1b-489e-ac1d-bf46a0d0f6e2.png](./img/DtcwJpKZx7YddKSP/1737695659470-b5aed7f4-6a1b-489e-ac1d-bf46a0d0f6e2-292669.png)
 
 <font style="color:rgb(51, 51, 51);">intset的encoding编码方式分为16,32,64 bit位 对应java的short int long 字节</font>
@@ -576,6 +639,7 @@ sdiffstore destination key [key ...]
 <font style="color:rgb(51, 51, 51);">底层通过二分法查询</font>
 
 #### <font style="color:rgb(51, 51, 51);">使用场景</font>
+
 <font style="color:rgb(51, 51, 51);">集合类型比较典型的使用场景是标签(tag)。例如一个用户可能对娱乐、体育比较感兴趣，另一个用户可能对历史、新闻比较感兴趣，这些兴趣点就是标签。有了这些数据就可以得到喜欢同一个标签的人，以及用户的共同喜好的标签，这些数据对于用户体验以及增强用户黏度比较重要。</font>
 
 <font style="color:rgb(51, 51, 51);">例如一个电子商务的网站会对不同标签的用户做不同类型的推荐，比如对数码产品比较感兴趣的人，在各个页面或者通过邮件的形式给他们推荐最新的数码产品，通常会为网站带来更多的利益。</font>
@@ -583,6 +647,7 @@ sdiffstore destination key [key ...]
 <font style="color:rgb(51, 51, 51);">除此之外，集合还可以通过生成随机数进行比如抽奖活动，以及社交图谱等等。</font>
 
 ### <font style="color:rgb(51, 51, 51);">有序集合（ZSET）</font>
+
 ![1737695330211-7590cafd-1f10-417c-91dc-cc724b3e0d51.png](./img/DtcwJpKZx7YddKSP/1737695330211-7590cafd-1f10-417c-91dc-cc724b3e0d51-152858.png)
 
 <font style="color:rgb(51, 51, 51);">有序集合相对于哈希、列表、集合来说会有一点点陌生,但既然叫有序集合,那么它和集合必然有着联系,它保留了集合不能有重复成员的特性,但不同的是,有序集合中的元素可以排序。但是它和列表使用索引下标作为排序依据不同的是,它给每个元素设置一个分数( score)作为排序的依据。</font>
@@ -592,7 +657,9 @@ sdiffstore destination key [key ...]
 <font style="color:rgb(51, 51, 51);">有序集合提供了获取指定分数和元素范围查询、计算成员排名等功能，合理的利用有序集合，能帮助我们在实际开发中解决很多问题。</font>
 
 #### <font style="color:rgb(51, 51, 51);">集合内操作命令</font>
+
 ##### <font style="color:rgb(51, 51, 51);">zadd添加成员</font>
+
 ![1737695330406-4200fcf8-1697-4fce-9e4b-1c941b73418c.png](./img/DtcwJpKZx7YddKSP/1737695330406-4200fcf8-1697-4fce-9e4b-1c941b73418c-438864.png)
 
 <font style="color:rgb(51, 51, 51);">返回结果代表成功添加成员的个数</font>
@@ -612,14 +679,17 @@ sdiffstore destination key [key ...]
 <font style="color:rgb(51, 51, 51);">incr: 对score做增加，相当于后面介绍的zincrby</font>
 
 ##### <font style="color:rgb(51, 51, 51);">zcard 计算成员个数</font>
+
 ![1737695330569-f9664e46-2e70-4bac-90a8-d46d19c26e25.png](./img/DtcwJpKZx7YddKSP/1737695330569-f9664e46-2e70-4bac-90a8-d46d19c26e25-744065.png)
 
 ##### <font style="color:rgb(51, 51, 51);">zscore 计算某个成员的分数</font>
+
 ![1737695330519-043ef516-bf58-4200-ba0f-fcce8fae0ddd.png](./img/DtcwJpKZx7YddKSP/1737695330519-043ef516-bf58-4200-ba0f-fcce8fae0ddd-299123.png)
 
 <font style="color:rgb(51, 51, 51);">如果成员不存在则返回nil</font>
 
 ##### <font style="color:rgb(51, 51, 51);">zrank计算成员的排名</font>
+
 ![1737695330672-c26b2609-37a4-433d-9353-11bdd693a394.png](./img/DtcwJpKZx7YddKSP/1737695330672-c26b2609-37a4-433d-9353-11bdd693a394-656866.png)
 
 <font style="color:rgb(51, 51, 51);">zrank是从分数从低到高返回排名</font>
@@ -629,6 +699,7 @@ sdiffstore destination key [key ...]
 <font style="color:rgb(51, 51, 51);">很明显，排名从0开始计算。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">zrem 删除成员</font>
+
 ![1737695330735-e9c568aa-030c-42e2-a9e4-99613422ca02.png](./img/DtcwJpKZx7YddKSP/1737695330735-e9c568aa-030c-42e2-a9e4-99613422ca02-596886.png)
 
 <font style="color:rgb(51, 51, 51);">允许一次删除多个成员。</font>
@@ -636,9 +707,11 @@ sdiffstore destination key [key ...]
 <font style="color:rgb(51, 51, 51);">返回结果为成功删除的个数。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">zincrby 增加成员的分数</font>
+
 ![1737695330761-6410ec1b-d8c6-4c3e-9e82-a7121aac83fb.png](./img/DtcwJpKZx7YddKSP/1737695330761-6410ec1b-d8c6-4c3e-9e82-a7121aac83fb-409008.png)
 
 ##### <font style="color:rgb(51, 51, 51);">zrange和zrevrange返回指定排名范围的成员</font>
+
 <font style="color:rgb(51, 51, 51);">有序集合是按照分值排名的，zrange是从低到高返回,zrevrange反之。如果加上</font><font style="color:rgb(51, 51, 51);">withscores选项，同时会返回成员的分数</font>
 
 ![1737695330911-334bbc38-5d33-4835-9628-31f89210bd3f.png](./img/DtcwJpKZx7YddKSP/1737695330911-334bbc38-5d33-4835-9628-31f89210bd3f-871143.png)
@@ -646,6 +719,7 @@ sdiffstore destination key [key ...]
 ![1737695330973-4a8d0ddd-4ce4-4015-863e-ffb96fff1add.png](./img/DtcwJpKZx7YddKSP/1737695330973-4a8d0ddd-4ce4-4015-863e-ffb96fff1add-845995.png)
 
 ##### <font style="color:rgb(51, 51, 51);">zrangebyscore返回指定分数范围的成员</font>
+
 ```plain
 zrangebyscore key min max [withscores] [limit offset count]
 zrevrangebyscore key max min [withscores][limit offset count]
@@ -662,18 +736,23 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695331131-f6f0096f-a348-4f04-a840-41aebb9dfb3c.png](./img/DtcwJpKZx7YddKSP/1737695331131-f6f0096f-a348-4f04-a840-41aebb9dfb3c-074759.png)
 
 ##### <font style="color:rgb(51, 51, 51);">zcount 返回指定分数范围成员个数</font>
+
 <font style="color:rgb(51, 51, 51);">zcount key min max</font>
 
 ![1737695331204-93564886-4428-4839-9cfe-42a394d96dfe.png](./img/DtcwJpKZx7YddKSP/1737695331204-93564886-4428-4839-9cfe-42a394d96dfe-922292.png)
 
 ##### <font style="color:rgb(51, 51, 51);">zremrangebyrank 按升序删除指定排名内的元素</font>
+
 <font style="color:rgb(51, 51, 51);">zremrangebyrank key start end</font>
 
 ##### <font style="color:rgb(51, 51, 51);">zremrangebyscore 删除指定分数范围的成员</font>
+
 <font style="color:rgb(51, 51, 51);">zremrangebyscore key min max</font>
 
 ##### <font style="color:rgb(51, 51, 51);">集合间操作命令</font>
+
 ##### <font style="color:rgb(51, 51, 51);">zinterstore 交集</font>
+
 <font style="color:rgb(51, 51, 51);">zinterstore</font>![1737695331372-3c2ac64e-3a76-46e5-97f4-7d8e9ffe3106.png](./img/DtcwJpKZx7YddKSP/1737695331372-3c2ac64e-3a76-46e5-97f4-7d8e9ffe3106-185827.png)
 
 <font style="color:rgb(51, 51, 51);">这个命令参数较多，下面分别进行说明</font>
@@ -695,9 +774,11 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695331614-a76b38c4-03fd-484a-ab53-38648c4ba949.png](./img/DtcwJpKZx7YddKSP/1737695331614-a76b38c4-03fd-484a-ab53-38648c4ba949-704820.png)
 
 ##### <font style="color:rgb(51, 51, 51);">zunionstore 并集</font>
+
 <font style="color:rgb(51, 51, 51);">该命令的所有参数和zinterstore是一致的，只不过是做并集计算，大家可以自行实验。</font>
 
 #### <font style="color:rgb(51, 51, 51);">存储结构</font>
+
 ![1737695694146-992f207c-24d9-4c28-9d3b-c94aeb275ec3.png](./img/DtcwJpKZx7YddKSP/1737695694146-992f207c-24d9-4c28-9d3b-c94aeb275ec3-874518.png)
 
 <font style="color:rgb(51, 51, 51);">源码server.h </font>
@@ -718,20 +799,22 @@ zrevrangebyscore key max min [withscores][limit offset count]
 
 <font style="color:rgb(51, 51, 51);">第二步：获取level，生成新的节点 s2</font>
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);"> 初始lev1，循环与运算取随机数低16位 ，然后和ZSKIPLIST_P=0.25*低16位比较 </font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);"> 初始lev1，循环与运算取随机数低16位 ，然后和ZSKIPLIST_P=0.25*低16位比较 </font>
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">小于则 满足条件 level+1 否则退出循环 </font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">小于则 满足条件 level+1 否则退出循环 </font>
 
-<font style="color:rgb(51, 51, 51);">	</font><font style="color:rgb(51, 51, 51);">最终不能大于 ZSKIPLIST_MAXLEVEL server.h中 默认 32</font>
+<font style="color:rgb(51, 51, 51);"> </font><font style="color:rgb(51, 51, 51);">最终不能大于 ZSKIPLIST_MAXLEVEL server.h中 默认 32</font>
 
 <font style="color:rgb(51, 51, 51);">第三步：修改各个指针的指向，将创建的新节点插入</font>
 
 <font style="color:rgb(51, 51, 51);">最后：更新backword的指向</font>
 
 #### <font style="color:rgb(51, 51, 51);">使用场景</font>
+
 <font style="color:rgb(51, 51, 51);">有序集合比较典型的使用场景就是排行榜系统。例如视频网站需要对用户上传的视频做排行榜，榜单的维度可能是多个方面的:按照时间、按照播放数量、按照获得的赞数。</font>
 
 ## <font style="color:rgb(51, 51, 51);">RedisObject</font>
+
 <font style="color:rgb(51, 51, 51);">Redis中任意数据类型的kv最终都会被封装到RedisObject</font>
 
 <font style="color:rgb(51, 51, 51);">源码如下：</font>
@@ -759,7 +842,9 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">redisObject 16 + 44 + 4（sds头尾）= 64</font>
 
 ## <font style="color:rgb(51, 51, 51);">Redis高级数据结构</font>
+
 ### <font style="color:rgb(51, 51, 51);">Bitmaps</font>
+
 <font style="color:rgb(51, 51, 51);">现代计算机用二进制(位)作为信息的基础单位，1个字节等于8位，例如“big”字符串是由3个字节组成，但实际在计算机存储时将其用二进制表示,“big”分别对应的ASCII码分别是98、105、103，对应的二进制分别是01100010、01101001和 01100111。</font>
 
 <font style="color:rgb(51, 51, 51);">许多开发语言都提供了操作位的功能，合理地使用位能够有效地提高内存使用率和开发效率。Redis提供了Bitmaps这个“数据结构”可以实现对位的操作。把数据结构加上引号主要因为:</font>
@@ -769,7 +854,9 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">Bitmaps单独提供了一套命令，所以在Redis中使用Bitmaps和使用字符串的方法不太相同。可以把 Bitmaps想象成一个以位为单位的数组，数组的每个单元只能存储0和1，数组的下标在 Bitmaps 中叫做偏移量。</font>
 
 #### <font style="color:rgb(51, 51, 51);">操作命令</font>
+
 ##### <font style="color:rgb(51, 51, 51);">setbit 设置值</font>
+
 <font style="color:rgb(51, 51, 51);">setbit key offset value</font>
 
 <font style="color:rgb(51, 51, 51);">设置键的第 offset 个位的值(从0算起)。</font>
@@ -779,6 +866,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695331609-12069ce5-87fd-455e-a8d8-fa10e570e1a7.png](./img/DtcwJpKZx7YddKSP/1737695331609-12069ce5-87fd-455e-a8d8-fa10e570e1a7-835335.png)
 
 ##### <font style="color:rgb(51, 51, 51);">getbit 获取值</font>
+
 <font style="color:rgb(51, 51, 51);">getbit key offset</font>
 
 <font style="color:rgb(51, 51, 51);">获取键的第 offset位的值(从0开始算)，比如获取userid=8的用户是否在2022（年/这天）访问过,返回0说明没有访问过:</font>
@@ -788,6 +876,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695331769-e8f13ab2-47df-4700-b404-1d50f9098cd6.png](./img/DtcwJpKZx7YddKSP/1737695331769-e8f13ab2-47df-4700-b404-1d50f9098cd6-629843.png)
 
 ##### <font style="color:rgb(51, 51, 51);">bitcount 获取Bitmaps指定范围值为1的个数</font>
+
 <font style="color:rgb(51, 51, 51);">bitcount [start] [end]</font>
 
 <font style="color:rgb(51, 51, 51);">下面操作计算26号和27号这天的独立访问用户数量</font>
@@ -797,6 +886,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695331766-bd0dd6fc-fdaf-4463-821e-513b655ba689.png](./img/DtcwJpKZx7YddKSP/1737695331766-bd0dd6fc-fdaf-4463-821e-513b655ba689-095873.png)
 
 ##### <font style="color:rgb(51, 51, 51);">bitop Bitmaps 间的运算</font>
+
 <font style="color:rgb(51, 51, 51);">bitop op destkey key [key . ...]</font>
 
 ![1737695331770-609ba82d-9a9b-4e81-8969-11136309bb88.png](./img/DtcwJpKZx7YddKSP/1737695331770-609ba82d-9a9b-4e81-8969-11136309bb88-081611.png)
@@ -804,6 +894,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">bitop是一个复合操作，它可以做多个Bitmaps 的 and(交集)or(并集)not(非)xor(异或）操作并将结果保存在destkey中。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">bitpos 计算Bitmaps中第一个值为targetBit 的偏移量</font>
+
 <font style="color:rgb(51, 51, 51);">bitpos key targetBit [start] [end]</font>
 
 <font style="color:rgb(51, 51, 51);">计算0815当前访问网站的最小用户id</font>
@@ -813,9 +904,11 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695331982-1175f172-7032-4a4c-86d9-17c171c04b15.png](./img/DtcwJpKZx7YddKSP/1737695331982-1175f172-7032-4a4c-86d9-17c171c04b15-875403.png)
 
 #### <font style="color:rgb(51, 51, 51);">Bitmaps优势</font>
+
 <font style="color:rgb(51, 51, 51);">假设网站有1亿用户，每天独立访问的用户有5千万，如果每天用集合类型和 Bitmaps分别存储活跃用户，很明显，假如用户id是Long型，64位，则集合类型占据的空间为64位x50 000 000= 400MB，而Bitmaps则需要1位×100 000 000=12.5MB，可见Bitmaps能节省很多的内存空间。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">面试题和场景</font>
+
 <font style="color:rgb(51, 51, 51);">1、目前有10亿数量的自然数，乱序排列，需要对其排序。限制条件-在32位机器上面完成，内存限制为 2G。如何完成？</font>
 
 <font style="color:rgb(51, 51, 51);">2、如何快速在亿级黑名单中快速定位URL地址是否在黑名单中？(每条URL平均64字节)</font>
@@ -829,6 +922,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">6、数据存储在磁盘中，如何避免大量的无效IO？</font>
 
 ##### <font style="color:rgb(51, 51, 51);">传统数据结构的不足</font>
+
 <font style="color:rgb(51, 51, 51);">当然有人会想，我直接将网页URL存入数据库进行查找不就好了，或者建立一个哈希表进行查找不就OK了。</font>
 
 <font style="color:rgb(51, 51, 51);">当数据量小的时候，这么思考是对的，</font>
@@ -838,7 +932,9 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">但如果整个网页黑名单系统包含100亿个网页URL，在数据库查找是很费时的，并且如果每个URL空间为64B，那么需要内存为640GB，一般的服务器很难达到这个需求。</font>
 
 #### <font style="color:rgb(51, 51, 51);">布隆过滤器</font>
+
 ##### <font style="color:rgb(51, 51, 51);">布隆过滤器简介</font>
+
 **<font style="color:rgb(51, 51, 51);">1970 年布隆提出了一种布隆过滤器的算法，用来判断一个元素是否在一个集合中。</font>****<font style="color:rgb(51, 51, 51);">这种算法由一个二进制数组和一个 Hash 算法组成。</font>**
 
 <font style="color:rgb(51, 51, 51);">本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 “某样东西一定不存在或者可能存在”。</font>
@@ -850,6 +946,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695332048-651ace01-3ab3-472f-b04c-91064411c256.png](./img/DtcwJpKZx7YddKSP/1737695332048-651ace01-3ab3-472f-b04c-91064411c256-754134.png)
 
 ##### <font style="color:rgb(51, 51, 51);">布隆过滤器的误判问题</font>
+
 <font style="color:rgb(51, 51, 51);">Ø通过hash计算在数组上不一定在集合</font>
 
 <font style="color:rgb(51, 51, 51);">Ø本质是hash冲突</font>
@@ -867,7 +964,9 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695332168-25bc1e64-47bf-4272-b6ff-40386c48a820.png](./img/DtcwJpKZx7YddKSP/1737695332168-25bc1e64-47bf-4272-b6ff-40386c48a820-722458.png)
 
 #### <font style="color:rgb(65, 131, 196);">Redis</font><font style="color:rgb(51, 51, 51);">中的布隆过滤器</font>
+
 ##### <font style="color:rgb(51, 51, 51);">Redisson</font>
+
 <font style="color:rgb(51, 51, 51);">Maven引入Redisson</font>
 
 ```plain
@@ -881,11 +980,13 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695332195-6214ac7d-d775-4b9e-981a-5ec2016d0af6.png](./img/DtcwJpKZx7YddKSP/1737695332195-6214ac7d-d775-4b9e-981a-5ec2016d0af6-296699.png)
 
 ##### <font style="color:rgb(51, 51, 51);">自行实现</font>
+
 <font style="color:rgb(51, 51, 51);">就是利用Redis的bitmaps来实现。</font>
 
 ![1737695332474-80f8e4ee-c983-473d-be0c-85c5ca7b9755.png](./img/DtcwJpKZx7YddKSP/1737695332474-80f8e4ee-c983-473d-be0c-85c5ca7b9755-023030.png)
 
 ##### <font style="color:rgb(51, 51, 51);">单机下无Redis的布隆过滤器</font>
+
 <font style="color:rgb(51, 51, 51);">使用Google的Guava的BloomFilter。</font>
 
 <font style="color:rgb(51, 51, 51);">Maven引入Guava</font>
@@ -899,7 +1000,9 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ```
 
 ### <font style="color:rgb(51, 51, 51);">HyperLogLog</font>
+
 #### <font style="color:rgb(51, 51, 51);">介绍</font>
+
 <font style="color:rgb(51, 51, 51);">HyperLogLog(Hyper[ˈhaɪpə(r)])并不是一种新的数据结构(实际类型为字符串类型)，而是一种基数算法,通过HyperLogLog可以利用极小的内存空间完成独立总数的统计，数据集可以是IP、Email、ID等。</font>
 
 <font style="color:rgb(51, 51, 51);">如果你负责开发维护一个大型的网站，有一天产品经理要网站每个网页每天的 UV 数据，然后让你来开发这个统计模块，你会如何实现？</font>
@@ -919,9 +1022,11 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695332564-c13489d9-1932-49e1-b397-60b3c6328bfb.png](./img/DtcwJpKZx7YddKSP/1737695332564-c13489d9-1932-49e1-b397-60b3c6328bfb-003814.png)
 
 #### <font style="color:rgb(51, 51, 51);">操作命令</font>
+
 <font style="color:rgb(51, 51, 51);">HyperLogLog提供了3个命令: pfadd、pfcount、pfmerge。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">pfadd</font>
+
 <font style="color:rgb(51, 51, 51);">pfadd key element [element …]</font>
 
 <font style="color:rgb(51, 51, 51);">pfadd用于向HyperLogLog 添加元素,如果添加成功返回1:</font>
@@ -931,6 +1036,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 ![1737695332558-9643ee3a-ea26-4222-be6b-4890f45a29cf.png](./img/DtcwJpKZx7YddKSP/1737695332558-9643ee3a-ea26-4222-be6b-4890f45a29cf-436584.png)
 
 ##### <font style="color:rgb(51, 51, 51);">pfcount</font>
+
 <font style="color:rgb(51, 51, 51);">pfcount key [key …]</font>
 
 <font style="color:rgb(51, 51, 51);">pfcount用于计算一个或多个HyperLogLog的独立总数，例如u-9-30 的独立总数为8:</font>
@@ -944,6 +1050,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">如果我们继续往里面插入数据，比如插入100万条用户记录。内存增加非常少，但是pfcount 的统计结果会出现误差。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">pfmerge</font>
+
 <font style="color:rgb(51, 51, 51);">pfmerge destkey sourcekey [sourcekey ... ]</font>
 
 <font style="color:rgb(51, 51, 51);">pfmerge可以求出多个HyperLogLog的并集并赋值给destkey，请自行测试。</font>
@@ -951,7 +1058,9 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">可以看到，HyperLogLog内存占用量小得惊人，但是用如此小空间来估算如此巨大的数据，必然不是100%的正确，其中一定存在误差率。前面说过，Redis官方给出的数字是0.81%的失误率。</font>
 
 #### <font style="color:rgb(51, 51, 51);">原理概述</font>
+
 ##### <font style="color:rgb(51, 51, 51);">基本原理</font>
+
 <font style="color:rgb(51, 51, 51);">HyperLogLog基于概率论中伯努利试验并结合了极大似然估算方法，并做了分桶优化。</font>
 
 <font style="color:rgb(51, 51, 51);">实际上目前还没有发现更好的在大数据场景中准确计算基数的高效算法，因此在不追求绝对准确的情况下，使用概率算法算是一个不错的解决方案。概率算法不直接存储数据集合本身，通过一定的概率统计方法预估值，这种方法可以大大节省内存，同时保证误差控制在一定范围内。目前用于基数计数的概率算法包括:</font>
@@ -997,6 +1106,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">可见调和平均数比平均数的好处就是不容易受到大的数值的影响，比平均数的效果是要更好的。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">结合Redis的实现理解原理</font>
+
 <font style="color:rgb(51, 51, 51);">现在我们和前面的业务场景进行挂钩：统计网页每天的 UV 数据。</font>
 
 **<font style="color:rgb(51, 51, 51);">1.转为比特串</font>**
@@ -1024,6 +1134,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">10010011 进入3号桶</font>
 
 ##### <font style="color:rgb(51, 51, 51);">Redis 中的 HyperLogLog 实现</font>
+
 **<font style="color:rgb(51, 51, 51);">pfadd</font>**
 
 ![1737695332966-41a06f38-343c-4eb8-9ddc-8343620501d0.png](./img/DtcwJpKZx7YddKSP/1737695332966-41a06f38-343c-4eb8-9ddc-8343620501d0-476084.png)
@@ -1067,6 +1178,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">const和m都是Redis里面根据数据做的调和平均数。</font>
 
 ### <font style="color:rgb(51, 51, 51);">GEO</font>
+
 <font style="color:rgb(51, 51, 51);">Redis 3.2版本提供了GEO(地理信息定位)功能，支持存储地理位置信息用来实现诸如附近位置、摇一摇这类依赖于地理位置信息的功能。</font>
 
 <font style="color:rgb(51, 51, 51);">地图元素的位置数据使用二维的经纬度表示，经度范围(-180, 180]，纬度范围(-90,</font><font style="color:rgb(51, 51, 51);">90]，纬度正负以赤道为界，北正南负，经度正负以本初子午线(英国格林尼治天文台) 为界，东正西负。</font>
@@ -1076,7 +1188,9 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">在 Redis 里面，经纬度使用 52 位的整数进行编码，放进了 zset 里面，zset 的 value 是元素的 key，score 是 GeoHash 的 52 位整数值。</font>
 
 #### <font style="color:rgb(51, 51, 51);">操作命令</font>
+
 ##### <font style="color:rgb(51, 51, 51);">增加地理位置信息</font>
+
 <font style="color:rgb(51, 51, 51);">geoadd key longitude latitude member [longitude latitude member ...J</font>
 
 <font style="color:rgb(51, 51, 51);">longitude、latitude、member分别是该地理位置的经度、纬度、成员，例如下面有5个城市的经纬度。</font>
@@ -1104,11 +1218,13 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">geoadd cities:locations 117.12 39.08 tianjin 114.29 38.02</font><font style="color:rgb(51, 51, 51);">shijiazhuang 118.01 39.38 tangshan 115.29 38.51 baoding</font>
 
 ##### <font style="color:rgb(51, 51, 51);">获取地理位置信息</font>
+
 <font style="color:rgb(51, 51, 51);">geopos key member [member ...]下面操作会获取天津的经维度:</font>
 
 <font style="color:rgb(51, 51, 51);">geopos cities:locations tianjin1)1)"117.12000042200088501"</font>
 
 ##### <font style="color:rgb(51, 51, 51);">获取两个地理位置的距离。</font>
+
 <font style="color:rgb(51, 51, 51);">geodist key member1 member2 [unit]</font>
 
 **<font style="color:rgb(51, 51, 51);">其中unit代表返回结果的单位，包含以下四种:</font>**
@@ -1126,6 +1242,7 @@ zrevrangebyscore key max min [withscores][limit offset count]
 <font style="color:rgb(51, 51, 51);">geodist cities : locations tianjin beijing km</font>
 
 ##### <font style="color:rgb(51, 51, 51);">获取指定位置范围内的地理信息位置集合</font>
+
 ```plain
 georadius key longitude latitude radius m|km|ft|mi [withcoord][withdist]
 [withhash][COUNT count] [ascldesc] [store key] [storedist key]
@@ -1156,6 +1273,7 @@ georadiusbymember key member radius m|km|ft|mi  [withcoord][withdist]
 <font style="color:rgb(51, 51, 51);">georadiusbymember cities:locations beijing 150 km</font>
 
 ##### <font style="color:rgb(51, 51, 51);">获取geohash</font>
+
 geohash key member [member ...]
 
 <font style="color:rgb(51, 51, 51);">Redis使用geohash将二维经纬度转换为一维字符串，下面操作会返回beijing的geohash值。</font>
@@ -1169,7 +1287,7 @@ geohash key member [member ...]
 <font style="color:rgb(51, 51, 51);">geohash编码和经纬度是可以相互转换的。</font>
 
 ##### <font style="color:rgb(51, 51, 51);">删除地理位置信息</font>
+
 <font style="color:rgb(51, 51, 51);">zrem key member</font>
 
 <font style="color:rgb(51, 51, 51);">GEO没有提供删除成员的命令，但是因为GEO的底层实现是zset，所以可以借用zrem命令实现对地理位置信息的删除。</font>
-

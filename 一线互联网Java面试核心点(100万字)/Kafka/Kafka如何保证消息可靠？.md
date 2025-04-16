@@ -9,4 +9,3 @@
 5. <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">消费者确认机制：Kafka消费者在处理完消息后会向Kafka broker发送确认消息，表示消息已经被成功处理。如果消费者未发送确认消息，则Kafka broker会保留消息并等待消费者再次拉取。这样可以保证消息被正确处理且不会重复消费。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">这些机制的组合确保了 Kafka 中消息的高可靠性和持久性，使得 Kafka 成为可靠的消息传递系统，适用于各种实时数据处理和日志聚合需求。</font>
-

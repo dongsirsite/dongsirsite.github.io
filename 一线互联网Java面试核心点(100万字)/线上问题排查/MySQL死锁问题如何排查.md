@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">MySQL数据库死锁问题比较常见，接下来通过一个死锁排查过程的例子给大家讲解。这个例子将模拟一个实际的死锁场景,然后一步步展示如何识别、分析和解决这个死锁问题。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">场景描述</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">假设我们有一个在线商店系统,包含以下两个表:</font>
 
 1. `<font style="color:rgba(0, 0, 0, 0.82);">products</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">(产品表)</font>
@@ -11,6 +12,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">两个并发事务试图更新这些表,导致了死锁。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">步骤1: 复现死锁</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">首先,我们需要创建一个能够可靠复现死锁的场景。</font>
 
 ```java
@@ -59,6 +61,7 @@ COMMIT;
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">步骤2: 识别死锁</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">当死锁发生时,MySQL会自动检测并回滚其中一个事务。我们可以通过以下方式来识别死锁:</font>
 
 1. <font style="color:rgba(0, 0, 0, 0.82);">检查应用程序日志,寻找类似 "Deadlock found when trying to get lock" 的错误消息。</font>
@@ -71,6 +74,7 @@ SHOW ENGINE INNODB STATUS;
 <font style="color:rgba(0, 0, 0, 0.82);">在输出中,找到 "LATEST DETECTED DEADLOCK" 部分。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">步骤3: 分析死锁</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">从</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">SHOW ENGINE INNODB STATUS</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">的输出中,我们可以看到类似这样的信息:</font>
 
 ```java
@@ -101,6 +105,7 @@ UPDATE orders SET quantity = quantity - 5 WHERE id = 1
 + <font style="color:rgba(0, 0, 0, 0.82);">MySQL选择回滚事务1来解决死锁</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">步骤4: 解决死锁</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">基于分析,我们可以采取以下措施来解决和预防死锁:</font>
 
 1. **<font style="color:rgba(0, 0, 0, 0.82);">保持一致的访问顺序</font>**<font style="color:rgba(0, 0, 0, 0.82);">:  
@@ -125,6 +130,7 @@ WHERE id = 1 AND version = 0;
 </font><font style="color:rgba(0, 0, 0, 0.82);">InnoDB默认使用行级锁,但确保不要使用会导致表级锁的操作(如</font>`<font style="color:rgba(0, 0, 0, 0.82);">LOCK TABLES</font>`<font style="color:rgba(0, 0, 0, 0.82);">)。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">步骤5: 监控和预防</font>
+
 1. <font style="color:rgba(0, 0, 0, 0.82);">设置死锁监控:</font>
 
 ```java
@@ -149,5 +155,5 @@ WHERE EVENT_NAME LIKE 'wait/synch/mutex/innodb%';
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">结论</font>
-<font style="color:rgba(0, 0, 0, 0.82);">通过以上步骤,我们可以有效地识别、分析和解决MySQL中的死锁问题。记住,预防死锁的关键在于合理设计数据库结构和事务逻辑,以及持续的监控和优化。在实际应用中,可能需要根据具体情况调整这些步骤和解决方案。</font>
 
+<font style="color:rgba(0, 0, 0, 0.82);">通过以上步骤,我们可以有效地识别、分析和解决MySQL中的死锁问题。记住,预防死锁的关键在于合理设计数据库结构和事务逻辑,以及持续的监控和优化。在实际应用中,可能需要根据具体情况调整这些步骤和解决方案。</font>

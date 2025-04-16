@@ -9,4 +9,3 @@
 5. <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">效率：由于String是不可变的，可以在多个地方共享相同的String对象，避免了重复创建字符串对象的开销，提高了Java程序的性能和效率。</font>
 
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">尽管String是不可变的，但在实际使用中如果需要频繁地进行字符串拼接等操作，可以使用StringBuilder或StringBuffer类来提高效率，因为它们可以修改字符串内容。但在多线程环境下，应优先考虑使用StringBuffer而非StringBuilder，因为StringBuffer是线程安全的。</font>
-

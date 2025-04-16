@@ -3,10 +3,12 @@
 <font style="color:rgba(0, 0, 0, 0.82);">在网络编程中，粘包和拆包是常见的问题，特别是在使用TCP协议进行通讯时。Netty作为一个高性能的网络框架，提供了多种方法来处理粘包和拆包问题。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">什么是粘包和拆包</font>
+
 + **<font style="color:rgba(0, 0, 0, 0.82);">粘包</font>**<font style="color:rgba(0, 0, 0, 0.82);">：指的是发送方将几段数据连续发送到网络中，接收方将若干段数据粘合在一起作为一次接收到的数据。</font>
 + **<font style="color:rgba(0, 0, 0, 0.82);">拆包</font>**<font style="color:rgba(0, 0, 0, 0.82);">：指的是发送方一次性发送的数据由于某种原因被分成了多次发送，接收方在接收时将这些数据分成了若干次接收。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">处理粘包和拆包的方法</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">Netty提供了一系列的</font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteToMessageDecoder</font>`<font style="color:rgba(0, 0, 0, 0.82);">的具体实现类来解决粘包和拆包问题，包括但不限于以下几种方法：</font>
 
 1. **<font style="color:rgba(0, 0, 0, 0.82);">固定长度的帧解码器（FixedLengthFrameDecoder）</font>**
@@ -54,11 +56,13 @@ pipeline.addLast(new LengthFieldBasedFrameDecoder(
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">具体示例</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">下面是一个示例，展示了如何使用</font>`<font style="color:rgba(0, 0, 0, 0.82);">LengthFieldBasedFrameDecoder</font>`<font style="color:rgba(0, 0, 0, 0.82);">和自定义解码器来处理粘包和拆包问题。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">假设我们定义了一种协议，每条消息的前4个字节表示消息的长度，接下来的字节表示实际的消息内容。</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">编码器和解码器</font>
+
 ```java
 // 解码器  
 public class CustomDecoder extends ByteToMessageDecoder {  
@@ -93,6 +97,7 @@ public class CustomEncoder extends MessageToByteEncoder<String> {
 ```
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">设置ChannelPipeline</font>
+
 ```java
 public class MyChannelInitializer extends ChannelInitializer<SocketChannel> {  
     @Override  
@@ -107,9 +112,9 @@ public class MyChannelInitializer extends ChannelInitializer<SocketChannel> {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">总结</font>
+
 + <font style="color:rgba(0, 0, 0, 0.82);">Netty 提供了一系列的解码器，如FixedLengthFrameDecoder、LineBasedFrameDecoder、DelimiterBasedFrameDecoder和LengthFieldBasedFrameDecoder，以处理粘包和拆包问题。</font>
 + <font style="color:rgba(0, 0, 0, 0.82);">你可以根据你的具体需求选择合适的解码器，也可以自定义自己的解码器。</font>
 + <font style="color:rgba(0, 0, 0, 0.82);">通过合理配置ChannelPipeline，可以高效地解决TCP通信中的粘包和拆包问题。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">这些处理方法结合了Netty强大的内存管理和高效的网络IO，使得Netty在处理高并发网络通信时表现出色。</font>
-

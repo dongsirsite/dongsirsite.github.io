@@ -5,6 +5,7 @@
 <font style="color:rgb(74, 74, 74);">让我们一起来了解一下这个版本都新增了哪些新特性吧！</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 423 - G1 的区域固定</font>
+
 <font style="color:rgb(74, 74, 74);">通过在 G1 中实现区域固定来减少延迟，以便在 Java 本机接口 (JNI) 关键区域期间无需禁用垃圾收集。</font>
 
 **<font style="color:rgb(74, 74, 74);">目标</font>**
@@ -14,6 +15,7 @@
 <font style="color:rgb(74, 74, 74);">通过固定特定区域中的关键对象，可以确保在关键区域期间不会移动这些对象，而无需禁用垃圾收集。这一改进可以帮助</font>**<font style="color:rgb(74, 74, 74);">避免由于GC操作而导致的线程等待和延迟</font>**<font style="color:rgb(74, 74, 74);">，从而</font>**<font style="color:rgb(74, 74, 74);">提高应用程序的性能和稳定性</font>**<font style="color:rgb(74, 74, 74);">。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 454 - 外部函数和内存 API</font>
+
 <font style="color:rgb(74, 74, 74);">引入一个API，Java程序可以通过该API与Java运行时以外的代码和数据进行互操作。通过有效地调用外部函数（即JVM外部的代码）并安全地访问外部内存（即JVM未管理的内存），API使Java程序</font>**<font style="color:rgb(74, 74, 74);">可以调用本机库并处理本机数据，而不会出现JNI的脆弱性和危险，解决很多 JNI 的很多问题。</font>**
 
 **<font style="color:rgb(74, 74, 74);">目标</font>**
@@ -26,6 +28,7 @@
 + **<font style="color:rgb(1, 1, 1);">诚信 ：</font>**<font style="color:rgb(1, 1, 1);">允许程序使用本机代码和数据执行不安全的操作，但默认情况下会警告用户此类操作。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 456 - 未命名变量和模式</font>
+
 **<font style="color:rgb(74, 74, 74);">当需要但未使用变量声明</font>**<font style="color:rgb(74, 74, 74);">或</font>**<font style="color:rgb(74, 74, 74);">嵌套模式</font>**<font style="color:rgb(74, 74, 74);">时，提高了可读性。两者都由下划线字符表示。</font>
 
 <font style="color:rgb(74, 74, 74);">简单来说就是需要使用，但是我们没用上的变量可以用 下划线 替代减少代码的冗长，提高可读性。</font>
@@ -76,6 +79,7 @@ while (q.size() >= 3) {
 + <font style="color:rgb(1, 1, 1);">通过消除不必要的嵌套类型模式来提高记录模式的可读性。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 458 - 启动多文件源代码程序</font>
+
 <font style="color:rgb(74, 74, 74);">允许用户运行作为多个 Java 源代码文件提供的程序，而无需先进行编译。</font>
 
 <font style="color:rgb(74, 74, 74);">允许 Java 启动器编译和启动多个源代码文件，这个是对 JEP330 启动单文件源代码程序的改进</font>
@@ -101,6 +105,7 @@ class Helper {
 + <font style="color:rgb(1, 1, 1);">除了 JEP 中描述的更改之外，发行说明中还列出了许多较小的更新，许多应用程序开发人员和系统管理员都会对此感兴趣。其中包括弃用过时的 API 和删除以前弃用的 API。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 447 - sueper(...) 之前的语句（预览）</font>
+
 <font style="color:rgb(74, 74, 74);">在构造函数中，允许不引用正在创建的实例的语句出现在显式构造函数调用之前。</font>
 
 ```java
@@ -122,6 +127,7 @@ public class PositiveBigInteger extends BigInteger {
 + <font style="color:rgb(1, 1, 1);">不需要对Java虚拟机进行任何更改。此Java语言功能仅依赖于JVM当前验证和执行解码的能力，该能力出现在构造函数中的显式构造函数调用之前。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 457 - 类文件 API（预览）</font>
+
 <font style="color:rgb(74, 74, 74);">提供用于解析、生成和转换 Java 类文件的标准 API。</font>
 
 **<font style="color:rgb(74, 74, 74);">目标</font>**
@@ -129,6 +135,7 @@ public class PositiveBigInteger extends BigInteger {
 <font style="color:rgb(74, 74, 74);">该API允许依赖它的框架和程序自动支持最新JDK中的最新类文件，以便可以快速、轻松地采用以类文件表示的新语言和VM功能。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 461 - 流收集器（预览） </font>
+
 <font style="color:rgb(74, 74, 74);">增强了 Stream API 以支持自定义中间操作。这将允许流管道以现有内置中间操作不易实现的方式转换数据。</font>
 
 **<font style="color:rgb(74, 74, 74);">目标</font>**
@@ -142,6 +149,7 @@ source.gather(a.andThen(b).andThen(c)).collect(...)
 ```
 
 ## <font style="color:rgb(72, 179, 120);">JEP 463 - 隐式声明的类和实例主要方法（第二预览）</font>
+
 <font style="color:rgb(74, 74, 74);">学生可以编写他们的第一个 Java 程序，而无需了解为大型程序设计的语言功能。学生无需使用单独的语言方言，而是可以为单类程序编写简化的声明，然后随着技能的增长无缝扩展他们的程序以使用更高级的功能。</font>
 
 ```java
@@ -161,6 +169,7 @@ class HelloWorld {
 + <font style="color:rgb(1, 1, 1);">不引入单独的初学者工具链；学生程序应该使用与编译和运行任何 Java 程序相同的工具来编译和运行。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 459 - 字符串模板（第二预览）</font>
+
 <font style="color:rgb(0, 0, 0);">String Templates 提供了一种更简洁、更直观的方式来动态构建字符串。通过使用占位符</font><font style="color:rgb(41, 128, 185);">${}</font><font style="color:rgb(0, 0, 0);">，我们可以将变量的值直接嵌入到字符串中，而不需要手动处理。在运行时，Java 编译器会将这些占位符替换为实际的变量值。并且，表达式支持局部变量、静态/非静态字段甚至方法、计算结果等特性。</font>
 
 ```java
@@ -238,6 +247,7 @@ String s = STR."\{x} + \{y} = \{x + y}";  //"10 + 20 = 30"
 + <font style="color:rgb(1, 1, 1);">允许创建根据文字文本和嵌入表达式计算的非字符串值，而无需通过中间字符串表示形式进行传输。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 462 - 结构化并发（第二预览）</font>
+
 <font style="color:rgb(74, 74, 74);"> 简化并发编程。结构化并发将在不同线程中运行的相关任务组视为单个工作单元，从而简化错误处理和取消、提高可靠性并增强可观察性。</font>
 
 **<font style="color:rgb(74, 74, 74);">目标</font>**
@@ -245,6 +255,7 @@ String s = STR."\{x} + \{y} = \{x + y}";  //"10 + 20 = 30"
 <font style="color:rgb(74, 74, 74);">通过推广一种编程风格来简化并发代码的开发，这种编程风格可以消除因取消和关闭而产生的常见风险（例如线程泄漏和取消延迟），并提高并发代码的可观察性。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 464 - 范围值（第二预览）</font>
+
 <font style="color:rgb(74, 74, 74);">实现线程内和线程间不可变数据的高效共享。</font>
 
 **<font style="color:rgb(74, 74, 74);">目标</font>**
@@ -255,6 +266,7 @@ String s = STR."\{x} + \{y} = \{x + y}";  //"10 + 20 = 30"
 + <font style="color:rgb(1, 1, 1);">性能：：将共享数据视为不可变，以允许大量线程共享，并实现运行时优化。</font>
 
 ## <font style="color:rgb(72, 179, 120);">JEP 460 - 矢量 API（第七次孵化器）</font>
+
 <font style="color:rgb(74, 74, 74);">一个用于表达向量计算的 API，可在运行时可靠地在支持的 CPU 架构上编译为最佳向量指令，从而实现优于等效标量计算的性能。</font>
 
 **<font style="color:rgb(74, 74, 74);">目标</font>**
@@ -295,4 +307,3 @@ void vectorComputation(float[] a， float[] b， float[] c) {
     }
 }
 ```
-

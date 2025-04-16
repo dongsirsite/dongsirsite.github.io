@@ -15,4 +15,3 @@
 <font style="color:rgb(0,0,0);">7、如果表数据量太大，考虑分表。 </font>
 
 <font style="color:rgb(0,0,0);">8、利用缓存，减少查询次数。</font>
-

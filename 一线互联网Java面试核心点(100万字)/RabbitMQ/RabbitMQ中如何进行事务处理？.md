@@ -8,4 +8,3 @@
 4. **<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">处理异常</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：如果在事务过程中发生异常，可以使用 try/catch 快来捕获异常。然后在异常处理过程中，调用 Channel 的 tx_rollback 方法来回滚 RabbitMQ 相关的事务操作。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">需要注意的是，RabbitMQ 的事务处理是基于存储过程的，它可以保证在事务中的操作要么全部成功，要么全部失败。但是，由于 RabbitMQ 是一个异步的消息队列系统，事务处理可能会对其性能产生影响。因此，需要根据具体的应用场景和需求来权衡是否需要使用事务以及如何使用事务。</font>
-

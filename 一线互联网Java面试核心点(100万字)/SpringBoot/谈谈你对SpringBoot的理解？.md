@@ -8,4 +8,3 @@
 6. **<font style="background-color:rgb(247, 247, 248);">监控和管理：</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> Spring Boot自带了监控功能，包括应用程序运行状况监控、内存使用情况、线程池状态、HTTP请求统计等。此外，Spring Boot还提供了优雅关闭应用程序的方式，使得应用程序的管理更加便捷。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">总的来说，Spring Boot旨在提供一个快速、高效、开箱即用的开发环境，使开发人员能够更加专注于业务逻辑的实现而不必花费太多时间在繁琐的配置和集成上。它的设计理念是"约定优于配置"，通过合理的默认配置和内置功能，让开发变得更加简单和愉快。</font>
-

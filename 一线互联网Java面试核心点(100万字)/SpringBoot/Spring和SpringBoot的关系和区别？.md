@@ -12,4 +12,3 @@
 3. **内置Web容器：**<font style="color:rgb(55, 65, 81);"> Spring Boot内置了多个内嵌式Web容器，如Tomcat、Jetty、Undertow等，可以轻松创建独立的可执行JAR文件或WAR文件，而不需要外部Web服务器。Spring通常需要外部Web服务器的部署。</font>
 
 <font style="color:rgb(55, 65, 81);">总的来说，Spring是一个全功能的Java应用程序框架，而Spring Boot是一个用于简化Spring应用程序开发的工具。Spring Boot通过自动化配置、约定优于配置的原则、内置Web容器等功能，使得开发和部署Spring应用程序变得更加快速和便捷，特别适用于微服务和快速原型开发。开发人员可以根据项目的需求选择使用Spring框架、Spring Boot，或两者结合使用。</font>
-

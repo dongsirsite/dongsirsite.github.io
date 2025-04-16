@@ -1,7 +1,9 @@
 # Redis实例抖动问题诊断与解决方案
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">1. 性能监控与诊断</font>
+
 ##### <font style="color:rgba(6, 8, 31, 0.88);">性能监控核心类</font>
+
 ```java
 @Component  
 public class RedisPerformanceMonitor {  
@@ -31,6 +33,7 @@ public class RedisPerformanceMonitor {
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">2. 慢查询诊断</font>
+
 ```java
 @Service  
 public class RedisSlowLogAnalyzer {  
@@ -57,6 +60,7 @@ public class RedisSlowLogAnalyzer {
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">3. 大Key检测与优化</font>
+
 ```java
 @Component  
 public class RedisBigKeyDetector {  
@@ -111,6 +115,7 @@ public class RedisBigKeyDetector {
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">4. 抖动问题综合解决方案</font>
+
 ```java
 @Service  
 public class RedisStabilityManager {  
@@ -143,7 +148,9 @@ public class RedisStabilityManager {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">抖动问题根因分析</font>
+
 #### <font style="color:rgba(6, 8, 31, 0.88);">常见抖动原因</font>
+
 1. <font style="color:rgba(6, 8, 31, 0.88);">内存压力</font>
     - <font style="color:rgba(6, 8, 31, 0.88);">内存使用率超过70%</font>
     - <font style="color:rgba(6, 8, 31, 0.88);">大量键值存储</font>
@@ -161,6 +168,7 @@ public class RedisStabilityManager {
     - <font style="color:rgba(6, 8, 31, 0.88);">复杂聚合查询</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">优化建议</font>
+
 1. <font style="color:rgba(6, 8, 31, 0.88);">内存管理</font>
     - <font style="color:rgba(6, 8, 31, 0.88);">设置合理的最大内存</font>
     - <font style="color:rgba(6, 8, 31, 0.88);">配置高效的淘汰策略</font>
@@ -179,6 +187,7 @@ public class RedisStabilityManager {
     - <font style="color:rgba(6, 8, 31, 0.88);">及时发现并处理异常</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">配置示例</font>
+
 ```java
 # Redis配置优化  
 spring.redis.lettuce.pool.max-active=200  
@@ -191,7 +200,7 @@ redis.maxmemory-policy=allkeys-lru
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">总结</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">Redis抖动是一个复杂的系统问题，需要从多个维度进行综合分析和优化。通过持续监控、及时诊断和针对性优化，可以显著提升Redis实例的稳定性和性能。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">关键是建立一套全面的监控和优化机制，及时发现并解决潜在问题。</font>
-

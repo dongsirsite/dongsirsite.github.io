@@ -11,4 +11,3 @@ Labels和Selectors是Kubernetes中的重要概念，它们主要用于标识和�
 **Selectors是用于选择资源的条件，它们是通过Labels定义的**。Selectors可以选择具有指定Labels的资源对象。Selectors使得我们可以方便地对资源进行筛选和操作。
 
 总之，Labels和Selectors的组合使用使得我们可以方便地管理和组织Kubernetes中的资源，并能够灵活地进行扩展和管理。
-

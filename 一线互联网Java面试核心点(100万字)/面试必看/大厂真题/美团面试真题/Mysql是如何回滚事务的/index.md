@@ -11,4 +11,3 @@
 5. <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">清除Undo Log：当事务回滚完成后，MySQL会清除相关的Undo Log。回滚后的数据已经恢复到了事务开始之前的状态，Undo Log不再需要记录。</font>
 
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">通过使用Undo Log，MySQL能够实现事务的回滚操作，保证了事务的一致性和持久性。当事务需要回滚时，MySQL会按照事务的逆序进行回滚操作，并根据Undo Log中的信息将数据恢复到事务开始之前的状态。这种机制确保了数据库的数据完整性，避免了错误或者异常操作对数据库造成不可逆的影响。</font>
-

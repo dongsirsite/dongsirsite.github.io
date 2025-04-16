@@ -8,9 +8,11 @@
 而当下正好 MCP 崛起了，我们可以自己借助 AI 开发工具 + MCP 服务来实现 manus 的效果。
 
 ## AI 开发工具
+
 没什么好说：Windsurf、Cursor、Trae（国内国外版本暂时都不支持） 等等，那什么是 MCP 了？
 
 ## 什么是 MCP
+
 <font style="color:rgba(6, 8, 31, 0.88);">对于熟悉</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>**<font style="color:rgba(6, 8, 31, 0.88);">LangChain4j</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">以及</font><font style="color:rgba(6, 8, 31, 0.88);"> </font>**<font style="color:rgba(6, 8, 31, 0.88);">SpringAI</font>**<font style="color:rgba(6, 8, 31, 0.88);"> </font><font style="color:rgba(6, 8, 31, 0.88);">的小伙伴来说，理解这一点并不难。在对接大模型时，我们常常会遇到基础大模型无法直接给出答案的情况。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">比如一些简单却又常用的场景：</font>
@@ -24,6 +26,7 @@
 <font style="color:rgba(6, 8, 31, 0.88);">而 </font>**<font style="color:rgba(6, 8, 31, 0.88);">MCP（Model Context Protocol）</font>**<font style="color:rgba(6, 8, 31, 0.88);"> 可以理解为一个 AI 的标准化工具箱。它提供了一套标准化的协议，方便所有开发者将自定义的功能模块轻松对接到大模型中。</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">MCP 架构设计</font>
+
 <font style="color:rgb(52, 52, 60);">MCP 遵循客户端-服务器架构（client-server），其中包含以下几个核心概念：</font>
 
 + <font style="color:rgb(52, 52, 60);">MCP 主机（MCP Hosts）：发起请求的 LLM 应用程序（例如 Claude Desktop、IDE 或 AI 工具）。</font>
@@ -37,6 +40,7 @@
 <font style="color:rgba(6, 8, 31, 0.88);">这样架构划分带来的好处显而易见：开发者无需为每次需求重新开发独立的功能模块，而是可以通过一次性开发实现全局复用，大幅降低开发成本。</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">MCP 工作流程</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">当大模型识别到非自身原生能力的请求时，MCP 会自动将请求路由到对应的工具模块，执行任务并将结构化的结果返回给大模型，从而实现更高效的交互和扩展性。</font>
 
 ![1742460076971-dba69e38-dbdb-41e3-ad47-751190c0bb3f.png](./img/C_bQ1NR0xnzXcC99/1742460076971-dba69e38-dbdb-41e3-ad47-751190c0bb3f-232900.png)
@@ -46,9 +50,11 @@
 对 MCP 有了简单了解之后，我们就来实际操作
 
 ## 实现过程
+
 想要实现 manus 的效果，除了借助 mcp 之外，还需要精确的提示词（规则），通过提示词大模型调用多个 mcp 工具。以下通过演示 windsurf 实现过程：
 
 ### windsurf 配置
+
 **准备工作环境：**  
 新建了一个文件夹“windsurf”当做工作空间
 
@@ -102,7 +108,7 @@
 
 **配置 firecrawl-mcp-server**
 
-firecrawl 是一个 AI 友好的网络爬虫工具，他会读取指定URL的内容，并且返回为AI能够识别的 markdown 等格式。firecrawl的网址是 https://www.firecrawl.dev
+firecrawl 是一个 AI 友好的网络爬虫工具，他会读取指定URL的内容，并且返回为AI能够识别的 markdown 等格式。firecrawl的网址是 <https://www.firecrawl.dev>
 
 你可以使用他的API服务，也可以自己在本地搭建。  
 以下是我使用本地部署的方式，firecrawl的MCP配置方式是：
@@ -153,6 +159,7 @@ firecrawl 是一个 AI 友好的网络爬虫工具，他会读取指定URL的内
 ```
 
 ### 验证
+
 输入提示词：
 
 阿里巴巴集团发展史及当前集团公司结构  
@@ -172,15 +179,13 @@ firecrawl 是一个 AI 友好的网络爬虫工具，他会读取指定URL的内
 
 ![1742388479184-f97fc1dd-fe15-4821-93b4-2c5096a326d8.png](./img/C_bQ1NR0xnzXcC99/1742388479184-f97fc1dd-fe15-4821-93b4-2c5096a326d8-397285.png)
 
-  
 如果使用其他 AI 开发工具也能使用上述流程，以下是 cursor 实现的最终结果：  
 ![1742388333577-1293ad7f-a385-4097-9118-f0a005b06b89.png](./img/C_bQ1NR0xnzXcC99/1742388333577-1293ad7f-a385-4097-9118-f0a005b06b89-456042.png)
-
-
 
 ![1742388348268-9e631588-df10-4250-aa9b-397b3cd1a07c.png](./img/C_bQ1NR0xnzXcC99/1742388348268-9e631588-df10-4250-aa9b-397b3cd1a07c-394996.png)=
 
 ### 本地 docker 部署 firecrawl-mcp-server
+
 ```java
 // 拉取 FireCrawl 源代码
 git clone https://github.com/mendableai/firecrawl.git
@@ -196,4 +201,3 @@ docker compose logs -f
 // 如果日志里没有“报错红字❌”,部署成功,测试 FireCrawl, 返回 Hello World
 curl -X GET http://localhost:3002/test
 ```
-

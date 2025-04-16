@@ -8,4 +8,3 @@
 4. <font style="color:rgb(5, 7, 59);">提示分片算法（HintShardingAlgorithm）：用于处理分片规则与 SQL 无关的场景。对于分片字段非SQL决定，而由其他外置条件决定的场景，可使用SQL Hint灵活的注入分片字段。</font>
 
 <font style="color:rgb(5, 7, 59);">此外，随着版本不断演进，ShardingSphere还在不断丰富分片算法，例如基于分片边界的范围分片算法（BoundaryBasedRangeShardingAlgorithm）、基于分片容量的范围分片算法（VolumeBasedRangeShardingAlgorithm）等。</font>
-

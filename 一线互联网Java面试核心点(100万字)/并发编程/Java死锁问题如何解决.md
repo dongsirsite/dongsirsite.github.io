@@ -8,6 +8,7 @@
 4. **<font style="color:rgba(0, 0, 0, 0.82);">循环等待条件</font>**<font style="color:rgba(0, 0, 0, 0.82);">：存在一个线程循环等待链，链中的每个线程都等待下一个线程所持有的资源。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">示例代码造成死锁</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">下面是一个简单的造成死锁的Java代码示例：</font>
 
 ```java
@@ -62,10 +63,12 @@ public class DeadlockExample {
 <font style="color:rgba(0, 0, 0, 0.82);">在这个示例中，</font>`<font style="color:rgba(0, 0, 0, 0.82);">thread1</font>`<font style="color:rgba(0, 0, 0, 0.82);">首先锁定</font>`<font style="color:rgba(0, 0, 0, 0.82);">resource1</font>`<font style="color:rgba(0, 0, 0, 0.82);">然后尝试锁定</font>`<font style="color:rgba(0, 0, 0, 0.82);">resource2</font>`<font style="color:rgba(0, 0, 0, 0.82);">。同时，</font>`<font style="color:rgba(0, 0, 0, 0.82);">thread2</font>`<font style="color:rgba(0, 0, 0, 0.82);">锁定</font>`<font style="color:rgba(0, 0, 0, 0.82);">resource2</font>`<font style="color:rgba(0, 0, 0, 0.82);">后尝试锁定</font>`<font style="color:rgba(0, 0, 0, 0.82);">resource1</font>`<font style="color:rgba(0, 0, 0, 0.82);">。由于两个线程都在相互等待对方释放资源，因此会形成死锁。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">检测死锁</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">线程转储分析</font>**<font style="color:rgba(0, 0, 0, 0.82);">：可以通过JVM工具如</font>`<font style="color:rgba(0, 0, 0, 0.82);">jstack</font>`<font style="color:rgba(0, 0, 0, 0.82);">获取线程转储来识别死锁。线程转储会展示所有线程的状态以及所有锁的持有情况。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">使用JVisualVM/JConsole</font>**<font style="color:rgba(0, 0, 0, 0.82);">：这些工具可以实时监控JVM状态，并且会自动检测和报告死锁。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">预防死锁</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">资源排序（Resource Ordering）</font>**<font style="color:rgba(0, 0, 0, 0.82);">：避免循环等待，可以提前规定资源获取的顺序。所有线程在锁定资源时，必须按预定顺序加锁。</font>
 
 ```java
@@ -106,4 +109,3 @@ public void safeMethod() {
 ```
 
 <font style="color:rgba(0, 0, 0, 0.82);">通过适当的设计和策略，死锁是可以预防和管理的，特别是在复杂应用程序多线程编程环境中。</font>
-

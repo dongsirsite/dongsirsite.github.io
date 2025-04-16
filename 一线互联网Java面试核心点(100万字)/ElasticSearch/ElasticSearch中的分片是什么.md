@@ -15,4 +15,3 @@
 + **<font style="background-color:rgb(247, 247, 248);">并行查询：</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 每个分片可以并行处理查询请求，从而提高了查询性能。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">总之，分片是Elasticsearch的关键组成部分，支持其在分布式环境中高效存储、检索和处理大量数据。</font>
-

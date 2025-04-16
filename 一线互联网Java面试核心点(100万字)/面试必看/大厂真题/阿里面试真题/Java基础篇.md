@@ -16,9 +16,11 @@
 **<font style="color:rgb(62, 62, 62);">多态：</font>**<font style="color:rgb(62, 62, 62);">通过继承（多个⼦类对同⼀⽅法的重写）、也可以通过接⼝（实现接⼝并覆盖接⼝）；</font>
 
 #### <font style="color:rgb(255, 104, 39);">1、Java与C++区别</font>
+
 <font style="color:rgb(62, 62, 62);">不同点：c++支持多继承，并且有指针的概念，由程序员自己管理内存；Java是单继承，可以用接口实现多继承，Java不提供指针来直接访问内存，程序内存更加安全，并且Java有JVM⾃动内存管理机制，不需要程序员⼿动释放⽆⽤内存。</font>
 
 #### <font style="color:rgb(255, 104, 39);">2、多态实现原理</font>
+
 <font style="color:rgb(62, 62, 62);">多态的底层实现是动态绑定，即在运行时才把方法调用与方法实现关联起来。</font>
 
 **<font style="color:rgb(62, 62, 62);">静态绑定与动态绑定：</font>**
@@ -32,6 +34,7 @@
 <font style="color:rgb(62, 62, 62);">虚拟机栈中会存放当前方法调用的栈帧（局部变量表、操作栈、动态连接、返回地址）。多态的实现过程，就是方法调用动态分派的过程，如果子类覆盖了父类的方法，则在多态调用中，动态绑定过程会首先确定实际类型是子类，从而先搜索到子类中的方法。这个过程便是方法覆盖的本质。</font>
 
 #### <font style="color:rgb(255, 104, 39);">3、static和final关键字</font>
+
 **<font style="color:rgb(62, 62, 62);">static：</font>**<font style="color:rgb(62, 62, 62);">可以修饰属性、方法</font>
 
 **<font style="color:rgb(62, 62, 62);">static修饰属性：</font>**
@@ -61,6 +64,7 @@
 <font style="color:rgb(62, 62, 62);">一个类不能被继承，除了final关键字之外，还有可以私有化构造器。（内部类无效）</font>
 
 #### <font style="color:rgb(255, 104, 39);">4、抽象类和接口</font>
+
 **<font style="color:rgb(62, 62, 62);">抽象类：</font>**<font style="color:rgb(62, 62, 62);">包含抽象方法的类，即使用abstract修饰的类；抽象类只能被继承，所以不能使用final修饰，抽象类不能被实例化；</font>
 
 **<font style="color:rgb(62, 62, 62);">接口：</font>**<font style="color:rgb(62, 62, 62);">接口是一个抽象类型，是抽象方法的集合，接口支持多继承，接口中定义的方法，默认是public abstract修饰的抽象方法；</font>
@@ -90,6 +94,7 @@
 <font style="color:rgb(62, 62, 62);">约束多个实现类具有统一的行为，但是不在乎每个实现类如何具体实现；实现类中各个功能之间可能没有任何联系；</font>
 
 #### <font style="color:rgb(255, 104, 39);">5、泛型以及泛型擦除</font>
+
 <font style="color:rgb(62, 62, 62);">参考：</font><font style="color:rgb(62, 62, 62);">https://blog.csdn.net/baoyinwang/article/details/107341997</font>
 
 **<font style="color:rgb(62, 62, 62);">泛型：</font>**
@@ -105,6 +110,7 @@
 <font style="color:rgb(62, 62, 62);">可以通过反射添加其它类型元素。</font>
 
 #### <font style="color:rgb(255, 104, 39);">6、反射原理以及使用场景</font>
+
 **<font style="color:rgb(62, 62, 62);">Java反射：</font>**
 
 <font style="color:rgb(62, 62, 62);">是指在运行状态中，对于任意一个类都能够知道这个类所有的属性和方法；并且都能够调用它的任意一个方法；</font>
@@ -126,6 +132,7 @@
 + **<font style="color:rgb(62, 62, 62);">自定义注解</font>**<font style="color:rgb(62, 62, 62);">-注解本身仅仅是起到标记作用，它需要利用反射机制，根据注解标记去调用注解解释器，执行行为。</font>
 
 #### <font style="color:rgb(255, 104, 39);">7、Java异常体系</font>
+
 ![1714392679006-6536c1a7-119e-4f0d-b591-ccac754effbb.png](./img/9n6OGqE3d7mTLNGw/1714392679006-6536c1a7-119e-4f0d-b591-ccac754effbb-395240.png)
 
 <font style="color:rgb(62, 62, 62);">Throwable是Java语言中所有错误或异常的超类。下一层分为Error 和Exception。</font>
@@ -160,6 +167,7 @@
 ![1714392679031-a4900f82-bffe-46da-87e5-3e2cbc85a33a.png](./img/9n6OGqE3d7mTLNGw/1714392679031-a4900f82-bffe-46da-87e5-3e2cbc85a33a-523511.png)
 
 #### <font style="color:rgb(255, 104, 39);">1、ArrayList和LinkedList</font>
+
 **<font style="color:rgb(62, 62, 62);">ArrayList：</font>**
 
 <font style="color:rgb(62, 62, 62);">底层基于数组实现，支持对元素进行快速随机访问，适合随机查找和遍历，不适合插入和删除。（提一句实际上）</font>
@@ -186,6 +194,7 @@
 <font style="color:rgb(62, 62, 62);">②</font>**<font style="color:rgb(62, 62, 62);">CopyOnWriteArrayList</font>**<font style="color:rgb(62, 62, 62);">：写时加锁，使用了一种叫</font>**<font style="color:rgb(62, 62, 62);">写时复制</font>**<font style="color:rgb(62, 62, 62);">的方法；读操作是可以不用加锁的。</font>
 
 #### <font style="color:rgb(255, 104, 39);">2、List遍历快速和安全失败</font>
+
 **<font style="color:rgb(62, 62, 62);">①普通for循环遍历List删除指定元素</font>**
 
 ```plain
@@ -219,6 +228,7 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 <font style="color:rgb(62, 62, 62);">场景：java.util.concurrent包下的容器都是安全失败，可以在多线程下并发使用，并发修改。</font>
 
 #### <font style="color:rgb(255, 104, 39);">3、详细介绍HashMap</font>
+
 **<font style="color:rgb(62, 62, 62);">角度：</font>**<font style="color:rgb(62, 62, 62);">数据结构+扩容情况+put查找的详细过程+</font>哈希函数<font style="color:rgb(62, 62, 62);">+容量为什么始终都是2^N，JDK1.7与1.8的区别。</font>
 
 <font style="color:rgb(62, 62, 62);">参考：</font><font style="color:rgb(62, 62, 62);">https://www.jianshu.com/p/9fe4cb316c05</font>
@@ -275,6 +285,7 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 <font style="color:rgb(62, 62, 62);">底层数据结构上采用了</font>**<font style="color:rgb(62, 62, 62);">数组＋链表＋红黑树</font>**<font style="color:rgb(62, 62, 62);">；当链表⻓度⼤于阈值（默认为 8-泊松分布），数组的⻓度大于 64时，链表将转化为红⿊树，以减少搜索时间。（解决了tomcat臭名昭著的url参数dos攻击问题）</font>
 
 #### <font style="color:rgb(255, 104, 39);">4、ConcurrentHashMap </font>
+
 <font style="color:rgb(62, 62, 62);">可以通过</font>**<font style="color:rgb(62, 62, 62);">ConcurrentHashMap</font>**<font style="color:rgb(62, 62, 62);">和</font>**<font style="color:rgb(62, 62, 62);">Hashtable</font>**<font style="color:rgb(62, 62, 62);">来实现线程安全；Hashtable 是原始API类，通过synchronize同步修饰，效率低下；ConcurrentHashMap通过分段锁实现，效率较比Hashtable要好。</font>
 
 **<font style="color:rgb(62, 62, 62);">ConcurrentHashMap的底层实现：</font>**
@@ -286,6 +297,7 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 **<font style="color:rgb(62, 62, 62);">JDK1.8的 ConcurrentHashMap</font>**<font style="color:rgb(62, 62, 62);">采⽤的数据结构跟HashMap1.8的结构⼀样，数组+链表/红⿊树；摒弃了</font>Segment<font style="color:rgb(62, 62, 62);">的概念，⽽是直接⽤ Node 数组+链表+红⿊树的数据结构来实现，通过并发控制</font>**<font style="color:rgb(62, 62, 62);">synchronized</font>**<font style="color:rgb(62, 62, 62);">和</font>**<font style="color:rgb(62, 62, 62);">CAS</font>**<font style="color:rgb(62, 62, 62);">来操作保证线程的安全。</font>
 
 #### <font style="color:rgb(255, 104, 39);">5、序列化和反序列化</font>
+
 <font style="color:rgb(62, 62, 62);">序列化的意思就是将对象的状态转化成字节流，以后可以通过这些值再生成相同状态的对象。对象序列化是对象持久化的一种实现方法，它是将对象的属性和方法转化为一种序列化的形式用于存储和传输。反序列化就是根据这些保存的信息重建对象的过程。</font>
 
 **<font style="color:rgb(62, 62, 62);">序列化：</font>**<font style="color:rgb(62, 62, 62);">将java对象转化为字节序列的过程。</font>
@@ -303,6 +315,7 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 <font style="color:rgb(62, 62, 62);">序列化ID：serialVersionUID不一致的时候，导致反序列化失败。</font>
 
 #### <font style="color:rgb(255, 104, 39);">6、String</font>
+
 <font style="color:rgb(62, 62, 62);">String使用</font>**<font style="color:rgb(62, 62, 62);">数组</font>**<font style="color:rgb(62, 62, 62);">存储内容，数组使用</font>**<font style="color:rgb(62, 62, 62);">final</font>**<font style="color:rgb(62, 62, 62);">修饰，因此String定义的字符串的值也是</font>**<font style="color:rgb(62, 62, 62);">不可变的。</font>**
 
 <font style="color:rgb(62, 62, 62);">StringBuffer对方法加了同步锁，线程安全，效率略低于StringBuilder。</font>
@@ -313,6 +326,7 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 **<font style="color:rgb(62, 62, 62);">设计模式与原则</font>**
 
 #### <font style="color:rgb(255, 104, 39);">1、单例模式</font>
+
 <font style="color:rgb(62, 62, 62);">某个类只能生成一个实例，该实例全局访问，例如Spring容器里一级缓存里的单例池。</font>
 
 **<font style="color:rgb(62, 62, 62);">优点：</font>**
@@ -336,6 +350,7 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 **<font style="color:rgb(62, 62, 62);">枚举：</font>**<font style="color:rgb(62, 62, 62);">effictiveJAVA推荐，反射也无法破坏；</font>
 
 #### <font style="color:rgb(255, 104, 39);">2、工厂模式</font>
+
 <font style="color:rgb(62, 62, 62);">定义一个用于创建产品的接口，由子类决定生产何种产品。</font>
 
 **<font style="color:rgb(62, 62, 62);">优点：</font>**<font style="color:rgb(62, 62, 62);">解耦：提供参数即可获取产品，通过配置文件可以不修改代码增加具体产品。</font>
@@ -343,6 +358,7 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 **<font style="color:rgb(62, 62, 62);">缺点：</font>**<font style="color:rgb(62, 62, 62);">每增加一个产品就得新增一个产品类。</font>
 
 #### <font style="color:rgb(255, 104, 39);">3、抽象工厂模式</font>
+
 <font style="color:rgb(62, 62, 62);">提供一个接口，用于创建相关或者依赖对象的家族，并由此进行约束。</font>
 
 **<font style="color:rgb(62, 62, 62);">优点：</font>**<font style="color:rgb(62, 62, 62);">可以在类的内部对产品族进行约束。</font>
@@ -414,4 +430,3 @@ for(Integer i:list){    if(i==3) list.remove(i);}
 ![1714392679106-903b872a-3108-4c11-95a8-c5a42920da9d.jpeg](./img/9n6OGqE3d7mTLNGw/1714392679106-903b872a-3108-4c11-95a8-c5a42920da9d-193904.jpeg)
 
 ![1714392679389-f6f7eb27-bf8d-42f7-bb6b-05d3bcde8561.png](./img/9n6OGqE3d7mTLNGw/1714392679389-f6f7eb27-bf8d-42f7-bb6b-05d3bcde8561-885101.png)
-

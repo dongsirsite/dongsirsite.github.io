@@ -7,9 +7,8 @@
 3. 在电商和直播业务下重构API网关
 4. 未来展望
 
-
-
 ### <font style="color:rgb(51, 51, 51);">背景</font>
+
 <font style="color:rgb(51, 51, 51);">如果你在 2015 年就使用 B 站，那么你一定不会忘记那一年 B 站工作日选择性崩溃，周末必然性崩溃的一段时间。也是那一年 B 站投稿量激增，访问量随之成倍上升，而过去的 PHP 全家桶也开始逐渐展露出颓势，运维难、监控难、排查故障难、调用路径深不见底，而也就是在这一年，B 站开始正式用 Go 重构 B 站。</font>
 
 **<font style="color:rgb(51, 51, 51);">B 站第一个 Go 项目：bilizone</font>**
@@ -73,6 +72,7 @@ _<font style="color:#000000;">Goroutine是Go语⾔中并发的执⾏单位。 Go
 <font style="color:rgb(51, 51, 51);">由此模式开始，基本确定了 B 站微服务接口的对接模式，这套模式也随之在全公司内推广开来。</font>
 
 ### <font style="color:rgb(51, 51, 51);">垂直 BFF 时代 2016-2019</font>
+
 <font style="color:rgb(51, 51, 51);">当 B 站网关的架构发展为多套垂直 BFF 之后，开发团队围绕该模式平稳迭代了相当长的一段时间。而后随着 B 站业务的发展，团队人员的扩充和几次组织架构调整，此时开始出现直播、电商等独立业务，这些业务的发展我们之后再细说。而在这些调整之后，有一个团队的职责越来越清晰：主站网关组。</font>
 
 <font style="color:rgb(51, 51, 51);">主站网关组的主要职责就是维护上述各类功能的 BFF 网关，此时 bilibili 的主要流量入口为粉板 App，这里可以简单细说一下粉板 App 上的所有业务组成：</font>
@@ -100,6 +100,7 @@ _<font style="color:#000000;">Goroutine是Go语⾔中并发的执⾏单位。 Go
 <font style="color:rgb(51, 51, 51);">我把这段时间称为垂直 BFF 时代，因为基本主站每个业务或多或少都有各种形式的网关存在，大家通过这个网关向外提供接口，该网关和 SLB 进行直接交互。 </font>
 
 ### <font style="color:rgb(51, 51, 51);">在电商和直播业务下重构API网关</font>
+
 <font style="color:rgb(51, 51, 51);">电商和直播其实并不是同一时期衍生的，直播在主站 PHP 时期就诞生了，而电商相对更晚一些。</font>
 
 <font style="color:rgb(51, 51, 51);">当时直播的技术栈组成有 C++、PHP、Go，其中早期大部分业务逻辑由 PHP 和 C++ 实现，稍晚一些也开始逐步试用主站的 Go 实现部分业务逻辑。其中 PHP 负责对终端提供接口，C++ 主要实现核心业务功能。因此我们可以简单理解为直播使用由 PHP 编写的 BFF 网关。</font>
@@ -122,6 +123,7 @@ _<font style="color:#000000;">Goroutine是Go语⾔中并发的执⾏单位。 Go
 <font style="color:rgb(51, 51, 51);">在新的架构中，统一网关承担了重要的角色，它是解耦拆分和后续升级迁移的利器。在统一网关的配合下，单块 BFF 实现了解耦拆分，各业务线团队可以独立开发和交付各自的微服务，研发效率大大提升。另外，把跨横切面逻辑从 BFF 剥离到网关上去以后，BFF 的开发人员可以更加专注业务逻辑交付，实现了架构上的关注分离（Separation of Concerns）。</font>
 
 ### <font style="color:rgb(51, 51, 51);">从多个网关到最后一个统一网关 2022 - 至今</font>
+
 ![1719302992478-31bea12a-e0c7-41dc-8205-ae8d6dd58a06.png](./img/LifWuX1XKQ9vuDue/1719302992478-31bea12a-e0c7-41dc-8205-ae8d6dd58a06-176915.png)
 
 <font style="color:rgb(51, 51, 51);">在这两三年的时间里，各个业务团队或多或少都有自己业务网关组建独立的维护团队，也为网关的功能作出过相当多的投入。但随着 B 站业务的发展，公司级中间件功能的不断更替演进，如果将对接各个中间件的工作在每个网关上都实现一次的话带来的人力投入和沟通成本会相当巨大，且实现标准不统一、运营方式不统一无法起到 API 网关所带来的最佳收益。</font>
@@ -136,6 +138,7 @@ _<font style="color:#000000;">Goroutine是Go语⾔中并发的执⾏单位。 Go
 <font style="color:rgb(51, 51, 51);">等等进阶型 API 质量治理的相关功能，这些功能业务团队在接入 API 网关后都可以一并获得，为业务的迅速迭代做出力所能及的保障。</font>
 
 ### <font style="color:rgb(51, 51, 51);">未来展望</font>
+
 <font style="color:rgb(51, 51, 51);">在开发 API 网关的同时，我们也会更进一步关注业务团队开发、对接 API 时的体验，我们将以网关作为统一标准 API 规范的起点，为业务团队提供更有效的 API 开发生态，如：</font>
 
 + <font style="color:rgb(51, 51, 51);">规划 API 业务域，简化 SRE 运维</font>
@@ -145,4 +148,3 @@ _<font style="color:#000000;">Goroutine是Go语⾔中并发的执⾏单位。 Go
 + <font style="color:rgb(51, 51, 51);">API 兼容性保障服务</font>
 
 <font style="color:rgb(51, 51, 51);">API 网关是我们 API 治理生态中的一个标志性里程碑，本次 API 网关也以开源形式进行开发：</font>[https://github.com/go-kratos/gateway](https://github.com/go-kratos/gateway)
-

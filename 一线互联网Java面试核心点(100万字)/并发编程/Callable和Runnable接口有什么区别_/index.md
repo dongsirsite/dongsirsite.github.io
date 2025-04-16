@@ -14,4 +14,3 @@ Callable和Runnable接口都是用于在Java中实现多线程的接口，但它
 4. 线程池支持：
     - Callable接口通常与Executor框架一起使用，可以提交给ExecutorService的线程池执行。
     - Runnable接口同样可以与Executor框架一起使用，但是Callable接口提供了更丰富的功能，如取消任务、获取执行结果等。
-

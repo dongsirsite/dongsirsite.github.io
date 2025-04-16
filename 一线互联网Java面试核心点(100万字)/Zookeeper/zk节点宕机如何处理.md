@@ -6,4 +6,3 @@ Zookeeper 必须集群部署，推荐配置不少于 3 个节点。Zookeeper 自
 2. 如果是一个 Leader 宕机，Zookeeper 会选举出新的 Leader。
 
 因此，Zookeeper 可以容忍一部分节点的宕机，但前提是要保证超过一半的节点是正常工作的。在这种情况下，Zookeeper 集群仍然可以正常提供服务。如果 Zookeeper 节点挂得太多，只剩一半或不到一半节点能工作，集群就会失效。
-

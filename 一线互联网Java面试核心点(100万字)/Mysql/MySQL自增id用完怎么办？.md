@@ -7,6 +7,7 @@
 <font style="color:rgb(59, 67, 81);">今天这篇文章，我们就来看看 MySQL 里面的几种自增 id，一起分析一下它们的值达到上限以后，会出现什么情况。</font>
 
 ### <font style="color:rgb(59, 67, 81);">表定义自增值 ID</font>
+
 <font style="color:rgb(59, 67, 81);">说到自增 id，你第一个想到的应该就是表结构定义里的自增字段，表定义的自增值达到上限后的逻辑是：再申请下一个 id 时，得到的值保持不变。</font>
 
 <font style="color:rgb(59, 67, 81);">我们可以通过下面这个语句序列验证一下：</font>
@@ -35,6 +36,7 @@ insert into t values(null);
 <font style="color:rgb(59, 67, 81);">2的32次方不是一个特别大的数，对于一个频繁插入删除数据的表来说，是可能会被用完的。因此在建表的时候你需要考察你的表是否有可能达到这个上限，如果有可能，就应该创建成 8 个字节的 bigint unsigned。</font>
 
 ### <font style="color:rgb(59, 67, 81);">InnoDB 系统自增 row_id</font>
+
 <font style="color:rgb(59, 67, 81);">如果你创建的 InnoDB 表没有指定主键，那么 InnoDB 会给你创建一个不可见的，长度为 6 个字节的 row_id。</font>
 
 <font style="color:rgb(59, 67, 81);">InnoDB 维护了一个全局的 dict_sys.row_id 值，所有无主键的 InnoDB 表，每插入一行数据，都将当前的 dict_sys.row_id 值作为要插入数据的 row_id，然后把 dict_sys.row_id 的值加 1。</font>
@@ -85,6 +87,7 @@ mysql> select * from `t_2`;
 <font style="color:rgb(59, 67, 81);">毕竟覆盖数据，就意味着数据丢失，影响的是数据可靠性；报主键冲突，是插入失败，影响的是可用性。而一般情况下，可靠性优先于可用性。</font>
 
 ### <font style="color:rgb(59, 67, 81);">x_id</font>
+
 <font style="color:rgb(59, 67, 81);">我和你介绍 redo log 和 binlog 相配合的时候，提到了它们有一个共同的字段叫作 Xid。它在 MySQL 中是用来对应事务的。</font>
 
 <font style="color:rgb(59, 67, 81);">那么，Xid 在 MySQL 内部是怎么生成的呢？</font>
@@ -106,6 +109,7 @@ mysql> select * from `t_2`;
 <font style="color:rgb(59, 67, 81);">不过，2^64这个值太大了，大到你可以认为这个可能性只会存在于理论上。</font>
 
 ### <font style="color:rgb(59, 67, 81);">Innodb trx_id</font>
+
 <font style="color:rgb(59, 67, 81);">Xid 和 InnoDB 的 trx_id 是两个容易混淆的概念。</font>
 
 <font style="color:rgb(59, 67, 81);">Xid 是由 server 层维护的。InnoDB 内部使用 Xid，就是为了能够在 InnoDB 事务和 server 之间做关联。但是，InnoDB 自己的 trx_id，是另外维护的。</font>
@@ -175,6 +179,7 @@ mysql> select * from `t_2`;
 <font style="color:rgb(59, 67, 81);">假设一个 MySQL 实例的 TPS 是每秒 50 万，持续这个压力的话，在 17.8 年后，就会出现这个情况。如果 TPS 更高，这个年限自然也就更短了。但是，从 MySQL 的真正开始流行到现在，恐怕都还没有实例跑到过这个上限。不过，这个 bug 是只要 MySQL 实例服务时间够长，就会必然出现的。</font>
 
 ### <font style="color:rgb(59, 67, 81);">thread_id</font>
+
 <font style="color:rgb(59, 67, 81);">接下来，我们再看看线程 id（thread_id）。其实，线程 id 才是 MySQL 中最常见的一种自增 id。平时我们在查各种现场的时候，show processlist 里面的第一列，就是 thread_id。</font>
 
 <font style="color:rgb(59, 67, 81);">thread_id 的逻辑很好理解：系统保存了一个全局变量 thread_id_counter，每新建一个连接，就将 thread_id_counter 赋值给这个新连接的线程变量。</font>
@@ -192,6 +197,7 @@ do {
 <font style="color:rgb(59, 67, 81);">这个代码逻辑简单而且实现优雅，相信你一看就能明白。</font>
 
 ### <font style="color:rgb(59, 67, 81);">总结</font>
+
 <font style="color:rgb(59, 67, 81);">数据库系统作为一个可能需要 7*24 小时全年无休的服务，考虑这些边界是非常有必要的。</font>
 
 <font style="color:rgb(59, 67, 81);">每种自增 id 有各自的应用场景，在达到上限后的表现也不同：</font>
@@ -200,4 +206,3 @@ do {
 2. <font style="color:rgb(59, 67, 81);">row_id 达到上限后，则会归 0 再重新递增，如果出现相同的 row_id，后写的数据会覆盖之前的数据。</font>
 
 <font style="color:rgb(59, 67, 81);">当然，在 MySQL 里还有别的自增 id，比如 x_id、thread_id、table_id等等，如果用完了又会发生什么呢？大家可以一起在评论区咱们一起聊聊。下期再会~</font>
-

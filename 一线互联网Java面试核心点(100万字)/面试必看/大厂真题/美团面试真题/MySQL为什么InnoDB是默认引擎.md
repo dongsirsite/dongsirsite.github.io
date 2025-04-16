@@ -8,4 +8,3 @@
 4. <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">崩溃恢复：InnoDB具备崩溃恢复的能力，能够在数据库、服务器或系统发生故障时，恢复到崩溃前的状态。这是因为InnoDB引擎使用了redo日志和undo日志来记录数据的修改操作，确保数据的持久性。</font>
 
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">虽然InnoDB是默认引擎，但MySQL也支持其他引擎，如MyISAM、Memory等。选择合适的引擎需要根据具体应用的需求进行权衡和选择。</font>
-

@@ -2,29 +2,17 @@
 
 ![1736341788913-1722d489-2385-4809-b206-21fb1feef08e.png](./img/jztRNfCC6_epV7y4/1736341788913-1722d489-2385-4809-b206-21fb1feef08e-633351.png)在导出时，如果一次性导出百万数据是非常慢的， 甚至可能会OOM，所以需要注意内存占用情况，避免内存溢出。可以通过适当调整 JVM 内存参数和多线程分批导出来解决。具体实现步骤如下：
 
-
-
 1、调整 JVM 内存参数：可以通过设置 JVM 内存参数 -Xms 和 -Xmx 来调整 JVM 内存大小。
 
-
-
 2、使用多线程分批次导出：将数据分成多个批次导出，每次导出一部分数据，避免一次性导出过多数据导致内存溢出，可以显著提高导出效率。
-
-
-
-
 
 如何使用 Java 多线程来导出 Excel 文件：
 
 代码地址：[https://gitee.com/xscodeit/xushu_springboot_demos/tree/master/ex-quicker](https://gitee.com/xscodeit/xushu_springboot_demos/tree/master/ex-quicker)
 
-
-
 1. 项目结构
 
 在 Java 项目中，我们需要引入 Apache POI 库来操作 Excel 文件。首先，在 Maven 项目中，您需要在 pom.xml 文件中添加以下依赖：
-
-
 
 ```xml
 <dependency>
@@ -39,8 +27,6 @@
 </dependency>
 ```
 
- 
-
 2. 设计类图
 
 我们需要设计一个简单的类图来表示 Excel 导出模块的结构。以下是一个基本的类图：
@@ -49,13 +35,9 @@
 
 在这个类图中，我们有三个主要类：ExcelExporter 用于处理 Excel 的导出逻辑，Data 是我们要导出的数据模型，ExportTask 是一个实现了 Runnable 接口的任务，用于多线程导出。
 
-
-
 3. 编写代码
 
 以下是实现这些类的代码示例：
-
-
 
 3.1. Data 类
 
@@ -74,8 +56,6 @@ public class Data {
     // Getters and Setters
 }
 ```
-
- 
 
 3.2. ExcelExporter 类
 
@@ -123,8 +103,6 @@ public class ExcelExporter {
 }
 ```
 
- 
-
 3.3. ExportTask 类
 
 ```java
@@ -151,8 +129,6 @@ public class ExportTask implements Runnable {
 1.
 
 2.
-
- 
 
 4. 主程序
 
@@ -183,11 +159,6 @@ public class Main {
 }
 ```
 
- 
-
 5. 总结
 
 通过上述示例，我们实现了一个简单的多线程导出 Excel 文件的功能。使用多线程可以大幅提升性能，尤其是在处理大量数据时。希望本文对您理解 Java 多线程导出 Excel 的概念和实现方法有所帮助。
-
- 
-

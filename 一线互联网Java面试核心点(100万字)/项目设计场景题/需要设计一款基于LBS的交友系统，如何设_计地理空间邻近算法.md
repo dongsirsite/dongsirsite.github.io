@@ -1,4 +1,5 @@
 # 需要设计一款基于 LBS 的交友系统，如何设
+
 计地理空间邻近算法
 
 :::info
@@ -11,6 +12,7 @@
 :::
 
 ### **<font style="color:rgb(79, 79, 79);">1 需求分析</font>**
+
 <font style="color:rgb(77, 77, 77);">Liao的客户端是一个移动App，用户打开App后，上传、编辑自己的基本信息，然后系统（推荐算法）根据其地理位置和个人信息，为其推荐位置邻近的用户。用户在手机上查看对方的照片和资料，如果感兴趣，希望进一步联系，就向右滑动照片；如果不感兴趣，就向左滑动照片。</font>
 
 <font style="color:rgb(77, 77, 77);">如果两个人都向右滑动了对方，就表示他们互相感兴趣。系统就通知他们配对成功，并为他们开启聊天功能，可以更进一步了解对方，决定是否建立更深入的关系。</font>
@@ -24,6 +26,7 @@
 <font style="color:rgb(77, 77, 77);">Liao的目标用户是全球范围内的中青年单身男女，预估目标用户超过10亿，系统按10亿用户进行设计。</font>
 
 ### **<font style="color:rgb(79, 79, 79);">2 概要设计</font>**
+
 <font style="color:rgb(77, 77, 77);">Liao的系统架构采用典型的</font>**<font style="color:rgb(77, 77, 77);">微服务架构</font>**<font style="color:rgb(77, 77, 77);">设计方案，用户通过网关服务器访问具体的微服务，如下图。</font>
 
 ![1720598176971-83f76924-90e7-4365-a831-be7c868b039a.png](./img/saWJ5wPQHXgwKQ30/1720598176971-83f76924-90e7-4365-a831-be7c868b039a-350894.png)
@@ -39,6 +42,7 @@
 **<font style="color:rgb(77, 77, 77);">推荐微服务</font>**<font style="color:rgb(77, 77, 77);">负责向用户展示其可能感兴趣的、邻近的用户。因此，一方面，推荐微服务需要根据用户操作、个人兴趣、交友偏好调用协同过滤等推荐算法进行推荐，另一方面必须保证推荐的用户在当前用户的附近。</font>
 
 ### **<font style="color:rgb(79, 79, 79);">3 详细设计</font>**
+
 <font style="color:rgb(77, 77, 77);">详细设计主要关注邻近位置算法，也就是，如何根据用户的地理位置寻找距其一定范围内的其他用户。</font>
 
 <font style="color:rgb(77, 77, 77);">我们可以通过Liao App获取用户当前经、纬度坐标，然后根据经、纬度，计算两个用户之间的距离，距离计算公式采用半正矢公式：</font>
@@ -50,6 +54,7 @@
 <font style="color:rgb(77, 77, 77);">但是，当我们有10亿用户的时候，如果每次进行当前用户匹配都要和其他所有用户做一次距离计算，然后再进行排序，那么需要的计算量至少也是千亿级别，这样的计算量是我们不能承受的。通常的空间邻近算法有以下4种，我们一一进行分析，最终选择出最合适的方案。</font>
 
 #### **<font style="color:rgb(79, 79, 79);">3.1 SQL邻近算法</font>**
+
 <font style="color:rgb(77, 77, 77);">我们可以将用户经、纬度直接记录到数据库中，纬度记录在latitude字段，经度记录在longitude字段，用户当前的纬度和经度为X，Y，如果我们想要查找和当前用户经、纬度距离D之内的其他用户，可以通过如下SQL实现。</font>
 
 ```sql
@@ -65,6 +70,7 @@ select*from users where latitude between X-D and X+D and longitude between Y-D a
 <font style="color:rgb(77, 77, 77);">我们的用户量非常大，而计算邻近好友又是一个非常高频的访问，同时，分片数据库进行集合计算需要在中间代理服务器或应用程序服务器完成计算，因此，这样的交集计算带来计算负载压力是我们的系统完全不能承受的。所以这个方案可以被放弃。</font>
 
 #### **<font style="color:rgb(79, 79, 79);">3.2 地理网格邻近算法</font>**
+
 <font style="color:rgb(77, 77, 77);">为了减少上述交集计算使用的中间数据量，我们将整个地球用网格进行划分，如下图。</font>
 
 ![1720598212313-b3e60577-e28b-415a-80de-aacfb944e430.png](./img/saWJ5wPQHXgwKQ30/1720598212313-b3e60577-e28b-415a-80de-aacfb944e430-790842.png)
@@ -86,6 +92,7 @@ select*from users where latitude between X-D and X+D and longitude between Y-D a
 <font style="color:rgb(77, 77, 77);">实际上，通过恰当地选择网格的大小，我们不停访问当前用户位置周边的网格就可以由近及远不断得到邻近的其他用户，而不需要再通过SQL来得到。那么如何选择网格大小？如何根据用户位置得到其所在的网格？又如何得到当前用户位置周边的其他网格呢？我们看下实践中更常用的动态网格和GeoHash算法。</font>
 
 #### **<font style="color:rgb(79, 79, 79);">3.3 动态网格算法</font>**
+
 <font style="color:rgb(77, 77, 77);">事实上，不管如何选择网格大小，可能都不合适。因为在陆家嘴即使很小的网格可能就包含近百万的用户，而在可可西里，非常大的网格也包含不了几个用户。</font>
 
 <font style="color:rgb(77, 77, 77);">因此，我们希望能够动态设定网格的大小，如果一个网格内用户太多，就把它分裂成几个小网格，小网格内如果用户还是太多，继续分裂更小的网格，如下图。</font>
@@ -103,6 +110,7 @@ select*from users where latitude between X-D and X+D and longitude between Y-D a
 <font style="color:rgb(77, 77, 77);">动态网格也叫4叉树网格，在空间邻近算法中较为常用，也能满足Liao的需求。但是编程实现稍稍有点麻烦，而且如果网格大小设计不合适，导致树的高度太高，每次查找需要遍历的路径太长，性能结果也比较差。我们再看下性能和灵活性更好的GeoHash算法。</font>
 
 #### **<font style="color:rgb(79, 79, 79);">3.4 GeoHash算法</font>**
+
 <font style="color:rgb(77, 77, 77);">除了动态网格算法，GeoHash事实上是另外一种变形了的网格算法，同时也是Redis中Geo函数使用的算法。GeoHash是将网格进行编码，然后根据编码进行Hash存储的一种算法。</font>
 
 <font style="color:rgb(77, 77, 77);">经、纬度数字的不同精度，意味着经、纬度的误差范围，比如保留经、纬度到小数点后第1位，那么误差范围最大可能会达到11公里（在赤道附近）。也就是说，小数点后1位精度的经、纬度，其覆盖范围是一个11km * 11km的网格。</font>
@@ -140,7 +148,7 @@ select*from users where latitude between X-D and X+D and longitude between Y-D a
 <font style="color:rgb(77, 77, 77);">事实上，所谓的Z阶曲线布局，本质其实就是基于GeoHash的二进制排序。将这些经过编码的2进制数据用跳表存储。查找用户的时候，可以快速找到该用户，沿着跳表前后检索，得到的就是邻近的用户。</font>
 
 #### **<font style="color:rgb(79, 79, 79);">3.5 Liao的最终算法选择</font>**
+
 <font style="color:rgb(77, 77, 77);">Liao的邻近算法最终选择使用Hash表存储的GeoHash算法，经度采用13bit编码，纬度采用12bit编码，即最后的GeoHash编码5个字符，每个网格</font><font style="color:rgb(77, 77, 77);">s</font><font style="color:rgb(77, 77, 77);">m</font><font style="color:rgb(77, 77, 77);">a</font><font style="color:rgb(77, 77, 77);">l</font><font style="color:rgb(77, 77, 77);">l</font><font style="color:rgb(77, 77, 77);">4.9</font><font style="color:rgb(77, 77, 77);">k</font><font style="color:rgb(77, 77, 77);">m</font><font style="color:rgb(77, 77, 77);">t</font><font style="color:rgb(77, 77, 77);">i</font><font style="color:rgb(77, 77, 77);">m</font><font style="color:rgb(77, 77, 77);">e</font><font style="color:rgb(77, 77, 77);">s</font><font style="color:rgb(77, 77, 77);">4.9</font><font style="color:rgb(77, 77, 77);">k</font><font style="color:rgb(77, 77, 77);">m</font><font style="color:rgb(77, 77, 77);">a</font><font style="color:rgb(77, 77, 77);">p</font><font style="color:rgb(77, 77, 77);">p</font><font style="color:rgb(77, 77, 77);">r</font><font style="color:rgb(77, 77, 77);">o</font><font style="color:rgb(77, 77, 77);">x</font><font style="color:rgb(77, 77, 77);">25</font><font style="color:rgb(77, 77, 77);">k</font><font style="color:rgb(77, 77, 77);">m</font><font style="color:rgb(77, 77, 77);">2</font><font style="color:rgb(77, 77, 77);">𝑠</font><font style="color:rgb(77, 77, 77);">𝑚</font><font style="color:rgb(77, 77, 77);">𝑎</font><font style="color:rgb(77, 77, 77);">𝑙</font><font style="color:rgb(77, 77, 77);">𝑙</font><font style="color:rgb(77, 77, 77);">4.9</font><font style="color:rgb(77, 77, 77);">𝑘</font><font style="color:rgb(77, 77, 77);">𝑚</font><font style="color:rgb(77, 77, 77);">𝑡</font><font style="color:rgb(77, 77, 77);">𝑖</font><font style="color:rgb(77, 77, 77);">𝑚</font><font style="color:rgb(77, 77, 77);">𝑒</font><font style="color:rgb(77, 77, 77);">𝑠</font><font style="color:rgb(77, 77, 77);">4.9</font><font style="color:rgb(77, 77, 77);">𝑘</font><font style="color:rgb(77, 77, 77);">𝑚</font><font style="color:rgb(77, 77, 77);">𝑎</font><font style="color:rgb(77, 77, 77);">𝑝</font><font style="color:rgb(77, 77, 77);">𝑝</font><font style="color:rgb(77, 77, 77);">𝑟</font><font style="color:rgb(77, 77, 77);">𝑜</font><font style="color:rgb(77, 77, 77);">𝑥</font><font style="color:rgb(77, 77, 77);">25</font><font style="color:rgb(77, 77, 77);">𝑘</font><font style="color:rgb(77, 77, 77);">𝑚</font><font style="color:rgb(77, 77, 77);">2</font><font style="color:rgb(77, 77, 77);">，将整个地球分为</font><font style="color:rgb(77, 77, 77);">s</font><font style="color:rgb(77, 77, 77);">m</font><font style="color:rgb(77, 77, 77);">a</font><font style="color:rgb(77, 77, 77);">l</font><font style="color:rgb(77, 77, 77);">l</font><font style="color:rgb(77, 77, 77);">2</font><font style="color:rgb(77, 77, 77);">25</font><font style="color:rgb(77, 77, 77);">a</font><font style="color:rgb(77, 77, 77);">p</font><font style="color:rgb(77, 77, 77);">p</font><font style="color:rgb(77, 77, 77);">r</font><font style="color:rgb(77, 77, 77);">o</font><font style="color:rgb(77, 77, 77);">x</font><font style="color:rgb(77, 77, 77);">3300</font><font style="color:rgb(77, 77, 77);">万</font><font style="color:rgb(77, 77, 77);">𝑠</font><font style="color:rgb(77, 77, 77);">𝑚</font><font style="color:rgb(77, 77, 77);">𝑎</font><font style="color:rgb(77, 77, 77);">𝑙</font><font style="color:rgb(77, 77, 77);">𝑙</font><font style="color:rgb(77, 77, 77);">2</font><font style="color:rgb(77, 77, 77);">25</font><font style="color:rgb(77, 77, 77);">𝑎</font><font style="color:rgb(77, 77, 77);">𝑝</font><font style="color:rgb(77, 77, 77);">𝑝</font><font style="color:rgb(77, 77, 77);">𝑟</font><font style="color:rgb(77, 77, 77);">𝑜</font><font style="color:rgb(77, 77, 77);">𝑥</font><font style="color:rgb(77, 77, 77);">3300</font><font style="color:rgb(77, 77, 77);">万</font><font style="color:rgb(77, 77, 77);">个网格，去掉海洋和几乎无人生存的荒漠极地，需要存储的Hash键不到500万个，采用Hash表存储。Hash表的key是GeoHash编码，value是一个List，其中包含了所有相同GeoHash编码的用户ID。</font>
 
 <font style="color:rgb(77, 77, 77);">查找邻近好友的时候，Liao将先计算用户当前位置的GeoHash值（5个字符），然后从Hash表中读取该Hash值对应的所有用户，即在同一个网格内的用户，进行匹配，将满足匹配条件的对象返回给用户。如果一个网格内匹配的对象数量不足，计算周围8个网格的GeoHash值，读取这些Hash值对应的用户列表，继续匹配。</font>
-

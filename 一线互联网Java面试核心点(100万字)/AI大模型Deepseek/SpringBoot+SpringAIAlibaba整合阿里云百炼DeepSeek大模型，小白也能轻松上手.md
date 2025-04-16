@@ -135,8 +135,6 @@
 </project>
 ```
 
-
-
 **<font style="color:rgba(0, 0, 0, 0.9);">2.配置 </font>**`**<font style="color:rgba(0, 0, 0, 0.9);">application.yml</font>**`**<font style="color:rgba(0, 0, 0, 0.9);"> </font>**
 
 <font style="color:rgba(0, 0, 0, 0.9);">指定 API-KEY（可通过访问阿里云百炼模型服务平台获取，有免费额度可用）</font>
@@ -153,8 +151,6 @@ spring:
         options:
           model: deepseek-r1   # 模型名称
 ```
-
-
 
 **<font style="color:rgba(0, 0, 0, 0.9);">3.注入智能体代理 ChatClient</font>**
 
@@ -179,8 +175,6 @@ public class ChatController {
     }
 }
 ```
-
-
 
 <font style="color:rgba(0, 0, 0, 0.9);">以上示例中，ChatClient 使用默认参数调用大模型，Spring AI Alibaba 还支持通过 </font>`<font style="color:rgba(0, 0, 0, 0.9);">DashScopeChatOptions</font>`<font style="color:rgba(0, 0, 0, 0.9);"> 调整与模型对话时的参数，</font>`<font style="color:rgba(0, 0, 0, 0.9);">DashScopeChatOptions</font>`<font style="color:rgba(0, 0, 0, 0.9);"> 支持两种不同维度的配置方式：</font>
 
@@ -215,7 +209,3 @@ String result = dashScopeChatClient
 关注后回复"deepseek",获取deepseek实战资料
 
 ![1740313096032-5030eeb1-f3d8-4477-9253-f6b9aa5bca74.png](./img/tBCSlVg7zhOV6uHr/1740313096032-5030eeb1-f3d8-4477-9253-f6b9aa5bca74-697847.png)
-
-  
-
-

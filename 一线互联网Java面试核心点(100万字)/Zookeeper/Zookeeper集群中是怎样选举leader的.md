@@ -1,20 +1,21 @@
 # Zookeeper 集群中是怎样选举leader的
 
 ## <font style="color:rgb(18, 18, 18);">zookeeper集群中服务器被划分为以下四种状态：</font>
+
 + <font style="color:rgb(18, 18, 18);">LOOKING：寻找Leader状态。</font>**<font style="color:rgb(18, 18, 18);">处于该状态的服务器会认为集群中没有Leader，需要进行Leader选举</font>**<font style="color:rgb(18, 18, 18);">；</font>
 + <font style="color:rgb(18, 18, 18);">FOLLOWING：跟随着状态，说明当前服务器角色为Follower；</font>
 + <font style="color:rgb(18, 18, 18);">LEADING：领导者状态，表明当前服务器角色为Leader；</font>
 + <font style="color:rgb(18, 18, 18);">OBSERVING：观察者状态，表明当前服务器角色为Observer。</font>
 
-
-
 ## <font style="color:rgb(18, 18, 18);">Leader选举的触发时机</font>
+
 + <font style="color:rgb(18, 18, 18);">集群启动，这个时候需要选举出新的Leader；</font>
 + <font style="color:rgb(18, 18, 18);">Leader服务器宕机；</font>
 
 <font style="color:rgb(18, 18, 18);"></font>
 
 ## <font style="color:rgb(18, 18, 18);">第一次启动Leader选举</font>
+
 <font style="color:rgb(18, 18, 18);">假设想在的有三台机器搭建集群：</font>
 
 <font style="color:rgb(18, 18, 18);"></font>
@@ -40,6 +41,7 @@
 </font>
 
 ## <font style="color:rgb(18, 18, 18);">非第一次启动Leader选举</font>
+
 ![1693810240917-33b74676-8224-4a21-8589-20be50958c8d.webp](./img/GqJblNIa8sO4xoZP/1693810240917-33b74676-8224-4a21-8589-20be50958c8d-379788.webp)
 
 <font style="color:rgb(18, 18, 18);">  
@@ -59,4 +61,3 @@
 2. <font style="color:rgb(18, 18, 18);">处理投票；</font>
 3. <font style="color:rgb(18, 18, 18);">统计投票；</font>
 4. <font style="color:rgb(18, 18, 18);">改变服务器的状态，此时server4成为新的Leader。</font>
-

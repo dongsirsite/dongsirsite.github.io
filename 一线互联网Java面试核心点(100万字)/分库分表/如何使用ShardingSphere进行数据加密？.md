@@ -7,4 +7,3 @@
 3. <font style="color:rgb(5, 7, 59);">加密表配置：该步骤主要用于配置数据表里哪个列为密文数据（cipherColumn）、使用什么算法进行加解密（encryptorName）、哪个列为辅助查询数据（assistedQueryColumn）、使用什么算法进行加解密（assistedQueryEncryptorName）、哪个列为明文数据（plainColumn）以及使用哪个列进行 SQL 编写（logicColumn）。</font>
 
 <font style="color:rgb(5, 7, 59);">通过以上步骤，用户可以完成 ShardingSphere 数据加密功能的配置。</font>
-

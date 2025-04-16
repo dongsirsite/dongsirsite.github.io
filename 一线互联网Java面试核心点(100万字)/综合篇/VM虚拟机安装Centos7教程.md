@@ -1,7 +1,8 @@
 # VM虚拟机安装Centos7教程
 
 # 1.前置准备
-虚拟机软件：** ****<font style="color:#DF2A3F;">VMware Workstation Pro</font>**
+
+虚拟机软件：******<font style="color:#DF2A3F;">VMware Workstation Pro</font>**
 
 ![1731593123366-519ab1da-839a-4602-ab70-c1b733f5a85c.png](./img/DMrEkrp8uld7r2Vl/1731593123366-519ab1da-839a-4602-ab70-c1b733f5a85c-237372.png)
 
@@ -17,7 +18,8 @@
 
 **<font style="color:#DF2A3F;">已经趟过的坑就不用再浪费时间了，安装本来就是一个不太重要的东西。</font>**
 
-# 2.VM 安装 Centos7 
+# 2.VM 安装 Centos7
+
 按照图片操作
 
 ![1731593352408-4eae8312-9258-415f-8afd-d6275cf169a3.png](./img/DMrEkrp8uld7r2Vl/1731593352408-4eae8312-9258-415f-8afd-d6275cf169a3-738406.png)
@@ -27,11 +29,13 @@
 **<font style="color:#DF2A3F;">修改完硬件配置后，点击完成会自动启动 Centos7，默默地等待就行。</font>**
 
 ## <font style="color:#DF2A3F;">补充：</font>
+
 ![1731594347465-8f0bf5f8-1691-416f-8739-91892edd27ca.png](./img/DMrEkrp8uld7r2Vl/1731594347465-8f0bf5f8-1691-416f-8739-91892edd27ca-174251.png)![1731594421816-e5224c3d-96c3-411b-84c5-51edc4122b36.png](./img/DMrEkrp8uld7r2Vl/1731594421816-e5224c3d-96c3-411b-84c5-51edc4122b36-147941.png)
 
 ![1731594495493-6b880411-a769-4e9b-ba4a-c6733664f693.png](./img/DMrEkrp8uld7r2Vl/1731594495493-6b880411-a769-4e9b-ba4a-c6733664f693-813451.png)
 
 ## <font style="color:#DF2A3F;">继续：</font>
+
 **安装好之后涨这个样子，如果不知道怎么配置网络就开启图形化，在来配置，不会占用多少资源的，开了也可以后续关掉。**
 
 ```java
@@ -69,4 +73,3 @@ systemctl set-default graphical.target
 **<font style="color:#DF2A3F;"></font>**
 
 **<font style="color:#DF2A3F;">如果网络一直有问题，请使用补充部分的网络重置。</font>**
-

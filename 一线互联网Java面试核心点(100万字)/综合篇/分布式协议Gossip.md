@@ -5,6 +5,7 @@ Gossip Protocol也叫Epidemic Protocol（流行病协议），还有其他名称
 该协议的发布最早是在1987年8月温哥华举行的第六届ACM分布式计算原理的学术会议上，该论文介绍了几种用于分发更新并推动副本实现一致性的随机算法。该算法非常简单，几乎不需要底层通信系统的保证，但它们可以确保每次更新的效果最终都能体现在所有副本中。通过在随机化步骤中选择适当的分布来调整算法的成本和性能。该算法与流行病非常相似，流行病学文献有助于理解其行为。
 
 ### 六度分隔理论
+
 Gossip Protocol是基于**六度分隔理论（Six Degrees of Separation）哲学**的体现，简单的来说，一个人通过6个中间人可以认识世界任何人，数学公式如下：
 
 $ c = fw $
@@ -18,10 +19,12 @@ $ c $即复杂度，$ f $为每个人的朋友圈数量，$ w $为人际宽度�
 基于[六度分隔理论](https://link.juejin.cn?target=https%3A%2F%2Fbaike.baidu.com%2Fitem%2F%25E5%2585%25AD%25E5%25BA%25A6%25E5%2588%2586%25E9%259A%2594%25E7%2590%2586%25E8%25AE%25BA%2F1086996%3Ffr%3Daladdin)得知，任何信息的传播其实非常迅速，而且网络交互次数不会很多。比如Facebook在2016年2月4号做了一个实验：研究了当时已注册的15.9亿使用者资料，发现这个神奇数字的“网络直径”是4.57，翻成白话文意味着每个人与其他人间隔为4.57人。
 
 ### 实现机制
+
 在《Epidemic Algorithms for Replicated Database Maintenance》论文中主要论述了直接邮寄（direct mail）、反熵传播（anti-entropy）、谣言传播（rumor mongering）三种机制来实现数据更新。  
 Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor mongering）实现的。
 
 #### 直接邮寄
+
 ![画板](./img/K1mUG53a7A9QKK9J/1686987989796-18e4f4a7-07b4-4ed9-af4d-5b9e0858a85c-008041.jpeg)
 
 每个节点更新都会立即从其变更节点邮寄通知到所有其他节点。
@@ -30,10 +33,10 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 | --- | --- | --- | --- | --- |
 | 直接邮寄（direct mail） | O(n)，n为节点数 | 1_m_n，m为更新消息数，n为节点数 | 更新效率高 | 不完全可靠，存在信息传递丢失风险 |
 
-
 对于**直接邮寄（direct mail）** 这种方式，主要是当节点有数据更新便开始遍历节点池，遍历发送其他所有节点消息来通知自身节点数据的更新情况，实现算法较为简单。由于是一次性遍历通知，在遇到网络通信故障、节点宕机之后恢复等现实情况时没有办法容错和补偿，这是较为致命性的地方，因此极端情况下它是无法保证分布式环境下各节点数据一致性的。
 
 #### 反熵传播
+
 ![画板](./img/K1mUG53a7A9QKK9J/1686988506806-d6d65d69-8753-4535-a946-71b34e6a3d79-151281.jpeg)
 
 <font style="color:rgb(37, 41, 51);">每个节点都会定期随机选择节点池中的一些节点，通过交换数据内容来解决两者之间的任何差异。如上图T1、T2、T3表示不同时间点各节点通知周边节点数据交互的示例。</font>
@@ -47,10 +50,7 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 | --- | --- | --- | --- | --- |
 | <font style="color:rgb(37, 41, 51);">反熵（anti-entropy）</font> | <font style="color:rgb(37, 41, 51);">O(log2n)，n为节点数</font> | <font style="color:rgb(37, 41, 51);">O((m*n)t)，n为节点数，m为更新消息数，t为周期数</font> | <font style="color:rgb(37, 41, 51);">1.可靠    </font><font style="color:rgb(37, 41, 51);">2.定时重复   </font><font style="color:rgb(37, 41, 51);">3.可容错</font> | <font style="color:rgb(37, 41, 51);">1.消息冗余   </font><font style="color:rgb(37, 41, 51);">2.消息延迟 </font><br/><font style="color:rgb(37, 41, 51);">3.网络流量耗费较多</font> |
 
-
 对于**反熵（anti-entropy）** 这种方式，和**直接邮寄（direct mail）****相比的最大特点就是****解决了消息丢失无法补偿容错导致的数据无法保持一致的致命问题**。它通过单点的定时随机通知周边节点进行数据交互的方式保持各节点之间数据的一致性。这里需要注意的是，一致性的保持是在节点数据变更后一段时间内通过节点间的数据交互逐渐完成的最终一致，并且由于每个节点都定期广播数据到周边随机的一部分节点，因此在数据交互上是存在冗余和延迟的。
-
-
 
 **反熵**  
 **反熵（anti-entropy）** 这个词汇比较陌生，之所以定义成这样是因为 entropy 是指混乱程度（disorder），而在这种模式下可以消除不同节点中数据的 disorder，因此 anti-entropy 就是 anti-disorder（反混乱），它可以提高系统中节点之间的相似性。  
@@ -61,6 +61,7 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 定期的消息广播能够弥补**直接邮寄（direct mail）** 中数据不一致的致命缺点，但是也是具有副作用的，它在一定情况下会产生大量的消息冗余，即已更新的节点无论当前数据是否保持一致，每次收到广播通知都要进行数据检查和对比，这是性能和网络流量的浪费，因此数据节点要实现文件数据校验和功能来避免该问题的性能开销。
 
 #### 谣言传播
+
 ![画板](./img/K1mUG53a7A9QKK9J/1686989056784-d3e1eda7-5096-408d-8043-be9a5205c37d-740643.jpeg)
 
 这里先以**谣言传播**方式来讲解分布式节点数据交互如下：
@@ -86,9 +87,10 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 | --- | --- | --- | --- | --- |
 | <font style="color:rgb(37, 41, 51);">谣言传播（rumor mongering）</font> | <font style="color:rgb(37, 41, 51);">O(log2n)，n为总节点数</font> | <font style="color:rgb(37, 41, 51);">O((m*n)t)，n为节点数(递减)，m为更新消息数，t为周期数</font> | <font style="color:rgb(37, 41, 51);">1.可靠    </font><font style="color:rgb(37, 41, 51);">2.定时重复   </font><font style="color:rgb(37, 41, 51);">3.可容错</font> | <font style="color:rgb(37, 41, 51);">1.消息冗余   </font><font style="color:rgb(37, 41, 51);">2.消息延迟 </font><br/><font style="color:rgb(37, 41, 51);">3.网络流量耗费较多</font> |
 
-
 ### 通信模式
+
 #### 拉 PULL
+
 ![画板](./img/K1mUG53a7A9QKK9J/1686989985364-32295808-3b26-41e2-8c7e-fc93f0a24236-391810.jpeg)
 
 + <font style="color:rgb(37, 41, 51);">① A仅将数据 key, version 推送给 B</font>
@@ -97,12 +99,14 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 + <font style="color:rgb(37, 41, 51);">④ A 更新本地</font>
 
 #### <font style="color:rgb(37, 41, 51);">推 PUSH</font>
+
 ![画板](./img/K1mUG53a7A9QKK9J/1686990063749-2d3f0741-a18c-459a-815c-6c9517804574-252744.jpeg)
 
 + <font style="color:rgb(37, 41, 51);">① 节点 A 将数据 (key,value,version) 及对应的版本号推送给 B 节点</font>
 + <font style="color:rgb(37, 41, 51);">② B 节点更新 A 中比自己新的数据</font>
 
 #### 推拉(PUSH/PULL)
+
 ![画板](./img/K1mUG53a7A9QKK9J/1686990215795-e611febf-fbcb-4785-8975-4d77231b45b3-969177.jpeg)
 
 + <font style="color:rgb(37, 41, 51);">① A仅将数据 key, version 推送给 B</font>
@@ -113,14 +117,15 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 + <font style="color:rgb(37, 41, 51);">⑥ 更新 B</font>
 
 #### <font style="color:rgb(37, 41, 51);">通信次数对比</font>
+
 | <font style="color:rgb(0, 0, 0);">模式</font> | <font style="color:rgb(0, 0, 0);">次数</font> |
 | --- | --- |
 | <font style="color:rgb(37, 41, 51);">推（push）</font> | 1 |
 | <font style="color:rgb(37, 41, 51);">拉（pull）</font> | 2 |
 | <font style="color:rgb(37, 41, 51);">推拉（push&pull）</font> | 3 |
 
-
 #### 复杂度分析
+
 <font style="color:rgb(37, 41, 51);">对于一个节点数为</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">n</font><font style="color:rgb(37, 41, 51);">的网络来说，假设每个周期</font><font style="color:rgb(255, 80, 44);background-color:rgb(255, 245, 245);">p</font><font style="color:rgb(37, 41, 51);">内，新感染的节点都能再感染至少一个新节点，那么感染节点数与周期规律如下</font>
 
 | <font style="color:rgb(37, 41, 51);">周期</font> | <font style="color:rgb(37, 41, 51);">新感染数</font> | <font style="color:rgb(37, 41, 51);">总感染数</font> |
@@ -131,7 +136,6 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 | <font style="color:rgb(37, 41, 51);">p4</font> | <font style="color:rgb(37, 41, 51);">8</font> | <font style="color:rgb(37, 41, 51);">16</font> |
 | <font style="color:rgb(37, 41, 51);">pN</font> | <font style="color:rgb(37, 41, 51);">2n-1</font> | <font style="color:rgb(37, 41, 51);">2n</font> |
 
-
 **时间复杂度**  
 那么Gossip协议将变成一个二叉树查找，经过**log2(n)** 个周期之后，感染全网，时间开销是**O(log2(n))** 。
 
@@ -141,6 +145,7 @@ Gossip协议主要是通过反熵传播（anti-entropy）、谣言传播（rumor
 以上Gossip 理论上最优的收敛速度，但是在实际情况中，最优的收敛速度是很难达到的。
 
 #### <font style="color:rgb(37, 41, 51);">实现对比</font>
+
 由于反熵传播中是以固定的概率传播冗余数据来实现节点间数据最终一致的，因此数据交互方式拉（pull）、推（push）、推拉（push&pull）三种实现对性能有所影响。  
   
 假设每个节点在每个周期被感染的概率都是固定的 $ p (0<p<1) $，每个个节点接收数据更新i周期仍再次接收冗余数据的概率为pi，这里将再次接收更新数据的无效冗余操作称之为复发，之后在i+1周期后复发的概率为pi+1；假设节点总数为n，那么
@@ -155,17 +160,20 @@ $ pi+1 = pi(1- 1 n \frac{1}{n} n1)n(1-pi) $
 可参考**拉模式（Pull）**
 
 #### 总结
+
 📍 从消息复杂度来看，Push(1次) < Pull（2次） < Pull&Push（3次）  
 📍 从时间复杂度来看，Pull > Push  
 📍 从算法实现上来看，无论是基于何种模式进行数据交互，**Gossip**都是基于**平方概率**计算进行最终一致性收敛的  
 📍 从运行效果上来看，**推拉模式（Push/Pull）** 最好，理论上一个周期内可以使两个节点完全一致，收敛速度也是最快的，消息通信损耗也是最多的。
 
 ### <font style="color:rgb(37, 41, 51);">总结</font>
+
 Gossip是一个**去中心化**的分布式协议，数据通过节点像病毒一样逐个传播，整体传播速度非常快，很像现在全球蔓延的新冠病毒（2019-nCoV）。  
 Gossip的信息传播和扩散通常需要由**种子节点**发起。整个传播过程可能需要一定的时间，由于不能保证某个时刻所有节点都收到消息，但是理论上最终所有节点都会收到消息，因此它是**最终一致性协议**。  
 Gossip是一个**多主协议**，所有写操作可以由不同节点发起，并且同步给其他副本。Gossip内组成的网络节点都是**对等节点**，是非结构化网络。
 
 #### 优点
+
 + **可扩展性**  
 允许节点的任意增加和减少，新增节点的状态最终会与其他节点一致
 + **分布式容错**  
@@ -177,12 +185,8 @@ Gossip是一个**多主协议**，所有写操作可以由不同节点发起，�
 + **通俗易懂** 算法简单，容易理解，实现成本低
 
 #### 缺点
+
 + **消息延迟** 节点随机向少数几个节点发送消息，消息最终是通过多个轮次的散播而到达全网，不可避免的造成消息延迟
 + **消息冗余** 节点定期随机选择周围节点发送消息，而收到消息的节点也会重复该步骤；不可避免的引起同一节点消息多次接收，增加消息处理压力，一般通过**文件校验和、缓存节点列表**等方式来进行优化减少数据对比带来的性能损耗
 
 基于以上优缺点分析，Gossip协议满足**CAP**分布式理论中基于**AP**场景的数据最终一致性处理，常见应用有：P2P网络通信、Apache Cassandra、Redis Cluster、Consul等，还有Apache Gossip框架的开源实现供Gossip协议的学习。
-
-
-
-
-

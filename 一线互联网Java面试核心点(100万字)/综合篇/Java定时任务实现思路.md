@@ -1,6 +1,7 @@
 # Java 定时任务实现思路
 
 ## 为什么需要定时任务？
+
 我们来看一下几个非常常见的业务场景：
 
 1. 某系统凌晨 1 点要进行数据备份。
@@ -18,7 +19,9 @@
 尽管二者的适用场景有所区别，但它们的核心思想都是将任务的执行时间安排在未来的某个点上，以达到预期的调度效果。
 
 ## 单机定时任务
+
 ### Timer
+
 `java.util.Timer`是 JDK 1.3 开始就已经支持的一种定时任务的实现方式。
 
 `Timer` 内部使用一个叫做 `TaskQueue` 的类存放定时任务，它是一个基于最小堆实现的优先级队列。`TaskQueue` 会按照任务距离下一次执行时间的大小将任务排序，保证在堆顶的任务最先执行。这样在需要执行任务时，每次只需要取出堆顶的任务运行即可！
@@ -69,6 +72,7 @@ public void test01() throws InterruptedException {
 大概的意思就是：`ScheduledThreadPoolExecutor` 支持多线程执行定时任务并且功能更强大，是 `Timer` 的替代品。
 
 ### ScheduledExecutorService
+
 `ScheduledExecutorService` 是一个接口，有多个实现类，比较常用的是 `ScheduledThreadPoolExecutor` 。
 
 ![1724831213172-d35bf048-280b-41df-9bc9-5b4ac2f2927e.png](./img/Uwhzov43ElGSbSmm/1724831213172-d35bf048-280b-41df-9bc9-5b4ac2f2927e-761959.png)
@@ -107,6 +111,7 @@ public void test02() throws InterruptedException {
 不论是使用 `Timer` 还是 `ScheduledExecutorService` 都无法使用 Cron 表达式指定任务执行的具体时间。
 
 ### DelayQueue
+
 `DelayQueue` 是 JUC 包(`java.util.concurrent)`为我们提供的延迟队列，用于实现延时任务比如订单下单 15 分钟未支付直接取消。它是 `BlockingQueue` 的一种，底层是一个基于 `PriorityQueue` 实现的一个无界队列，是线程安全的。
 
 ![1724831213124-4d781e78-30c0-478a-9573-83809417b1e2.png](./img/Uwhzov43ElGSbSmm/1724831213124-4d781e78-30c0-478a-9573-83809417b1e2-999666.png)
@@ -116,6 +121,7 @@ BlockingQueue 的实现类
 `DelayQueue` 和 `Timer/TimerTask` 都可以用于实现定时任务调度，但是它们的实现方式不同。`DelayQueue` 是基于优先级队列和堆排序算法实现的，可以实现多个任务 按照时间先后顺序执行；而 `Timer/TimerTask` 是基于单线程实现的，只能按照任务的执行顺序依次执行，如果某个任务执行时间过长，会影响其他任务的执行。另外，`DelayQueue` 还支持动态添加和移除任务，而 `Timer/TimerTask` 只能在创建时指定任务。
 
 ### Spring Task
+
 我们直接通过 Spring 提供的 `@Scheduled` 注解即可定义定时任务，非常方便！
 
 ```java
@@ -142,6 +148,7 @@ Spring Task 还是支持 **Cron 表达式** 的。Cron 表达式主要用于定�
 + 缺点：功能单一
 
 ### 时间轮
+
 Kafka、Dubbo、ZooKeeper、Netty、Caffeine、Akka 中都有对时间轮的实现。
 
 时间轮简单来说就是一个环形的队列（底层一般基于数组实现），队列中的每一个元素（时间格）都可以存放一个定时任务列表。
@@ -175,13 +182,16 @@ Kafka、Dubbo、ZooKeeper、Netty、Caffeine、Akka 中都有对时间轮的实�
 **时间轮比较适合任务数量比较多的定时任务场景，它的任务写入和执行的时间复杂度都是 0（1）。**
 
 ## 分布式定时任务
+
 ### Redis
+
 Redis 是可以用来做延时任务的，基于 Redis 实现延时任务的功能无非就下面两种方案：
 
 1. Redis 过期事件监听
 2. Redisson 内置的延时队列
 
 ### MQ
+
 大部分消息队列，例如 RocketMQ、RabbitMQ，都支持定时/延时消息。定时消息和延时消息本质其实是相同的，都是服务端根据消息设置的定时时间在某一固定时刻将消息投递给消费者消费。
 
 不过，在使用 MQ 定时消息之前一定要看清楚其使用限制，以免不适合项目需求，例如 RocketMQ 开源版定时时长最大值默认为 24 小时且不支持自定义修改、只支持 18 个 Level 的延时并不支持任意时间。
@@ -192,6 +202,7 @@ Redis 是可以用来做延时任务的，基于 Redis 实现延时任务的功�
 + **缺点**：功能性较差、不灵活、需要保障消息可靠性
 
 ## 分布式任务调度框架
+
 如果我们需要一些高级特性比如支持任务在分布式场景下的分片和高可用的话，我们就需要用到分布式任务调度框架了。
 
 通常情况下，一个分布式定时任务的执行往往涉及到下面这些角色：
@@ -201,6 +212,7 @@ Redis 是可以用来做延时任务的，基于 Redis 实现延时任务的功�
 + **执行器**：最后就是执行器，执行器接收调度器分派的任务并执行。
 
 ### Quartz
+
 一个很火的开源任务调度框架，完全由 Java 写成。Quartz 可以说是 Java 定时任务领域的老大哥或者说参考标准，其他的任务调度框架基本都是基于 Quartz 开发的，比如当当网的`elastic-job`就是基于 Quartz 二次开发之后的分布式调度解决方案。
 
 使用 Quartz 可以很方便地与 Spring 集成，并且支持动态添加任务和集群。但是，Quartz 使用起来也比较麻烦，API 繁琐。
@@ -213,6 +225,7 @@ Redis 是可以用来做延时任务的，基于 Redis 实现延时任务的功�
 + 缺点：分布式支持不友好，不支持任务可视化管理、使用麻烦（相比于其他同类型框架来说）
 
 ### Elastic-Job
+
 ElasticJob 当当网开源的一个面向互联网生态和海量任务的分布式调度解决方案，由两个相互独立的子项目 ElasticJob-Lite 和 ElasticJob-Cloud 组成。
 
 ElasticJob-Lite 和 ElasticJob-Cloud 两者的对比如下：
@@ -223,7 +236,6 @@ ElasticJob-Lite 和 ElasticJob-Cloud 两者的对比如下：
 | 资源分配 | 不支持 | 支持 |
 | 作业模式 | 常驻 | 常驻 + 瞬时 |
 | 部署依赖 | ZooKeeper | ZooKeeper + Mesos |
-
 
 `ElasticJob` 支持任务在分布式场景下的分片和高可用、任务可视化管理等功能。
 
@@ -259,6 +271,7 @@ public class TestJob implements SimpleJob {
 + 缺点：依赖了额外的中间件比如 Zookeeper（复杂度增加，可靠性降低、维护成本变高）
 
 ### XXL-JOB
+
 `XXL-JOB` 于 2015 年开源，是一款优秀的轻量级分布式任务调度框架，支持任务可视化管理、弹性扩容缩容、任务失败重试和告警、任务分片等功能，
 
 根据 `XXL-JOB` 官网介绍，其解决了很多 Quartz 的不足。
@@ -319,6 +332,7 @@ public ReturnT<String> testAnnotationJobHandler(String param) throws Exception {
 + 缺点：不支持动态添加任务。
 
 ### PowerJob
+
 非常值得关注的一个分布式任务调度框架，分布式任务调度领域的新星。目前，已经有很多公司接入比如 OPPO、京东、中通、思科。
 
 这个框架的诞生也挺有意思的，PowerJob 的作者当时在阿里巴巴实习过，阿里巴巴那会使用的是内部自研的 SchedulerX（阿里云付费产品）。实习期满之后，PowerJob 的作者离开了阿里巴巴。想着说自研一个 SchedulerX，防止哪天 SchedulerX 满足不了需求，于是 PowerJob 就诞生了。
@@ -337,8 +351,8 @@ PowerJob 官方也对比过其和 QuartZ、XXL-JOB 以及 SchedulerX。
 | 系统依赖 | JDBC 支持的关系型数据库（MySQL、Oracle...） | MySQL | 人民币 | **任意 Spring Data Jpa 支持的关系型数据库（MySQL、Oracle...）** |
 | DAG 工作流 | 不支持 | 不支持 | 支持 | **支持** |
 
-
 ## [定时任务方案总结](https://javaguide.cn/system-design/schedule-task.html#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%96%B9%E6%A1%88%E6%80%BB%E7%BB%93)
+
 单机定时任务的常见解决方案有 `Timer`、`ScheduledExecutorService`、`DelayQueue`、Spring Task 和时间轮，其中最常用也是比较推荐使用的是时间轮。另外，这几种单机定时任务解决方案同样可以实现延时任务。
 
 Redis 和 MQ 虽然可以实现分布式定时任务，但这两者本身不是专门用来做分布式定时任务的，它们并不提供较为完整和强大的分布式定时任务的功能。
@@ -354,4 +368,3 @@ Quartz、Elastic-Job、XXL-JOB 和 PowerJob 这几个是专门用来做分布式
 XXL-JOB 2015 年推出，已经经过了很多年的考验。XXL-JOB 轻量级，并且使用起来非常简单。虽然存在性能瓶颈，但是，在绝大多数情况下，对于企业的基本需求来说是没有影响的。
 
 PowerJob 属于分布式任务调度领域里的新星，其稳定性还有待继续考察。ElasticJob 由于在架构设计上是基于 Zookeeper ，而 XXL-JOB 是基于数据库，性能方面的话，ElasticJob 略胜一筹。
-

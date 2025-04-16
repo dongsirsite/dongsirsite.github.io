@@ -16,4 +16,3 @@ Kubernetes中的Deployment、StatefulSet和DaemonSet有以下区别：
     - DaemonSet的每个Pod需要挂载到特定的存储。
 
 总的来说，根据应用场景和需求，可以选择合适的Kubernetes控制器来部署和管理应用程序。
-

@@ -46,8 +46,6 @@
 
 <font style="color:rgb(62, 62, 62);">比如 Bean 加载情况、环境变量、日志信息、线程信息等。当然也可以自定义跟业务相关的监控，通过Actuator 的端点信息进行暴露。</font>
 
-
-
 ```plain
 spring-boot-starter-web          //用于快速构建基于 Spring MVC 的 Web 项目。spring-boot-starter-data-redis   //用于快速整合并操作 Redis。spring-boot-starter-data-mongodb //用于对 MongoDB 的集成。spring-boot-starter-data-jpa     //用于操作 MySQL。
 ```
@@ -120,7 +118,7 @@ spring-boot-starter-web          //用于快速构建基于 Spring MVC 的 Web �
 
 **<font style="color:rgb(62, 62, 62);">自我保护机制开启条件</font>**
 
-+ <font style="color:rgb(62, 62, 62);">期望最小每分钟能够续租的次数（实例* 频率 * 比例==10* 2 *0.85）</font>
++ <font style="color:rgb(62, 62, 62);">期望最小每分钟能够续租的次数（实例*频率* 比例==10*2*0.85）</font>
 + <font style="color:rgb(62, 62, 62);">期望的服务实例数量（10）</font>
 
 **<font style="color:rgb(62, 62, 62);">健康检查</font>**
@@ -200,10 +198,10 @@ spring-boot-starter-web          //用于快速构建基于 Spring MVC 的 Web �
 
 + **<font style="color:rgb(62, 62, 62);">封装请求</font>**<font style="color:rgb(62, 62, 62);">会将用户的操作进行统一封装，统一封装的目的在于进行统一控制。</font>
 + **<font style="color:rgb(62, 62, 62);">资源隔离限流</font>**<font style="color:rgb(62, 62, 62);">会将对应的资源按照指定的类型进行隔离，比如</font>**<font style="color:rgb(62, 62, 62);">线程池</font>**<font style="color:rgb(62, 62, 62);">和</font>**<font style="color:rgb(62, 62, 62);">信号量</font>**<font style="color:rgb(62, 62, 62);">。</font>
-    - <font style="color:rgb(62, 62, 62);">计数器限流，例如5秒内技术1000请求，超数后限流，未超数重新计数；</font>
-    - <font style="color:rgb(62, 62, 62);">滑动窗口限流，解决计数器不够精确的问题，把一个窗口拆分多滚动窗口；</font>
-    - <font style="color:rgb(62, 62, 62);">令牌桶限流，类似景区售票，售票的速度是固定的，拿到令牌才能去处理请求；</font>
-    - <font style="color:rgb(62, 62, 62);">漏桶限流，生产者消费者模型，实现了恒定速度处理请求，能够绝对防止突发流量；</font>
+  + <font style="color:rgb(62, 62, 62);">计数器限流，例如5秒内技术1000请求，超数后限流，未超数重新计数；</font>
+  + <font style="color:rgb(62, 62, 62);">滑动窗口限流，解决计数器不够精确的问题，把一个窗口拆分多滚动窗口；</font>
+  + <font style="color:rgb(62, 62, 62);">令牌桶限流，类似景区售票，售票的速度是固定的，拿到令牌才能去处理请求；</font>
+  + <font style="color:rgb(62, 62, 62);">漏桶限流，生产者消费者模型，实现了恒定速度处理请求，能够绝对防止突发流量；</font>
 + **<font style="color:rgb(62, 62, 62);">失败回退</font>**<font style="color:rgb(62, 62, 62);">其实是一个备用的方案，就是说当请求失败后，有没有备用方案来满足这个请求的需求。</font>
 + **<font style="color:rgb(62, 62, 62);">断路器</font>**<font style="color:rgb(62, 62, 62);">这个是</font>**<font style="color:rgb(62, 62, 62);">最核心</font>**<font style="color:rgb(62, 62, 62);">的，，如果断路器处于打开的状态，那么所有请求都将失败，执行回退逻辑。如果断路器处于关闭状态，那么请求将会被正常执行。有些场景我们需要手动打开断路器强制降级。</font>
 + **<font style="color:rgb(62, 62, 62);">指标监控</font>**<font style="color:rgb(62, 62, 62);">会对请求的</font>**<font style="color:rgb(62, 62, 62);">生命周期进行监控</font>**<font style="color:rgb(62, 62, 62);">，请求成功、失败、超时、拒绝等状态，都会被监控起来。</font>
@@ -365,8 +363,6 @@ grayVersions = {"discovery-article-service":["1.01"]}
 
 <font style="color:rgb(62, 62, 62);">首先我们可以对容器进行调优，最常见的就是</font>**<font style="color:rgb(62, 62, 62);">内置的 Tomcat</font>**<font style="color:rgb(62, 62, 62);"> 容器了。</font>
 
-
-
 ```plain
 server.tomcat.accept-count //请求队列排队数server.tomcat.max-threads //最大线程数server.tomcat.max-connections //最大连接数
 ```
@@ -398,4 +394,3 @@ feign.httpclient.max-connections-per-route//每个路由的连接数feign.httpcl
 <font style="color:rgb(62, 62, 62);">Gateway+配置中心实现动态路由</font>
 
 <font style="color:rgb(62, 62, 62);">Feign+配置中心实现动态日志</font>
-

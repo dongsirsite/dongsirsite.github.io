@@ -1,6 +1,7 @@
 # 如何对SpringBoot配置文件和代码加密
 
 ## 如何对SpringBoot的配置文件进行加密？
+
 在某些情况下，我们为了不暴露数据库账号密码等敏感信息，我们需要对配置文件中的敏感信息进行加密处理。
 
 ```yaml
@@ -15,15 +16,12 @@ spring:
 
 ```
 
-
-
-
-
 采用jasypt进行加密:  官网 [https://github.com/ulisesbocchio/jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot)
 
 一、配置方式
 
 ### 依赖引入
+
 首先引入jasypt依赖
 
 ```xml
@@ -42,16 +40,13 @@ spring:
 </plugin> 
 ```
 
+### 通过命令生成密文
 
-
-### 通过命令生成密文：
 依次生成数据库用户名、密码、url
 
 ```xml
 mvn jasypt:encrypt-value -Djasypt.encryptor.password="xushu666" -Djasypt.plugin.value="123456" 
 ```
-
-
 
 加密后：
 
@@ -67,31 +62,24 @@ spring:
 
 ```
 
+### 运行程序解密
 
-
-
-
-### 运行程序解密：
 ![1727339698841-b52ffd0c-f10b-4be1-9d80-f0bb99226659.png](./img/2s7h5TL8oDk3lO6U/1727339698841-b52ffd0c-f10b-4be1-9d80-f0bb99226659-109685.png)
 
+### 部署jar包解密
 
-
-### 部署jar包解密：
 ```powershell
 java -jar springboot-encry-xs-1.0.0.jar --jasypt.encryptor.password=xushu666
 ```
 
-
-
 ## 如何防止SpringBoot的jar反编译？
 
-
-
-
 ### <font style="color:#000000;">场景</font>
+
 <font style="color:rgb(34, 34, 34);">最近项目要求部署到其他公司的服务器上，但是又不想将源码泄露出去。要求对正式环境的启动包进行安全性处理，防止客户直接通过反编译工具将代码反编译出来。</font>
 
 ### 方案
+
 **<font style="color:rgb(34, 34, 34);background-color:rgb(241, 247, 253);">第一种方案使用代码混淆</font>**
 
 <font style="color:rgb(34, 34, 34);">采用</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(235, 245, 253);">proguard-maven-plugin</font>`<font style="color:rgb(34, 34, 34);">插件</font>
@@ -107,6 +95,7 @@ java -jar springboot-encry-xs-1.0.0.jar --jasypt.encryptor.password=xushu666
 [<font style="color:#117CEE;">ClassFinal项目源码地址</font>](https://gitee.com/roseboy/classfinal)
 
 ### 项目操作
+
 只需要在启动类的pom.xml文件中加如下插件即可，需要注意的是，改插件时要放到spring-boot-maven-plugin插件后面，否则不起作用。
 
 ```xml
@@ -151,20 +140,15 @@ java -jar springboot-encry-xs-1.0.0.jar --jasypt.encryptor.password=xushu666
 ```
 
 ### 启动方式
+
 <font style="color:rgb(34, 34, 34);">无密码启动</font>
 
 ```powershell
 java -javaagent:xxx-encrypted.jar -jar xxx-encrypted.jar
 ```
 
-
-
 <font style="color:rgb(34, 34, 34);">有密码启动</font>
 
 ```powershell
 java -javaagent:xxx-encrypted.jar='-pwd=密码'-jar xxx-encrypted.jar
 ```
-
-  
- 
-

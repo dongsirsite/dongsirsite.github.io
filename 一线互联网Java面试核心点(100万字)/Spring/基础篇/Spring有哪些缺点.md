@@ -9,4 +9,3 @@
 5. <font style="color:rgb(36, 41, 47);">文档和社区支持：尽管Spring框架有很多优秀的文档和活跃的社区支持，但有时候可能会遇到文档不完善或社区资源有限的情况。这可能会给开发人员带来一些困扰。</font>
 
 <font style="color:rgb(36, 41, 47);">需要注意的是，</font>**<font style="color:rgb(36, 41, 47);">这些缺点并不意味着Spring框架不好</font>**<font style="color:rgb(36, 41, 47);">，而是在使用过程中需要注意和克服的问题。同时，</font>**<font style="color:rgb(36, 41, 47);">Spring框架的优点和功能远远超过了它的缺点</font>**<font style="color:rgb(36, 41, 47);">，因此它仍然是一个非常受欢迎和广泛使用的框架。</font>
-

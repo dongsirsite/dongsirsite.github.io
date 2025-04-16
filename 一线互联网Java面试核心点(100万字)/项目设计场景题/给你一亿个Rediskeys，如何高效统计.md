@@ -20,11 +20,13 @@
 :::
 
 ## <font style="color:rgb(34, 34, 34);">聚合统计</font>
+
 <font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">聚合统计</font><font style="color:rgb(23, 35, 63);">指的是多个元素聚合的结果，比如统计多个集合的</font>**<font style="color:rgb(23, 35, 63);">交集</font>**<font style="color:rgb(23, 35, 63);">、</font>**<font style="color:rgb(23, 35, 63);">并集</font>**<font style="color:rgb(23, 35, 63);">、</font>**<font style="color:rgb(23, 35, 63);">差集</font>**
 
 **<font style="color:rgb(23, 35, 63);">在你需要对多个集合做聚合统计的时候，Set集合是个不错的选择，除了其中无重复的数据外，Redis还提供了对应的API</font>**
 
 ### <font style="color:rgb(34, 34, 34);">交集</font>
+
 <font style="color:rgb(23, 35, 63);">在上述的例子中交友系统中统计双方的共同好友正是聚合统计中的</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">交集</font><font style="color:rgb(23, 35, 63);">。</font>
 
 <font style="color:rgb(23, 35, 63);">在</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Redis</font><font style="color:rgb(23, 35, 63);">中可以</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">userid</font><font style="color:rgb(23, 35, 63);">作为</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">key</font><font style="color:rgb(23, 35, 63);">，好友的</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">userid</font><font style="color:rgb(23, 35, 63);">作为</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">value</font><font style="color:rgb(23, 35, 63);">，如下图：</font>
@@ -40,6 +42,7 @@ SINTERSTORE userid:new userid:20002 userid:20003
 <font style="color:rgb(23, 35, 63);">上述命令运行完成后，</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">userid:new</font><font style="color:rgb(23, 35, 63);">这个key中存储的将是</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">userid:20002</font><font style="color:rgb(23, 35, 63);">、</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">userid:20003</font><font style="color:rgb(23, 35, 63);">两个集合的交集。</font>
 
 ### <font style="color:rgb(34, 34, 34);">差集</font>
+
 <font style="color:rgb(23, 35, 63);">举个例子：假设交友系统中需要统计每日新增的好友，此时就需要对临近两天的好友集合取差集了，比如</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">2020/11/1</font><font style="color:rgb(23, 35, 63);">日的好友是</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">set1</font><font style="color:rgb(23, 35, 63);">，</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">2020/11/2</font><font style="color:rgb(23, 35, 63);">日的好友是</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">set2</font><font style="color:rgb(23, 35, 63);">，此时只需要对</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">set1</font><font style="color:rgb(23, 35, 63);">和</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">set2</font><font style="color:rgb(23, 35, 63);">做差集。</font>
 
 <font style="color:rgb(23, 35, 63);">此时的结构应该如何设计呢？如下图：</font>
@@ -59,6 +62,7 @@ SDIFFSTORE  user:new  userid:20201102 userid:20201101
 **<font style="color:rgb(23, 35, 63);">这里还有一个更贴切的例子，微博上有个可能认识的人功能，可以使用差集，即是你朋友的好友减去你们共同的好友即是可能认识的人。</font>**
 
 ### <font style="color:rgb(34, 34, 34);">并集</font>
+
 <font style="color:rgb(23, 35, 63);">还是差集的那个例子，假设需要统计</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">2020/11/01</font><font style="color:rgb(23, 35, 63);">和</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">2020/11/2</font><font style="color:rgb(23, 35, 63);">总共新增的好友，此时只需要对这两日新增好友的集合做一个并集。命令如下：</font>
 
 ```plain
@@ -68,6 +72,7 @@ SUNIONSTORE  userid:new userid:20201102 userid:20201101
 <font style="color:rgb(23, 35, 63);">此时新的集合</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">userid:new</font><font style="color:rgb(23, 35, 63);">则是两日新增的好友。</font>
 
 ### <font style="color:rgb(34, 34, 34);">总结</font>
+
 <font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Set</font><font style="color:rgb(23, 35, 63);">集合的交差并的计算复杂度很高，如果数据量很大的情况下，可能会造成Redis的阻塞。</font>
 
 <font style="color:rgb(23, 35, 63);">那么如何规避阻塞呢？建议如下：</font>
@@ -76,6 +81,7 @@ SUNIONSTORE  userid:new userid:20201102 userid:20201101
 2. <font style="color:rgb(51, 51, 51);">将数据交给客户端，由客户端进行聚合统计。</font>
 
 ## <font style="color:rgb(34, 34, 34);">排序统计</font>
+
 <font style="color:rgb(23, 35, 63);">在一些电商网站中可以看到商品的评论总是最新的在上面，这个是怎么做的呢？</font>
 
 <font style="color:rgb(23, 35, 63);">最新评论列表包含了所有的评论，这就要</font>**<font style="color:rgb(23, 35, 63);">集合对元素进行保序存储</font>**<font style="color:rgb(23, 35, 63);">了。也就是说集合中的元素必须按序存储，称之为有序集合。</font>
@@ -91,6 +97,7 @@ SUNIONSTORE  userid:new userid:20201102 userid:20201101
 <font style="color:rgb(23, 35, 63);">但是就灵活性来说，List肯定不适合，List只能根据先后插入的顺序排序，但是大多数的场景中可能并不只是按照时间先后排序，可能还会按照一些特定的条件，此时</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Sorted Set</font><font style="color:rgb(23, 35, 63);">就很合适了，只需要根据独有的算法生成相应的权重即可。</font>
 
 ## <font style="color:rgb(34, 34, 34);">二值状态统计</font>
+
 **<font style="color:rgb(23, 35, 63);">二值状态指的是取值0或者1两种</font>**<font style="color:rgb(23, 35, 63);">；在签到打卡的场景中，只需要记录签到（1）和未签到（0）两种状态，这就是典型的二值状态统计。</font>
 
 <font style="color:rgb(23, 35, 63);">二值状态的统计可以使用</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Redis</font><font style="color:rgb(23, 35, 63);">的扩展数据类型</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Bitmap</font><font style="color:rgb(23, 35, 63);">，底层使用</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">String</font><font style="color:rgb(23, 35, 63);">类型实现，可以把它看成是一个</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">bit</font><font style="color:rgb(23, 35, 63);">数组。关于详细内容后续介绍.........</font>
@@ -146,6 +153,7 @@ BITCOUNT userid:10001:202011
 **<font style="color:rgb(23, 35, 63);"></font>**
 
 ### <font style="color:rgb(23, 35, 63);">测试用例代码</font>
+
 ```java
 
 @SpringJUnitConfig(classes ={RedissonAutoConfiguration.class, RedisConfig.class} )
@@ -233,6 +241,7 @@ public class TestRedisBitMap {
 ```
 
 ## <font style="color:rgb(34, 34, 34);">基数统计</font>
+
 <font style="color:rgb(23, 35, 63);">基数统计指统计一个集合中不重复元素的个数。</font>
 
 <font style="color:rgb(23, 35, 63);">举个栗子：电商网站中通常需要统计每个网页的</font>**<font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">UV</font>**<font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">（</font><font style="color:rgba(0, 0, 0, 0.9);">基于访问者的唯一标识（如 IP 地址、Cookie 或设备 ID）来统计的用户访问量 对应  PV页面浏览量，指用户在统计周期内浏览的页面总数</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">）</font><font style="color:rgb(23, 35, 63);">来确定权重，网页的UV肯定是需要去重的，在Redis类型中</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Set</font><font style="color:rgb(23, 35, 63);">支持去重，第一时间肯定想到的是Set。</font>
@@ -258,6 +267,7 @@ PFCOUNT p1_uv:2024-08-28
 ```
 
 ## <font style="color:rgb(34, 34, 34);">总结</font>
+
 <font style="color:rgb(23, 35, 63);">本文介绍了统计的几种类型以及应该用什么集合存储，为了方便理解，作者将支持情况和优缺点汇总了一张表格，如下图：</font>
 
 ![1720591877650-d325300e-a634-452b-9ecd-02d332d96bde.png](./img/KM0-wneBD_va38Ky/1720591877650-d325300e-a634-452b-9ecd-02d332d96bde-092393.png)
@@ -271,4 +281,3 @@ PFCOUNT p1_uv:2024-08-28
 <font style="color:rgb(23, 35, 63);">对于二值状态统计，判断某个元素是否存在等场景，建议使用</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Bitmap</font><font style="color:rgb(23, 35, 63);">，节省的内存空间。</font>
 
 <font style="color:rgb(23, 35, 63);">对于基数统计，在大数据量、不要求精准的情况建议使用</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">HyperLogLog</font><font style="color:rgb(23, 35, 63);">，节省内存空间；对于精准的基数统计，最好还是使用</font><font style="color:rgb(18, 139, 78);background-color:rgb(231, 243, 237) !important;">Set</font><font style="color:rgb(23, 35, 63);">集合。</font>
-

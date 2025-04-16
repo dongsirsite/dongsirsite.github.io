@@ -11,4 +11,3 @@
 7. **<font style="background-color:rgb(247, 247, 248);">查看网络连接</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：有时，网络请求和连接问题也可能导致CPU高占用。查看是否有异常的网络连接或请求。</font>
 8. **<font style="background-color:rgb(247, 247, 248);">使用性能分析工具</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：使用专业的性能分析工具来检测瓶颈。例如，Java应用程序可以使用Arthas、VisualVM等工具进行分析。</font>
 9. **<font style="background-color:rgb(247, 247, 248);">应用程序优化</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：根据排查的结果，对应用程序进行优化，修复性能问题。</font>
-

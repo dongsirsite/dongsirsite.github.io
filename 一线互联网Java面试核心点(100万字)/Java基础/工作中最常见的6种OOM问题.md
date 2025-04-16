@@ -1,11 +1,13 @@
 # 工作中最常见的6种OOM问题
 
 ## 前言
+
 今天跟大家一起聊聊线上服务出现OOM问题的6种场景，希望对你会有所帮助。
 
 ![1724923208303-0a73fb4f-db5f-4186-9ae4-7d8cce5beaf4.png](./img/gK-WHN6qT-blvYKL/1724923208303-0a73fb4f-db5f-4186-9ae4-7d8cce5beaf4-135166.png)
 
 ## 堆内存OOM
+
 堆内存OOM是最常见的OOM了。
 
 出现堆内存OOM问题的异常信息如下：
@@ -41,6 +43,7 @@ public void test01() {
 我们在日常工作中一定要避免这种情况。
 
 ## 栈内存OOM
+
 有时候，我们的业务系统创建了太多的线程，可能会导致栈内存OOM。
 
 出现堆内存OOM问题的异常信息如下：
@@ -63,14 +66,13 @@ public class StackOOMTest {
 
 使用一个死循环不停创建线程，导致系统产生了大量的线程。
 
-
-
 如果实际工作中，出现这个问题，一般是由于创建的线程太多，或者设置的单个线程占用内存空间太大导致的。
 
 > 建议在日常工作中，多用线程池，少自己创建线程，防止出现这个OOM。
 >
 
 ## 栈内存溢出
+
 我们在业务代码中可能会经常写一些`递归`调用，如果递归的深度超过了JVM允许的最大深度，可能会出现栈内存溢出问题。
 
 出现栈内存溢出问题的异常信息如下：
@@ -103,6 +105,7 @@ public static void recursiveMethod() {
 >
 
 ## 直接内存OOM
+
 `直接内存`不是虚拟机运行时数据区的一部分，也不是《Java虚拟机规范》中定义的内存区域。
 
 它来源于`NIO`，通过存在堆中的`DirectByteBuffer`操作Native内存，是属于`堆外内存`，可以直接向系统申请的内存空间。
@@ -139,11 +142,10 @@ public void test04() {
 }
 ```
 
-
-
 会看到报出来java.lang.OutOfMemoryError: Direct buffer memory直接内存空间不足的异常。
 
 ## GC OOM
+
 `GC OOM`是由于JVM在GC时，对象过多，导致内存溢出，建议调整GC的策略。
 
 出现GC OOM问题时异常信息如下：
@@ -172,8 +174,6 @@ public class GCOverheadOOM {
 }
 ```
 
-
-
 出现这个问题是由于JVM在GC的时候，对象太多，就会报这个错误。
 
 我们需要改变GC的策略。
@@ -181,6 +181,7 @@ public class GCOverheadOOM {
 在老代80%时就是开始GC，并且将-XX:SurvivorRatio（-XX:SurvivorRatio=8）和-XX:NewRatio（-XX:NewRatio=4）设置的更合理。
 
 ## 元空间OOM
+
 `JDK8`之后使用`Metaspace`来代替`永久代`，Metaspace是方法区在`HotSpot`中的实现。
 
 Metaspace不在虚拟机内存中，而是使用本地内存也就是在JDK8中的`ClassMetadata`，被存储在叫做Metaspace的native memory。
@@ -229,9 +230,6 @@ public class MetaspaceOOMTest {
 }
 ```
 
-
-
 程序最后会报java.lang.OutOfMemoryError: Metaspace的元空间OOM。
 
 这个问题一般是由于加载到内存中的类太多，或者类的体积太大导致的。
-

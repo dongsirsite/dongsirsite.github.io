@@ -1,6 +1,7 @@
 # 深拷贝和浅拷贝区别
 
 ### <font style="color:rgba(0, 0, 0, 0.9);">1. </font>**<font style="color:rgba(0, 0, 0, 0.9);">什么是浅拷贝？浅拷贝？</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">是指复制对象时，只复制对象本身，而不复制对象引用的其他对象。浅拷贝后，新对象和原对象共享引用的其他对象。</font>
 
 **<font style="color:rgba(0, 0, 0, 0.9);">深拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">是指复制对象时，不仅复制对象本身，还递归地复制对象引用的其他对象。深拷贝后，新对象和原对象完全独立。</font>
@@ -19,9 +20,8 @@
 
 通常情况下，当我们需要复制一个对象并希望新对象与原始对象互不影响时，应使用深拷贝。而浅拷贝更适用于那些对象结构较简单、不包含引用类型成员变量或不需要独立修改的情况。
 
-
-
 #### <font style="color:rgba(0, 0, 0, 0.9);">示例：浅拷贝</font>
+
 ```java
 /**
  * @Auth:TianMing
@@ -99,9 +99,8 @@ Original Address: Address{street='456 New St', city='City'}
 Copy Address: Address{street='456 New St', city='City'}
 ```
 
-
-
 #### <font style="color:rgba(0, 0, 0, 0.9);">示例：深拷贝</font>
+
 ```java
 /**
  * @Auth:TianMing
@@ -187,19 +186,21 @@ Copy Address: Address{street='456 New St', city='City'}
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.9);">3.</font><font style="color:rgba(0, 0, 0, 0.9);"> </font>**<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝和深拷贝的区别是什么？</font>**
-+ **<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：只复制对象本身，引用的其他对象不复制，新对象和原对象共享引用的其他对象。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.9);">深拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：递归地复制对象及其引用的所有对象，新对象和原对象完全独立。</font>
+- **<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：只复制对象本身，引用的其他对象不复制，新对象和原对象共享引用的其他对象。</font>
+- **<font style="color:rgba(0, 0, 0, 0.9);">深拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：递归地复制对象及其引用的所有对象，新对象和原对象完全独立。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.9);">4.</font><font style="color:rgba(0, 0, 0, 0.9);"> </font>**<font style="color:rgba(0, 0, 0, 0.9);">如何实现深拷贝和浅拷贝？</font>**
-+ **<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：使用 </font>`<font style="color:rgba(0, 0, 0, 0.9);">Object.clone()</font>`<font style="color:rgba(0, 0, 0, 0.9);"> 方法，或者通过构造方法或手动复制字段</font>
-+ **<font style="color:rgba(0, 0, 0, 0.9);">深拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：手动实现深拷贝，或者使用序列化。</font>
+- **<font style="color:rgba(0, 0, 0, 0.9);">浅拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：使用 </font>`<font style="color:rgba(0, 0, 0, 0.9);">Object.clone()</font>`<font style="color:rgba(0, 0, 0, 0.9);"> 方法，或者通过构造方法或手动复制字段</font>
+- **<font style="color:rgba(0, 0, 0, 0.9);">深拷贝</font>**<font style="color:rgba(0, 0, 0, 0.9);">：手动实现深拷贝，或者使用序列化。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.9);">5.</font><font style="color:rgba(0, 0, 0, 0.9);"> </font>**<font style="color:rgba(0, 0, 0, 0.9);">深拷贝的实现方式有哪些？</font>**
+
 1. **<font style="color:rgba(0, 0, 0, 0.9);">手动实现</font>**<font style="color:rgba(0, 0, 0, 0.9);">：手动实现深拷贝是最直接的方法，通过逐个复制对象的字段来实现。这种方法需要对对象的内部结构有详细的了解，并且需要递归地复制所有引用的对象。。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.9);">序列化</font>**<font style="color:rgba(0, 0, 0, 0.9);">：序列化是另一种实现深拷贝的方法。通过将对象序列化为字节流，然后再反序列化为新对象，可以实现深拷贝。这种方法适用于所有实现了 </font>`<font style="color:rgba(0, 0, 0, 0.9);">Serializable</font>`<font style="color:rgba(0, 0, 0, 0.9);"> 接口的类。</font>
 3. **<font style="color:rgba(0, 0, 0, 0.9);">第三方库</font>**<font style="color:rgba(0, 0, 0, 0.9);">：一些第三方库（如 Apache Commons Lang）提供了深拷贝的功能，可以简化代码。</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.9);">示例（手动实现深拷贝）：</font>
+
 ```java
 /**
  * @Auth:TianMing
@@ -273,9 +274,8 @@ class Address implements Cloneable {
 }
 ```
 
-
-
 #### <font style="color:rgba(0, 0, 0, 0.9);">示例：</font>**<font style="color:rgba(0, 0, 0, 0.9);">序列化实现</font>**
+
 ```java
 import java.io.*;
 /**
@@ -316,9 +316,8 @@ public class DeepCopyWithSerialization {
 }
 ```
 
-
-
 #### <font style="color:rgba(0, 0, 0, 0.9);">示例（使用第三方库 Apache Commons Lang实现）：</font>
+
 ```java
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -347,7 +346,3 @@ public class DeepCopyWithApacheCommons {
     }
 }
 ```
-
-  
- 
-

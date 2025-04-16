@@ -1,6 +1,7 @@
 # 💧Java并发专题面试常见问题整理
 
 # 1.并行与并发有什么区别？
+
 并行和并发都是指多个任务同时执行的概念，但是它们之间有着明显的区别。
 
 + **并行：**多个任务在同一时刻同时运行，通常需要使用多个处理器或者多核处理器来实现。例如，一个计算机同时执行多个程序、多个线程或者多个进程时，就是采用并行的方式来处理任务，这样能够提高计算机的处理效率。
@@ -13,6 +14,7 @@
 总的来说，虽然并行和并发都是多任务处理的方式，但是并行是采用多核处理器等硬件实现任务同步执行，而并发则是通过操作系统的调度算法来合理地分配系统资源，使得多个任务看上去同时执行。
 
 # 2.说说什么是进程和线程?
+
 进程和线程是操作系统中的概念，用于描述程序运行时的执行实体。
 
 **进程：**一个程序在执行过程中的一个实例，每个进程都有自己独立的地址空间，也就是说它们不能直接共享内存。进程的特点包括：
@@ -32,6 +34,7 @@
 线程相比于进程，线程的创建和销毁开销较小，上下文切换开销也较小，因此线程是实现多任务并发的一种更加轻量级的方式。
 
 # <font style="color:rgb(74, 74, 74);">3.</font>说说线程有几种创建方式？
+
 Java中创建线程主要有三种方式：
 
 ![画板](./img/_kjzzIE5Zr7q1k8N/1684507798397-affa736d-97d8-49cc-9292-f3f605e49001-057089.jpeg)
@@ -104,6 +107,7 @@ class MyCallable implements Callable<String> {
 ```
 
 # 4.为什么调用start()方法时会执行run()方法，那怎么不直接调用run()方法？
+
 <font style="color:rgb(74, 74, 74);">JVM执行start方法，会先创建一个线程，由创建出来的新线程去执行thread的run方法，这才起到多线程的效果。</font>
 
 <font style="color:rgb(66, 66, 66);background-color:rgb(250, 250, 250);">start()和run()的主要区别如下：</font>
@@ -130,6 +134,7 @@ public class BaiLiDemo {
 ```
 
 # 5.线程有哪些常用的调度方法
+
 ![画板](./img/_kjzzIE5Zr7q1k8N/1684477906024-8e105c08-6c8e-4d83-a39f-5130a235e312-367085.jpeg)
 
 ```java
@@ -225,6 +230,7 @@ public class InterruptedDemo extends Thread {
 ```
 
 # 6.线程有几种状态？
+
 ![画板](./img/_kjzzIE5Zr7q1k8N/1684495224848-fe529b07-dfe1-4de3-a561-46eeae238ee6-759979.jpeg)
 
 <font style="color:rgb(74, 74, 74);">线程在自身的生命周期中， 并不是固定地处于某个状态，而是随着代码的执行在不同的状态之间进行切换，如下图：</font>
@@ -232,11 +238,13 @@ public class InterruptedDemo extends Thread {
 ![1684495292553-2280ce19-0365-497f-acf4-d3eb6934d466.png](./img/_kjzzIE5Zr7q1k8N/1684495292553-2280ce19-0365-497f-acf4-d3eb6934d466-700966.png)
 
 # 7.什么是线程上下文切换？
+
 线程上下文切换指的是在多线程运行时，操作系统从当前正在执行的线程中保存其上下文（包括当前线程的寄存器、程序指针、栈指针等状态信息），并将这些信息恢复到另一个等待执行的线程中，从而实现线程之间的切换。
 
 ![1684139069282-8e2923ea-d794-4e12-950b-a6a1c8f6d011.png](./img/_kjzzIE5Zr7q1k8N/1684139069282-8e2923ea-d794-4e12-950b-a6a1c8f6d011-829759.png)![1684138548040-609a23b8-dd6c-4964-a303-3a0f91893059.png](./img/_kjzzIE5Zr7q1k8N/1684138548040-609a23b8-dd6c-4964-a303-3a0f91893059-109359.png)
 
 # 8.线程间有哪些通信方式？
+
 ![画板](./img/_kjzzIE5Zr7q1k8N/1684741358058-a7251798-bf54-4ff9-bdfc-b2f8c478dbd5-088756.jpeg)
 
 线程间通信是指在多线程编程中，各个线程之间共享信息或者协同完成某一任务的过程。常用的线程间通信方式有以下几种：
@@ -439,6 +447,7 @@ public class BaiLIConditionDemo {
 ```
 
 # 9.ThreadLocal是什么？
+
 ThreadLocal也就是线程本地变量。如果你创建了一个ThreadLocal变量，那么访问这个变量的每个线程都会有这个变量的一个本地拷贝，多个线程操作这个变量的时候，实际是操作自己本地内存里面的变量，从而起到线程隔离的作用，避免了线程安全问题。
 
 ![1684141183356-24c6f19d-8823-4a3c-a62b-3d743d5bd3de.png](./img/_kjzzIE5Zr7q1k8N/1684141183356-24c6f19d-8823-4a3c-a62b-3d743d5bd3de-167835.png)
@@ -476,6 +485,7 @@ public class BaiLiThreadLocalDemo {
 ```
 
 # 10.ThreadLocal怎么实现？
+
 + ThreadLocal是Java中所提供的线程本地存储机制，可以利用该机制将数据<font style="color:#000000;">缓存在某个线程内部</font>，该线程可以在任意时刻、任意方法中获取缓存的数据
 + ThreadLocal底层是通过ThreadLocalMap来实现的，每个Thread对象（注意不是ThreadLocal对象）中都存在一个ThreadLocalMap，Map的key为ThreadLocal对象，Map的value为需要缓存的值
 
@@ -510,6 +520,7 @@ static class Entry extends WeakReference<ThreadLocal<?>> {
 ```
 
 # 11.ThreadLocal内存泄露是怎么回事?
+
 如果在线程池中使用ThreadLocal会造成内存泄漏，因为当ThreadLocal对象使用完之后，应该要把设置的key，value，也就是Entry对象进行回收，但线程池中的线程不会回收，而线程对象是通过强引用指向ThreadLocalMap，ThreadLocalMap也是通过强引用指向Entry对象，线程不被回收，Entry对象也就不会被回收，从而出现内存泄漏。
 
 解决办法是在使用了ThreadLocal对象之后，手动调用ThreadLocal的remove方法，手动清除Entry对象。
@@ -546,6 +557,7 @@ public class BaiLiThreadLocalMemoryLeakDemo {
 ```
 
 # 12.ThreadLocalMap的结构
+
 <font style="color:rgb(74, 74, 74);">ThreadLocalMap虽然被称为Map，但是其实它是没有实现Map接口的，不过结构还是和HashMap比较类似的，</font>主要关注的是两个要素<font style="color:rgb(74, 74, 74);">：</font>**元素数组和散列方法**<font style="color:rgb(74, 74, 74);">。</font>
 
 ![1684929312973-a083fc5c-5c4f-4370-a9d4-b28d8f3f68bd.png](./img/_kjzzIE5Zr7q1k8N/1684929312973-a083fc5c-5c4f-4370-a9d4-b28d8f3f68bd-770694.png)
@@ -573,6 +585,7 @@ private static int nextHashCode() {
 ```
 
 # 13.ThreadLocalMap怎么解决Hash冲突的？
+
 我们可能都知道HashMap使用了链表来解决冲突，也就是所谓的链地址法。
 
 ThreadLocalMap内部使用的是开放地址法来解决 Hash冲突的问题。具体来说，当发生Hash冲突时，ThreadLocalMap会将**当前插入的元素从冲突位置开始依次往后遍历，直到找到一个空闲的位置，然后把该元素放在这个空闲位置**。这样即使出现了Hash冲突，不会影响到已经插入的元素，而只是会影响到新的插入操作。
@@ -582,6 +595,7 @@ ThreadLocalMap内部使用的是开放地址法来解决 Hash冲突的问题。�
 查找的时候，先根据ThreadLocal对象的hash值找到对应的位置，然后比较该槽位Entry对象中的key是否和get的key一致，如果不一致就依次往后查找。
 
 # 14.ThreadLocalMap扩容机制
+
 <font style="color:rgb(36, 41, 47);background-color:rgb(244, 246, 248);">T</font>hreadLocalMap 的扩容机制和 HashMap 类似，也是在元素数量达到阈值（默认为数组长度的 2/3）时进行扩容。具体来说，在 set() 方法中，如果当前元素数量已经达到了阈值，就会调用 rehash() 方法，rehash()会先去清理过期的Entry，然后还要根据条件判断size >= threshold - threshold / 4 也就是size >= threshold * 3/4来决定是否需要扩容：
 
 ```java
@@ -642,6 +656,7 @@ private void resize() {
 ```
 
 # 15.ThreadLocal怎么进行父子线程通信
+
 在Java多线程编程中，父子线程之间的数据传递和共享问题一直是一个非常重要的议题。如果不处理好数据的传递和共享，会导致多线程程序的性能下降或者出现线程安全问题。ThreadLocal是Java提供的一种解决方案，可以非常好地解决父子线程数据共享和传递的问题。
 
 那么它是如何实现通信的了？在Thread类中存在InheritableThreadLocal变量，简单的说就是使用InheritableThreadLocal来进行传递，当父线程的InheritableThreadLocal不为空时，就会将这个值传到当前子线程的InheritableThreadLocal。
@@ -669,6 +684,7 @@ public class BaiLiInheritableThreadLocalDemo {
 ```
 
 # 16.说一下你对Java内存模型（JMM）的理解？
+
 Java 内存模型（Java Memory Model）是一种规范，用于描述 Java 虚拟机（JVM）中多线程情况下，线程之间如何协同工作，如何共享数据，并保证多线程的操作在各个线程之间的可见性、有序性和原子性。
 
 具体定义如下：
@@ -688,6 +704,7 @@ Java内存模型的抽象图：
 + 线程B在使用到该共享变量时，到主内存中去读取线程A更新后的共享变量的值，并更新线程B本地内存的值。
 
 # 17.说说你对原子性、可见性、有序性的理解？
+
 原子性、有序性、可见性是并发编程中非常重要的基础概念，JMM的很多技术都是围绕着这三大特性展开。
 
 + **原子性**：指一个操作是不可分割、不可中断的，在执行过程中不会受到其他线程的干扰，要么全部执行，要么就全不执行。即使是在多线程的环境下，一个操作也是原子性的执行完成。
@@ -722,6 +739,7 @@ int a = count; //3
 + 有序性：synchronized或者volatile都可以保证多线程之间操作的有序性。
 
 # 18.说说什么是指令重排？
+
 在不影响**单线程**程序执行结果的前提下，计算机为了最大限度的发挥机器性能，对机器指令进行重排序优化。
 
 ![1685601024162-84e82969-c8de-4b97-a605-3ae766c65dad.png](./img/_kjzzIE5Zr7q1k8N/1685601024162-84e82969-c8de-4b97-a605-3ae766c65dad-845632.png)
@@ -740,6 +758,7 @@ int a = count; //3
 JMM属于语言级的内存模型，它确保在不同的编译器和不同的处理器平台之上，通过禁止特定类型的编译器重排序和指令级重排序，为程序员提供一致的内存可见性保证。
 
 # 19.指令重排有限制吗？happens-before了解吗？
+
 指令重排也是有一些限制的，有两个规则happens-before和as-if-serial来约束。
 
 **<font style="color:#DF2A3F;">happens-before的定义</font>**：
@@ -842,6 +861,7 @@ public class BaiLiHappenBeforeVolatileDemo {
 **在Java语言里面，Happens-Before的语义本质上是一种可见性，A Happens-Before B 意味着A事件对B事件来说是可见的，并且无论A事件和B事件是否发生在同一个线程里。**
 
 # 20.as-if-serial又是什么？单线程的程序一定是顺序的吗？
+
 as-if-serial是指无论如何重排序都不会影响单线程程序的执行结果。这个原则的核心思想是编译器和处理器等各个层面的优化，不能改变程序执行的意义。
 
 ![1685017554575-0d736385-a280-4a51-8353-d43b0ccdfee2.png](./img/_kjzzIE5Zr7q1k8N/1685017554575-0d736385-a280-4a51-8353-d43b0ccdfee2-982055.png)
@@ -853,6 +873,7 @@ A和C之间存在数据依赖关系，同时B和C之间也存在数据依赖关�
 ![1685017119701-065df96d-c0b0-4353-ad5d-9871e3bb8a4b.png](./img/_kjzzIE5Zr7q1k8N/1685017119701-065df96d-c0b0-4353-ad5d-9871e3bb8a4b-332295.png)
 
 # 21.volatile实现原理了解吗？
+
 volatile有两个作用，保证可见性和有序性。
 
 可见性：当一个变量被声明为 volatile 时，它会告诉编译器和CPU将该变量存储在主内存中，而不是线程的本地内存中。即每个线程读取的都是主内存中最新的值，避免了多线程并发下的数据不一致问题。
@@ -873,6 +894,7 @@ volatile有两个作用，保证可见性和有序性。
 ![1685021564855-58e38bb9-df5c-4dfd-9bb2-eb82fda308d8.png](./img/_kjzzIE5Zr7q1k8N/1685021564855-58e38bb9-df5c-4dfd-9bb2-eb82fda308d8-912713.png)
 
 # 22.synchronized用过吗？怎么使用？
+
 synchronized经常用的，用来保证代码的原子性。
 
 synchronized主要有三种用法：
@@ -896,6 +918,7 @@ synchronized主要有三种用法：
 + **修饰代码块**：同步锁并不是对整个代码块进行加锁，而是对同步锁对象进行加锁。因此，如果在不同的代码块中使用了相同的同步锁对象，它们之间也会产生互斥的效果。而如果使用不同的同步锁对象，则它们之间并不会产生互斥的效果。
 
 # 23.synchronized的实现原理？
+
 我们使用synchronized的时候，发现不用自己去lock和unlock，是因为JVM帮我们把这个事情做了。
 
 1. **synchronized修饰代码块时**，JVM采用monitorenter、monitorexit两个指令来实现同步，monitorenter 指令指向同步代码块的开始位置， monitorexit 指令则指向同步代码块的结束位置。
@@ -966,6 +989,7 @@ monitorenter、monitorexit或者ACC_SYNCHRONIZED都是基于Monitor实现的。
 反编译一段synchronized修饰代码块代码，javap -c -s -v -l ***.class，可以看到相应的字节码指令。
 
 # 24.synchronized的可见性，有序性，可重入性是怎么实现的？
+
 **synchronized怎么保证可见性？**
 
 + 线程加锁前，将清空工作内存中共享变量的值，从而使用共享变量时需要从主内存中重新读取最新的值。
@@ -989,14 +1013,15 @@ synchronized 是可重入锁，也就是说，允许一个线程二次请求自�
 当线程执行完毕后，计数器会递减，直到计数器为0才释放该锁。
 
 # 25.说说synchronized和ReentrantLock的区别
+
 可以从**锁的实现**、**性能**、**功能特点**等几个维度去回答这个问题：
 
 + **锁的实现**： synchronized是Java语言的关键字，基于JVM实现。而ReentrantLock是基于JDK的API层面实现的（一般是lock()和unlock()方法配合try/finally语句块来完成。）
 + **性能**： 在JDK1.6锁优化以前，synchronized的性能比ReenTrantLock差很多。但是JDK6开始，增加了适应性自旋、锁消除等，两者性能就差不多了。
 + **功能特点**： ReentrantLock 比 synchronized 多了一些高级功能，如等待可中断、可实现公平锁、可实现选择性通知。
-        * ReentrantLock提供了一种能够中断等待锁的线程的机制，通过lock.lockInterruptibly()来实现这个机制
+        *ReentrantLock提供了一种能够中断等待锁的线程的机制，通过lock.lockInterruptibly()来实现这个机制
         * ReentrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。
-        * synchronized与wait()和notify()/notifyAll()方法结合实现等待/通知机制；ReentrantLock类借助Condition接口与newCondition()方法实现。
+        *synchronized与wait()和notify()/notifyAll()方法结合实现等待/通知机制；ReentrantLock类借助Condition接口与newCondition()方法实现。
         * ReentrantLock需要手工声明来加锁和释放锁，一般跟finally配合释放锁。而synchronized不用手动释放锁。
 
 下面的表格列出了两种锁之间的区别：
@@ -1004,6 +1029,7 @@ synchronized 是可重入锁，也就是说，允许一个线程二次请求自�
 ![1685712027520-59fe30bc-d455-432c-970a-e6afb71bd786.png](./img/_kjzzIE5Zr7q1k8N/1685712027520-59fe30bc-d455-432c-970a-e6afb71bd786-177713.png)
 
 # 26.ReentrantLock实现原理？
+
 ReentrantLock是一种可重入的排它锁，主要用来解决多线程对共享资源竞争的问题；它提供了比synchronized关键字更加灵活的锁机制。其实现原理主要涉及以下三个方面：
 
 + **基本结构**
@@ -1025,6 +1051,7 @@ ReentrantLock内部维护了一个Sync对象（AbstractQueuedSynchronizer类的�
 ReentrantLock的实现原理主要是基于CAS操作和等待队列来实现。它通过Sync对象来维护锁的状态，支持重入锁和公平锁等特性，提供了比synchronized更加灵活的锁机制，是Java并发编程中常用的同步工具之一。
 
 # 27.ReentrantLock怎么实现公平锁的？
+
 ReentrantLock可以通过构造函数的参数来控制锁的公平性，如果传入 true，就表示该锁是公平的；如果传入 false，就表示该锁是不公平的。
 
 new ReentrantLock()构造函数默认创建的是非公平锁 NonfairSync
@@ -1044,7 +1071,8 @@ FairSync、NonfairSync 代表公平锁和非公平锁，两者都是 ReentrantLo
 
 ![1686113867113-dba3fede-7ce8-47d8-9cc7-7d45897e2fdf.png](./img/_kjzzIE5Zr7q1k8N/1686113867113-dba3fede-7ce8-47d8-9cc7-7d45897e2fdf-204519.png)
 
-# 28.什么是CAS? 
+# 28.什么是CAS?
+
 CAS叫做CompareAndSwap，比较并交换，主要是通过处理器的指令来保证操作的原子性的。
 
 CAS 操作包含三个参数：共享变量的内存地址（V）、预期原值（A）和新值（B），当且仅当内存地址 V 的值等于 A 时，才将 V 的值修改为 B；否则，不会执行任何操作。
@@ -1052,6 +1080,7 @@ CAS 操作包含三个参数：共享变量的内存地址（V）、预期原值
 在多线程场景下，使用 CAS 操作可以确保多个线程同时修改某个变量时，只有一个线程能够成功修改。其他线程需要重试或者等待。这样就避免了传统锁机制中的锁竞争和死锁等问题，提高了系统的并发性能。
 
 # 29.CAS存在什么问题？如何解决？
+
 CAS的经典三大问题：
 
 ![1686063228535-2dfe1624-9882-4ac5-b58c-45b9d058e2e5.png](./img/_kjzzIE5Zr7q1k8N/1686063228535-2dfe1624-9882-4ac5-b58c-45b9d058e2e5-865640.png)
@@ -1086,6 +1115,7 @@ CAS 保证的是对一个变量执行操作的原子性，如果需要对多个�
 + **可以使用类似于事务的方式来保证多个变量的复合操作的原子性**。例如，使用**AtomicReference 类**，可以将多个变量封装到一个对象中，通过 CAS 操作更新整个对象，从而保证多个变量的复合操作的原子性。只有当整个对象的值和期望值都相等时才会执行更新操作。
 
 # 30.Java多线程中如何保证i++的结果正确
+
 ![1686129979570-3830de07-a280-4b4c-8133-1636aac4d40d.png](./img/_kjzzIE5Zr7q1k8N/1686129979570-3830de07-a280-4b4c-8133-1636aac4d40d-015546.png)
 
 + 使用 Atomic变量，Java 并发包内提供了一些原子类型，如AtomicInteger、AtomicLong等，这些类提供了一些原子操作方法，可以保证相应的操作的原子性。
@@ -1107,6 +1137,7 @@ CAS 保证的是对一个变量执行操作的原子性，如果需要对多个�
 这里使用 ReentrantLock 类的 lock() 和 unlock() 方法来保护 i++操作的原子性。
 
 # 31.AtomicInteger的原理是什么？
+
 一句话概括：使用CAS实现。
 
 在AtomicInteger中，CAS操作的流程如下：
@@ -1126,6 +1157,7 @@ CAS 保证的是对一个变量执行操作的原子性，如果需要对多个�
 在 CAS 操作中，由于只有一个线程可以成功修改共享变量的值，因此可以保证操作的原子性，即多线程同时修改AtomicInteger变量时也不会出现竞态条件。这样就可以在多线程环境下安全地对AtomicInteger进行整型变量操作。其它的原子操作类基本都是大同小异。
 
 # 32.什么是线程死锁？我们该如何避免线程死锁？
+
 死锁是指两个或两个以上的线程在执行过程中，因争夺资源而造成的互相等待的现象，在无外力作用的情况下，这些线程会一直相互等待而无法继续运行下去。
 
 ![1685714751483-87755e4b-3902-4f90-8cca-7569d8090bec.png](./img/_kjzzIE5Zr7q1k8N/1685714751483-87755e4b-3902-4f90-8cca-7569d8090bec-989656.png)
@@ -1147,6 +1179,7 @@ CAS 保证的是对一个变量执行操作的原子性，如果需要对多个�
 + 环路等待：注意加锁顺序，保证每个线程按同样的顺序进行加锁。
 
 # 33.如何排查死锁问题
+
 可以使用jdk自带的命令行工具排查：
 
 1. 使用jps查找运行的Java进程：jps -l
@@ -1219,9 +1252,8 @@ public class BaiLiDeadLock {
 
 ![1686286161193-40b39340-0a6e-4c9e-b075-780354f65690.png](./img/_kjzzIE5Zr7q1k8N/1686286161193-40b39340-0a6e-4c9e-b075-780354f65690-798329.png)
 
-
-
 # 34.什么是线程池？
+
 线程池是一种用于管理和复用线程的机制，它提供了一种执行大量异步任务的方式，并且可以在多个任务之间合理地分配和管理系统资源。
 
 线程池的主要优点包括：
@@ -1232,6 +1264,7 @@ public class BaiLiDeadLock {
 + 可以设置线程数目上限，避免了缺乏控制的线程创建造成的系统无法承受的负载压力。
 
 # 35.简单说一下线程池的工作流程
+
 用一个通俗的比喻：
 
 有一个银行营业厅，总共有六个窗口，现在有三个窗口坐着三个营业员小姐姐在营业。小天去办业务，可能会遇到什么情况呢？
@@ -1272,14 +1305,17 @@ public class BaiLiDeadLock {
 
 1. 线程池刚创建时，里面没有一个线程。任务队列是作为参数传进来的。不过，就算队列里面有任务，线程池也不会马上执行它们。
 2. 当调用 execute() 方法添加一个任务时，线程池会做如下判断：
+
 + 如果正在运行的线程数量小于 corePoolSize，那么马上创建线程运行这个任务；
 + 如果正在运行的线程数量大于或等于 corePoolSize，那么将这个任务放入队列；
 + 如果这时候队列满了，而且正在运行的线程数量小于 maximumPoolSize，那么还是要创建非核心线程立刻运行这个任务；
 + 如果队列满了，而且正在运行的线程数量大于或等于 maximumPoolSize，那么线程池会根据拒绝策略来对应处理。
+
 3. 当一个线程完成任务时，它会从队列中取下一个任务来执行。
 4. 当一个线程无事可做，超过一定的时间（keepAliveTime）时，线程池会判断，如果当前运行的线程数大于 corePoolSize，那么这个线程就被停掉。所以线程池的所有任务完成后，它最终会收缩到 corePoolSize 的大小。
 
 # 36.线程池主要参数有哪些？
+
 ![画板](./img/_kjzzIE5Zr7q1k8N/1685967614703-3dee86b6-8ee6-4bbb-8b0b-4e3984caf99a-901583.jpeg)
 
 ```java
@@ -1339,6 +1375,7 @@ maximumPoolSize表示允许的最大线程数 = (非核心线程数+核心线程
 + TimeUnit.MILLISECONDS;  毫秒
 + TimeUnit.MICROSECONDS;  微秒
 + TimeUnit.NANOSECONDS;  纳秒
+
 5. **workQueue**
 
 线程池等待队列，维护着等待执行的Runnable对象。当运行当线程数= corePoolSize时，新的任务会被添加到workQueue中，如果workQueue也满了则尝试用非核心线程执行任务，等待队列应该尽量用有界的。
@@ -1352,6 +1389,7 @@ maximumPoolSize表示允许的最大线程数 = (非核心线程数+核心线程
 corePoolSize、workQueue、maximumPoolSize都不可用的时候执行的饱和策略。
 
 # 37.线程池的拒绝策略有哪些？
+
 在线程池中，当提交的任务数量超过了线程池的最大容量，线程池就需要使用拒绝策略来处理无法处理的新任务。Java 中提供了 4 种默认的拒绝策略:
 
 + AbortPolicy（默认策略）：直接抛出 runtime 异常，阻止系统正常运行。
@@ -1371,6 +1409,7 @@ public class CustomRejectedExecutionHandler implements RejectedExecutionHandler 
 ```
 
 # 38.线程池有哪几种工作队列
+
 ![画板](./img/_kjzzIE5Zr7q1k8N/1685968453891-4c5f1921-da73-4c62-a52c-4dd336d176b4-748961.jpeg)
 
 + **有界队列**（ArrayBlockingQueue）：是一个用数组实现的有界阻塞队列，按FIFO排序。
@@ -1380,6 +1419,7 @@ public class CustomRejectedExecutionHandler implements RejectedExecutionHandler 
 + **同步队列**（SynchronousQueue）：是一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于无界队列。
 
 # 39.线程池提交execute和submit有什么区别？
+
 在Java中，线程池中一般有两种方法来提交任务：execute() 和 submit()
 
 1. execute() 用于提交不需要返回值的任务
@@ -1391,6 +1431,7 @@ public class CustomRejectedExecutionHandler implements RejectedExecutionHandler 
 ![1686467573413-64b98310-f0fb-475a-9daf-f48e4f9961a2.png](./img/_kjzzIE5Zr7q1k8N/1686467573413-64b98310-f0fb-475a-9daf-f48e4f9961a2-031178.png)
 
 # 40.怎么关闭线程池？
+
 可以通过调用线程池的shutdown或shutdownNow方法来关闭线程池。它们的原理是遍历线程池中的工作线程，然后逐个调用线程的interrupt方法来中断线程，所以无法响应中断的任务可能永远无法终止。
 
 **shutdown：**将线程池状态置为shutdown,并不会立即停止：
@@ -1516,6 +1557,7 @@ public class BaiLiShutdownNowDemo {
 ```
 
 # 41.有哪几种常见的线程池
+
 在Java中，常见的线程池类型主要有四种，都是通过工具类Excutors创建出来的。
 
 ![画板](./img/_kjzzIE5Zr7q1k8N/1685975431317-106baa68-5d49-4e80-83dc-92e6856bfcdd-347939.jpeg)
@@ -1528,6 +1570,7 @@ public class BaiLiShutdownNowDemo {
 需要注意阿里巴巴《Java开发手册》里禁止使用这种方式来创建线程池。
 
 # 42.说一说newSingleThreadExecutor工作原理
+
 ![1686472433725-ed7e8e5b-9e65-4831-99ec-422511ea06d5.png](./img/_kjzzIE5Zr7q1k8N/1686472433725-ed7e8e5b-9e65-4831-99ec-422511ea06d5-394340.png)线程池特点：
 
 + 核心线程数为1
@@ -1549,6 +1592,7 @@ public class BaiLiShutdownNowDemo {
 适用于串行执行任务的场景，一个任务一个任务地执行。
 
 # 43.说一说newFixedThreadPool工作原理
+
 ![1686472468365-dccdd0e1-4dca-482b-be6c-028f2397b2e3.png](./img/_kjzzIE5Zr7q1k8N/1686472468365-dccdd0e1-4dca-482b-be6c-028f2397b2e3-004621.png)线程池特点：
 
 + 核心线程数和最大线程数大小一样
@@ -1569,6 +1613,7 @@ public class BaiLiShutdownNowDemo {
 FixedThreadPool 适用于处理CPU密集型的任务，确保CPU在长期被工作线程使用的情况下，尽可能的少的分配线程，即适用执行长期的任务。
 
 # 44.说一说newCachedThreadPool工作原理
+
 ![1686472503394-c9c403fb-d360-4b72-9a45-b8aa41ff6b19.png](./img/_kjzzIE5Zr7q1k8N/1686472503394-c9c403fb-d360-4b72-9a45-b8aa41ff6b19-656778.png)
 
 线程池特点：
@@ -1595,6 +1640,7 @@ FixedThreadPool 适用于处理CPU密集型的任务，确保CPU在长期被工�
 用于并发执行大量短期的小任务。
 
 # 45.说一说**newScheduledThreadPool**工作原理
+
 ![1686489942182-fceba219-b11e-4b2d-9b57-00bee82ae179.png](./img/_kjzzIE5Zr7q1k8N/1686489942182-fceba219-b11e-4b2d-9b57-00bee82ae179-273140.png)
 
 线程池特点：
@@ -1670,6 +1716,7 @@ public class BaiLiScheduleWithFixedDelayDemo {
 ```
 
 # 46.线程池异常怎么处理知道吗？
+
 在使用线程池处理任务的时候，任务代码可能抛出RuntimeException，抛出异常后，线程池可能捕获它，也可能创建一个新的线程来代替异常的线程，我们可能无法感知任务出现了异常，因此我们需要考虑线程池异常情况。
 
 常见的异常处理方式：
@@ -1819,6 +1866,7 @@ public class BaiLiHandlerException {
 ```
 
 # 47.能说一下线程池有几种状态吗？
+
 线程池有这几个状态：RUNNING，SHUTDOWN，STOP，TIDYING，TERMINATED
 
 ```java
@@ -1860,6 +1908,7 @@ TERMINATED
 + 该状态表示线程池彻底终止
 
 # 48.单机线程池执行断电了应该怎么处理？
+
 单机线程池是一种常见的多线程编程方式，它可以用于异步执行任务，提高应用程序的性能和并发能力。在单机线程池中，所有任务都由同一个线程处理，因此如果该线程在执行任务时突然断电，则会出现以下问题：
 
 + 任务不完整
@@ -1873,6 +1922,7 @@ TERMINATED
 + 系统资源清理：在单机线程池执行过程中，可能会产生未释放的系统资源，如文件句柄、锁等。在系统重启后，需要清理这些未释放的系统资源，以避免资源泄漏和系统运行不稳定。
 
 # 49.NIO的原理，包括哪几个组件？
+
 NIO（Java Non-blocking I/O）是一种 I/O 技术，其核心原理是基于事件驱动的方式进行操作。
 
 **NIO 的工作原理**：基于缓冲区、通道和选择器的组合，通过高效地利用系统资源，以支持高并发和高吞吐量的数据处理。相比传统的 I/O 编程方式，Java NIO 提供了更为灵活和高效的编程方式。
@@ -1892,6 +1942,7 @@ Selector、Channel 和 Buffer 的关系图如下：
 NIO 是可以做到用一个线程来处理多个操作的。假设有 10000 个请求过来，根据实际情况，可以分配 50 或者 100 个线程来处理。不像之前的阻塞 IO 那样，非得分配 10000 个。
 
 # 50.什么是零拷贝？
+
 零拷贝（Zero-Copy）是一种 `I/O` 操作优化技术，可以快速高效地将数据从文件系统移动到网络接口，而不需要将其从内核空间复制到用户空间。
 
 **传统I/O操作过程：**
@@ -1946,9 +1997,3 @@ write(socket, tmp_buf, len);
 5. **<font style="color:rgb(18, 18, 18);">上下文（切换2）从内核态切换回用户态</font>**<font style="color:rgb(18, 18, 18);">，sendfile调用返回。</font>
 
 <font style="color:rgb(18, 18, 18);">可以发现，</font>sendfile<font style="color:rgb(18, 18, 18);">实现的零拷贝，I/O发生了</font>**<font style="color:rgb(18, 18, 18);">2</font>**<font style="color:rgb(18, 18, 18);">次用户空间与内核空间的上下文切换，以及3次数据拷贝。其中3次数据拷贝中，包括了</font>**<font style="color:rgb(18, 18, 18);">2次DMA拷贝和1次CPU拷贝</font>**<font style="color:rgb(18, 18, 18);">。</font>
-
-  
-
-
-
-

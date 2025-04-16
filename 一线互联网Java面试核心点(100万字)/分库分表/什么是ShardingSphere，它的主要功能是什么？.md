@@ -9,4 +9,3 @@
 <font style="color:rgb(5, 7, 59);">ShardingSphere 5.x 版本开始致力于可插拔架构，项目的功能组件能够灵活的以可插拔的方式进行扩展，从而满足更多定制化的需求。</font>
 
 <font style="color:rgb(5, 7, 59);">另外，ShardingSphere 还针对分库分表场景，致力于设计并实现一整套分库分表的解决方案，包括数据迁移、冷热数据分离等一系列的问题。</font>
-

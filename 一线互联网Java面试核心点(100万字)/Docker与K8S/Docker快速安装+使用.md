@@ -69,20 +69,11 @@ sudo systemctl restart docker
 Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/syst
 ```
 
- 
-
-
-
-
-
 + <font style="color:rgba(6, 8, 31, 0.88);">在Docker Hub上查找MySQL镜像的页面：</font>[<font style="color:#117CEE;">MySQL Docker Hub</font>](https://hub.docker.com/)<font style="color:#117CEE;">。</font>
 
 <font style="color:#117CEE;"></font>
 
-## Docker相关命令：
- 
-
-
+## Docker相关命令
 
 重启Docker服务：systemctl restart docker / service docker restart
 
@@ -121,6 +112,3 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service 
 将镜像加载到Docker：docker load -i 打包后的文件名字.tar（例子：docker load -i minio.tar）
 
 查看docker内存情况：docker stats -a
-
- 
-

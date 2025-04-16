@@ -1,9 +1,11 @@
 # 💎SpringBoot 面试题集合
 
 # <font style="color:#01B2BC;">SpringBoot 使用 Validation 进行参数校验并统一返回校验异常</font>
+
 <font style="color:#000000;">在 SpringBoot项目开发中，有一个观点是不要相信前端传入的参数，因为你不知道用户是怎么操作我们接口的，所以在后端也需要对参数进行校验，这篇文章主要讲讲我们项目中最常使用的验证方案。</font>
 
 ### <font style="color:#000000;">引入相应的依赖</font>
+
 ```xml
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -14,6 +16,7 @@
 <font style="color:#000000;">spring-boot-starter-validation</font><font style="color:#000000;">本质是使用的</font><font style="color:#000000;">Hibernate Validator</font><font style="color:#000000;">，它并没有自己的实现。</font>
 
 ### <font style="color:#000000;">Validation的基本校验注解</font>
+
 | **<font style="color:#000000;">注解</font>** | **<font style="color:#000000;">描述</font>** |
 | :--- | :--- |
 | **<font style="color:#000000;">@Null</font>** | <font style="color:#000000;">验证对象是否为null</font> |
@@ -41,11 +44,12 @@
 | **<font style="color:#000000;">@ScriptAssert(lang= ,script=, alias=)</font>** | <font style="color:#000000;">自定义脚本验证</font> |
 | **<font style="color:#000000;">@URL(protocol=,host=, port=,regexp=, flags=)</font>** | <font style="color:#000000;">验证URL的格式是否正确，可以指定协议</font> |
 
-
 ### <font style="color:#000000;">添加参数校验</font>
+
 <font style="color:#000000;">在我们对应的</font><font style="color:#000000;">DTO</font><font style="color:#000000;">上并在</font><font style="color:#000000;">controller</font><font style="color:#000000;">的上添加校验。</font>
 
-#### <font style="color:#000000;">在</font><font style="color:#000000;">DTO</font><font style="color:#000000;">的属性上添加校验	</font>
+#### <font style="color:#000000;">在</font><font style="color:#000000;">DTO</font><font style="color:#000000;">的属性上添加校验 </font>
+
 <font style="color:#000000;">通过在参数上添加各种校验注解实现校验</font>
 
 ```java
@@ -83,6 +87,7 @@ public class registryUserDto {
 ```
 
 #### <font style="color:#000000;">在</font><font style="color:#000000;">controller</font><font style="color:#000000;">对应的</font><font style="color:#000000;">DTO</font><font style="color:#000000;">添加</font><font style="color:#000000;">@Valid</font><font style="color:#000000;">或者</font><font style="color:#000000;">@Validated</font>
+
 ```java
 @PostMapping("/registry")
 public ResponseResult registryUser(@RequestBody @Valid registryUserDto registryUserDto) {
@@ -93,6 +98,7 @@ public ResponseResult registryUser(@RequestBody @Valid registryUserDto registryU
 <font style="color:#000000;">这样添加后就可以对其中的参数实现校验了，当校验失败时接口就会返回</font>`<font style="color:#000000;">500</font>`<font style="color:#000000;">异常和相应的异常信息。</font>
 
 #### <font style="color:#000000;">对于复杂String校验我们可以使用正则来校验，如下所示：</font>
+
 ```java
 @Pattern(regexp = "^1(3|4|5|7|8)\d{9}$",message = "手机号码格式错误")
 @NotBlank(message = "手机号码不能为空")
@@ -114,9 +120,11 @@ public class UserController {
 ```
 
 ### <font style="color:#000000;">自定义校验注解</font>
+
 <font style="color:#000000;">对于一些常见的或复杂的校验需要我们需要自定义校验注解，实现如下：</font>
 
 #### <font style="color:#000000;">新建自定义注解</font>
+
 ```java
 import org.beiming.validator.StatusValidator;
 
@@ -143,6 +151,7 @@ public @interface Status {
 ```
 
 #### <font style="color:#000000;">实现相应的校验</font>
+
 ```java
 import org.beiming.annotation.validator.Status;
 
@@ -174,12 +183,14 @@ public class StatusValidator implements ConstraintValidator<Status, Integer> {
 ```
 
 #### <font style="color:#000000;">自定义注解的使用</font>
+
 ```java
 @Status(statusType = {"1", "2"})
 private Integer status;
 ```
 
 ### <font style="color:#000000;">校验失败统一异常处理</font>
+
 <font style="color:#000000;">大家可以看到我们上面校验失败的</font><font style="color:#000000;">响应msg</font><font style="color:#000000;">非常不友好，有很多前端不需要知道的消息。在统一异常处理中添加</font><font style="color:#000000;">BindException</font><font style="color:#000000;">的处理:</font>
 
 ```java
@@ -216,6 +227,7 @@ public class GlobalExceptionHandler {
 <font style="color:#000000;">可以看到异常信息非常友好，也非常方便前端弹出消息框提示！这样就在SpringBoot的项目中添加了参数校验及统一异常处理，其实整体非常简单，也希望大家在项目中用起来！</font>
 
 # <font style="color:#01B2BC;">如何理解SpringBoot的自动配置</font>
+
 <font style="color:#000000;">Spring Boot 的自动配置（Auto-Configuration）是 Spring Boot 框架中的一个重要特性，它旨在简化 Spring 应用程序的配置过程，减少开发人员的工作量，同时提高了项目的可维护性和稳定性。理解 Spring Boot 的自动配置需要从以下几个方面来考虑：</font>
 
 1. <font style="color:#000000;">约定大于配置（Convention over Configuration）：</font><font style="color:#000000;"> Spring Boot 使用一系列约定来推断应用程序的配置需求，从而减少了显式配置的需求。这意味着在绝大多数情况下，你无需手动指定很多配置，框架会根据你的项目结构和依赖自动完成配置。</font>
@@ -226,6 +238,7 @@ public class GlobalExceptionHandler {
 6. <font style="color:#000000;">自动配置类： Spring Boot 的自动配置是通过自动配置类实现的。这些类通常位于 org.springframework.boot.autoconfigure 包下，它们使用了注解和条件化逻辑来配置应用程序的各个组件。、Spring Boot 的 Starter 机制是一种依赖关系管理的机制，旨在简化项目的依赖管理，提供了一种轻松快速地引入所需功能的方式。它有助于将相关的依赖和配置一起打包，使得开发人员能够更加专注于业务逻辑，而不必花费过多时间处理繁琐的依赖管理和配置。</font>
 
 # <font style="color:#01B2BC;">如何理解SpringBoot的Starter机制</font>
+
 1. <font style="color:#000000;"> </font>**提供预配置的依赖：**<font style="color:#000000;"> Spring Boot Starters 是一组预配置的依赖项集合，用于启用特定类型的功能。例如，你可以使用 </font>`<font style="color:#000000;">spring-boot-starter-web</font>`<font style="color:#000000;"> 启用 Web 应用程序相关的功能，包括内嵌的 Web 服务器、Spring MVC、Jackson 等。这样，你只需引入这个 Starter，而无需单独处理每个依赖项的版本和配置。 </font>
 2. <font style="color:#000000;"> </font>**简化依赖管理：**<font style="color:#000000;"> Spring Boot Starters 简化了项目的依赖管理。通过引入适当的 Starter，你不需要手动指定每个相关的依赖项，Spring Boot 会自动处理它们的版本兼容性和配置。这有助于避免版本冲突和配置错误。 </font>
 3. <font style="color:#000000;"> </font>**自动配置：**<font style="color:#000000;"> Spring Boot Starters 还包含了与功能相关的自动配置类。这些自动配置类根据应用程序的依赖和配置，自动配置了必要的组件和设置。这使得你可以快速地启用和使用功能，而无需手动配置每个组件。 </font>
@@ -235,6 +248,7 @@ public class GlobalExceptionHandler {
 <font style="color:#000000;">总之，Spring Boot Starter 机制是 Spring Boot 框架的一项重要功能，它通过提供预配置的依赖和自动配置，大大简化了项目的依赖管理和配置过程，使开发人员能够更专注于业务逻辑的实现。</font>
 
 # <font style="color:#01B2BC;">SpringBoot启动过程有哪些步骤</font>
+
 <font style="color:#000000;">Spring Boot 的启动过程是一个复杂的过程，涉及多个阶段和组件的协同工作。以下是 Spring Boot 应用程序的大致启动步骤：</font>
 
 1. <font style="color:rgb(78, 84, 91);"> </font>**加载启动类：**<font style="color:rgb(78, 84, 91);"> Spring Boot 应用程序的入口是一个 Java 类，通常带有 </font>`<font style="color:rgb(78, 84, 91);">main</font>`<font style="color:rgb(78, 84, 91);"> 方法。在这个类中，你需要创建一个 Spring Boot 应用程序上下文并启动它。这个类被称为启动类，它会加载 Spring Boot 的基础设置。 </font>
@@ -251,6 +265,7 @@ public class GlobalExceptionHandler {
 <font style="color:rgb(78, 84, 91);"></font>
 
 # <font style="color:#01B2BC;">如何理解SpringBoot条件注解</font>
+
 <font style="color:rgb(78, 84, 91);">条件注解的工作原理是通过检查一组预定义的条件来判断是否满足某个条件，如果条件成立，则相应的组件或配置会被启用，否则会被忽略。这使得开发人员能够根据应用程序的环境、依赖和配置来动态地调整应用程序的行为。</font>
 
 <font style="color:rgb(78, 84, 91);">以下是几个常见的 Spring Boot 条件注解及其用途：</font>
@@ -265,6 +280,7 @@ public class GlobalExceptionHandler {
 <font style="color:rgb(78, 84, 91);">通过使用这些条件注解，开发人员可以根据应用程序的需求和环境，动态地配置和启用不同的组件，从而实现更加灵活和可定制的应用程序。条件注解是 Spring Boot 自动化配置的核心机制之一，有助于简化应用程序的配置和管理。</font>
 
 # <font style="color:#01B2BC;">SpringBoot的jar为什么可以直接运行</font>
+
 <font style="color:#000000;">Spring Boot 的应用程序可以打包为可执行的 JAR 文件并直接运行，这是因为 Spring Boot 在设计上采用了一系列策略和技术，使得应用程序的依赖、配置和运行环境都被封装在了 JAR 文件中，从而实现了轻量级、自包含的可执行文件。</font>
 
 <font style="color:rgb(78, 84, 91);">以下是一些解释为什么 Spring Boot 的 JAR 文件可以直接运行的原因：</font>
@@ -279,6 +295,7 @@ public class GlobalExceptionHandler {
 <font style="color:rgb(78, 84, 91);">综上所述，Spring Boot 的 JAR 文件之所以可以直接运行，是因为 Spring Boot 设计了一套集成的机制，将应用程序的依赖、配置和运行环境都封装在了 JAR 文件中，使得应用程序可以以自包含的方式启动和运行。这极大地简化了部署和管理的过程，使得开发人员能够更轻松地构建和运行 Spring Boot 应用。</font>
 
 # <font style="color:#01B2BC;">SpringBoot的配置优先级是怎样的？</font>
+
 <font style="color:#000000;">Spring Boot 的配置优先级是通过不同来源的配置属性值进行合并和覆盖来确定的。配置属性可以来自多个不同的来源，例如：</font>
 
 1. <font style="color:rgb(78, 84, 91);"> </font>**应用默认值（Default Values）：**<font style="color:rgb(78, 84, 91);"> Spring Boot 提供了许多内置的默认属性值，用于定义框架和组件的默认行为。 </font>
@@ -291,6 +308,7 @@ public class GlobalExceptionHandler {
 <font style="color:rgb(78, 84, 91);">总之，Spring Boot 的配置优先级是通过不同来源的配置属性值进行合并和覆盖来确定的，这使得你可以在不同环境下轻松地配置和管理应用程序的行为。</font>
 
 # <font style="color:#01B2BC;">如何理解spring.factories文件的作用？</font>
+
 `<font style="color:#000000;">spring.factories</font>`<font style="color:#000000;"> 文件是 Spring 框架中的一个机制，用于实现在类路径下自动发现和加载扩展点的功能。这个文件的作用类似于 Java 的服务提供者接口（Service Provider Interface，SPI）机制，它允许第三方库或模块在应用程序中注册自己的实现，从而扩展或定制 Spring 框架的行为。</font>
 
 <font style="color:rgb(78, 84, 91);">理解 </font>`<font style="color:rgb(78, 84, 91);">spring.factories</font>`<font style="color:rgb(78, 84, 91);"> 文件的作用需要从以下几个方面来考虑：</font>
@@ -314,6 +332,7 @@ org.springframework.context.ApplicationContextInitializer=com.example.MyInitiali
 <font style="color:rgb(78, 84, 91);"></font>
 
 # <font style="color:#01B2BC;">SpringBoot为什么默认使用Cglib动态代理</font>
+
 <font style="color:#000000;">Spring Boot 默认使用 Cglib 动态代理是基于一些技术和设计考虑，主要包括以下几点原因：</font>
 
 1. <font style="color:#000000;"> </font>**性能和速度：**<font style="color:#000000;"> Cglib 动态代理在性能上通常比标准的 JDK 动态代理更快。Cglib 直接通过字节码生成子类来实现代理，避免了一些反射操作，因此在方法调用等方面通常更加高效。 </font>
@@ -321,9 +340,8 @@ org.springframework.context.ApplicationContextInitializer=com.example.MyInitiali
 3. <font style="color:#000000;"> </font>**无侵入性：**<font style="color:#000000;"> Spring Boot 选择 Cglib 动态代理可以使你的类无需实现任何接口或继承特定的类，从而减少了对源代码的侵入性。这对于集成第三方库或需要代理的现有类特别有用。 </font>
 4. <font style="color:#000000;"> </font>**方便集成：**<font style="color:#000000;"> Spring Boot 默认提供了 Cglib 相关的依赖，因此在应用程序中使用 Cglib 动态代理非常方便。 </font>
 
-
-
 # <font style="color:#01B2BC;">如何理解SpringBoot的@SpringBootApplication注解？</font>
+
 `<font style="color:#000000;">@SpringBootApplication</font>`<font style="color:#000000;"> 注解是 Spring Boot 中的一个核心注解，它用于标识一个主要的 Spring Boot 应用程序类。理解 </font>`<font style="color:#000000;">@SpringBootApplication</font>`<font style="color:#000000;"> 注解需要从以下几个方面来考虑：</font>
 
 1. <font style="color:rgb(78, 84, 91);"> </font>**组合注解：**<font style="color:rgb(78, 84, 91);"> </font>`<font style="color:rgb(78, 84, 91);">@SpringBootApplication</font>`<font style="color:rgb(78, 84, 91);"> 实际上是一个组合注解，它包含了多个其他的注解，用于快速配置和启动一个 Spring Boot 应用程序。具体来说，它包括了以下三个注解的功能： </font>
@@ -334,11 +352,7 @@ org.springframework.context.ApplicationContextInitializer=com.example.MyInitiali
 3. <font style="color:rgb(78, 84, 91);"> </font>**约定大于配置：**<font style="color:rgb(78, 84, 91);"> </font>`<font style="color:rgb(78, 84, 91);">@SpringBootApplication</font>`<font style="color:rgb(78, 84, 91);"> 注解代表了 Spring Boot 的约定大于配置的思想。它默认会启用自动配置，扫描并注册需要的组件，从而使得应用程序的配置过程变得简单，并且能够快速搭建一个功能完备的 Spring Boot 应用。 </font>
 4. <font style="color:rgb(78, 84, 91);"> </font>**配置扩展：**<font style="color:rgb(78, 84, 91);"> 尽管 </font>`<font style="color:rgb(78, 84, 91);">@SpringBootApplication</font>`<font style="color:rgb(78, 84, 91);"> 注解已经包含了许多默认的配置，你仍然可以在应用程序中添加自己的配置类、自定义 Bean 和其他相关组件，来进一步定制和扩展应用程序的行为。 </font>
 
-
-
 <font style="color:rgb(78, 84, 91);">示例使用 </font>`<font style="color:rgb(78, 84, 91);">@SpringBootApplication</font>`<font style="color:rgb(78, 84, 91);"> 注解的主类：</font>
-
-
 
 ```java
 import org.springframework.boot.SpringApplication;
@@ -353,17 +367,14 @@ public class MySpringBootApplication {
 }
 ```
 
-
-
 <font style="color:rgb(78, 84, 91);">总之，</font>`<font style="color:rgb(78, 84, 91);">@SpringBootApplication</font>`<font style="color:rgb(78, 84, 91);"> 注解是 Spring Boot 的核心注解之一，通过组合多个注解的功能，它标识了一个 Spring Boot 应用程序的主类，实现了快速配置和启动 Spring Boot 应用的功能。</font>
-
-
 
 <font style="color:#000000;">  
   
 </font>
 
 # <font style="color:#01B2BC;">SpringBoot读配置的6种方式</font>
+
 <font style="color:rgb(0, 0, 0);">从配置文件中获取属性应该是</font><font style="color:rgb(248, 35, 35);">SpringBoot</font><font style="color:rgb(0, 0, 0);">开发中最为常用的功能之一，但就是这么常用的功能，仍然有很多开发者在这个方面踩坑。</font>
 
 <font style="color:rgb(0, 0, 0);">我整理了几种获取配置属性的方式，目的不仅是要让大家学会如何使用，更重要的是</font>**<font style="color:rgb(9, 142, 252);">弄清配置加载、读取的底层原理</font>**<font style="color:rgb(0, 0, 0);">，一旦出现问题可以分析出其症结所在，而不是一报错取不到属性，无头苍蝇般的重启项目，在句句</font>**<font style="color:rgb(9, 142, 252);">卧槽</font>**<font style="color:rgb(0, 0, 0);">中逐渐抓狂～</font>
@@ -373,6 +384,7 @@ public class MySpringBootApplication {
 <font style="color:rgb(0, 0, 0);">下边我们一一过下这几种玩法和原理，看看有哪些是你没用过的！话不多说，开始搞～</font>
 
 ## Environment
+
 <font style="color:rgb(0, 0, 0);">使用 Environment 方式来获取配置属性值非常简单，只要注入Environment类调用其方法</font><font style="color:rgb(248, 35, 35);">getProperty(属性key)</font><font style="color:rgb(0, 0, 0);">即可，但知其然知其所以然，简单了解下它的原理，因为后续的几种获取配置的方法都和它息息相关。</font>
 
 ```plain
@@ -392,9 +404,11 @@ public class EnvironmentTest {
 ```
 
 ### <font style="color:rgb(9, 142, 252) !important;">什么是 Environment？</font>
+
 <font style="color:rgb(0, 0, 0);">Environment 是 springboot 核心的环境配置接口，它提供了简单的方法来访问应用程序属性，包括系统属性、操作系统环境变量、命令行参数、和应用程序配置文件中定义的属性等等。</font>
 
 ## <font style="color:rgb(9, 142, 252) !important;">配置初始化</font>
+
 <font style="color:rgb(0, 0, 0);">Springboot 程序启动加载流程里，会执行</font><font style="color:rgb(248, 35, 35);">SpringApplication.run</font><font style="color:rgb(0, 0, 0);">中的</font><font style="color:rgb(248, 35, 35);">prepareEnvironment()</font><font style="color:rgb(0, 0, 0);">方法进行配置的初始化，那初始化过程每一步都做了什么呢？</font>
 
 ```plain
@@ -436,13 +450,13 @@ private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners
 
 <font style="color:rgb(0, 0, 0);">看看它的配置加载流程步骤：</font>
 
-+ <font style="color:rgb(1, 1, 1);">创建</font><font style="color:rgb(1, 1, 1);"> </font>**<font style="color:rgb(9, 142, 252);">环境对象</font>**<font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(248, 35, 35);">ConfigurableEnvironment</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">用于存储环境参数；</font>
-+ <font style="color:rgb(248, 35, 35);">configureEnvironment</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">方法加载默认的</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(248, 35, 35);">application.properties</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">和</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(248, 35, 35);">application.yml</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">配置文件；以及用户指定的配置文件，将其封装为</font><font style="color:rgb(1, 1, 1);"> </font>**<font style="color:rgb(9, 142, 252);">PropertySource</font>**<font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">添加到环境对象中；</font>
-+ <font style="color:rgb(248, 35, 35);">attach()</font><font style="color:rgb(1, 1, 1);">： 加载所有的系统属性，并将它们添加到环境对象中；</font>
-+ <font style="color:rgb(248, 35, 35);">listeners.environmentPrepared()</font><font style="color:rgb(1, 1, 1);">： 发送环境参数配置已经准备就绪的监听通知；</font>
-+ <font style="color:rgb(248, 35, 35);">moveToEnd()</font><font style="color:rgb(1, 1, 1);">： 将</font><font style="color:rgb(1, 1, 1);"> </font>**<font style="color:rgb(9, 142, 252);">系统默认</font>**<font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">的属性源中的所有属性值移到环境对象的队列末尾，这样用户自定义的属性值就可以覆盖默认的属性值。</font>
-+ <font style="color:rgb(248, 35, 35);">bindToSpringApplication</font><font style="color:rgb(1, 1, 1);">： 应用程序的属性绑定到 Bean 对象上；</font>
-+ <font style="color:rgb(248, 35, 35);">attach()</font><font style="color:rgb(1, 1, 1);">： 再次加载系统配置，以防止被其他配置覆盖；</font>
+- <font style="color:rgb(1, 1, 1);">创建</font><font style="color:rgb(1, 1, 1);"> </font>**<font style="color:rgb(9, 142, 252);">环境对象</font>**<font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(248, 35, 35);">ConfigurableEnvironment</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">用于存储环境参数；</font>
+- <font style="color:rgb(248, 35, 35);">configureEnvironment</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">方法加载默认的</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(248, 35, 35);">application.properties</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">和</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(248, 35, 35);">application.yml</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">配置文件；以及用户指定的配置文件，将其封装为</font><font style="color:rgb(1, 1, 1);"> </font>**<font style="color:rgb(9, 142, 252);">PropertySource</font>**<font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">添加到环境对象中；</font>
+- <font style="color:rgb(248, 35, 35);">attach()</font><font style="color:rgb(1, 1, 1);">： 加载所有的系统属性，并将它们添加到环境对象中；</font>
+- <font style="color:rgb(248, 35, 35);">listeners.environmentPrepared()</font><font style="color:rgb(1, 1, 1);">： 发送环境参数配置已经准备就绪的监听通知；</font>
+- <font style="color:rgb(248, 35, 35);">moveToEnd()</font><font style="color:rgb(1, 1, 1);">： 将</font><font style="color:rgb(1, 1, 1);"> </font>**<font style="color:rgb(9, 142, 252);">系统默认</font>**<font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">的属性源中的所有属性值移到环境对象的队列末尾，这样用户自定义的属性值就可以覆盖默认的属性值。</font>
+- <font style="color:rgb(248, 35, 35);">bindToSpringApplication</font><font style="color:rgb(1, 1, 1);">： 应用程序的属性绑定到 Bean 对象上；</font>
+- <font style="color:rgb(248, 35, 35);">attach()</font><font style="color:rgb(1, 1, 1);">： 再次加载系统配置，以防止被其他配置覆盖；</font>
 
 <font style="color:rgb(0, 0, 0);">上边的配置加载流程中，各种配置属性会封装成一个个抽象的数据结构</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">PropertySource</font><font style="color:rgb(0, 0, 0);">中，这个数据结构代码格式如下，key-value形式。</font>
 
@@ -463,14 +477,14 @@ public abstract class PropertySource<T> {
 
 <font style="color:rgb(136, 136, 136);">关系图</font>
 
-+ <font style="color:rgb(248, 35, 35);">MapPropertySource</font><font style="color:rgb(1, 1, 1);">: Map 键值对的对象转换为 PropertySource 对象的适配器；</font>
-+ <font style="color:rgb(248, 35, 35);">PropertiesPropertySource</font><font style="color:rgb(1, 1, 1);">: Properties 对象中的所有配置属性转换为 Spring 环境中的属性值；</font>
-+ <font style="color:rgb(248, 35, 35);">ResourcePropertySource</font><font style="color:rgb(1, 1, 1);">: 从文件系统或者 classpath 中加载配置属性，封装成 PropertySource对象；</font>
-+ <font style="color:rgb(248, 35, 35);">ServletConfigPropertySource</font><font style="color:rgb(1, 1, 1);">: Servlet 配置中读取配置属性，封装成 PropertySource 对象；</font>
-+ <font style="color:rgb(248, 35, 35);">ServletContextPropertySource</font><font style="color:rgb(1, 1, 1);">: Servlet 上下文中读取配置属性，封装成 PropertySource 对象；</font>
-+ <font style="color:rgb(248, 35, 35);">StubPropertySource</font><font style="color:rgb(1, 1, 1);">: 是个空的实现类，它的作用仅仅是给 CompositePropertySource 类作为默认的父级属性源，以避免空指针异常；</font>
-+ <font style="color:rgb(248, 35, 35);">CompositePropertySource</font><font style="color:rgb(1, 1, 1);">: 是个复合型的实现类，内部维护了 PropertySource集合队列，可以将多个 PropertySource 对象合并；</font>
-+ <font style="color:rgb(248, 35, 35);">SystemEnvironmentPropertySource</font><font style="color:rgb(1, 1, 1);">: 操作系统环境变量中读取配置属性，封装成 PropertySource 对象；</font>
+- <font style="color:rgb(248, 35, 35);">MapPropertySource</font><font style="color:rgb(1, 1, 1);">: Map 键值对的对象转换为 PropertySource 对象的适配器；</font>
+- <font style="color:rgb(248, 35, 35);">PropertiesPropertySource</font><font style="color:rgb(1, 1, 1);">: Properties 对象中的所有配置属性转换为 Spring 环境中的属性值；</font>
+- <font style="color:rgb(248, 35, 35);">ResourcePropertySource</font><font style="color:rgb(1, 1, 1);">: 从文件系统或者 classpath 中加载配置属性，封装成 PropertySource对象；</font>
+- <font style="color:rgb(248, 35, 35);">ServletConfigPropertySource</font><font style="color:rgb(1, 1, 1);">: Servlet 配置中读取配置属性，封装成 PropertySource 对象；</font>
+- <font style="color:rgb(248, 35, 35);">ServletContextPropertySource</font><font style="color:rgb(1, 1, 1);">: Servlet 上下文中读取配置属性，封装成 PropertySource 对象；</font>
+- <font style="color:rgb(248, 35, 35);">StubPropertySource</font><font style="color:rgb(1, 1, 1);">: 是个空的实现类，它的作用仅仅是给 CompositePropertySource 类作为默认的父级属性源，以避免空指针异常；</font>
+- <font style="color:rgb(248, 35, 35);">CompositePropertySource</font><font style="color:rgb(1, 1, 1);">: 是个复合型的实现类，内部维护了 PropertySource集合队列，可以将多个 PropertySource 对象合并；</font>
+- <font style="color:rgb(248, 35, 35);">SystemEnvironmentPropertySource</font><font style="color:rgb(1, 1, 1);">: 操作系统环境变量中读取配置属性，封装成 PropertySource 对象；</font>
 
 <font style="color:rgb(0, 0, 0);">上边各类配置初始化生成的 PropertySource 对象会被维护到集合队列中。</font>
 
@@ -492,6 +506,7 @@ private void prepareContext(DefaultBootstrapContext bootstrapContext, Configurab
 ```
 
 ### <font style="color:rgb(9, 142, 252) !important;">3、读取配置</font>
+
 <font style="color:rgb(0, 0, 0);">看明白上边配置加载的流程，其实读取配置就容易理解了，无非就是遍历队列里的</font><font style="color:rgb(248, 35, 35);">PropertySource</font><font style="color:rgb(0, 0, 0);">，拿属性名称</font><font style="color:rgb(248, 35, 35);">name</font><font style="color:rgb(0, 0, 0);">匹配对应的属性值</font><font style="color:rgb(248, 35, 35);">source</font><font style="color:rgb(0, 0, 0);">。</font>
 
 <font style="color:rgb(248, 35, 35);">PropertyResolver</font><font style="color:rgb(0, 0, 0);">是获取配置的关键类，其内部提供了操作</font><font style="color:rgb(248, 35, 35);">PropertySource</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">队列的方法，核心方法</font><font style="color:rgb(248, 35, 35);">getProperty(key)</font><font style="color:rgb(0, 0, 0);">获取配置值，看了下这个类的依赖关系，发现</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">Environment</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">是它子类。</font>
@@ -517,6 +532,7 @@ public class EnvironmentTest {
 ```
 
 ## <font style="color:rgb(255, 255, 255);">二、@Value 注解</font>
+
 <font style="color:rgb(0, 0, 0);">@Value注解是</font><font style="color:rgb(248, 35, 35);">Spring</font><font style="color:rgb(0, 0, 0);">框架提供的用于注入配置属性值的注解，它可用于类的</font><font style="color:rgb(248, 35, 35);">成员变量</font><font style="color:rgb(0, 0, 0);">、</font><font style="color:rgb(248, 35, 35);">方法参数</font><font style="color:rgb(0, 0, 0);">和</font><font style="color:rgb(248, 35, 35);">构造函数</font><font style="color:rgb(0, 0, 0);">参数上，</font>**<font style="color:rgb(9, 142, 252);">这个记住很重要！</font>**
 
 <font style="color:rgb(0, 0, 0);">在应用程序启动时，使用 @Value 注解的 Bean 会被实例化。所有使用了 @Value 注解的 Bean 会被加入到</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">PropertySourcesPlaceholderConfigurer</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">的后置处理器集合中。</font>
@@ -526,6 +542,7 @@ public class EnvironmentTest {
 <font style="color:black;">需要注意，在使用 @Value 注解时需要确保注入的属性值已经加载到 Spring 容器中，否则会导致注入失败。</font>
 
 ### <font style="color:rgb(9, 142, 252) !important;">如何使用</font>
+
 <font style="color:rgb(0, 0, 0);">在</font><font style="color:rgb(248, 35, 35);">src/main/resources</font><font style="color:rgb(0, 0, 0);">目录下的</font><font style="color:rgb(248, 35, 35);">application.yml</font><font style="color:rgb(0, 0, 0);">配置文件中添加</font><font style="color:rgb(248, 35, 35);">env101.var1</font><font style="color:rgb(0, 0, 0);">属性。</font>
 
 ```plain
@@ -557,6 +574,7 @@ public class EnvVariablesTest {
 <font style="color:rgb(0, 0, 0);">虽然@Value注解方式使用起来很简单，如果使用不当还会遇到不少坑。</font>
 
 ### <font style="color:rgb(9, 142, 252) !important;">缺失配置</font>
+
 <font style="color:rgb(0, 0, 0);">如果在代码中引用变量，配置文件中未进行配值，就会出现类似下图所示的错误。</font>
 
 ![1688374407391-2d0d979a-f635-44dc-956b-b01bf3a7f4c6.png](./img/xD-fECzQuZuIzkG9/1688374407391-2d0d979a-f635-44dc-956b-b01bf3a7f4c6-752978.png)
@@ -569,6 +587,7 @@ private String var1;
 ```
 
 ### <font style="color:rgb(9, 142, 252) !important;">静态变量（static）赋值</font>
+
 <font style="color:rgb(0, 0, 0);">还有一种常见的使用误区，就是将 @Value 注解加到静态变量上，这样做是无法获取属性值的。静态变量是类的属性，并不属于对象的属性，而 Spring是基于对象的属性进行依赖注入的，类在应用启动时静态变量就被初始化，此时 Bean还未被实例化，因此不可能通过 @Value 注入属性值。</font>
 
 ```plain
@@ -619,6 +638,7 @@ public class EnvVariablesTest {
 ```
 
 ### <font style="color:rgb(9, 142, 252) !important;">常量（final）赋值</font>
+
 <font style="color:rgb(0, 0, 0);">@Value 注解加到</font><font style="color:rgb(248, 35, 35);">final</font><font style="color:rgb(0, 0, 0);">关键字上同样也无法获取属性值，因为 final 变量必须在构造方法中进行初始化，并且一旦被赋值便不能再次更改。而 @Value 注解是在 bean 实例化之后才进行属性注入的，因此无法在构造方法中初始化 final 变量。</font>
 
 ```plain
@@ -645,6 +665,7 @@ public class EnvVariables2Test {
 ```
 
 ### <font style="color:rgb(9, 142, 252) !important;">非注册的类中使用</font>
+
 <font style="color:rgb(0, 0, 0);">只有标注了</font><font style="color:rgb(248, 35, 35);">@Component</font><font style="color:rgb(0, 0, 0);">、</font><font style="color:rgb(248, 35, 35);">@Service</font><font style="color:rgb(0, 0, 0);">、</font><font style="color:rgb(248, 35, 35);">@Controller</font><font style="color:rgb(0, 0, 0);">、</font><font style="color:rgb(248, 35, 35);">@Repository</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">或</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">@Configuration</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">等</font>**<font style="color:rgb(9, 142, 252);">容器管理</font>**<font style="color:rgb(0, 0, 0);">注解的类，由 Spring 管理的 bean 中使用 @Value注解才会生效。而对于普通的POJO类，则无法使用 @Value注解进行属性注入。</font>
 
 ```plain
@@ -668,6 +689,7 @@ public class TestService {
 ```
 
 ### <font style="color:rgb(9, 142, 252) !important;">引用方式不对</font>
+
 <font style="color:rgb(0, 0, 0);">如果我们想要获取 TestService 类中的某个变量的属性值，需要使用依赖注入的方式，而不能使用 new 的方式。通过依赖注入的方式创建 TestService 对象，Spring 会在创建对象时将对象所需的属性值注入到其中。</font>
 
 ```plain
@@ -685,9 +707,11 @@ public class TestService {
 <font style="color:black;">最后总结一下</font><font style="color:black;"> </font>**<font style="color:rgb(9, 142, 252);">@Value注解要在 Bean的生命周期内使用才能生效。</font>**
 
 ## <font style="color:rgb(255, 255, 255);">三、@ConfigurationProperties 注解</font>
+
 <font style="color:rgb(248, 35, 35);">@ConfigurationProperties</font><font style="color:rgb(0, 0, 0);">注解是 SpringBoot 提供的一种更加便捷来处理配置文件中的属性值的方式，可以通过自动绑定和类型转换等机制，将指定前缀的属性集合自动绑定到一个Bean对象上。</font>
 
 ### <font style="color:rgb(9, 142, 252) !important;">加载原理</font>
+
 <font style="color:rgb(0, 0, 0);">在 Springboot 启动流程加载配置的</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">prepareEnvironment()</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">方法中，有一个重要的步骤方法</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">bindToSpringApplication(environment)</font><font style="color:rgb(0, 0, 0);">，它的作用是将配置文件中的属性值绑定到被</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">@ConfigurationProperties</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">注解标记的 Bean对象中。但此时这些对象还没有被 Spring 容器管理，因此无法完成属性的自动注入。</font>
 
 <font style="color:rgb(0, 0, 0);">那么这些Bean对象又是什么时候被注册到 Spring 容器中的呢？</font>
@@ -696,10 +720,11 @@ public class TestService {
 
 ![1688374407371-7ede8bb7-43bb-4c4b-88d4-585478b8fe36.png](./img/xD-fECzQuZuIzkG9/1688374407371-7ede8bb7-43bb-4c4b-88d4-585478b8fe36-475661.png)
 
-+ <font style="color:rgb(248, 35, 35);">bindToSpringApplication</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">主要是将属性值绑定到 Bean 对象中；</font>
-+ <font style="color:rgb(248, 35, 35);">ConfigurationPropertiesBindingPostProcessor</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">负责在 Spring 容器启动时将被注解标记的 Bean 对象注册到容器中，并完成后续的属性注入操作；</font>
+- <font style="color:rgb(248, 35, 35);">bindToSpringApplication</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">主要是将属性值绑定到 Bean 对象中；</font>
+- <font style="color:rgb(248, 35, 35);">ConfigurationPropertiesBindingPostProcessor</font><font style="color:rgb(1, 1, 1);"> </font><font style="color:rgb(1, 1, 1);">负责在 Spring 容器启动时将被注解标记的 Bean 对象注册到容器中，并完成后续的属性注入操作；</font>
 
 ### <font style="color:rgb(9, 142, 252) !important;">如何使用</font>
+
 <font style="color:rgb(0, 0, 0);">演示使用 @ConfigurationProperties 注解，在 application.yml 配置文件中添加配置项：</font>
 
 ```plain
@@ -740,11 +765,13 @@ public class ConfTest {
 ```
 
 ## <font style="color:rgb(255, 255, 255);">四、@PropertySources 注解</font>
+
 <font style="color:rgb(0, 0, 0);">除了系统默认的</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">application.yml</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">或者</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">application.properties</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">文件外，我们还可能需要使用自定义的配置文件来实现更加灵活和个性化的配置。与默认的配置文件不同的是，自定义的配置文件无法被应用自动加载，需要我们手动指定加载。</font>
 
 <font style="color:rgb(248, 35, 35);">@PropertySources</font><font style="color:rgb(0, 0, 0);"> 注解的实现原理相对简单，应用程序启动时扫描所有被该注解标注的类，获取到注解中指定自定义配置文件的路径，将指定路径下的配置文件内容加载到 Environment 中，这样可以通过 </font><font style="color:rgb(248, 35, 35);">@Value</font><font style="color:rgb(0, 0, 0);"> 注解或 </font><font style="color:rgb(248, 35, 35);">Environment.getProperty()</font><font style="color:rgb(0, 0, 0);"> 方法来获取其中定义的属性值了。</font>
 
 ### <font style="color:rgb(9, 142, 252) !important;">如何使用</font>
+
 <font style="color:rgb(0, 0, 0);">在 src/main/resources/ 目录下创建自定义配置文件</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">xiaofu.properties</font><font style="color:rgb(0, 0, 0);">，增加两个属性。</font>
 
 ```plain
@@ -811,6 +838,7 @@ public class PropertySourcesConf2 {
 ```
 
 ## <font style="color:rgb(255, 255, 255);">五、YamlPropertiesFactoryBean 加载 YAML 文件</font>
+
 <font style="color:rgb(0, 0, 0);">我们可以使用</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">YamlPropertiesFactoryBean</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">类将 YAML 配置文件中的属性值注入到 Bean 中。</font>
 
 ```plain
@@ -846,6 +874,7 @@ public class YamlTest {
 ```
 
 ## <font style="color:rgb(255, 255, 255);">六、JAVA原生读取</font>
+
 <font style="color:rgb(0, 0, 0);">如果上边的几种读取配置的方式你都不喜欢，就想自己写个更流批的轮子，那也很好办。我们直接注入</font><font style="color:rgb(248, 35, 35);">PropertySources</font><font style="color:rgb(0, 0, 0);">获取所有属性的配置队列，你是想用注解实现还是其他什么方式，就可以为所欲为了。</font>
 
 ```plain
@@ -870,6 +899,7 @@ public class CustomTest {
 ```
 
 ## <font style="color:rgb(255, 255, 255);">总结</font>
+
 <font style="color:rgb(0, 0, 0);">我们可以通过</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(248, 35, 35);">@Value</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">注解、</font><font style="color:rgb(248, 35, 35);">Environment</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">类、</font><font style="color:rgb(248, 35, 35);">@ConfigurationProperties</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">注解、</font><font style="color:rgb(248, 35, 35);">@PropertySource</font><font style="color:rgb(0, 0, 0);"> </font><font style="color:rgb(0, 0, 0);">注解等方式来获取配置信息。</font>
 
 <font style="color:rgb(0, 0, 0);">其中，@Value 注解适用于单个值的注入，而其他几种方式适用于批量配置的注入。不同的方式在效率、灵活性、易用性等方面存在差异，在选择配置获取方式时，还需要考虑个人编程习惯和业务需求。</font>
@@ -877,11 +907,12 @@ public class CustomTest {
 <font style="color:rgb(0, 0, 0);">如果重视代码的可读性和可维护性，则可以选择使用 </font><font style="color:rgb(248, 35, 35);">@ConfigurationProperties</font><font style="color:rgb(0, 0, 0);"> 注解；如果更注重运行效率，则可以选择使用 </font><font style="color:rgb(248, 35, 35);">Environment</font><font style="color:rgb(0, 0, 0);"> 类。总之，不同的场景需要选择不同的方式，以达到最优的效果。</font>
 
 # <font style="color:#01B2BC;">SpringBoot可以同时处理多少请求？</font>
+
 ## ![这么问谁不迷糊](./img/xD-fECzQuZuIzkG9/1683537610516-0e83d39a-a413-490c-8787-b1647387e7c7-797227.jpeg)
+
 ## 前言
+
 ---
-
-
 
 :::info
 <font style="color:rgb(38, 38, 38);">我们都知道，SpringBoot默认的内嵌容器是Tomcat，也就是我们的程序实际上是运行在Tomcat里的。所以与其说SpringBoot可以处理多少请求，到不如说Tomcat可以处理多少请求。  
@@ -894,6 +925,7 @@ public class CustomTest {
 ---
 
 ## 线程池4大参数
+
 可以关注下线程池的常用4大参数：
 
 ```json
@@ -932,25 +964,19 @@ public class CustomTest {
 },
 ```
 
- 
+- **server.tomcat.threads.min-spare**：最少的工作线程数，默认大小是10。
+  - 对于绝大部分场景，将它设置的和最大线程数相等就可以了。
+  - 将最小线程数设置的小于最大线程数的初衷是为了节省资源，因为每多创建一个线程都会耗费一定量的资源，尤其是线程栈所需要的资源。但是在一个系统中，针对硬件资源以及任务特点选定了最大线程数之后，就表示这个系统总是会利用这些线程的，那么还不如在一开始就让线程池把需要的线程准备好。然而，把最小线程数设置的小于最大线程数所带来的影响也是非常小的，一般都不会察觉到有什么不同。
 
-+ **server.tomcat.threads.min-spare**：最少的工作线程数，默认大小是10。 
-    - 对于绝大部分场景，将它设置的和最大线程数相等就可以了。
-    - 将最小线程数设置的小于最大线程数的初衷是为了节省资源，因为每多创建一个线程都会耗费一定量的资源，尤其是线程栈所需要的资源。但是在一个系统中，针对硬件资源以及任务特点选定了最大线程数之后，就表示这个系统总是会利用这些线程的，那么还不如在一开始就让线程池把需要的线程准备好。然而，把最小线程数设置的小于最大线程数所带来的影响也是非常小的，一般都不会察觉到有什么不同。 
-
-在批处理程序中，最小线程数是否等于最大线程数并不重要。因为最后线程总是需要被创建出来的，所以程序的运行时间应该几乎相同。对于服务器程序而言，影响也不大，但是一般而言，线程池中的线程在“热身”阶段就应该被创建出来，所以这也是为什么建议将最小线程数设置的等于最大线程数的原因。 
+在批处理程序中，最小线程数是否等于最大线程数并不重要。因为最后线程总是需要被创建出来的，所以程序的运行时间应该几乎相同。对于服务器程序而言，影响也不大，但是一般而言，线程池中的线程在“热身”阶段就应该被创建出来，所以这也是为什么建议将最小线程数设置的等于最大线程数的原因。
 
 在一些场景中，也需要要设置一个不同的最小线程数。比如当一个系统最大需要同时处理2000个任务，而平均任务数量只是20个情况下，就需要将最小线程数设置成20，而不是等于其最大线程数2000。此时如果还是将最小线程数设置的等于最大线程数的话，那么闲置线程(Idle Thread)占用的资源就比较可观了，尤其是当使用了ThreadLocal类型的变量时。
 
- 
+- **server.tomcat.threads.max**：最多的工作线程数，默认大小是200。
+  - 每一次HTTP请求到达Web服务，tomcat都会创建一个线程来处理该请求，那么最大线程数决定了Web服务容器可以同时处理多少个请求。maxThreads默认200，肯定建议增加。但是，增加线程是有成本的，更多的线程，不仅仅会带来更多的线程上下文切换成本，而且意味着带来更多的内存消耗。JVM中默认情况下在创建新线程时会分配大小为1M的线程栈，所以，更多的线程异味着需要更多的内存。线程数的经验值为：1核2g内存为200，线程数经验值200；4核8g内存，线程数经验值800。
 
-+ **server.tomcat.threads.max**：最多的工作线程数，默认大小是200。 
-    - 每一次HTTP请求到达Web服务，tomcat都会创建一个线程来处理该请求，那么最大线程数决定了Web服务容器可以同时处理多少个请求。maxThreads默认200，肯定建议增加。但是，增加线程是有成本的，更多的线程，不仅仅会带来更多的线程上下文切换成本，而且意味着带来更多的内存消耗。JVM中默认情况下在创建新线程时会分配大小为1M的线程栈，所以，更多的线程异味着需要更多的内存。线程数的经验值为：1核2g内存为200，线程数经验值200；4核8g内存，线程数经验值800。
-
-
-
-+ **server.tomcat.max-connections**：最大连接数，默认大小是8192。 
-+ 官方文档的说明为：
+- **server.tomcat.max-connections**：最大连接数，默认大小是8192。
+- 官方文档的说明为：
 
 > 这个参数是指在同一时间，tomcat能够接受的最大连接数。对于Java的阻塞式BIO，默认值是maxthreads的值；如果在BIO模式使用定制的Executor执行器，默认值将是执行器中maxthreads的值。对于Java 新的NIO模式，maxConnections 默认值是10000。  
 对于windows上APR/native IO模式，maxConnections默认值为8192，这是出于性能原因，如果配置的值不是1024的倍数，maxConnections 的实际值将减少到1024的最大倍数。
@@ -960,9 +986,7 @@ public class CustomTest {
 maxConnections和accept-count的关系为：当连接数达到最大值maxConnections后，系统会继续接收连接，但不会超过acceptCount的值。
 >
 
- 
-
-+ **server.tomcat.accept-count**：等待队列的长度，默认大小是100。
+- **server.tomcat.accept-count**：等待队列的长度，默认大小是100。
 
 官方文档的说明为：
 
@@ -970,14 +994,14 @@ maxConnections和accept-count的关系为：当连接数达到最大值maxConnec
 详细的来说：当调用HTTP请求数达到tomcat的最大线程数时，还有新的HTTP请求到来，这时tomcat会将该请求放在等待队列中，这个acceptCount就是指能够接受的最大等待数，默认100。如果等待队列也被放满了，这个时候再来新的请求就会被tomcat拒绝（connection refused）。
 >
 
- 
-
 <font style="color:rgb(37, 41, 51);"></font>
 
 <font style="color:rgb(37, 41, 51);"></font>
 
-##  
-###  图解
+## 
+
+### 图解
+
 ![1683606215543-e5a97d95-94a2-4df0-98c8-3d57d94ebd0b.png](./img/xD-fECzQuZuIzkG9/1683606215543-e5a97d95-94a2-4df0-98c8-3d57d94ebd0b-955440.png)
 
 min-spare、maxConnections、maxThreads、acceptCount关系之间，具体的关系如何呢？ 有不少的同学对于这个问题是云里雾里的，并且多次进行求助。这里用一个形象的比喻，通俗易懂的解释一下tomcat的最大线程数（maxThreads）、最大等待数（acceptCount）和最大连接数（maxConnections）三者之间的关系。
@@ -990,19 +1014,16 @@ min-spare、maxConnections、maxThreads、acceptCount关系之间，具体的关
 **（3）maxThreads：最大线程数**  
 可以类比为厨师的个数。每一个厨师，在同一时刻，只能给一张餐桌炒菜，就像极了JVM中的一条线程。
 
-#### 整个就餐的流程，大致如下：
+#### 整个就餐的流程，大致如下
+
 （1）取号：如果maxConnections连接数没有满，就不需要取号，因为还有空余的餐桌，直接被大堂服务员领上餐桌，点菜就餐即可。如果 maxConnections 连接数满了，但是取号人数没有达到 acceptCount，则取号成功。如果取号人数已达到acceptCount，则拿号失败，会得到Tomcat的Connection refused connect 的回复信息。  
 （2）上桌：如果有餐桌空出来了，表示maxConnections连接数没有满，排队的人，可以进入大堂上桌就餐。  
 （3）就餐：就餐需要厨师炒菜。厨师的数量，比顾客的数量，肯定会少一些。一个厨师一定需要给多张餐桌炒菜，如果就餐的人越多，厨师也会忙不过来。这时候就可以增加厨师，一增加到上限maxThreads的值，如果还是不够，只能是拖慢每一张餐桌的上菜速度，这种情况，就是大家常见的“上一道菜吃光了，下一道菜还没有上”尴尬场景。
 
-###  
- 
-
-
-
-
+### 
 
 ## 代码示例
+
 <font style="color:rgb(37, 41, 51);">在application.yml里配置一下这几个参数，因为默认的数量太大，不好测试，所以配小一点：</font>
 
 ```yaml
@@ -1030,14 +1051,14 @@ server:
  }
 ```
 
-
-
 ## 怎么配置，才能使得自己的服务效率更高呢？
+
 **首先，这和tomcat的使用的IO模式有关**
 
 关于Java IO模式、以及IO处理的线程模型等基础的通信框架的知识，是Java程序员的重要、必备的内功，具体 这里不做过多的赘述。
 
 # <font style="color:#01B2BC;">SpringBoot根据配置文件动态创建Bean</font>
+
 如果现在需要实现一个这样的需求：
 
 > 根据配置信息动态控制是否创建任意Bean
@@ -1057,10 +1078,12 @@ com:
         name: xushu
 ```
 
-可以把这个需求拆成**获取配置信息**    和    **动态创建Bean **来一一分析，最后组合即可
+可以把这个需求拆成**获取配置信息**    和    **动态创建Bean**来一一分析，最后组合即可
 
-## 获取配置信息的几种方式：
+## 获取配置信息的几种方式
+
 ### `@Value`
+
 通过`@Value`单个获取;一个个设置，太麻烦
 
 ```java
@@ -1071,6 +1094,7 @@ private Class<?> beanClass;
 ```
 
 ### `@ConfigurationProperties`
+
 通过`@ConfigurationProperties(prefix = "com.tuling")`可以批量获取，比较方便
 
 ```java
@@ -1086,9 +1110,10 @@ public class BeanProperties {
 ```
 
 ### `EnvironmentAware`
+
 Spring提供很多XXXAware接口、其中EnvironmentAware接口就可以通过其提供的Environment动态获取。
 
-+ **第一步**：实现`EnvironmentAware`接口
+- **第一步**：实现`EnvironmentAware`接口
 
 ```java
 @Component
@@ -1100,7 +1125,7 @@ public class TestEnvironmentAware implements EnvironmentAware {
 }
 ```
 
-+ **第二步**：获取/绑定配置，提供两种方式： 
+- **第二步**：获取/绑定配置，提供两种方式：
     1. **获取方式一**：单个获取
 
 ```java
@@ -1120,7 +1145,8 @@ public void setEnvironment(Environment environment) {
 }
 ```
 
-## 动态创建Bean的几种方式：
+## 动态创建Bean的几种方式
+
 注意！我们需要的是动态！**动态！！**是在运行过程中经过逻辑代码创建Bean,   不是通过配置、 @Component这种配置方式这种方式不能自由控制业务逻辑。
 
 想要动态创建Bean先了解Bean创建的大概过程：  
@@ -1128,6 +1154,7 @@ public void setEnvironment(Environment environment) {
 如果想动态注册Bean,可以通过先动态注册BeanDefintion即可，Spring提供了动态注册BeanDefinition的接口：
 
 ### ImportBeanDefinitionRegistrar
+
 **第一步**：创建实现`ImportBeanDefinitionRegistrar`接口的类， 演示了一个DeanDefintion的注册
 
 ```java
@@ -1151,6 +1178,7 @@ public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 ```
 
 ### BeanDefinitionRegistryPostProcessor
+
 创建实现`BeanDefinitionRegistryPostProcessor`接口的类， 演示一个DeanDefintion的注册
 
 ```java
@@ -1169,23 +1197,24 @@ public class MyBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegi
 ```
 
 ### 通过BeanFactoryPostProcessor
+
 BeanFactoryPostProcessor也可以，但是没有BeanDefinitionRegistryPostProcessor这么明确的责任是用来注册的，及其他方式就不演示了。
 
-## 根据配置信息动态创建Bean：
+## 根据配置信息动态创建Bean
+
 OK. 现在读取信息会了， 动态创建Bean也会了， 结合即可：  
 怎么结合 ? 想想  
 可以通过这两种方式：  
 1.EnvironmentAware（获取配置）+ImportBeanDefinitionRegistrar（创建Bean）  
 2.EnvironmentAware（获取配置）+BeanDefinitionRegistryPostProcessor（创建Bean）  
-通过[@Value ](/Value ) 和@ConfigurationProperties  **注解方式获取配置为什么不可以**？**Why?~**  
+通过[@Value](/Value ) 和@ConfigurationProperties  **注解方式获取配置为什么不可以**？**Why?~**  
 因为顺序原因！这里就要清楚：  
-[@Value ](/Value ) 和@ConfigurationProperties注解依赖 **BeanPostProcessor**解析，要调用BeanPostProcessor就**要先注册**，而BeanPostProcessor的注册是在BeanDefinition的注册之后的。  
+[@Value](/Value ) 和@ConfigurationProperties注解依赖 **BeanPostProcessor**解析，要调用BeanPostProcessor就**要先注册**，而BeanPostProcessor的注册是在BeanDefinition的注册之后的。  
 所以在注册BeanDefinition时是获取不到注解绑定的配置信息的：  
 ![1638358868886-fcc0353a-8fe1-4d96-9bcf-3f537d30abe8.png](./img/xD-fECzQuZuIzkG9/1638358868886-fcc0353a-8fe1-4d96-9bcf-3f537d30abe8-088614.png)
 
-
-
 ### 实现
+
 **EnvironmentAware（获取配置）+BeanDefinitionRegistryPostProcessor（创建Bean）**
 
 ```java
@@ -1229,6 +1258,7 @@ public class MyBeanDefinitionRegistryPostProcessor implements
 ```
 
 ### 测试
+
 ```java
 @Bean
     public CommandLineRunner runner(
@@ -1243,12 +1273,9 @@ public class MyBeanDefinitionRegistryPostProcessor implements
     }
 ```
 
-
-
-+  当com.tuling.bean.enbaled为true 
-    - 输出![1638359521588-06ef1fb2-5768-46fb-a188-85b0883556c2.png](./img/xD-fECzQuZuIzkG9/1638359521588-06ef1fb2-5768-46fb-a188-85b0883556c2-512885.png)
-+  当com.tuling.bean.enbaled为false 
-    - 输出![1638359650940-3f684da2-a22f-4eb3-9095-535e42405ef0.png](./img/xD-fECzQuZuIzkG9/1638359650940-3f684da2-a22f-4eb3-9095-535e42405ef0-159914.png)
+- 当com.tuling.bean.enbaled为true
+  - 输出![1638359521588-06ef1fb2-5768-46fb-a188-85b0883556c2.png](./img/xD-fECzQuZuIzkG9/1638359521588-06ef1fb2-5768-46fb-a188-85b0883556c2-512885.png)
+- 当com.tuling.bean.enbaled为false
+  - 输出![1638359650940-3f684da2-a22f-4eb3-9095-535e42405ef0.png](./img/xD-fECzQuZuIzkG9/1638359650940-3f684da2-a22f-4eb3-9095-535e42405ef0-159914.png)
 
 通过这种方式就可以实现根据配置信息自由启用、禁用某些业务的实现 。 当然我这里只是抛砖引玉，实际开发中可以非常灵活， 我可以通过配置创建多个bean、通过更复杂的业务逻辑进行控制等等......  学会的同学给个赞吧。
-

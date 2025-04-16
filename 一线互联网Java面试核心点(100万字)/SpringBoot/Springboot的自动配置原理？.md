@@ -9,4 +9,3 @@
 7. **条件化加载：**<font style="color:rgb(55, 65, 81);"> 最后，Spring Boot会根据条件（@ConditionalXXX注解）来排除或包含特定的自动配置类。这些条件会根据应用程序的环境和配置动态生效。</font>
 
 <font style="color:rgb(55, 65, 81);">总结起来，Spring Boot的自动配置原理是通过@EnableAutoConfiguration注解引入自动配置逻辑，然后解析@Import注解，加载各种配置类，包括deferredImportSelector和自动配置类。通过SPI机制读取spring.factories文件，过滤出自动配置类，并根据条件化配置来动态加载这些类，从而实现自动配置的功能。这种机制使得Spring Boot应用程序可以根据环境和需求自动配置，极大地简化了开发和部署的工作。</font>
-

@@ -11,4 +11,3 @@
 7. **发布到仓库：**<font style="color:rgb(55, 65, 81);"> 将自定义Starter打包，并发布到Maven中央仓库或私有仓库，以便其他项目可以引入和使用。</font>
 
 <font style="color:rgb(55, 65, 81);">总之，自定义一个Spring Boot Starter需要遵循上述步骤，其中创建</font>**META-INF/spring.factories**<font style="color:rgb(55, 65, 81);">文件是关键，因为它告诉Spring Boot如何自动装配您的功能。这样，其他项目可以方便地引入您的Starter，实现功能的快速集成。</font>
-

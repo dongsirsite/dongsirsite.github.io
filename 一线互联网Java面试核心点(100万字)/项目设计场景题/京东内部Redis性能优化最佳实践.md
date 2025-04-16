@@ -8,10 +8,10 @@
 
 <font style="color:rgb(51, 51, 51);">三、总结</font>
 
-
-
 # <font style="color:rgb(51, 51, 51);">一、Redis性能问题定位</font>
+
 ## <font style="color:rgb(51, 51, 51);">Redis 真的变慢了吗？</font>
+
 <font style="color:rgb(51, 51, 51);">对 Redis 进行基准性能测试</font>
 
 <font style="color:rgb(51, 51, 51);">例如，我的机器配置比较低，当延迟为 2ms 时，我就认为 Redis 变慢了，但是如果你的硬件配置比较高，那么在你的运行环境下，可能延迟是 0.5ms 时就可以认为 Redis 变慢了。</font>
@@ -90,6 +90,7 @@ TCP window size: 40.0 KByte (WARNING: requested 20.0 KByte)
 ```
 
 ## <font style="color:rgb(51, 51, 51);">2. 使用复杂度过高的命令</font>
+
 <font style="color:rgb(51, 51, 51);">首先，第一步，你需要去查看一下 Redis 的慢日志（slowlog）。</font>
 
 <font style="color:rgb(51, 51, 51);">Redis 提供了慢日志命令的统计功能，它记录了有哪些命令在执行时耗时比较久。</font>
@@ -116,6 +117,7 @@ redis-cli SLOWLOG GET 10
 <font style="color:rgb(51, 51, 51);">另外，我们还可以从资源使用率层面来分析，如果你的应用程序操作 Redis 的 OPS 不是很大，但 Redis 实例的 </font>**<font style="color:rgb(51, 51, 51);">CPU 使用率却很高</font>**<font style="color:rgb(51, 51, 51);">，那么很有可能是使用了复杂度过高的命令导致的。</font>
 
 ## <font style="color:rgb(51, 51, 51);">3. 操作 bigkey</font>
+
 <font style="color:rgb(51, 51, 51);">如果你查询慢日志发现，并不是复杂度过高的命令导致的，而都是 SET / DEL 这种简单命令出现在慢日志中，那么你就要怀疑你的实例是否写入了 bigkey。</font>
 
 ```shell
@@ -141,6 +143,7 @@ Biggest   zset found 'myzset:2704' has 42 members
 2. <font style="color:rgb(51, 51, 51);">扫描结果中，对于容器类型（List、Hash、Set、ZSet）的 key，只能扫描出元素最多的 key。但一个 key 的元素多，不一定表示占用内存也多，你还需要根据业务情况，进一步评估内存占用情况。</font>
 
 ## <font style="color:rgb(51, 51, 51);">4. 集中过期</font>
+
 <font style="color:rgb(51, 51, 51);">如果你发现，平时在操作 Redis 时，并没有延迟很大的情况发生，但在某个时间点突然出现一波延时，其现象表现为：</font>**<font style="color:rgb(51, 51, 51);">变慢的时间点很有规律，例如某个整点，或者每间隔多久就会发生一波延迟。</font>**
 
 <font style="color:rgb(51, 51, 51);">如果是出现这种情况，那么你需要排查一下，业务代码中是否存在设置大量 key 集中过期的情况。</font>
@@ -161,6 +164,7 @@ Biggest   zset found 'myzset:2704' has 42 members
 <font style="color:rgb(51, 51, 51);">因为慢日志中</font>**<font style="color:rgb(51, 51, 51);">只记录一个命令真正操作内存数据的耗时</font>**<font style="color:rgb(51, 51, 51);">，而 Redis 主动删除过期 key 的逻辑，是在命令真正执行之前执行的。</font>
 
 ## <font style="color:rgb(51, 51, 51);">5. 实例内存达到上限</font>
+
 <font style="color:rgb(51, 51, 51);">当我们把 Redis 当做纯缓存使用时，通常会给这个实例设置一个内存上限 maxmemory，然后设置一个数据淘汰策略。</font>
 
 <font style="color:rgb(51, 51, 51);">当 Redis 内存达到 maxmemory 后，每次写入新的数据之前，</font>**<font style="color:rgb(51, 51, 51);">Redis 必须先从实例中踢出一部分数据，让整个实例的内存维持在 maxmemory 之下</font>**<font style="color:rgb(51, 51, 51);">，然后才能把新数据写进来。</font>
@@ -185,6 +189,7 @@ Biggest   zset found 'myzset:2704' has 42 members
 <font style="color:rgb(51, 51, 51);">如果此时你的 Redis 实例中还存储了 bigkey，那么</font>**<font style="color:rgb(51, 51, 51);">在淘汰删除 bigkey 释放内存时，也会耗时比较久。</font>**
 
 ## <font style="color:rgb(51, 51, 51);">6.fork 耗时严重</font>
+
 <font style="color:rgb(51, 51, 51);">当 Redis 开启了后台 RDB 和 AOF rewrite 后，在执行时，它们都需要主进程创建出一个子进程进行数据的持久化。</font>
 
 <font style="color:rgb(51, 51, 51);">主进程创建子进程，会调用操作系统提供的 fork 函数。</font>
@@ -213,6 +218,7 @@ latest_fork_usec:59477
 ![1716371542280-ec730eb2-4f7e-405f-8d32-76d1f571da9c.png](./img/iE3PMZiNFmZkur7l/1716371542280-ec730eb2-4f7e-405f-8d32-76d1f571da9c-096326.png)
 
 ## <font style="color:rgb(51, 51, 51);">7. 开启内存大页</font>
+
 <font style="color:rgb(51, 51, 51);">除了上面讲到的子进程 RDB 和 AOF rewrite 期间，fork 耗时导致的延时变大之外，这里还有一个方面也会导致性能问题，这就是操作系统是否开启了</font>**<font style="color:rgb(51, 51, 51);">内存大页机制</font>**<font style="color:rgb(51, 51, 51);">。</font>
 
 <font style="color:rgb(51, 51, 51);">什么是内存大页？</font>
@@ -238,6 +244,7 @@ latest_fork_usec:59477
 <font style="color:rgb(51, 51, 51);">同样地，如果这个写请求操作的是一个 bigkey，那主进程在拷贝这个 bigkey 内存块时，一次申请的内存会更大，时间也会更久。可见，bigkey 在这里又一次影响到了性能。</font>
 
 ## <font style="color:rgb(51, 51, 51);">8. 开启 AOF</font>
+
 <font style="color:rgb(51, 51, 51);">前面我们分析了 RDB 和 AOF rewrite 对 Redis 性能的影响，主要关注点在 fork 上。</font>
 
 <font style="color:rgb(51, 51, 51);">其实，关于数据持久化方面，还有影响 Redis 性能的因素，这次我们重点来看 AOF 数据持久化。</font>
@@ -286,14 +293,15 @@ latest_fork_usec:59477
 
 **<font style="color:rgb(51, 51, 51);">对于情况 1，说白了就是，Redis 的 AOF 后台子线程刷盘操作，撞上了子进程 AOF rewrite！</font>**
 
-
-
 # <font style="color:rgb(51, 51, 51);">二、Redis 如何优化</font>
+
 ## <font style="color:rgb(51, 51, 51);">1. 慢查询优化</font>
+
 1. <font style="color:rgb(51, 51, 51);">尽量不使用 O(N) 以上复杂度过高的命令，对于数据的聚合操作，放在客户端做</font>
 2. <font style="color:rgb(51, 51, 51);">执行 O(N) 命令，保证 N 尽量的小（推荐 N <= 300），每次获取尽量少的数据，让 Redis 可以及时处理返回</font>
 
 ## <font style="color:rgb(51, 51, 51);">2. 集中过期优化</font>
+
 <font style="color:rgb(51, 51, 51);">一般有两种方案来规避这个问题：</font>
 
 1. <font style="color:rgb(51, 51, 51);">集中过期 key 增加一个随机过期时间，把集中过期的时间打散，降低 Redis 清理过期 key 的压力</font>
@@ -320,18 +328,21 @@ lazyfree-lazy-expire yes
 **<font style="color:rgb(51, 51, 51);">你需要把这个指标监控起来，当这个指标在很短时间内出现了突增，需要及时报警出来，然后与业务应用报慢的时间点进行对比分析，确认时间是否一致，如果一致，则可以确认确实是因为集中过期 key 导致的延迟变大。</font>**
 
 ## <font style="color:rgb(51, 51, 51);">3. 实例内存达到上限优化</font>
+
 1. <font style="color:rgb(51, 51, 51);">避免存储 bigkey，降低释放内存的耗时</font>
 2. <font style="color:rgb(51, 51, 51);">淘汰策略改为随机淘汰，随机淘汰比 LRU 要快很多（视业务情况调整）</font>
 3. <font style="color:rgb(51, 51, 51);">拆分实例，把淘汰 key 的压力分摊到多个实例上</font>
 4. <font style="color:rgb(51, 51, 51);">如果使用的是 Redis 4.0 以上版本，开启 layz-free 机制，把淘汰 key 释放内存的操作放到后台线程中执行（配置 lazyfree-lazy-eviction = yes）</font>
 
 ## <font style="color:rgb(51, 51, 51);">4.fork 耗时严重优化</font>
+
 1. <font style="color:rgb(51, 51, 51);">控制 Redis 实例的内存：尽量在 10G 以下，执行 fork 的耗时与实例大小有关，实例越大，耗时越久。</font>
 2. <font style="color:rgb(51, 51, 51);">合理配置数据持久化策略：在 slave 节点执行 RDB 备份，推荐在低峰期执行，而对于丢失数据不敏感的业务（例如把 Redis 当做纯缓存使用），可以关闭 AOF 和 AOF rewrite。</font>
 3. <font style="color:rgb(51, 51, 51);">Redis 实例不要部署在虚拟机上：</font>**<font style="color:rgb(51, 51, 51);">fork 的耗时也与系统也有关，虚拟机比物理机耗时更久。</font>**
 4. <font style="color:rgb(51, 51, 51);">降低主从库全量同步的概率：适当调大 repl-backlog-size 参数，避免主从全量同步。这个缓冲区的大小默认为1MB，如果实例写入量比较大，可以针对性调大此配置。</font>
 
 ## <font style="color:rgb(51, 51, 51);">5. 内存大页</font>
+
 <font style="color:rgb(51, 51, 51);">如果采用了内存大页，那么，即使客户端请求只修改 100B 的数据，Redis 也需要拷贝 2MB 的大页。相反，如果是常规内存页机制，只用拷贝 4KB。两者相比，你可以看到，当客户端请求修改或新写入数据较多时，内存大页机制将导致大量的拷贝，这就会影响 Redis 正常的访存操作，最终导致性能变慢。</font>
 
 <font style="color:rgb(51, 51, 51);">首先，我们要先排查下内存大页。方法是：在 Redis 实例运行的机器上执行如下命令:</font>
@@ -354,6 +365,7 @@ echo never /sys/kernel/mm/transparent_hugepage/enabled
 <font style="color:rgb(51, 51, 51);">但是对于 Redis 这种对性能和延迟极其敏感的数据库来说，我们希望 Redis 在每次申请内存时，耗时尽量短，所以我不建议你在 Redis 机器上开启这个机制。</font>
 
 ## <font style="color:rgb(51, 51, 51);">6.AOF 优化</font>
+
 <font style="color:rgb(51, 51, 51);">Redis 提供了一个配置项，当子进程在 AOF rewrite 期间，可以让后台子线程不执行刷盘（不触发 fsync 系统调用）操作。</font>
 
 <font style="color:rgb(51, 51, 51);">这相当于在 AOF rewrite 期间，临时把 appendfsync 设置为了 none，配置如下：</font>
@@ -370,9 +382,8 @@ no-appendfsync-on-rewrite yes
 
 <font style="color:rgb(51, 51, 51);">当然，如果你对 Redis 的性能和数据安全都有很高的要求，</font>**<font style="color:rgb(51, 51, 51);">那么建议从硬件层面来优化，更换为 SSD 磁盘，提高磁盘的 IO 能力，保证 AOF 期间有充足的磁盘资源可以使用。同时尽可能让 Redis 运行在独立的机器上。</font>**
 
-
-
 # <font style="color:rgb(51, 51, 51);">三、Redis性能优化总结</font>
+
 <font style="color:rgb(51, 51, 51);">1、获取 Redis 实例在当前环境下的基线性能。</font>
 
 <font style="color:rgb(51, 51, 51);">2、是否用了慢查询命令？如果是的话，就使用其他命令替代慢查询命令，或者把聚合计算命令放在客户端做。</font>
@@ -388,6 +399,3 @@ no-appendfsync-on-rewrite yes
 <font style="color:rgb(51, 51, 51);">7、是否运行了 Redis 主从集群？如果是的话，把主库实例的数据量大小控制在 2~4GB，以免主从复制时，从库因加载大的 RDB 文件而阻塞。</font>
 
 <font style="color:rgb(51, 51, 51);"></font>
-
-
-

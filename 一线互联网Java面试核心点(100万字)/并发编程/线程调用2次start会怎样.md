@@ -33,4 +33,3 @@
 <font style="color:rgb(37, 41, 51);">所以这个面试题说白了就是</font>**<font style="color:#DF2A3F;background-color:rgb(248, 248, 248);">另一种线程状态的考核方式</font>**<font style="color:rgb(37, 41, 51);">， 你要知道</font>**<font style="color:#DF2A3F;background-color:rgb(248, 248, 248);">线程有几种状态</font>**<font style="color:rgb(37, 41, 51);">， 只要知道线程只能是</font>**<font style="color:#DF2A3F;background-color:rgb(248, 248, 248);">刚NEW 出来的才可以start()</font>**<font style="color:rgb(37, 41, 51);">;   记住了没有！   </font>
 
 <font style="color:rgb(37, 41, 51);">如果看完有帮助那还是得给徐庶老师一个三连哈，  这样我才有继续更新的动力！</font>
-

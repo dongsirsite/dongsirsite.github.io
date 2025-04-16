@@ -131,9 +131,9 @@
 **<font style="color:rgb(62, 62, 62);">优点</font>**
 
 + **<font style="color:rgb(62, 62, 62);">高吞吐量：</font>**<font style="color:rgb(62, 62, 62);">单机每秒处理几十上百万的消息量。即使存储了TB及消息，也保持稳定的性能。</font>
-    - **<font style="color:rgb(62, 62, 62);">零拷贝</font>**<font style="color:rgb(62, 62, 62);"> 减少内核态到用户态的拷贝，磁盘通过sendfile实现</font>**<font style="color:rgb(62, 62, 62);">DMA</font>**<font style="color:rgb(62, 62, 62);"> 拷贝Socket buffer</font>
-    - **<font style="color:rgb(62, 62, 62);">顺序读写</font>**<font style="color:rgb(62, 62, 62);"> 充分利用磁盘顺序读写的超高性能</font>
-    - **<font style="color:rgb(62, 62, 62);">页缓存mmap</font>**<font style="color:rgb(62, 62, 62);">，将磁盘文件</font>**<font style="color:rgb(62, 62, 62);">映射</font>**<font style="color:rgb(62, 62, 62);">到内存, 用户通过修改内存就能修改磁盘文件。</font>
+  + **<font style="color:rgb(62, 62, 62);">零拷贝</font>**<font style="color:rgb(62, 62, 62);"> 减少内核态到用户态的拷贝，磁盘通过sendfile实现</font>**<font style="color:rgb(62, 62, 62);">DMA</font>**<font style="color:rgb(62, 62, 62);"> 拷贝Socket buffer</font>
+  + **<font style="color:rgb(62, 62, 62);">顺序读写</font>**<font style="color:rgb(62, 62, 62);"> 充分利用磁盘顺序读写的超高性能</font>
+  + **<font style="color:rgb(62, 62, 62);">页缓存mmap</font>**<font style="color:rgb(62, 62, 62);">，将磁盘文件</font>**<font style="color:rgb(62, 62, 62);">映射</font>**<font style="color:rgb(62, 62, 62);">到内存, 用户通过修改内存就能修改磁盘文件。</font>
 + **<font style="color:rgb(62, 62, 62);">高性能：</font>**<font style="color:rgb(62, 62, 62);">单节点支持上千个客户端，并保证零停机和零数据丢失。</font>
 + **<font style="color:rgb(62, 62, 62);">持久化：</font>**<font style="color:rgb(62, 62, 62);">将消息持久化到磁盘。通过将数据持久化到硬盘以及replication防止数据丢失。</font>
 + **<font style="color:rgb(62, 62, 62);">分布式系统</font>**<font style="color:rgb(62, 62, 62);">，易扩展。所有的组件均为分布式的，无需停机即可扩展机器。</font>
@@ -154,9 +154,9 @@
 2. <font style="color:rgb(62, 62, 62);">生产的消息先经过拦截器->序列化器->分区器，然后将消息缓存在缓冲区。</font>
 3. <font style="color:rgb(62, 62, 62);">批次发送的条件为：缓冲区数据大小达到</font>**<font style="color:rgb(62, 62, 62);">batch.size</font>**<font style="color:rgb(62, 62, 62);">或者</font>**<font style="color:rgb(62, 62, 62);">linger.ms</font>**<font style="color:rgb(62, 62, 62);">达到上限。</font>
 4. <font style="color:rgb(62, 62, 62);">批次发送后，发往指定分区，然后落盘到broker；</font>
-    - **<font style="color:rgb(62, 62, 62);">acks=0</font>**<font style="color:rgb(62, 62, 62);">只要将消息放到缓冲区，就认为消息已经发送完成。</font>
-    - **<font style="color:rgb(62, 62, 62);">acks=1</font>**<font style="color:rgb(62, 62, 62);">表示消息</font>**<font style="color:rgb(62, 62, 62);">只需要写到主分区</font>**<font style="color:rgb(62, 62, 62);">即可。在该情形下，如果主分区收到消息确认之后就宕机了，而副本分区还没来得及同步该消息，则该消息丢失。</font>
-    - **<font style="color:rgb(62, 62, 62);">acks=all （默认）</font>**<font style="color:rgb(62, 62, 62);">首领分区会等待</font>**<font style="color:rgb(62, 62, 62);">所有的ISR副本分区确认记录</font>**<font style="color:rgb(62, 62, 62);">。该处理保证了只要有一个ISR副本分区存活，消息就不会丢失。</font>
+    + **<font style="color:rgb(62, 62, 62);">acks=0</font>**<font style="color:rgb(62, 62, 62);">只要将消息放到缓冲区，就认为消息已经发送完成。</font>
+    + **<font style="color:rgb(62, 62, 62);">acks=1</font>**<font style="color:rgb(62, 62, 62);">表示消息</font>**<font style="color:rgb(62, 62, 62);">只需要写到主分区</font>**<font style="color:rgb(62, 62, 62);">即可。在该情形下，如果主分区收到消息确认之后就宕机了，而副本分区还没来得及同步该消息，则该消息丢失。</font>
+    + **<font style="color:rgb(62, 62, 62);">acks=all （默认）</font>**<font style="color:rgb(62, 62, 62);">首领分区会等待</font>**<font style="color:rgb(62, 62, 62);">所有的ISR副本分区确认记录</font>**<font style="color:rgb(62, 62, 62);">。该处理保证了只要有一个ISR副本分区存活，消息就不会丢失。</font>
 5. <font style="color:rgb(62, 62, 62);">如果生产者配置了</font>**<font style="color:rgb(62, 62, 62);">retrires参数大于0并且未收到确认</font>**<font style="color:rgb(62, 62, 62);">，那么客户端会对该消息进行重试。</font>
 6. <font style="color:rgb(62, 62, 62);">落盘到broker成功，返回生产元数据给生产者。</font>
 
@@ -166,8 +166,8 @@
 + <font style="color:rgb(62, 62, 62);">当集合中副本都跟Leader中的副本同步了之后，kafka才会认为消息已提交；</font>
 + <font style="color:rgb(62, 62, 62);">只有这些跟Leader保持同步的Follower才应该被选作新的Leader；</font>
 + <font style="color:rgb(62, 62, 62);">假设某个topic有N+1个副本，kafka可以容忍N个服务器不可用，冗余度较低</font><font style="color:rgb(62, 62, 62);">如果ISR中的副本都丢失了，则：</font>
-    - <font style="color:rgb(62, 62, 62);">可以等待ISR中的副本任何一个恢复，接着对外提供服务，需要时间等待；</font>
-    - <font style="color:rgb(62, 62, 62);">从OSR中选出一个副本做Leader副本，此时会造成数据丢失；</font>
+  + <font style="color:rgb(62, 62, 62);">可以等待ISR中的副本任何一个恢复，接着对外提供服务，需要时间等待；</font>
+  + <font style="color:rgb(62, 62, 62);">从OSR中选出一个副本做Leader副本，此时会造成数据丢失；</font>
 
 **<font style="color:rgb(62, 62, 62);">副本消息同步</font>**
 
@@ -261,8 +261,6 @@ ProducerID：#在每个新的Producer初始化时，会被分配一个唯一的P
 
 <font style="color:rgb(62, 62, 62);">解决方案：</font>
 
-
-
 ```plain
 加大超时时间 session.timout.ms=6s加大心跳频率 heartbeat.interval.ms=2s增长推送间隔 max.poll.interval.ms=t+1 minutes
 ```
@@ -348,8 +346,6 @@ ProducerID：#在每个新的Producer初始化时，会被分配一个唯一的P
 + <font style="color:rgb(62, 62, 62);">减少组件IO的交互次数</font>
 + <font style="color:rgb(62, 62, 62);">优先级消费</font>
 
-
-
 ```plain
 if (maxOffset - curOffset > 100000) {  // TODO 消息堆积情况的优先处理逻辑  // 未处理的消息可以选择丢弃或者打日志  return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;}// TODO 正常消费过程return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 ```
@@ -367,4 +363,3 @@ if (maxOffset - curOffset > 100000) {  // TODO 消息堆积情况的优先处理
 + **<font style="color:rgb(62, 62, 62);">海量数据：</font>**<font style="color:rgb(62, 62, 62);">如何解决消息积压、海量Topic性能下降；</font>
 
 <font style="color:rgb(62, 62, 62);">性能上，可以借鉴</font>**<font style="color:rgb(62, 62, 62);">时间轮、零拷贝、IO多路复用、顺序读写、压缩批处理</font>**<font style="color:rgb(62, 62, 62);">。</font>
-

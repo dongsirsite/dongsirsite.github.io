@@ -1,9 +1,11 @@
 # 描述Oracle中的并行查询(Parallel Query)机制
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">1. 并行查询基本概念</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">并行查询是Oracle数据库提供的一种高级查询优化技术，通过将单个查询任务分解为多个可并行执行的子任务，利用多CPU/多核处理器同时工作，显著提高大规模数据处理的性能。</font>
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">2. 并行查询架构</font>
+
 ```sql
 -- 创建支持并行查询的表  
 CREATE TABLE large_sales_data (  
@@ -15,6 +17,7 @@ CREATE TABLE large_sales_data (
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">3. Java实现并行查询示例</font>
+
 ```java
 import java.sql.Connection;  
 import java.sql.PreparedStatement;  
@@ -85,6 +88,7 @@ public class ParallelQueryDemo {
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">4. 并行查询性能监控</font>
+
 ```sql
 -- 监控并行查询执行情况  
 SELECT   
@@ -102,6 +106,7 @@ ORDER BY
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">5. 并行查询配置与优化</font>
+
 ```sql
 -- 调整并行相关参数  
 ALTER SYSTEM SET PARALLEL_ADAPTIVE_MULTI_USER = TRUE;  
@@ -113,6 +118,7 @@ ALTER SYSTEM SET PARALLEL_MIN_SERVERS = 4;
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">6. 高级并行查询技术</font>
+
 ```java
 public class AdvancedParallelQueryDemo {  
     // 使用Oracle并行提示优化查询  
@@ -139,6 +145,7 @@ public class AdvancedParallelQueryDemo {
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">7. 并行查询最佳实践</font>
+
 1. **<font style="color:rgba(6, 8, 31, 0.88);">并行度选择</font>**
     - <font style="color:rgba(6, 8, 31, 0.88);">通常设置为CPU核心数的2-4倍</font>
     - <font style="color:rgba(6, 8, 31, 0.88);">根据硬件资源和实际负载动态调整</font>
@@ -153,6 +160,7 @@ public class AdvancedParallelQueryDemo {
     - <font style="color:rgba(6, 8, 31, 0.88);">需要充足的系统资源支持</font>
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">8. 性能对比示例</font>
+
 ```java
 public class ParallelQueryBenchmark {  
     public void compareSerialVsParallel() {  
@@ -181,12 +189,12 @@ public class ParallelQueryBenchmark {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">总结</font>
+
 <font style="color:rgba(6, 8, 31, 0.88);">Oracle并行查询是一种高级数据处理技术，通过将查询任务并行化，显著提高大规模数据处理的效率。关键在于：</font>
 
-+ <font style="color:rgba(6, 8, 31, 0.88);">合理设置并行度</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">选择适当的查询场景</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">持续监控和调优</font>
-+ <font style="color:rgba(6, 8, 31, 0.88);">平衡系统资源开销</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">合理设置并行度</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">选择适当的查询场景</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">持续监控和调优</font>
+- <font style="color:rgba(6, 8, 31, 0.88);">平衡系统资源开销</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">在Java应用中，需要结合Oracle JDBC驱动和数据库端配置，精细控制并行查询的执行策略。</font>
-

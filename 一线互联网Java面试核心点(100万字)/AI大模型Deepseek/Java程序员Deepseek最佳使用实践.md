@@ -1,7 +1,9 @@
 # Java程序员Deepseek最佳使用实践
 
 ## <font style="color:rgba(6, 8, 31, 0.88);">一、需求分析与设计阶段</font>
+
 ### <font style="color:rgba(6, 8, 31, 0.88);">1. 需求转技术方案</font>
+
 ```java
 // 示例提示词：  
 "我需要设计一个电商订单系统，要求：  
@@ -16,6 +18,7 @@
 ```
 
 #### <font style="color:rgb(38, 38, 38);background-color:rgb(239, 246, 255);">Deepseek的回复</font>
+
 已深度思考（用时 13 秒）
 
 <font style="color:rgb(139, 139, 139);">嗯，用户需要设计一个电商订单系统，要求支持订单创建、支付、发货、确认收货，还要考虑高并发和状态流转可追踪。首先，我得理清楚这几个核心流程是怎么运作的，每个状态之间的转换关系是怎样的。然后，系统架构方面，高并发通常意味着需要分布式架构，比如微服务拆分，这样各个模块可以独立扩展。可能需要用到消息队列来解耦服务，比如订单创建后发送消息到支付服务，这样异步处理可以提升性能。</font>
@@ -31,7 +34,9 @@
 <font style="color:rgb(139, 139, 139);">总的来说，系统架构要分层，微服务化，利用现有中间件处理高并发和分布式问题。数据库设计要考虑到扩展性和查询效率，类图要清晰展示各个模块的职责和交互。性能优化需要从缓存、异步处理、数据库优化等多个方面入手。可能需要进一步确认用户的具体业务场景，比如订单量级、是否涉及秒杀等极端高并发情况，但当前给出的方案是一个比较通用的电商订单系统设计。</font>
 
 ##### 1. 系统架构建议
+
 ###### 分层架构设计
+
 ```java
 1. **接入层**  
    - 使用负载均衡（Nginx/HAProxy）分发请求。
@@ -57,7 +62,9 @@
 ---
 
 ##### 2. 数据库表设计
+
 ###### 核心表结构
+
 ```java
 -- 订单主表（分表键：order_id）
 CREATE TABLE `order` (
@@ -104,6 +111,7 @@ CREATE TABLE `shipping` (
 ---
 
 ##### 3. 关键类类图
+
 ```java
 @startuml
 class OrderService {
@@ -148,38 +156,43 @@ LogisticsService --> Order : 更新状态
 ---
 
 ##### 4. 性能瓶颈与解决方案
+
 ###### 瓶颈1：订单创建高并发写入
+
 + **问题**：瞬时流量（如秒杀）导致数据库写入压力。
 + **解决方案**：
-    - **异步削峰**：订单数据先写入Redis队列，后台批量落库。
-    - **分库分表**：按`user_id`或`order_id`哈希分表，分散写入压力。
+  + **异步削峰**：订单数据先写入Redis队列，后台批量落库。
+  + **分库分表**：按`user_id`或`order_id`哈希分表，分散写入压力。
 
 ###### 瓶颈2：状态查询频繁
+
 + **问题**：用户频繁查询订单状态，导致数据库读压力。
 + **解决方案**：
-    - **多级缓存**：Redis缓存订单状态（设置合理TTL），本地缓存（Caffeine）兜底。
-    - **读写分离**：MySQL从库处理查询请求。
+  + **多级缓存**：Redis缓存订单状态（设置合理TTL），本地缓存（Caffeine）兜底。
+  + **读写分离**：MySQL从库处理查询请求。
 
 ###### 瓶颈3：分布式锁竞争
+
 + **问题**：支付回调或状态变更时，需保证幂等性。
 + **解决方案**：
-    - **乐观锁**：更新订单时检查版本号（`version`字段）。
-    - **Redis分布式锁**：关键操作（如支付回调）加锁。
+  + **乐观锁**：更新订单时检查版本号（`version`字段）。
+  + **Redis分布式锁**：关键操作（如支付回调）加锁。
 
 ###### 瓶颈4：消息队列堆积
+
 + **问题**：订单事件处理不及时，导致消息积压。
 + **解决方案**：
-    - **动态扩容消费者**：根据队列长度自动扩容Kafka消费者组。
-    - **批量消费**：提升消息处理吞吐量。
+  + **动态扩容消费者**：根据队列长度自动扩容Kafka消费者组。
+  + **批量消费**：提升消息处理吞吐量。
 
 ---
 
 ##### 总结
+
 通过微服务拆分、异步化设计、分库分表和多级缓存，可有效应对高并发场景。状态流转通过流水表记录，结合分布式追踪工具实现全链路监控。
 
-
-
 ### <font style="color:rgba(6, 8, 31, 0.88);">2. 设计模式应用</font>
+
 ```java
 // 示例提示词：  
 "在以下场景中，应该使用什么设计模式，并给出示例代码：  
@@ -189,8 +202,11 @@ LogisticsService --> Order : 更新状态
 ```
 
 ## <font style="color:rgba(6, 8, 31, 0.88);">二、编码阶段</font>
+
 ### <font style="color:rgba(6, 8, 31, 0.88);">1. 基础代码生成</font>
+
 #### <font style="color:rgba(6, 8, 31, 0.88);">a) Entity层</font>
+
 ```java
 // 示例提示词：  
 "生成一个订单实体类，包含：  
@@ -243,6 +259,7 @@ public class Order {
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">b) Repository层</font>
+
 ```java
 // 示例提示词：  
 "为Order实体生成Repository接口，需要：  
@@ -274,7 +291,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">2. 高级特性应用</font>
+
 #### <font style="color:rgba(6, 8, 31, 0.88);">a) 缓存配置</font>
+
 ```java
 // 示例提示词：  
 "为订单查询接口添加多级缓存方案：  
@@ -324,6 +343,7 @@ public class CacheConfig {
 ```
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">b) 异步处理</font>
+
 ```java
 // 示例提示词：  
 "实现订单创建成功后的异步处理：  
@@ -381,6 +401,7 @@ public class OrderAsyncService {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">3. 单元测试生成</font>
+
 ```java
 // 示例提示词：  
 "为以下Service方法生成完整的单元测试：  
@@ -460,7 +481,9 @@ class OrderServiceTest {
 ```
 
 ## <font style="color:rgba(6, 8, 31, 0.88);">三、性能优化阶段</font>
+
 ### <font style="color:rgba(6, 8, 31, 0.88);">1. SQL优化</font>
+
 ```java
 // 示例提示词：  
 "分析并优化以下SQL查询：  
@@ -479,6 +502,7 @@ ORDER BY o.create_time DESC;
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">2. JVM调优</font>
+
 ```java
 // 示例提示词：  
 "分析以下JVM问题并给出调优建议：  
@@ -495,7 +519,9 @@ ORDER BY o.create_time DESC;
 ```
 
 ## <font style="color:rgba(6, 8, 31, 0.88);">四、维护阶段</font>
+
 ### <font style="color:rgba(6, 8, 31, 0.88);">1. 日志分析</font>
+
 ```java
 // 示例提示词：  
 "分析以下错误日志，并给出问题排查建议：  
@@ -513,6 +539,7 @@ at redis.clients.jedis.Jedis.set(Jedis.java:234)
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">2. 代码重构</font>
+
 ```java
 // 示例提示词：  
 "重构以下代码，提升可维护性：  
@@ -544,7 +571,9 @@ public class OrderProcessor {
 ```
 
 ## <font style="color:rgba(6, 8, 31, 0.88);">五、技术学习与提升</font>
+
 ### <font style="color:rgba(6, 8, 31, 0.88);">1. 源码分析</font>
+
 ```java
 // 示例提示词：  
 "请解析Spring @Transactional注解的实现原理：  
@@ -556,6 +585,7 @@ public class OrderProcessor {
 ```
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">2. 框架特性学习</font>
+
 ```java
 // 示例提示词：  
 "解释Spring Boot的自动配置原理：  
@@ -567,23 +597,25 @@ public class OrderProcessor {
 ```
 
 ## <font style="color:rgba(6, 8, 31, 0.88);">六、最佳实践建议</font>
+
 ### <font style="color:rgba(6, 8, 31, 0.88);">1. 提示词编写技巧</font>
+
 1. **<font style="color:rgba(6, 8, 31, 0.88);">结构化描述</font>**
-    - <font style="color:rgba(6, 8, 31, 0.88);">明确输入和输出格式</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">分点列举需求</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">提供上下文信息</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">明确输入和输出格式</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">分点列举需求</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">提供上下文信息</font>
 2. **<font style="color:rgba(6, 8, 31, 0.88);">渐进式优化</font>**
-    - <font style="color:rgba(6, 8, 31, 0.88);">先获取基础实现</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">逐步添加约束条件</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">针对性优化</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">先获取基础实现</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">逐步添加约束条件</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">针对性优化</font>
 3. **<font style="color:rgba(6, 8, 31, 0.88);">场景细化</font>**
-    - <font style="color:rgba(6, 8, 31, 0.88);">提供具体业务场景</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">说明技术栈要求</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">指出性能要求</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">提供具体业务场景</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">说明技术栈要求</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">指出性能要求</font>
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">2. 代码质量控制</font>
-1. **<font style="color:rgba(6, 8, 31, 0.88);">审查要点</font>**
-    - <font style="color:rgba(6, 8, 31, 0.88);">业务逻辑正确性</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">代码规范遵守</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">性能影响评估</font>
 
+1. **<font style="color:rgba(6, 8, 31, 0.88);">审查要点</font>**
+    + <font style="color:rgba(6, 8, 31, 0.88);">业务逻辑正确性</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">代码规范遵守</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">性能影响评估</font>

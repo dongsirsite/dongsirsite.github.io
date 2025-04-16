@@ -10,6 +10,7 @@
 :::
 
 ### **<font style="color:rgb(0, 0, 0);">1、需求分析</font>**
+
 <font style="color:rgb(51, 51, 51);">DBox 的核心功能是提供文件上传和下载服务。基于核心功能，DBox 需要在</font><font style="color:rgb(0, 82, 217);">服务器</font><font style="color:rgb(51, 51, 51);">端保存这些文件，并在下载和上传过程中实现断点续传。也就是说，如果上传或下载过程被中断了，恢复之后，还能从中断的地方重新上传或者下载，而不是从头再来。</font>
 
 <font style="color:rgb(51, 51, 51);">DBox 还需要实现文件共享的需求。使用 DBox 的不同用户之间可以共享文件，一个用户上传的文件共享给其他用户后，其他用户也可以下载这个文件。</font>
@@ -21,6 +22,7 @@
 <font style="color:rgb(51, 51, 51);">image-20231201105140483</font>
 
 #### **<font style="color:rgb(0, 0, 0);">1、负载指标估算</font>**
+
 <font style="color:rgb(51, 51, 51);">DBox 的设计目标是支持 10 亿用户注册使用，免费用户最大可拥有 1TB 存储空间。预计日活用户占总用户的 20%，即 2 亿用户。每个活跃用户平均每天上传、下载 4 个文件。</font>
 
 <font style="color:rgb(51, 51, 51);">DBox 的</font>**<font style="color:rgb(51, 51, 51);">存储量</font>**<font style="color:rgb(51, 51, 51);">、</font>**<font style="color:rgb(51, 51, 51);">吞吐量</font>**<font style="color:rgb(51, 51, 51);">、</font>**<font style="color:rgb(51, 51, 51);">带宽负载</font>**<font style="color:rgb(51, 51, 51);">估算如下：</font>
@@ -42,6 +44,7 @@
 <font style="color:rgb(51, 51, 51);">每次上传下载文件平均大小 1MB，所以需要网络带宽负载 10GB/s，即 80Gb/s。1万 × 1</font>_<font style="color:rgb(51, 51, 51);">MB</font>_<font style="color:rgb(51, 51, 51);"> = 10</font>_<font style="color:rgb(51, 51, 51);">GB</font>_<font style="color:rgb(51, 51, 51);">/</font>_<font style="color:rgb(51, 51, 51);">s</font>_<font style="color:rgb(51, 51, 51);"> = 80</font>_<font style="color:rgb(51, 51, 51);">Gb</font>_<font style="color:rgb(51, 51, 51);">/</font>_<font style="color:rgb(51, 51, 51);">s</font>_<font style="color:rgb(51, 51, 51);">，同样，高峰期带宽负载为 160Gb/s。</font>
 
 #### **<font style="color:rgb(0, 0, 0);">2、非功能需求</font>**
+
 1. <font style="color:rgb(0, 82, 217);">大数据</font><font style="color:rgb(51, 51, 51);">量存储：10 亿注册用户，1000 亿个文件，约 1 亿 TB 的存储空间。</font>
 2. <font style="color:rgb(51, 51, 51);">高并发访问：平均 1 万 QPS，高峰期 2 万 QPS。</font>
 3. <font style="color:rgb(51, 51, 51);">大流量负载：平均网络带宽负载 80Gb/S，高峰期带宽负载 160Gb/s。</font>
@@ -51,6 +54,7 @@
 7. <font style="color:rgb(51, 51, 51);">不重复上传：相同文件内容不重复上传，也就是说，如果用户上传的文件内容已经被其他用户上传过了，该用户不需要再上传一次文件内容，进而实现“秒传”功能。从用户视角来看，不到一秒就可以完成一个大文件的上传。</font>
 
 ### **<font style="color:rgb(0, 0, 0);">2、概要设计</font>**
+
 <font style="color:rgb(51, 51, 51);">网盘设计的关键是</font>**<font style="color:rgb(51, 51, 51);">元数据与文件内容的分离存储与管理</font>**<font style="color:rgb(51, 51, 51);">。所谓文件元数据就是文件所有者、文件属性、访问控制这些文件的基础信息，事实上，传统</font><font style="color:rgb(0, 82, 217);">文件系统</font><font style="color:rgb(51, 51, 51);">也是元数据与文件内容分离管理的，比如 </font><font style="color:rgb(0, 82, 217);">Linux</font><font style="color:rgb(51, 51, 51);"> 的文件元数据记录在文件控制块 FCB 中，</font><font style="color:rgb(0, 82, 217);">Windows</font><font style="color:rgb(51, 51, 51);"> 的文件元数据记录在文件分配表 FAB 中，</font><font style="color:rgb(0, 82, 217);">Hadoop</font>[分布式文件系统](https://cloud.tencent.com/product/chdfs?from_column=20065&from=20065)<font style="color:rgb(0, 82, 217);">HDFS</font><font style="color:rgb(51, 51, 51);"> 的元数据记录在NameNode 中。</font>
 
 <font style="color:rgb(51, 51, 51);">而 DBox 是将元信息存储在</font><font style="color:rgb(0, 82, 217);">数据库</font><font style="color:rgb(51, 51, 51);">中，文件内容则使用另外专门的存储体系。但是由于DBox 是一个互联网应用，出于安全和</font><font style="color:rgb(0, 82, 217);">访问管理</font><font style="color:rgb(51, 51, 51);">的目的，并不适合由客户端直接访问存储元数据的数据库和存储文件内容的存储集群，而是通过 </font><font style="color:rgb(0, 82, 217);">API</font><font style="color:rgb(51, 51, 51);"> 服务器集群和数据块服务器集群分别进行访问管理。整体架构如下图。</font>
@@ -86,9 +90,11 @@
 <font style="color:rgb(51, 51, 51);">下一步，客户端访问 Block 服务器，请求下载 Block。Block 服务器验证用户权限后，从Ceph 中读取 Block 数据，返回给客户端，客户端再将返回的 Block 组装为文件。</font>
 
 ### **<font style="color:rgb(0, 0, 0);">3、详细设计</font>**
+
 <font style="color:rgb(51, 51, 51);">为解决网盘的三个重要问题：元数据如何管理？网络资源如何向付费用户倾斜？如何做到不重复上传？DBox 详细设计将关注元数据库、上传下载限速、秒传的设计实现。</font>
 
 #### **<font style="color:rgb(0, 0, 0);">1、元数据设计</font>**
+
 <font style="color:rgb(51, 51, 51);">元数据库表结构设计如下：</font>
 
 ![1720597652832-3950c318-e028-490c-b3b5-7c627f1c151b.png](./img/p-tzUHzbUBsHSPml/1720597652832-3950c318-e028-490c-b3b5-7c627f1c151b-873573.png)
@@ -108,6 +114,7 @@
 <font style="color:rgb(51, 51, 51);">因为查询的主要场景是根据用户 ID 查找用户信息和文件信息，以及根据文件 ID 查询block 信息，所以 User 和 File 表都采用 user_id 作为分片键，Block 表采用 file_id 作为分片键。</font>
 
 #### **<font style="color:rgb(0, 0, 0);">2、限速</font>**
+
 <font style="color:rgb(51, 51, 51);">DBox 根据用户付费类型决定用户的上传、下载速度。而要控制上传、下载速度，可以通过限制并发 Block 服务器数目，以及限制 Block 服务器内的线程数来实现。</font>
 
 <font style="color:rgb(51, 51, 51);">具体过程是，客户端程序访问 API 服务器，请求上传、下载文件的时候，API 服务器可以根据用户类型，决定分配的 Block 服务器数目和 Block 服务器内的服务线程数，以及每个线程的上传、下载速率。</font>
@@ -115,6 +122,7 @@
 <font style="color:rgb(51, 51, 51);">Block 服务器会根据 API 服务器的返回值，来控制客户端能够同时上传、下载的 Block 数量以及传输速率，以此对不同用户进行限速。</font>
 
 #### **<font style="color:rgb(0, 0, 0);">3、秒传</font>**
+
 <font style="color:rgb(51, 51, 51);">秒传是用户快速上传文件的一种功能。</font>
 
 <font style="color:rgb(51, 51, 51);">事实上，网盘保存的很多文件，内容其实是重复的，比如电影、电子书等等。一方面，重复上传这些文件会加大网盘的存储负载压力；另一方面，每次都要重新上传重复的内容，会导致用户网络带宽的浪费和用户等待时间过长的问题。</font>
@@ -140,6 +148,7 @@
 <font style="color:rgb(51, 51, 51);">Logic_File 中字段 double_md5 记录了文件头 256KB 的 MD5、文件 MD5 两个数据拼接后的数据，而 size 记录了文件长度，只有这两个字段都相同才会启用秒传。</font>
 
 ### **<font style="color:rgb(0, 0, 0);">4、总结</font>**
+
 <font style="color:rgb(51, 51, 51);">我们在需求分析中讨论过，DBox 需要支持大数据量存储、高并发访问、高可用服务、高可靠存储等非功能需求。事实上，对于网盘应用而言，元数据 API 服务其实和一般的高并发互联网系统网关没有太大差别。真正有挑战的是海量文件的高可用存储，而这一挑战，</font>
 
 <font style="color:rgb(51, 51, 51);">在 DBox 中，被委托给了分布式对象存储 Ceph 来完成。而 Ceph 本身设计就是支持大数据量存储、高并发访问、高可用服务、高可靠存储的。</font>
@@ -149,4 +158,3 @@
 <font style="color:rgb(51, 51, 51);">应用架构师需要掌握的技术栈更加</font>**<font style="color:rgb(51, 51, 51);">广泛</font>**<font style="color:rgb(51, 51, 51);">，要能够掌握各种基础设施技术的特性，并能根据业务特点选择最合适的方案；而基础设施架构师需要的技术栈更加</font>**<font style="color:rgb(51, 51, 51);">深入</font>**<font style="color:rgb(51, 51, 51);">，需要掌握计算机软硬件更深入的知识，才能开发出一个稳定的基础技术产品。</font>
 
 <font style="color:rgb(51, 51, 51);">当然，最好的架构师应该是技术栈既广泛又深入，既能灵活应用各种基础设施来开发应用系统，也能在需要的时候自己动手开发新的基础设施系统。</font>
-

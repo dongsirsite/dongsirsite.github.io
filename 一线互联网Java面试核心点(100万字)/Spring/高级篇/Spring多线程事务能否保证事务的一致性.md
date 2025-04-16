@@ -9,6 +9,7 @@
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"></font>
 
 ## <font style="background-color:rgb(247, 247, 248);">可以通过如下方案进行解决：</font>
+
     - **<font style="background-color:rgb(247, 247, 248);">编程式事务：</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 为了在多线程环境中实现事务一致性，您可以使用编程式事务管理。这意味着您需要在代码中显式控制事务的边界和操作，确保在适当的时机提交或回滚事务。</font>
     - **<font style="background-color:rgb(247, 247, 248);">分布式事务：</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 如果您的应用程序需要跨多个资源（例如多个数据库）的全局事务一致性，那么您可能需要使用分布式事务管理（如2PC/3PC TCC等）来管理全局事务。这将确保所有参与的资源都处于相同的全局事务中，以保证一致性。</font>
 
@@ -17,6 +18,7 @@
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"></font>
 
 ## <font style="background-color:rgb(247, 247, 248);">编程式事务示例</font>
+
 <font style="background-color:rgb(247, 247, 248);">其核心是通过TransactionTemplate自己控制事务回滚来完成多线程事务</font>
 
 ```java
@@ -39,7 +41,7 @@
 
                     // 启动子线程并执行子事务
                     Future<Void> future = executorService.submit(() -> {
-						jdbcTemplate.execute("INSERT INTO `test`.`user` (`age`, `name`, `city`) VALUES (18, 'xushu', 'BeiJin');");
+      jdbcTemplate.execute("INSERT INTO `test`.`user` (`age`, `name`, `city`) VALUES (18, 'xushu', 'BeiJin');");
                         return null;
                     });
 
@@ -57,13 +59,12 @@
 ```
 
 ## <font style="background-color:rgb(247, 247, 248);">分布式事务</font><font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">2PC实例：</font>
+
 分布式事务如果不懂，可以先去了解：
 
 [分布式事务有哪些常见的实现方案](https://www.yuque.com/tulingzhouyu/db22bv/veg93i11n9qqs45e?singleDoc#)
 
  这里介绍2pc手动实现方式：
-
- 
 
 ```java
 public class TwoPhaseCommitService {
@@ -118,4 +119,3 @@ public class TwoPhaseCommitService {
     }
 }
 ```
-

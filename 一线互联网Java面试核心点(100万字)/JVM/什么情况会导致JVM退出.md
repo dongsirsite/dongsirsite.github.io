@@ -15,6 +15,7 @@
     - <font style="color:rgba(0, 0, 0, 0.82);">例如通过操作系统的任务管理器或者控制台命令，如</font>`<font style="color:rgba(0, 0, 0, 0.82);">kill</font>`<font style="color:rgba(0, 0, 0, 0.82);">命令。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">示例代码</font>
+
 ```java
 public class JVMExitExample {  
     public static void main(String[] args) {  
@@ -43,11 +44,10 @@ public class JVMExitExample {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">解释</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">正常程序终止</font>**<font style="color:rgba(0, 0, 0, 0.82);">：默认情况下，</font>`<font style="color:rgba(0, 0, 0, 0.82);">main</font>`<font style="color:rgba(0, 0, 0, 0.82);">执行完毕后，所有非守护线程完成，程序正常退出。</font>
-+ `**<font style="color:rgba(0, 0, 0, 0.82);">System.exit()</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：调用</font>`<font style="color:rgba(0, 0, 0, 0.82);">System.exit(0)</font>`<font style="color:rgba(0, 0, 0, 0.82);">立即终止JVM。非零参数值通常被用来指示异常终止。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">未捕获的异常</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在</font>`<font style="color:rgba(0, 0, 0, 0.82);">willCauseException()</font>`<font style="color:rgba(0, 0, 0, 0.82);">中，我们故意抛出一个未捕获的</font>`<font style="color:rgba(0, 0, 0, 0.82);">RuntimeException</font>`<font style="color:rgba(0, 0, 0, 0.82);">，导致程序退出。</font>
-+ `**<font style="color:rgba(0, 0, 0, 0.82);">Runtime.halt()</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：直接使用</font>`<font style="color:rgba(0, 0, 0, 0.82);">Runtime.halt()</font>`<font style="color:rgba(0, 0, 0, 0.82);">强行终止虚拟机。这不会调用</font>`<font style="color:rgba(0, 0, 0, 0.82);">finalize</font>`<font style="color:rgba(0, 0, 0, 0.82);">方法或执行任何待处理的关闭钩子，也推荐在高风险操作或崩溃模拟时使用。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">外部强制关闭</font>**<font style="color:rgba(0, 0, 0, 0.82);">：不演示于代码中，需通过操作系统进行操作。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">正常程序终止</font>**<font style="color:rgba(0, 0, 0, 0.82);">：默认情况下，</font>`<font style="color:rgba(0, 0, 0, 0.82);">main</font>`<font style="color:rgba(0, 0, 0, 0.82);">执行完毕后，所有非守护线程完成，程序正常退出。</font>
+- `**<font style="color:rgba(0, 0, 0, 0.82);">System.exit()</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：调用</font>`<font style="color:rgba(0, 0, 0, 0.82);">System.exit(0)</font>`<font style="color:rgba(0, 0, 0, 0.82);">立即终止JVM。非零参数值通常被用来指示异常终止。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">未捕获的异常</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在</font>`<font style="color:rgba(0, 0, 0, 0.82);">willCauseException()</font>`<font style="color:rgba(0, 0, 0, 0.82);">中，我们故意抛出一个未捕获的</font>`<font style="color:rgba(0, 0, 0, 0.82);">RuntimeException</font>`<font style="color:rgba(0, 0, 0, 0.82);">，导致程序退出。</font>
+- `**<font style="color:rgba(0, 0, 0, 0.82);">Runtime.halt()</font>**`<font style="color:rgba(0, 0, 0, 0.82);">：直接使用</font>`<font style="color:rgba(0, 0, 0, 0.82);">Runtime.halt()</font>`<font style="color:rgba(0, 0, 0, 0.82);">强行终止虚拟机。这不会调用</font>`<font style="color:rgba(0, 0, 0, 0.82);">finalize</font>`<font style="color:rgba(0, 0, 0, 0.82);">方法或执行任何待处理的关闭钩子，也推荐在高风险操作或崩溃模拟时使用。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">外部强制关闭</font>**<font style="color:rgba(0, 0, 0, 0.82);">：不演示于代码中，需通过操作系统进行操作。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">每种退出机制的影响和使用场合都不同，开发者应根据程序需求谨慎地选择合适的退出方式。特别是涉及到异常退出时，通常伴随可能尚未完成的重要资源清理工作，因此合理处理异常显得尤为重要。</font>
-

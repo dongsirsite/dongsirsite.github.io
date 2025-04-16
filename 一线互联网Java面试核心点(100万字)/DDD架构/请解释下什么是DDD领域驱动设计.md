@@ -9,4 +9,3 @@
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">DDD 打破了传统软件开发中需求分析和系统设计之间的隔阂，使得软件能够更灵活、快速地跟随需求变化。它在国外已成为主流，是解决复杂大型软件问题的一套行之有效的方法。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);"></font>
-

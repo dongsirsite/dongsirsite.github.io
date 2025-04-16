@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">零拷贝（Zero-Copy）是一种优化技术，旨在减少或完全消除数据在内存中的复制过程，从而提高系统的性能和效率。在传统的数据传输过程中，数据可能会被多次复制，例如从磁盘到内核缓冲区，然后从内核缓冲区复制到用户缓冲区，再从用户缓冲区复制到另一块内存。这些多次复制不但浪费了 CPU 资源，还增加了内存带宽的使用。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">零拷贝的工作原理</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">在实现零拷贝的过程中，数据不会在内存中被多次复制，而是直接从一个地址移动到另一个地址。常见的零拷贝技术包括：</font>
 
 1. `**<font style="color:rgba(0, 0, 0, 0.82);">sendfile</font>**`**<font style="color:rgba(0, 0, 0, 0.82);"> </font>****<font style="color:rgba(0, 0, 0, 0.82);">系统调用</font>**<font style="color:rgba(0, 0, 0, 0.82);">：直接在内核空间中将文件数据发送到网络 socket。</font>
@@ -10,6 +11,7 @@
 3. **<font style="color:rgba(0, 0, 0, 0.82);">DMA（直接内存访问）</font>**<font style="color:rgba(0, 0, 0, 0.82);">：硬件级别的技术，允许设备直接访问主存而不需要通过 CPU。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">Netty 中如何实现零拷贝</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">Netty 通过多种机制来实现零拷贝，具体如下：</font>
 
 1. `**<font style="color:rgba(0, 0, 0, 0.82);">FileRegion</font>**`**<font style="color:rgba(0, 0, 0, 0.82);"> </font>****<font style="color:rgba(0, 0, 0, 0.82);">类和</font>****<font style="color:rgba(0, 0, 0, 0.82);"> </font>**`**<font style="color:rgba(0, 0, 0, 0.82);">sendfile</font>**`**<font style="color:rgba(0, 0, 0, 0.82);"> </font>****<font style="color:rgba(0, 0, 0, 0.82);">系统调用</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
@@ -69,5 +71,5 @@ ByteBuf directBuffer = Unpooled.directBuffer(1024);
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">总结</font>
-<font style="color:rgba(0, 0, 0, 0.82);">零拷贝技术通过减少数据在内存中的复制过程，显著提高了数据传输的性能。Netty 通过一系列的机制，包括 </font>`<font style="color:rgba(0, 0, 0, 0.82);">sendfile</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 系统调用、</font>`<font style="color:rgba(0, 0, 0, 0.82);">CompositeByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);">、缓冲区的切片和复制、包装现有的缓冲区、以及直接内存，来实现零拷贝。这些技术的结合，使得 Netty 成为一个高效且强大的网络编程框架，能够在高并发和大数据传输场景下表现出色。</font>
 
+<font style="color:rgba(0, 0, 0, 0.82);">零拷贝技术通过减少数据在内存中的复制过程，显著提高了数据传输的性能。Netty 通过一系列的机制，包括 </font>`<font style="color:rgba(0, 0, 0, 0.82);">sendfile</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 系统调用、</font>`<font style="color:rgba(0, 0, 0, 0.82);">CompositeByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);">、缓冲区的切片和复制、包装现有的缓冲区、以及直接内存，来实现零拷贝。这些技术的结合，使得 Netty 成为一个高效且强大的网络编程框架，能够在高并发和大数据传输场景下表现出色。</font>

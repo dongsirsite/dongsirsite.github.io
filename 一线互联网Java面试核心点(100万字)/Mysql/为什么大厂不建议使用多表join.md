@@ -17,17 +17,17 @@
     - **<font style="color:rgba(0, 0, 0, 0.82);">微服务架构限制</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在微服务架构中，数据通常是去中心化和跨服务的，JOIN 查询往往违反服务数据自治的原则。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">替代策略</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">为了避免使用多表 JOIN，企业通常采取以下策略：</font>
 
-+ **<font style="color:rgba(0, 0, 0, 0.82);">反范式化</font>**<font style="color:rgba(0, 0, 0, 0.82);">：适当的冗余存储以减少JOIN需求。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">数据冗余</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在不同表中冗余存储一些公共字段，以避免频繁的JOIN。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">分而治之</font>**<font style="color:rgba(0, 0, 0, 0.82);">：将复杂查询拆分为多个简单查询，在应用层进行数据组合。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">预先计算</font>**<font style="color:rgba(0, 0, 0, 0.82);">：通过ETL作业预先计算和存储结果。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">使用NoSQL数据库</font>**<font style="color:rgba(0, 0, 0, 0.82);">：设计生产系统时采用文档数据库或键值存储一类的NoSQL数据库来轻松支持复杂数据需求。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">反范式化</font>**<font style="color:rgba(0, 0, 0, 0.82);">：适当的冗余存储以减少JOIN需求。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">数据冗余</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在不同表中冗余存储一些公共字段，以避免频繁的JOIN。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">分而治之</font>**<font style="color:rgba(0, 0, 0, 0.82);">：将复杂查询拆分为多个简单查询，在应用层进行数据组合。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">预先计算</font>**<font style="color:rgba(0, 0, 0, 0.82);">：通过ETL作业预先计算和存储结果。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">使用NoSQL数据库</font>**<font style="color:rgba(0, 0, 0, 0.82);">：设计生产系统时采用文档数据库或键值存储一类的NoSQL数据库来轻松支持复杂数据需求。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">这些方法有助于提高查询性能、减少延迟并增强系统的可扩展性。因此，大厂在设计数据库和编写查询时，往往会尽量避免频繁和复杂的多表 JOIN。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);"></font>
 
 [bilibili](https://player.bilibili.com/player.html?bvid=BV1kFpue5Ehj&autoplay=0)
-

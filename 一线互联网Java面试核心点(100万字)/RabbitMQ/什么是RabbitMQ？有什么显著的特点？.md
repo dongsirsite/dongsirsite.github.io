@@ -12,4 +12,3 @@
 8. **<font style="background-color:rgb(247, 247, 248);">管理界面</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：RabbitMQ 提供了一个易于使用的 Web 管理界面，用于监视和管理队列、交换机、连接和用户权限等。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">总之，RabbitMQ 是一个功能丰富、高度可扩展且灵活的消息中间件，适用于各种分布式应用程序和消息通信需求。它的强大功能和广泛的社区支持使其成为一个流行的消息中间件解决方案。</font>
-

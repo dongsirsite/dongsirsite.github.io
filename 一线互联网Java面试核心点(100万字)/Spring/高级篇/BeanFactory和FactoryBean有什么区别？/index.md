@@ -18,6 +18,3 @@
 <font style="color:rgb(51, 51, 51);"></font>
 
 <font style="color:rgb(51, 51, 51);">        所以他们直接没有什么关系， 实在要扯上点关系那就是BeanFactory管理了</font><font style="color:rgb(36, 41, 47);">FactoryBean</font><font style="color:rgb(51, 51, 51);">，</font>
-
-
-

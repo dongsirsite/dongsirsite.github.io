@@ -31,8 +31,6 @@ reduce(function, iterable[, initializer])    reduce(lambda x,y:x * y,ns) # 数�
 + <font style="color:rgb(62, 62, 62);">518</font><font style="color:rgb(62, 62, 62);"> </font><font style="color:rgb(62, 62, 62);">零钱兑换 II</font>
 + <font style="color:rgb(62, 62, 62);">True、False问题</font>
 
-
-
 ```plain
 dp[i] |= dp[i-num]
 ```
@@ -47,8 +45,6 @@ dp[i] |= dp[i-num]
 ```plain
 
 ```
-
-
 
 ```plain
 #特殊的可以使用bit数组
@@ -76,8 +72,6 @@ dp[i] |= dp[i-num]
 
 **<font style="color:rgb(62, 62, 62);">「索引遍历」</font>**<font style="color:rgb(62, 62, 62);">第 78 题 子集 | 第 47 题 子集② | 第 131 题 分割字符串</font>
 
-
-
 ```plain
 第 **39 **题 组合 | 第 **40** 题 组合②  | 第 **216** 题 组合③
 ```
@@ -93,8 +87,6 @@ dp[i] |= dp[i-num]
 <font style="color:rgb(51, 51, 51);">资源消耗def backtrack(i, tmp, flag):  if i == n and flag == 0:    res.append(tmp[:-1])  elif i<n and s[i] == '0':    backtrack(i + 1, tmp + s[i] + ".", flag - 1)  elif flag :    for j in range(i, min(n,i + 3)):      if 0 < int(s[i:j + 1]) <= 255:        backtrack(j + 1, tmp + s[i:j + 1] + ".", flag - 1)</font>
 
 **<font style="color:rgb(62, 62, 62);">「资源消耗」</font>**<font style="color:rgb(62, 62, 62);">第 17 题 电话号码</font>
-
-
 
 ```plain
 # 资源消耗def dfs(path, remains):  if not remains:    res.append(path[:])    return  for i in range(len(remains)):    dfs(path + [remains[i]], remains[:i] + remains[i+1:])
@@ -238,7 +230,7 @@ dp[i] |= dp[i-num]
 
 **<font style="color:rgb(62, 62, 62);">「卡特兰数」</font>**
 
-<font style="color:rgb(51, 51, 51);"># 卡特兰数g(n) = g(0)*g(n-1) + g(1)*g(n-2) ...g(n-1)*g(0)dp=[1] + [0] * nfor i in range(1,n+1):    for j in range(1,i+1):        dp[i] += dp[j-1] * dp[i-j]</font>
+<font style="color:rgb(51, 51, 51);"># 卡特兰数g(n) = g(0)*g(n-1) + g(1)*g(n-2) ...g(n-1)*g(0)dp=[1] + [0]* nfor i in range(1,n+1):    for j in range(1,i+1):        dp[i] += dp[j-1] * dp[i-j]</font>
 
 <font style="color:rgb(255, 129, 36);">【滑动窗口】</font>
 
@@ -290,8 +282,6 @@ dp[i] |= dp[i-num]
 
 **<font style="color:rgb(62, 62, 62);">「二叉树遍历模板」</font>**
 
-
-
 ```plain
 # 递归# 时间复杂度：O(n)，n为节点数，访问每个节点恰好一次。# 空间复杂度：空间复杂度：O(h)，h为树的高度。最坏情况下需要空间O(n)，平均情况为O(logn)
 # 递归1：二叉树遍历最易理解和实现版本class Solution:    def preOrd(self, root: TreeNode) -> List[int]:        if not root:            return []        # 前序递归        return [root.val] + self.preOrd(root.left) + self.preOrd(root.right)        # # 中序递归         # return self.inOrd(root.left) + [root.val] + self.inOrd(root.right)        # # 后序递归        # return self.postOrd(root.left) + self.postOrd(root.right) + [root.val]
@@ -333,4 +323,3 @@ dp[i] |= dp[i-num]
 **<font style="color:rgb(62, 62, 62);">「Floyd 求图中路径」</font>**
 
 <font style="color:rgb(51, 51, 51);"># Floyd算法 求图中任意2点距离ds = defaultdict(int)st = set()for i, (x, y) in enumerate(ess):    ds[(x, y)] = vs[i]    ds[(y, x)] = 1 / vs[i]    st.update({x,y})arr = list(st)for k in arr:    for i in arr:        for j in arr:            if ds[(i, k)] and ds[(k, j)]:                ds[(i, j)] = ds[(i, k)] * ds[(k, j)]</font>
-

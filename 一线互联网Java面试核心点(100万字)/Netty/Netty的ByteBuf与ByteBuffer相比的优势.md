@@ -3,6 +3,7 @@
 `<font style="color:rgba(0, 0, 0, 0.82);">ByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 是 Netty 提供的一个用于字节数据操作的缓冲区。它解决了 </font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuffer</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 的诸多局限性，提供了更加灵活、高效的内存管理功能，并且支持多种操作方式，适用于复杂网络编程场景。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">ByteBuf 与 ByteBuffer 相比的优势</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">读写指针分离</font>**
     - `<font style="color:rgba(0, 0, 0, 0.82);">ByteBuffer</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 只有一个指针，当从写模式切换到读模式时，需要显式调用 </font>`<font style="color:rgba(0, 0, 0, 0.82);">flip()</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 方法。而 </font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 拥有独立的 </font>`<font style="color:rgba(0, 0, 0, 0.82);">readerIndex</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 和 </font>`<font style="color:rgba(0, 0, 0, 0.82);">writerIndex</font>`<font style="color:rgba(0, 0, 0, 0.82);">，不用显式转换读写模式，读取和写入间的操作非常直观。</font>
     - **<font style="color:rgba(0, 0, 0, 0.82);">示例代码：</font>**
@@ -46,6 +47,7 @@ byteBuf.resetReaderIndex(); // 恢复到标记的读指针位置
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">示例代码：将ByteBuf与ByteBuffer进行比较</font>
+
 ```java
 public class ByteBufVsByteBuffer {  
 
@@ -73,9 +75,9 @@ public class ByteBufVsByteBuffer {
 <font style="color:rgba(0, 0, 0, 0.82);">从代码可以看出，</font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">在使用上更加简洁和灵活，避免了</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuffer</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">中的一些繁琐步骤，如</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">flip()</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">的调用。此外，</font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">多样的功能和高效的内存管理令人更加得心应手，特别是对高性能网络编程要求较高的场景。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">结论</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">综上所述，</font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 不仅解决了 </font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuffer</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 的一些局限，还提供了许多高级功能，如读写指针分离、自动容量扩展和池化机制等，使其成为高性能网络编程的理想选择。希望这些解释能够帮助你更好地理解 </font>`<font style="color:rgba(0, 0, 0, 0.82);">ByteBuf</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 及其优势。</font>
 
 ```java
 
 ```
-

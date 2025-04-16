@@ -10,4 +10,3 @@
 4. <font style="color:rgb(36, 41, 47);">采用多例Bean。将bean的作用域改为"property"即每次使用创建一个新的实例，这样可以有效避免单例共享造成线程不安全。</font>
 
 <font style="color:rgb(36, 41, 47);"> </font>
-

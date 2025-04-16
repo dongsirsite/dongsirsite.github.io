@@ -15,6 +15,7 @@
 :::
 
 ## <font style="color:rgb(34, 34, 34);">1、短URL系统的背景</font>
+
 <font style="color:rgb(23, 35, 63);">短网址替代长URL，在互联网网上传播和引用。</font>
 
 <font style="color:rgb(23, 35, 63);">例如QQ微博的url.cn，新郎的sinaurl.cn等。</font>
@@ -35,6 +36,7 @@
 6. <font style="color:rgb(51, 51, 51);">短链接更加简洁好看且安全，不暴露访问参数。而且，能规避关键词、域名屏蔽等手段</font>
 
 ## <font style="color:rgb(34, 34, 34);">2、短URL系统的原理</font>
+
 <font style="color:rgb(23, 35, 63);">短URL系统的核心：</font>**<font style="color:rgb(23, 35, 63);">将长的 URL 转化成短的 URL</font>**<font style="color:rgb(23, 35, 63);">。</font>
 
 <font style="color:rgb(23, 35, 63);">客户端在访问系统时，短URL的工作流程如下：</font>
@@ -53,6 +55,7 @@
 <font style="color:rgb(23, 35, 63);">编号如何进一步变短呢？ 可以使用更大的进制来表示</font>
 
 ### <font style="color:rgb(34, 34, 34);">六十二进制表示法</font>
+
 <font style="color:rgb(23, 35, 63);">顾名思义短网址就是非常短的网址，比如xxx.cn/EYyCO9T，其中核… EYyCO9T 只有7位长度。</font>
 
 <font style="color:rgb(23, 35, 63);">其实这里的7位长度是使用62进制来表示的，就是常用的0-9、a-z、A-Z，也就是10个数字+26个小写+26个大写=62位。</font>
@@ -89,6 +92,7 @@ long(8个字节)，存储的范围是-900万万亿 到 900万万亿
 <font style="color:rgb(23, 35, 63);">比如A站点将字母c表示32、B站点将字母c表示60，就相当于密码本了。</font>
 
 ### <font style="color:rgb(34, 34, 34);">128进制表示法</font>
+
 <font style="color:rgb(23, 35, 63);">标准ASCII 码也叫基础ASCII码，使用7 位二进制数（剩下的1位二进制为0）,包含128个字符，</font>
 
 <font style="color:rgb(23, 35, 63);">看到这里你或许会说，使用128进制(如果有的话)岂不是网址更短，</font>
@@ -110,9 +114,11 @@ long(8个字节)，存储的范围是-900万万亿 到 900万万亿
 ```
 
 ## <font style="color:rgb(34, 34, 34);">3、短 URL 系统的功能分析</font>
+
 <font style="color:rgb(23, 35, 63);">假设短地址长度为8位，62的8次方足够一般系统使用了</font>
 
 ### <font style="color:rgb(34, 34, 34);">系统核心实现，包含三个大的功能</font>
+
 + <font style="color:rgb(51, 51, 51);">发号</font>
 + <font style="color:rgb(51, 51, 51);">存储</font>
 + <font style="color:rgb(51, 51, 51);">映射</font>
@@ -120,10 +126,12 @@ long(8个字节)，存储的范围是-900万万亿 到 900万万亿
 <font style="color:rgb(23, 35, 63);">可以分为两个模块：发号与存储模块、映射模块</font>
 
 ### <font style="color:rgb(34, 34, 34);">发号与存储模块</font>
+
 + <font style="color:rgb(51, 51, 51);">发号：使用发号器发号 ， 为每个长地址分配一个号码ID，并且需要防止地址二义，也就是防止同一个长址多次请求得到的短址不一样</font>
 + <font style="color:rgb(51, 51, 51);">存储：将号码与长地址存放在DB中，将号码转化成62进制，用于表示最终的短地址，并返回给用户</font>
 
 ### <font style="color:rgb(34, 34, 34);">映射模块</font>
+
 <font style="color:rgb(23, 35, 63);">用户使用62进制的短地址请求服务 ，</font>
 
 + <font style="color:rgb(51, 51, 51);">转换：将62进制的数转化成10进制，因为咱们系统内部是long 类型的10进制的数字ID</font>
@@ -131,6 +139,7 @@ long(8个字节)，存储的范围是-900万万亿 到 900万万亿
 + <font style="color:rgb(51, 51, 51);">通过302重定向，将用户请求重定向到对应的地址上</font>
 
 ## <font style="color:rgb(34, 34, 34);">4、发号器的高并发架构</font>
+
 <font style="color:rgb(23, 35, 63);">回顾一下发号器的功能：</font>
 
 + <font style="color:rgb(51, 51, 51);">为每个长地址分配一个号码ID</font>
@@ -139,6 +148,7 @@ long(8个字节)，存储的范围是-900万万亿 到 900万万亿
 <font style="color:rgb(23, 35, 63);">以下对目前流行的分布式ID方案做简单介绍</font>
 
 ### <font style="color:rgb(34, 34, 34);">方案1：使用地址的hash 编码作为ID</font>
+
 <font style="color:rgb(23, 35, 63);">可以通过 原始Url的 hash编码，得到一个 整数，作为 短链的ID</font>
 
 <font style="color:rgb(23, 35, 63);">哈希算法简单来说就是将一个元素映射成另一个元素，</font>
@@ -201,6 +211,7 @@ www.weibo.com/abcdef
 <font style="color:rgb(23, 35, 63);">会出现碰撞，所以这种方案不适合。</font>
 
 ### <font style="color:rgb(34, 34, 34);">方案2：数据库自增长ID</font>
+
 <font style="color:rgb(23, 35, 63);">属于完全依赖数据源的方式，所有的ID存储在数据库里，是最常用的ID生成办法，在单体应用时期得到了最广泛的使用，建立数据表时利用数据库自带的auto_increment作主键，或是使用序列完成其他场景的一些自增长ID的需求。</font>
 
 <font style="color:rgb(23, 35, 63);">但是这种方式存在在高并发情况下性能问题，要解决该问题，可以通过批量发号来解决，</font>
@@ -232,6 +243,7 @@ www.weibo.com/abcdef
 <font style="color:rgb(23, 35, 63);">所以，高并发场景， MySQL的自增主键，很少用。</font>
 
 ### <font style="color:rgb(34, 34, 34);">方案3：分布式、高性能的中间件生成ID</font>
+
 <font style="color:rgb(23, 35, 63);">Mysql 不行，可以考虑分布式、高性能的中间件完成。</font>
 
 <font style="color:rgb(23, 35, 63);">比如 Redis、MongoDB 的自增主键，或者其他 分布式存储的自增主键，但是这就会引入额外的中间组件。</font>
@@ -250,6 +262,7 @@ www.weibo.com/abcdef
 </font><font style="color:rgb(51, 51, 51);">比较适合计数场景，如用户访问量，订单流水号（日期+流水号）等。</font>
 
 ### <font style="color:rgb(34, 34, 34);">方案4：UUID、GUID生成ID</font>
+
 **<font style="color:rgb(23, 35, 63);">UUID：</font>**
 
 <font style="color:rgb(23, 35, 63);">按照OSF制定的标准计算，用到了以太网卡地址、纳秒级时间、芯片ID码和许多可能的数字。由以下几部分的组合：当前日期和时间(UUID的第一个部分与时间有关，如果你在生成一个UUID之后，过几秒又生成一个UUID，则第一个部分不同，其余相同)，时钟序列，全局唯一的IEEE机器识别号（如果有网卡，从网卡获得，没有网卡以其他方式获得）</font>
@@ -270,6 +283,7 @@ www.weibo.com/abcdef
 </font><font style="color:rgb(51, 51, 51);">只要对存储空间没有苛刻要求的都能够适用，比如各种链路追踪、日志存储等。</font>
 
 ### <font style="color:rgb(34, 34, 34);">方式5：snowflake算法（雪花算法）生成ID</font>
+
 <font style="color:rgb(23, 35, 63);">snowflake ID 严格来说，属于 本地生产 ID，这点和 Redis ID、MongoDB ID不同， 后者属于远程生产的ID。</font>
 
 <font style="color:rgb(23, 35, 63);">本地生产ID性能高，远程生产的ID性能低。</font>
@@ -287,6 +301,7 @@ www.weibo.com/abcdef
 </font><font style="color:rgb(51, 51, 51);">分布式应用环境的数据主键</font>
 
 ### <font style="color:rgb(34, 34, 34);">高并发ID的技术选型</font>
+
 <font style="color:rgb(23, 35, 63);">这里，不用地址的hash 编码作为ID</font>
 
 <font style="color:rgb(23, 35, 63);">这里，不用数据库的自增长ID</font>
@@ -304,6 +319,7 @@ www.weibo.com/abcdef
 <font style="color:rgb(23, 35, 63);">如何解决时钟回拨的问题，可以参考 推特官方的 代码、 百度ID的代码、Shardingjdbc ID的源码，综合存储方案设计解决。</font>
 
 ## <font style="color:rgb(34, 34, 34);">5、数据存储的高并发架构</font>
+
 <font style="color:rgb(23, 35, 63);">这个数据，非常的结构化，可以使用结构化数据库MYSQL存储。</font>
 
 ```plain
@@ -332,6 +348,7 @@ www.weibo.com/abcdef
 <font style="color:rgb(23, 35, 63);">这块内容涉的方案，不同的项目，基本是相通的。</font>
 
 ## <font style="color:rgb(34, 34, 34);">6、二义性检查的高并发架构</font>
+
 <font style="color:rgb(23, 35, 63);">所谓的地址二义性，就行同一个长址多次请求得到的短址不一样。</font>
 
 <font style="color:rgb(23, 35, 63);">在生产地址的时候，需要进行二义性检查，防止每次都会重新为该长址生成一个短址，一个个长址多次请求得到的短址是不一样。</font>
@@ -359,6 +376,7 @@ _<font style="color:rgb(23, 35, 63);">问题的关键是，数据库性能特低
 <font style="color:rgb(23, 35, 63);">大致的方案是，可以把已经生成过的 原始url ，在 redis 布隆过滤器中进行记录。</font>
 
 ### <font style="color:rgb(34, 34, 34);">每次进行二义性检查，走redis 布隆过滤器。</font>
+
 <font style="color:rgb(23, 35, 63);">布隆过滤器就是bitset+多次hash的架构，宏观上是空间换时间，不对所有的 surl （原始url）进行内容存储，只对surl进行存在性存储，这样就节省大家大量的内存空间。</font>
 
 <font style="color:rgb(23, 35, 63);">在数据量比较大的情况下，既满足时间要求，又满足空间的要求。</font>
@@ -384,11 +402,13 @@ _<font style="color:rgb(23, 35, 63);">问题的关键是，数据库性能特低
 <font style="color:rgb(23, 35, 63);">当然，他也存在一个小小问题，就是不太精确。</font>
 
 ### <font style="color:rgb(34, 34, 34);">规则是：存在不一定存在，说不存在一定不存在</font>
+
 <font style="color:rgb(23, 35, 63);">Bloom Filter 相当于是一个不太精确的 set 集合，我们可以利用它里边的 contains 方法去判断某一个对象是否存在，但是需要注意，这个判断不是特别精确。</font>
 
 <font style="color:rgb(23, 35, 63);">一般来说，通过 contains 判断某个值不存在，那就一定不存在，但是判断某个值存在的话，则他可能不存在。</font>
 
 ### <font style="color:rgb(34, 34, 34);">那么对于 surl，处理的方案是：</font>
+
 + <font style="color:rgb(51, 51, 51);">如果 redis bloom filter 不存在，直接生成</font>
 + <font style="color:rgb(51, 51, 51);">否则，如果 redis bloom filter 判断为存在，可能是误判，还需要进行db的检查。</font>
 
@@ -397,19 +417,23 @@ _<font style="color:rgb(23, 35, 63);">问题的关键是，数据库性能特低
 <font style="color:rgb(23, 35, 63);">可能有小伙伴说，如果100Wqps，1%也是10W1ps，DB还是扛不住，怎么办？</font>
 
 ### <font style="color:rgb(34, 34, 34);">可以使用缓存架构，甚至多级缓存架构</font>
+
 <font style="color:rgb(23, 35, 63);">具体来说，可以使用 Redis 缓存进行 热门url的缓存，实现部分地址的一对一缓存</font>
 
 <font style="color:rgb(23, 35, 63);">比如将最近/最热门的对应关系存储在K-V数据库中，比如在本地缓存 Caffeine中存储</font>**<font style="color:rgb(23, 35, 63);">最近生成</font>**<font style="color:rgb(23, 35, 63);">的长对短的对应关系，并采用过期机制实现 LRU 淘汰，从而保证频繁使用的 URL 的总是对应同一个短址的，但是不保证不频繁使用的URL的对应关系，从而大大减少了空间上的消耗。</font>
 
 ## <font style="color:rgb(34, 34, 34);">7、映射模块(/转换模块)高并发架构</font>
+
 <font style="color:rgb(23, 35, 63);">这里，主要是介绍自己对 多级缓存的 掌握和了解。</font>
 
 <font style="color:rgb(23, 35, 63);">可以使用了缓存，二级缓存、三级缓存，加快id 到 surl的转换。</font>
 
 ### <font style="color:rgb(34, 34, 34);">简单的缓存方案</font>
+
 <font style="color:rgb(23, 35, 63);">将热门的长链接（需要对长链接进来的次数进行计数）、最近的长链接（可以使用 Redis 保存最近一个小时的数据）等等进行一个缓存，如果请求的长URL命中了缓存，那么直接获取对应的短URL进行返回，不需要再进行生成操作</font>
 
 ### <font style="color:rgb(34, 34, 34);">补充服务间的重定向301 和 302 的不同</font>
+
 <font style="color:rgb(23, 35, 63);">301永久重定向和 302 临时重定向。</font>
 
 + <font style="color:rgb(51, 51, 51);">301永久重定向：第一次请求拿到长链接后，下次浏览器再去请求短链的话，不会向短网址服务器请求了，而是直接从浏览器的缓存里拿，减少对服务器的压力。</font>
@@ -420,29 +444,36 @@ _<font style="color:rgb(23, 35, 63);">问题的关键是，数据库性能特低
 <font style="color:rgb(23, 35, 63);">而 302 虽然会增加服务器压力，但便于在 server 层统计访问数，所以如果对这些数据有需求，可以采用 302，因为这点代价是值得的，但是具体采用哪种跳转方式，还是要结合实际情况进行选型。</font>
 
 ## <font style="color:rgb(34, 34, 34);">8、生成逻辑总结</font>
+
 <font style="color:rgb(6, 6, 7);">短链生成的具体逻辑可以分为以下几个关键步骤：</font>
 
 ### **<font style="color:rgb(6, 6, 7);">1. 校验长链接的合法性</font>**
+
 <font style="color:rgb(6, 6, 7);">在生成短链之前，需要对输入的长链接进行合法性校验，确保其不是恶意链接或无效链接</font><font style="color:rgb(6, 6, 7);">。</font>
 
 ### **<font style="color:rgb(6, 6, 7);">2. 计算哈希值</font>**
+
 <font style="color:rgb(6, 6, 7);">使用非加密型哈希算法（如 MurmurHash3）对长链接进行哈希计算，得到一个固定长度的哈希值。哈希算法的选择需要考虑性能和分布均匀性</font><font style="color:rgb(6, 6, 7);">。</font>
 
 ### **<font style="color:rgb(6, 6, 7);">3. 转换为短链标识</font>**
+
 <font style="color:rgb(6, 6, 7);">将哈希值转换为62进制字符串（字符集通常是 </font>`[0-9][A-Z][a-z]`<font style="color:rgb(6, 6, 7);">），作为短链的标识。这种转换可以有效缩短短链的长度</font><font style="color:rgb(6, 6, 7);">。</font>
 
 ### **<font style="color:rgb(6, 6, 7);">4. 处理哈希冲突</font>**
+
 <font style="color:rgb(6, 6, 7);">由于哈希算法可能存在冲突，需要处理这种情况。常见的方法包括：</font>
 
 + <font style="color:rgb(6, 6, 7);">检查数据库中是否已存在相同的短链标识，如果存在且对应的长链接不同，则拼接随机字符串或使用分布式ID重新生成</font><font style="color:rgb(6, 6, 7);">。</font>
 + <font style="color:rgb(6, 6, 7);">使用雪花算法（Snowflake）生成唯一ID，避免冲突</font><font style="color:rgb(6, 6, 7);">。</font>
 
 ### **<font style="color:rgb(6, 6, 7);">5. 存储映射关系</font>**
+
 <font style="color:rgb(6, 6, 7);">将短链与长链的映射关系存储在数据库中，同时可以使用缓存（如 Redis）来提升查询性能</font><font style="color:rgb(6, 6, 7);">。</font>
 
 ### **<font style="color:rgb(6, 6, 7);">6. 重定向访问</font>**
+
 <font style="color:rgb(6, 6, 7);">当用户访问短链时，服务端根据短链标识查询对应的长链接，并使用HTTP 302临时重定向到长链接。同时，可以记录访问信息（如IP、时间、来源等）用于监控和统计</font><font style="color:rgb(6, 6, 7);">。</font>
 
 ### **<font style="color:rgb(6, 6, 7);">7. 监控与统计</font>**
-<font style="color:rgb(6, 6, 7);">在重定向过程中，可以收集短链的访问信息，如PV/UV、来源、浏览器类型等，并进行数据可视化分析。</font>
 
+<font style="color:rgb(6, 6, 7);">在重定向过程中，可以收集短链的访问信息，如PV/UV、来源、浏览器类型等，并进行数据可视化分析。</font>

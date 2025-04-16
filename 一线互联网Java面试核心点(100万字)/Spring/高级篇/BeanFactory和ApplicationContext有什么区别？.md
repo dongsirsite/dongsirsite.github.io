@@ -13,6 +13,3 @@
 <font style="color:rgb(77, 77, 77);">ApplicationContext 可以称之为 </font>**<font style="color:rgb(77, 77, 77);">“高级容器”</font>**<font style="color:rgb(77, 77, 77);">。因为他比 BeanFactory 多了更多的功能。他继承了多个接口，因此具备了更多的功能。例如配置的读取、解析、扫描等，还加入了 如 事件事件监听机制，及后置处理器让Spring提升了扩展性。所以你看他的名字，已经不是 BeanFactory 之类的工厂了，而是 “应用上下文”， 代表着整个大容器的所有功能。该接口定义了一个 refresh 方法，此方法是所有阅读 Spring 源码的人的最熟悉的方法，用于刷新整个容器，即重新加载/刷新所有的 bean。</font>
 
 <font style="color:rgb(77, 77, 77);"></font>
-
- 
-

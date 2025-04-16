@@ -11,4 +11,3 @@
 7. **<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">预防措施</font>**<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">：根据排查结果，制定预防措施，避免类似的OOM问题再次发生。例如，改进代码质量、加强内存管理、优化资源使用等。</font>
 
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">需要注意的是，排查OOM问题需要综合运维经验和技术知识，有时需要借助专业的工具和专家的帮助。同时，也要注意及时备份和保留相关的日志和转储文件，以便后续的分析和排查。</font>
-

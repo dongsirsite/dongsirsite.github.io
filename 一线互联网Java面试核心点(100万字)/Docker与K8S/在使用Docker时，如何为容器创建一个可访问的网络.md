@@ -23,4 +23,3 @@ docker run --network=my_network -tid -p 8000:8000 image_name
 ```
 
 这将在my_network网络中创建一个容器，并将容器的8000端口映射到主机的8000端口。
-

@@ -1,8 +1,6 @@
 # 一线互联网Java面试核心点(100万字)
 
-
 ## 面试必看
-
 
 ### 面试指导与简历模板
 
@@ -41,7 +39,6 @@
 
 ### 大厂真题
 
-
 #### [阿里面试真题](面试必看/大厂真题/阿里面试真题/index.md)
 
 - [多线程篇](面试必看/大厂真题/阿里面试真题/多线程篇.md)
@@ -58,7 +55,6 @@
 - [JVM篇](面试必看/大厂真题/阿里面试真题/JVM篇.md)
 
 #### [美团面试真题](面试必看/大厂真题/美团面试真题/index.md)
-
 
 ##### [String为什么要设计成不可变的](面试必看/大厂真题/美团面试真题/String为什么要设计成不可变的/index.md)
 
@@ -559,7 +555,6 @@
 
 ## MyBatis
 
-
 ### 基础篇
 
 - [mybatis使用like的时候，如何防止sql注入](MyBatis/基础篇/mybatis使用like的时候，如何防止sql注入.md)
@@ -681,7 +676,6 @@
 - [微服务设计的9种设计模式](SpringCloud/微服务设计的9种设计模式.md)
 
 ## ElasticSearch
-
 
 ### [ElasticSearch中的倒排索引是如何工作的](ElasticSearch/ElasticSearch中的倒排索引是如何工作的/index.md)
 
@@ -842,7 +836,6 @@
 
 ## Dubbo
 
-
 ### 基础
 
 - [什么是Dubbo？它的主要作用是什么？](Dubbo/基础/什么是Dubbo？它的主要作用是什么？.md)
@@ -864,7 +857,6 @@
 - [请解释一下Dubbo的SPI（ServiceProvider Interface）机制是什么？在Dubbo中如何使用SPI？](Dubbo/高级/请解释一下Dubbo的SPI（ServiceProviderInterface）机制是什么？在Dubbo中如何使用SPI？.md)
 
 ## 分布式
-
 
 ### [CAP原则和BASE原则怎么理解](分布式/CAP原则和BASE原则怎么理解/index.md)
 
@@ -1181,4 +1173,3 @@
 - [在自己的电脑上搭建我的世界Java版服务器](AI大模型Deepseek/在自己的电脑上搭建我的世界Java版服务器.md)
 
 ## 待加入问题
-

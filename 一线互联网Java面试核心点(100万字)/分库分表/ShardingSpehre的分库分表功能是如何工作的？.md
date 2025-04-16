@@ -10,4 +10,3 @@ ShardingSphere 的分库分表功能主要通过如下几个步骤完成：
 6. <font style="color:rgb(51, 51, 51);">结果归并：将从各个数据节点获取的多数据结果集，组合成为一个结果集并正确的返回至请求客户端。ShardingSphere 内部实现了流式归并和内存归并两种方案。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">ShardingSphere 的分库分表功能使得应用程序能够透明地访问分布式数据库，而无需关心具体的数据库分片细节。开发人员只需配置好数据源和分片规则，ShardingSphere会自动处理数据的分布和查询路由。这有助于提高系统性能、可扩展性和可用性。</font>
-

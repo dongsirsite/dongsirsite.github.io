@@ -7,4 +7,3 @@
 3. <font style="color:rgb(5, 7, 59);">Sharding-Sidecar 是 ShardingSphere 的规划中的第三个模块，它将作为一个独立的微服务，为用户提供更为灵活和强大的数据分片、分布式事务和数据治理等功能。Sarding-SideCar 主要用于云原生环境。</font>
 
 <font style="color:rgb(5, 7, 59);">总体来说，ShardingSphere 的三个核心模块通过相互配合，共同实现了数据库的分片和分布式事务等功能的解决方案。</font><font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">开发人员可以根据其应用程序的要求选择合适的模块来集成ShardingSphere。这些模块共同为分布式数据库操作提供了更好的性能、可扩展性和可用性。</font>
-

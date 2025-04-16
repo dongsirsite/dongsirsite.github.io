@@ -6,7 +6,9 @@
 </font><font style="color:rgb(51, 51, 51);">的时候可能会存在一些问题。</font>
 
 ## <font style="color:rgb(51, 51, 51);">synchronized 锁字符串的问题</font>
+
 ### <font style="color:rgb(51, 51, 51);">使用synchronized锁一个字符串</font><font style="color:rgb(51, 51, 51);">👇</font>
+
 ```java
 @RequestMapping("/saving")
 public String saving(String school) {
@@ -21,6 +23,7 @@ synchronized (school) {
 ```
 
 ### <font style="color:rgb(51, 51, 51);">测试：</font>
+
 模拟http接口请求， Spring底层会通过new String()方式传入字符串参数， 而不是传入“”常量值
 
 ```java
@@ -44,6 +47,7 @@ System.out.println(values);
 <font style="color:rgb(51, 51, 51);"></font>
 
 ### <font style="color:rgb(51, 51, 51);">运行结果如下：</font>
+
 <font style="color:rgb(51, 51, 51);">3个同时并行：</font>
 
 ![1726391736748-562c6ac3-22af-4e02-874e-197ab334c455.png](./img/Z_3AR-OMSla4WPKz/1726391736748-562c6ac3-22af-4e02-874e-197ab334c455-308231.png)
@@ -51,10 +55,6 @@ System.out.println(values);
 发生线程安全问题：
 
 ![1726391818546-fc2ad3c2-bef7-4463-812c-f19e7ee2b79b.png](./img/Z_3AR-OMSla4WPKz/1726391818546-fc2ad3c2-bef7-4463-812c-f19e7ee2b79b-033849.png)
-
-
-
-
 
 <font style="color:rgb(51, 51, 51);">可以发现还是并发执行了，因为</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">synchronized (new String("字符串常量"))</font>`<font style="color:rgb(51, 51, 51);">  
 </font>**<font style="color:rgb(51, 51, 51);">锁的对象不是同一个，仅仅是值相等</font>**<font style="color:rgb(51, 51, 51);">，此时的字符串是在堆栈中。将代码修改为如下</font>
@@ -89,6 +89,7 @@ System.out.println(values);
 <font style="color:rgb(51, 51, 51);"></font>
 
 ## <font style="color:rgb(51, 51, 51);">synchronized 锁字符串用String的intern()存在的问题</font>
+
 <font style="color:rgb(51, 51, 51);">通过上面的demo可以得出，使用synchronized 锁字符串，需要将字符串添加到字符串常量池中。日常使用中通过通过new对象的方式创建对象，再取对象的字段，因此需要使用intern把字符串放入常量池中，但是</font>**<font style="color:rgb(51, 51, 51);">直接使用String的intern全部把字符串放入常量池会存在一些问题</font>**<font style="color:rgb(51, 51, 51);">。显然在数据量很大的情况下，将所有字符串都放入常量池是不合理的，常量池大小依赖服务器内存，且只有等待fullGC，极端情况下会导致</font>**<font style="color:rgb(51, 51, 51);">频繁fullGC</font>**<font style="color:rgb(51, 51, 51);">。并且在数据量很大的情况下，将字符串放入常量会</font>**<font style="color:rgb(51, 51, 51);">存在性能问题</font>**<font style="color:rgb(51, 51, 51);">。</font>
 
 <font style="color:rgb(51, 51, 51);">可以用google的guava包的interner类：</font>
@@ -107,8 +108,8 @@ public class test{
 <font style="color:rgb(51, 51, 51);">Interner是通过MapMaker构造ConcurrentMap来实现弱引用，ConcurrentMap用分段的方式保证安全。这里个人觉得比常量池的</font>**<font style="color:rgb(51, 51, 51);">优点</font>**<font style="color:rgb(51, 51, 51);">就在于这里是</font>**<font style="color:rgb(51, 51, 51);">弱引用的方式，便于map的回收，常量池只能依赖于fullGC，这里的回收在不使用或内存不够用条件下即可被回收</font>**<font style="color:rgb(51, 51, 51);">（Minor GC阶段）。</font>
 
 ## <font style="color:rgb(51, 51, 51);">总结</font>
+
 + <font style="color:rgb(51, 51, 51);">synchronized可以锁存活于字符串常量池中的值，不能锁存活于堆栈中的字符串（字符串地址要相同）</font>
 + <font style="color:rgb(51, 51, 51);">可以使用</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">String对象.intern()</font>`<font style="color:rgb(51, 51, 51);">  
 </font><font style="color:rgb(51, 51, 51);">将该字符串放入字符串常量池中，但是常量池的回收只能依赖于fullGC，故不推荐使用</font>
 + <font style="color:rgb(51, 51, 51);">推荐使用guava包下的interner类，使用弱引用的方式，在内存不足的时候自动进行垃圾回收</font>
-

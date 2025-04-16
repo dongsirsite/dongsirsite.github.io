@@ -12,24 +12,21 @@
 <font style="color:rgb(6, 6, 7);">本文将为您提供一份详细的教程，指导您如何使用 Higress AI 网关在 DeepSeek-R1 和 QwQ-32B 大模型之间实现无缝切换。通过以下步骤，您可以轻松完成这一目标：</font>
 
 ### 1. 环境准备
+
 ```plain
 # 一键安装Higress（需Docker环境）
 curl -sS https://higress.cn/ai-gateway/install.sh | bash
 ```
 
-安装完成后访问控制台http://localhost:8001，完成初始化配置。
+安装完成后访问控制台<http://localhost:8001，完成初始化配置。>
 
 ![1741669057034-48f3ecba-5aad-4237-b963-3b42d1f27a57.png](./img/0L-CuNkt1mXzFGRf/1741669057034-48f3ecba-5aad-4237-b963-3b42d1f27a57-985282.png)
-
-
 
 ![1741675267629-a36ec9a9-e665-40f3-8ba7-863013ac71bd.png](./img/0L-CuNkt1mXzFGRf/1741675267629-a36ec9a9-e665-40f3-8ba7-863013ac71bd-337652.png)
 
 <font style="color:#DF2A3F;">注意：默认脚本是监听的127.0.0.1，如果想通过windows本地机器访问虚拟机中的higress，将ip替换为0.0.0.0</font>
 
 ![1741676552460-bae46f4b-c6db-4945-8c77-e4835fde791b.png](./img/0L-CuNkt1mXzFGRf/1741676552460-bae46f4b-c6db-4945-8c77-e4835fde791b-486830.png)
-
-
 
 访问Higress控制台，首次访问需要设置管理员账号密码
 
@@ -39,9 +36,8 @@ curl -sS https://higress.cn/ai-gateway/install.sh | bash
 
 ![1741676825200-56304801-a94a-44d1-b427-ea699ba79de2.png](./img/0L-CuNkt1mXzFGRf/1741676825200-56304801-a94a-44d1-b427-ea699ba79de2-056874.png)
 
-
-
 ### <font style="color:rgb(6, 6, 7);">2.模型接入配置</font>
+
 <font style="color:rgb(6, 6, 7);">在 Higress 控制台中，分别配置 DeepSeek-R1 和 QwQ-32B 的接入方式。对于厂商模型，选择相应的厂商名进行配置；对于自建模型，使用 OpenAI 兼容模式，填入 baseURL 即可。</font>
 
 ![1741763670749-2a82f2b0-7cd9-4d1e-b345-0d4511d5fcbf.png](./img/0L-CuNkt1mXzFGRf/1741763670749-2a82f2b0-7cd9-4d1e-b345-0d4511d5fcbf-041467.png)
@@ -59,6 +55,7 @@ curl -sS https://higress.cn/ai-gateway/install.sh | bash
 <font style="color:rgb(6, 6, 7);"></font>
 
 ### 3.测试示例
+
 统一访问Higress网关地址即可，可以通过设置model进行模型的切换
 
 ```plain
@@ -96,8 +93,6 @@ curl 'http://192.168.65.185:8080/v1/chat/completions'       -H 'Content-Type: ap
 
 ![1741764095497-3611b6fd-e457-420f-a17c-4a02069b36b0.png](./img/0L-CuNkt1mXzFGRf/1741764095497-3611b6fd-e457-420f-a17c-4a02069b36b0-335526.png)
 
-
-
 higress添加消费者认证后，测试
 
 ```plain
@@ -115,9 +110,8 @@ curl 'http://192.168.65.185:8080/v1/chat/completions'       -H 'Content-Type: ap
 
 ![1741764280056-eeb96dfe-d2a2-4306-b055-628b2c5a5a98.png](./img/0L-CuNkt1mXzFGRf/1741764280056-eeb96dfe-d2a2-4306-b055-628b2c5a5a98-382800.png)
 
-
-
 ### 4.Spring Ai整合Higress实现多模型无缝切换
+
 **1）引入依赖**
 
 <font style="color:rgb(53, 56, 65);">在项目中接入具有 OpenAI API 规范的大模型时，只需要引入 </font>`<font style="color:rgb(53, 56, 65);">spring-ai-openai-spring-boot-starter</font>`<font style="color:rgb(53, 56, 65);"> 即可。</font>
@@ -169,4 +163,3 @@ public class ChatModelController {
 4）测试
 
 ![1741765469155-163d5d69-d4e7-44dd-bfbd-469f7ed6dda1.png](./img/0L-CuNkt1mXzFGRf/1741765469155-163d5d69-d4e7-44dd-bfbd-469f7ed6dda1-228471.png)
-

@@ -6,12 +6,14 @@
 2. **<font style="color:rgba(0, 0, 0, 0.82);">SQL92语法过滤</font>**<font style="color:rgba(0, 0, 0, 0.82);">：基于Message属性，以SQL92标准语法进行复杂条件过滤，该功能需要Broker支持。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">1. Tag过滤</font>
+
 **<font style="color:rgba(0, 0, 0, 0.82);">Tag过滤</font>**<font style="color:rgba(0, 0, 0, 0.82);">是RocketMQ最基本的过滤机制，性能最好，因为它是在服务器端完成的。</font>
 
 + <font style="color:rgba(0, 0, 0, 0.82);">每条消息可以有一个或多个Tag。</font>
 + <font style="color:rgba(0, 0, 0, 0.82);">消费者订阅时指定需接收的Tag。</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">代码示例</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">生产者发送带Tag的消息：</font>
 
 ```java
@@ -75,9 +77,11 @@ public class ConsumerWithTagExample {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">2. SQL92语法过滤</font>
+
 **<font style="color:rgba(0, 0, 0, 0.82);">SQL92过滤</font>**<font style="color:rgba(0, 0, 0, 0.82);">基于用户设置的消息属性，支持更复杂的过滤条件。这种过滤机制是由服务器端进行的，需要预先配置Broker支持属性过滤。</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">使用方法</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">启动Broker时启用过滤</font>**<font style="color:rgba(0, 0, 0, 0.82);">：启动Broker时，需要配置</font>`<font style="color:rgba(0, 0, 0, 0.82);">enablePropertyFilter=true</font>`<font style="color:rgba(0, 0, 0, 0.82);">来启用SQL92语法过滤功能。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">生产者设置消息属性</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
 
@@ -139,8 +143,8 @@ public class ConsumerWithSQL92Example {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">总结</font>
+
 + **<font style="color:rgba(0, 0, 0, 0.82);">Tag过滤</font>**<font style="color:rgba(0, 0, 0, 0.82);">：简单高效，适合多订阅者需接受不同子类型消息的场景。</font>
 + **<font style="color:rgba(0, 0, 0, 0.82);">SQL92过滤</font>**<font style="color:rgba(0, 0, 0, 0.82);">：灵活强大，适合需要复杂条件过滤的场景，但是需要对性能加以考虑，并且需要在Broker端配置以支持属性过滤。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">通过提供这些过滤机制，RocketMQ可以大大优化消息消费的准确性和有效性，使得消息系统更能贴合业务需求。不同的机制有各自的优势，选择具体的过滤机制需根据业务需求和系统性能进行合理权衡。</font>
-

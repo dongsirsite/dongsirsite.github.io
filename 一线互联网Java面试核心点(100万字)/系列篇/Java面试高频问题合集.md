@@ -1,6 +1,7 @@
 # 💎 Java面试高频问题合集
 
 ## <font style="color:rgb(51, 51, 51);">创建索引有哪些注意点</font>
+
 <font style="color:rgb(102, 102, 102);">索引虽然是sql性能优化的利器，但是索引的维护也是需要成本的，所以创建索引，也要注意：</font>
 
 1. <font style="color:rgb(102, 102, 102);">索引应该建在查询应用频繁的字段，比如where 判断、 order 排序和 join 的(on)字段上创建索引。</font>
@@ -15,6 +16,7 @@
 <font style="color:rgb(102, 102, 102);"></font>
 
 ## <font style="color:rgb(51, 51, 51);">索引哪些情况下会失效呢</font>
+
 + <font style="color:rgb(102, 102, 102);">查询条件包含or，可能导致索引失效</font>
 + <font style="color:rgb(102, 102, 102);">如果字段类型是字符串，where时一定用引号括起来，否则会因为隐式类型转换，索引失效</font>
 + <font style="color:rgb(102, 102, 102);">like通配符可能导致索引失效。</font>
@@ -26,9 +28,8 @@
 + <font style="color:rgb(102, 102, 102);">左连接查询或者右连接查询查询关联的字段编码格式不一样，可能导致索引失效。</font>
 + <font style="color:rgb(102, 102, 102);">MySQL优化器估计使用全表扫描要比使用索引快,则不使用索引。</font>
 
-
-
 ## <font style="color:rgb(51, 51, 51);">解释下 MySQL 事务的四大特性ACID以及实现原理</font>
+
 ![1695112779841-b7799b85-b173-4623-8a7b-543dd607fe8d.png](./img/1YqNo7kwSCOVW2V-/1695112779841-b7799b85-b173-4623-8a7b-543dd607fe8d-119345.png)
 
 <font style="color:rgb(136, 136, 136);">事务四大特性</font>
@@ -47,7 +48,9 @@
 + <font style="color:rgb(1, 1, 1);">事务的</font><font style="color:rgb(22, 94, 202);">原子性</font><font style="color:rgb(1, 1, 1);">和</font><font style="color:rgb(22, 94, 202);">持久性</font><font style="color:rgb(1, 1, 1);">由redo log来保证：redo log被称作重做日志，是物理日志，事务提交的时候，必须先将事务的所有日志写入redo log持久化，到事务的提交操作才算完成。</font>
 
 ## <font style="color:rgb(51, 51, 51);"></font>
+
 ## <font style="color:rgb(51, 51, 51);">事务的各个隔离级别都是如何实现的</font>
+
 **<font style="color:rgb(22, 94, 202);">读未提交</font>**
 
 <font style="color:rgb(102, 102, 102);">读未提交，就不用多说了，采取的是读不加锁原理。</font>
@@ -73,6 +76,7 @@
 <font style="color:rgb(102, 102, 102);"></font>
 
 ## <font style="color:rgb(51, 51, 51);">Mysql主从复制原理了解吗</font>
+
 + <font style="color:rgb(1, 1, 1);">master数据写入，更新binlog</font>
 + <font style="color:rgb(1, 1, 1);">master创建一个dump线程向slave推送binlog</font>
 + <font style="color:rgb(1, 1, 1);">slave连接到master的时候，会创建一个IO线程接收binlog，并记录到relay log中继日志中</font>
@@ -84,6 +88,7 @@
 <font style="color:rgb(136, 136, 136);">主从复制</font>
 
 ## <font style="color:rgb(51, 51, 51);">Mysql主从同步延迟怎么处理</font>
+
 **<font style="color:rgb(22, 94, 202);">主从同步延迟的原因</font>**
 
 <font style="color:rgb(102, 102, 102);">当数据库主库有较大更新并发操作时，可能会导致主从同步延迟，因为从库里面读取 binlog 的线程仅有一个，当某个 SQL 在从库上执行的时间稍长 或者由于某个 SQL 要进行锁表就会导致主从同步延迟，主库的 SQL 大量积压，未被同步到从库里。这就导致了主从不一致， 也就是主从延迟。</font>
@@ -104,9 +109,8 @@
 
 <font style="color:rgb(102, 102, 102);">例如，对于一个用户管理系统来说，注册 + 登录的业务读写操作全部访问主库，用户的介绍、爰好、等级等业务，可以采用读写分离，因为即使用户改了自己的自我介绍，在查询时却看到了自我介绍还是旧的，业务影响与不能登录相比就小很多，业务上一般可以接受。</font>
 
-
-
 ## <font style="color:rgb(51, 51, 51);">水平分表有哪几种路由方式</font>
+
 <font style="color:rgb(102, 102, 102);">什么是路由呢？就是数据应该分到哪一张表。</font>
 
 <font style="color:rgb(102, 102, 102);">水平分表主要有三种路由方式：</font>
@@ -146,6 +150,7 @@
 <font style="color:rgb(102, 102, 102);"></font>
 
 ## <font style="color:rgb(51, 51, 51);">分库分表后如何实现不停机扩容</font>
+
 <font style="color:rgb(102, 102, 102);">实际上，不停机扩容，实操起来是个非常麻烦而且很有风险的操作，当然，面试回答起来就简单很多。</font>
 
 + **<font style="color:rgb(22, 94, 202);">第一阶段：在线双写，查询走老库</font>**
@@ -172,6 +177,7 @@
 <font style="color:rgb(136, 136, 136);"></font>
 
 ## <font style="color:rgb(51, 51, 51);">分库分表会带来什么问题</font>
+
 **<font style="color:rgb(102, 102, 102);">从分库的角度来讲：</font>**
 
 + **<font style="color:rgb(22, 94, 202);">事务的问题</font>**
@@ -213,6 +219,7 @@
 <font style="color:rgb(1, 1, 1);"></font>
 
 ## <font style="color:rgb(51, 51, 51);">MySQL 数据库 cpu 飙升怎么解决</font>
+
 <font style="color:rgb(102, 102, 102);">排查过程：</font>
 
 <font style="color:rgb(102, 102, 102);">（1）使用 top 命令观察，确定是 mysqld 导致还是其他原因。</font>
@@ -233,11 +240,8 @@
 
 <font style="color:rgb(102, 102, 102);">也有可能是每个 sql 消耗资源并不多，但是突然之间，有大量的 session 连进来导致 cpu 飙升，这种情况就需要跟应用一起来分析为何连接数会激增，再做出相应的调整，比如说限制连接数等。</font>
 
-
-
-
-
 ## <font style="color:rgb(51, 51, 51);">启动线程为什么是运行start()方法而不是run()方法</font>
+
 <font style="color:rgb(74, 74, 74);">JVM执行start方法，会先创建一条线程，由创建出来的新线程去执行thread的run方法，这才起到多线程的效果。如果直接调用Thread的run()方法，那么run方法还是运行在主线程中，相当于顺序执行，就起不到多线程的效果。</font>
 
 ![1695134723770-904adb1d-e443-458f-9946-00bfdc17925d.png](./img/1YqNo7kwSCOVW2V-/1695134723770-904adb1d-e443-458f-9946-00bfdc17925d-295126.png)
@@ -247,14 +251,17 @@
 <font style="color:rgb(74, 74, 74);"></font>
 
 ## 守护线程了解吗
+
 <font style="color:rgb(74, 74, 74);">Java中的线程分为两类，分别为 daemon 线程（守护线程）和 user 线程（用户线程）。</font>
 
 <font style="color:rgb(74, 74, 74);">在JVM 启动时会调用 main 函数，main函数所在的钱程就是一个用户线程。其实在 JVM 内部同时还启动了很多守护线程， 比如垃圾回收线程。</font>
 
 <font style="color:rgb(74, 74, 74);">那么守护线程和用户线程有什么区别呢？区别之一是当最后一个非守护线程束时， JVM会正常退出，而不管当前是否存在守护线程，也就是说守护线程是否结束并不影响 JVM退出。换而言之，只要有一个用户线程还没结束，正常情况下JVM就不会退出。</font>
 
-## 
+##
+
 ## 线程间有哪些通信方式
+
 + **<font style="color:rgb(74, 74, 74);">volatile和synchronized关键字</font>**
 
 <font style="color:rgb(74, 74, 74);">关键字volatile可以用来修饰字段（成员变量），就是告知程序任何对该变量的访问均需要从共享内存中获取，而对它的改变必须同步刷新回共享内存，它能保证所有线程对变量访问的可见性，从而间接实现线程之间数据的通信。</font>
@@ -275,8 +282,10 @@
 
 <font style="color:rgb(74, 74, 74);">如果一个线程A执行了thread.join()语句，其含义是：当前线程A等待thread线程运行结束之后再继续往下运行，这意味着thread线程执行修改的数据是肯定可以被线程A读取到的。</font>
 
-# 
+#
+
 ## ThreadLocal是什么
+
 <font style="color:rgb(74, 74, 74);">ThreadLocal，也就是线程本地变量。如果你创建了一个ThreadLocal变量，那么访问这个变量的每个线程都会有这个变量的一个本地拷贝，多个线程操作这个变量的时候，实际是操作自己本地内存里面的变量，从而起到线程隔离的作用，避免了线程安全问题。</font>
 
 ![1695134999458-cc2bfb3e-77c2-47e8-901e-f9af2dcd797e.png](./img/1YqNo7kwSCOVW2V-/1695134999458-cc2bfb3e-77c2-47e8-901e-f9af2dcd797e-859930.png)
@@ -308,19 +317,26 @@ localVariable.set("test”);
 localVariable.get();
 ```
 
-## 
+##
+
 ## ThreadLocal有哪些应用场景
+
 #### <font style="color:rgb(112, 112, 112);">1.线程池技术</font>
+
 <font style="color:rgb(42, 42, 42);">使用线程池执行多个任务时，为了避免线程间数据冲突，可以使用ThreadLocal存储每个线程独有的数据，这样就可以安全地在多个线程间共享线程池。</font>
 
 #### <font style="color:rgb(112, 112, 112);">2.Web应用程序</font>
+
 <font style="color:rgb(42, 42, 42);">在Web应用中，每个请求通常都会被分配到不同的线程处理，ThreadLocal可以用来存储当前请求的上下文信息，比如用户ID、请求时间等，这些信息可以在同一个请求处理过程中多次使用，特别是一个请求嵌套调用很多方法的时候可以使用，但是不同请求之间是互相独立的。</font>
 
 #### <font style="color:rgb(112, 112, 112);">3.数据库连接</font>
+
 <font style="color:rgb(42, 42, 42);">在多线程环境下，为了避免每个线程都去创建和销毁数据库连接，可以使用连接池技术。使用ThreadLocal可以将连接池中的数据库连接与当前线程绑定，确保每个线程都能够得到自己独有的数据库连接，避免数据混乱和线程安全问题。</font>
 
-## 
+##
+
 ## ThreadLocal怎么实现的
+
 <font style="color:rgb(74, 74, 74);">我们看一下ThreadLocal的set(T)方法，发现先获取到当前线程，再获取</font><font style="color:rgb(40, 202, 113);">ThreadLocalMap</font><font style="color:rgb(74, 74, 74);">，然后把元素存到这个map中。</font>
 
 ```plain
@@ -384,8 +400,10 @@ public WeakReference(T referent) {
 + <font style="color:rgb(1, 1, 1);">每个线程在往ThreadLocal里设置值的时候，都是往自己的ThreadLocalMap里存，读也是以某个ThreadLocal作为引用，在自己的map里找对应的key，从而实现了线程隔离。</font>
 + <font style="color:rgb(1, 1, 1);">ThreadLocal本身不存储值，它只是作为一个key来让线程往ThreadLocalMap里存取值。</font>
 
-## 
+##
+
 ## ThreadLocal 内存泄露是怎么回事
+
 <font style="color:rgb(74, 74, 74);">我们先来分析一下使用ThreadLocal时的内存，我们都知道，在JVM中，栈内存线程私有，存储了对象的引用，堆内存线程共享，存储了对象实例。</font>
 
 <font style="color:rgb(74, 74, 74);">所以呢，栈中存储了ThreadLocal、Thread的引用，堆中存储了它们的具体实例。</font>
@@ -420,8 +438,10 @@ try {
 
 <font style="color:rgb(74, 74, 74);">假如key被设计成强引用，如果ThreadLocal Reference被销毁，此时它指向ThreadLoca的强引用就没有了，但是此时key还强引用指向ThreadLoca，就会导致ThreadLocal不能被回收，这时候就发生了内存泄漏的问题。</font>
 
-## 
+##
+
 ## ThreadLocalMap的结构了解吗
+
 <font style="color:rgb(74, 74, 74);">ThreadLocalMap虽然被叫做Map，其实它是没有实现Map接口的，但是结构还是和HashMap比较类似的，主要关注的是两个要素：</font><font style="color:rgb(40, 202, 113);">元素数组</font><font style="color:rgb(74, 74, 74);">和</font><font style="color:rgb(40, 202, 113);">散列方法</font><font style="color:rgb(74, 74, 74);">。</font>
 
 ![1695135093928-f699390a-9cf3-4c9b-9ddb-fed61455b0ed.png](./img/1YqNo7kwSCOVW2V-/1695135093928-f699390a-9cf3-4c9b-9ddb-fed61455b0ed-394105.png)
@@ -450,8 +470,10 @@ private static final int HASH_INCREMENT = 0x61c88647;
     }
 ```
 
-## 
+##
+
 ## ThreadLocalMap怎么解决Hash冲突的
+
 <font style="color:rgb(74, 74, 74);">我们可能都知道HashMap使用了链表来解决冲突，也就是所谓的链地址法。</font>
 
 <font style="color:rgb(74, 74, 74);">ThreadLocalMap没有使用链表，自然也不是用链地址法来解决冲突了，它用的是另外一种方式——</font>**<font style="color:rgb(74, 74, 74);">开放定址法</font>**<font style="color:rgb(74, 74, 74);">。开放定址法是什么意思呢？简单来说，就是这个坑被人占了，那就接着去找空着的坑。</font>
@@ -464,8 +486,10 @@ private static final int HASH_INCREMENT = 0x61c88647;
 
 <font style="color:rgb(74, 74, 74);">在get的时候，也会根据ThreadLocal对象的hash值，定位到table中的位置，然后判断该槽位Entry对象中的key是否和get的key一致，如果不一致，就判断下一个位置。</font>
 
-## 
+##
+
 ## ThreadLocalMap扩容机制了解吗
+
 <font style="color:rgb(74, 74, 74);">在ThreadLocalMap.set()方法的最后，如果执行完启发式清理工作后，未清理到任何数据，且当前散列数组中</font><font style="color:rgb(40, 202, 113);">Entry</font><font style="color:rgb(74, 74, 74);">的数量已经达到了列表的扩容阈值</font><font style="color:rgb(40, 202, 113);">(len*2/3)</font><font style="color:rgb(74, 74, 74);">，就开始执行</font><font style="color:rgb(40, 202, 113);">rehash()</font><font style="color:rgb(74, 74, 74);">逻辑：</font>
 
 ```plain
@@ -509,8 +533,10 @@ private void expungeStaleEntries() {
 
 <font style="color:rgb(136, 136, 136);">ThreadLocalMap resize</font>
 
-## 
+##
+
 ## 父子线程怎么共享数据
+
 <font style="color:rgb(74, 74, 74);">父线程能用ThreadLocal来给子线程传值吗？毫无疑问，不能。那该怎么办？</font>
 
 <font style="color:rgb(74, 74, 74);">这时候可以用到另外一个类——</font><font style="color:rgb(40, 202, 113);">InheritableThreadLocal</font><font style="color:rgb(74, 74, 74);">。</font>
@@ -553,31 +579,26 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
                 ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);
 ```
 
-  
- 
-
-
-
 =========================================================
 
-
-
 ## 现在有哪些流行的微服务解决方案
+
 <font style="color:rgb(0, 0, 0);">目前最主流的微服务开源解决方案有三种：</font>
 
 1. <font style="color:black;">Dubbo：</font>![1695133407832-8ca1a798-12bb-4764-8277-705a2de5300f.png](./img/1YqNo7kwSCOVW2V-/1695133407832-8ca1a798-12bb-4764-8277-705a2de5300f-216162.png)<font style="color:rgb(136, 136, 136);">Dubbo工作原理图-来源官网</font>
-    - <font style="color:rgb(1, 1, 1);">Dubbo 是一个高性能、轻量级的 Java 微服务框架，最初由阿里巴巴（Alibaba）开发并于2011年开源。它提供了服务注册与发现、负载均衡、容错、分布式调用等功能，后来一度停止维护，在近两年，又重新开始迭代，并推出了Dubbo3。</font>
-    - <font style="color:rgb(1, 1, 1);">Dubbo 使用基于 RPC（Remote Procedure Call）的通信模型，具有较高的性能和可扩展性。它支持多种传输协议（如TCP、HTTP、Redis）和序列化方式（如JSON、Hessian、Protobuf），可根据需求进行配置。</font>
-    - <font style="color:rgb(1, 1, 1);">Dubbo更多地被认为是一个高性能的RPC（远程过程调用）框架，一些服务治理功能依赖于第三方组件实现，比如使用ZooKeeper、Apollo等等。</font>
+    + <font style="color:rgb(1, 1, 1);">Dubbo 是一个高性能、轻量级的 Java 微服务框架，最初由阿里巴巴（Alibaba）开发并于2011年开源。它提供了服务注册与发现、负载均衡、容错、分布式调用等功能，后来一度停止维护，在近两年，又重新开始迭代，并推出了Dubbo3。</font>
+    + <font style="color:rgb(1, 1, 1);">Dubbo 使用基于 RPC（Remote Procedure Call）的通信模型，具有较高的性能和可扩展性。它支持多种传输协议（如TCP、HTTP、Redis）和序列化方式（如JSON、Hessian、Protobuf），可根据需求进行配置。</font>
+    + <font style="color:rgb(1, 1, 1);">Dubbo更多地被认为是一个高性能的RPC（远程过程调用）框架，一些服务治理功能依赖于第三方组件实现，比如使用ZooKeeper、Apollo等等。</font>
 2. <font style="color:black;">Spring Cloud Netflix：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix 是 Spring Cloud 的一个子项目，结合了 Netflix 开源的多个组件，但是Netflix自2018年停止维护和更新Netflix OSS项目，包括Eureka、Hystrix等组件，所以Spring Cloud Netflix也逐渐进入了维护模式。</font>
-    - <font style="color:rgb(1, 1, 1);">该项目包含了许多流行的 Netflix 组件，如Eureka（服务注册与发现）、Ribbon（客户端负载均衡）、Hystrix（断路器）、Zuul（API 网关）等。它们都是高度可扩展的、经过大规模实践验证的微服务组件。</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix 是 Spring Cloud 的一个子项目，结合了 Netflix 开源的多个组件，但是Netflix自2018年停止维护和更新Netflix OSS项目，包括Eureka、Hystrix等组件，所以Spring Cloud Netflix也逐渐进入了维护模式。</font>
+    + <font style="color:rgb(1, 1, 1);">该项目包含了许多流行的 Netflix 组件，如Eureka（服务注册与发现）、Ribbon（客户端负载均衡）、Hystrix（断路器）、Zuul（API 网关）等。它们都是高度可扩展的、经过大规模实践验证的微服务组件。</font>
 3. <font style="color:black;">Spring Cloud Alibaba：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba 是 Spring Cloud 的另一个子项目，与阿里巴巴的分布式应用开发框架相关。它提供了一整套与 Alibaba 生态系统集成的解决方案。</font>
-    - <font style="color:rgb(1, 1, 1);">该项目包括 Nacos（服务注册与发现、配置管理）、Sentinel（流量控制、熔断降级）、RocketMQ（消息队列）等组件，以及与 Alibaba Cloud（阿里云）的集成。它为构建基于 Spring Cloud 的微服务架构提供了丰富的选项。</font>
-    - <font style="color:rgb(1, 1, 1);">据说SpringCloud Alibaba项目的发起人已经跑路去了腾讯，并发起了SpringCloud Tecent项目，社区发展存在隐忧。</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba 是 Spring Cloud 的另一个子项目，与阿里巴巴的分布式应用开发框架相关。它提供了一整套与 Alibaba 生态系统集成的解决方案。</font>
+    + <font style="color:rgb(1, 1, 1);">该项目包括 Nacos（服务注册与发现、配置管理）、Sentinel（流量控制、熔断降级）、RocketMQ（消息队列）等组件，以及与 Alibaba Cloud（阿里云）的集成。它为构建基于 Spring Cloud 的微服务架构提供了丰富的选项。</font>
+    + <font style="color:rgb(1, 1, 1);">据说SpringCloud Alibaba项目的发起人已经跑路去了腾讯，并发起了SpringCloud Tecent项目，社区发展存在隐忧。</font>
 
 ### <font style="color:black;">这三种方案有什么区别吗</font>
+
 | <font style="color:rgb(248, 248, 248);">特点</font> | <font style="color:rgb(248, 248, 248);">Dubbo</font> | <font style="color:rgb(248, 248, 248);">Spring Cloud Netflix</font> | <font style="color:rgb(248, 248, 248);">Spring Cloud Alibaba</font> |
 | :--- | :--- | :--- | :--- |
 | <font style="color:rgb(1, 1, 1);">开发语言</font> | <font style="color:rgb(1, 1, 1);">Java</font> | <font style="color:rgb(1, 1, 1);">Java</font> | <font style="color:rgb(1, 1, 1);">Java</font> |
@@ -595,12 +616,12 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
 | <font style="color:rgb(1, 1, 1);">社区活跃度</font> | <font style="color:rgb(1, 1, 1);">相对较高</font> | <font style="color:rgb(1, 1, 1);">目前较低</font> | <font style="color:rgb(1, 1, 1);">相对较高</font> |
 | <font style="color:rgb(1, 1, 1);">孵化和成熟度</font> | <font style="color:rgb(1, 1, 1);">孵化较早，成熟度较高</font> | <font style="color:rgb(1, 1, 1);">成熟度较高</font> | <font style="color:rgb(1, 1, 1);">孵化较新，但迅速发展</font> |
 
-
     - 
 
 <font style="color:black;"></font>
 
 ## 说下微服务有哪些组件
+
 <font style="color:rgb(0, 0, 0);">微服务给系统开发带来了一些问题和挑战，如服务调用的复杂性、分布式事务的处理、服务的动态管理等。为了更好地解决这些问题和挑战，各种微服务治理的组件应运而生，充当微服务架构的基石和支撑。</font>
 
 ![1695135227416-f153fd58-ff0b-4d40-894d-06ea879a7ffc.png](./img/1YqNo7kwSCOVW2V-/1695135227416-f153fd58-ff0b-4d40-894d-06ea879a7ffc-969968.png)
@@ -610,34 +631,33 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
 <font style="color:rgb(0, 0, 0);">微服务的各个组件和常见实现：</font>
 
 1. <font style="color:rgb(1, 1, 1);">注册中心：用于服务的注册与发现，管理微服务的地址信息。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Eureka、Consul</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Nacos</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Eureka、Consul</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Nacos</font>
 2. <font style="color:rgb(1, 1, 1);">配置中心：用于集中管理微服务的配置信息，可以动态修改配置而不需要重启服务。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Spring Cloud Config</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Nacos Config</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Spring Cloud Config</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Nacos Config</font>
 3. <font style="color:rgb(1, 1, 1);">远程调用：用于在不同的微服务之间进行通信和协作。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">RESTful API：如RestTemplate、Feign</font>
-    - <font style="color:rgb(1, 1, 1);">RPC（远程过程调用）：如Dubbo、gRPC</font>
+    + <font style="color:rgb(1, 1, 1);">RESTful API：如RestTemplate、Feign</font>
+    + <font style="color:rgb(1, 1, 1);">RPC（远程过程调用）：如Dubbo、gRPC</font>
 4. <font style="color:rgb(1, 1, 1);">API网关：作为微服务架构的入口，统一暴露服务，并提供路由、负载均衡、安全认证等功能。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Zuul</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Gateway、Apisix等</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Zuul</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Gateway、Apisix等</font>
 5. <font style="color:rgb(1, 1, 1);">分布式事务：保证跨多个微服务调用的事务一致性。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Seata</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Seata</font>
 6. <font style="color:rgb(1, 1, 1);">熔断器：用于防止微服务之间的故障扩散，提高系统的容错能力。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Hystrix</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Sentinel、Resilience4j</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Hystrix</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Sentinel、Resilience4j</font>
 7. <font style="color:rgb(1, 1, 1);">限流和降级：用于防止微服务过载，对请求进行限制和降级处理。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Hystrix</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Sentinel</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Hystrix</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：Sentinel</font>
 8. <font style="color:rgb(1, 1, 1);">分布式追踪和监控：用于跟踪和监控微服务的请求流程和性能指标。常见的实现包括：</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Spring Cloud Sleuth + Zipkin</font>
-    - <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：SkyWalking、Sentinel Dashboard</font>
-
-
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Netflix：Spring Cloud Sleuth + Zipkin</font>
+    + <font style="color:rgb(1, 1, 1);">Spring Cloud Alibaba：SkyWalking、Sentinel Dashboard</font>
 
 <font style="color:rgb(0, 0, 0);"></font>
 
 ## 能说下HTTP和RPC的区别吗
+
 <font style="color:rgb(0, 0, 0);">严格来讲，HTTP和RPC不是一个层面的东西：</font>
 
 ![1695135287237-706ba68a-0c2c-4b88-a960-1847348cffbf.png](./img/1YqNo7kwSCOVW2V-/1695135287237-706ba68a-0c2c-4b88-a960-1847348cffbf-435499.png)
@@ -652,6 +672,7 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
 <font style="color:rgb(0, 0, 0);"></font>
 
 ## 说说有哪些负载均衡算法
+
 <font style="color:rgb(0, 0, 0);">常见的负载均衡算法包含以下几种：</font>
 
 ![1695135318532-6ec035d7-4f11-4ca1-9b27-9c0506b215d9.png](./img/1YqNo7kwSCOVW2V-/1695135318532-6ec035d7-4f11-4ca1-9b27-9c0506b215d9-261004.png)
@@ -668,6 +689,7 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
 <font style="color:rgb(1, 1, 1);"></font>
 
 ## Seata支持哪些模式的分布式事务
+
 <font style="color:rgb(0, 0, 0);">Seata支持以下几种模式的分布式事务：</font>
 
 1. <font style="color:rgb(1, 1, 1);">AT模式：AT模式是Seata默认支持的模式，也是最常用的模式之一。在AT模式下，Seata通过在业务代码中嵌入事务上下文，实现对分布式事务的管理。Seata会拦截并解析业务代码中的SQL语句，通过对数据库连接进行拦截和代理，实现事务的管理和协调。</font>
@@ -695,6 +717,7 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
 <font style="color:rgb(136, 136, 136);">XA模式示意图</font>
 
 ## **Kafka消息丢失有几种情况？如何解决**
+
 **消息发送端**：
 
 （1）acks=0： 表示producer不需要等待任何broker确认收到消息的回复，就可以继续发送下一条消息。性能最高，但是最容易丢消息。大数据统计报表场景，对性能要求很高，对数据丢失不敏感的情况可以用这种。
@@ -707,9 +730,8 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
 
 如果消费这边配置的是自动提交，万一消费到数据还没处理完，就自动提交offset了，但是此时你consumer直接宕机了，未处理完的数据丢失了，下次也消费不到了。
 
-
-
 ## **Kafka消息重复消费有几种情况？如何解决**
+
 **消息发送端**：
 
 发送消息如果配置了重试机制，比如网络抖动时间过长导致发送端发送超时，实际broker可能已经接收到消息，但发送方会重新发送消息
@@ -723,13 +745,9 @@ if (inheritThreadLocals && parent.inheritableThreadLocals != null)
 ****
 
 ## Kafka线上消息积压如何解决
+
 1）线上有时因为发送方发送消息速度过快，或者消费方处理消息过慢，可能会导致broker积压大量未消费消息。
 
 此种情况如果积压了上百万未消费消息需要紧急处理，可以修改消费端程序，让其将收到的消息快速转发到其他topic(可以设置很多分区)，然后再启动多个消费者同时消费新主题的不同分区。
 
 2）由于消息数据格式变动或消费者程序有bug，导致消费者一直消费不成功，也可能导致broker积压大量未消费消息。此种情况可以将这些消费不成功的消息转发到其它队列里去(类似**死信队列**)，后面再慢慢分析死信队列里的消息处理问题。
-
-
-
-
-

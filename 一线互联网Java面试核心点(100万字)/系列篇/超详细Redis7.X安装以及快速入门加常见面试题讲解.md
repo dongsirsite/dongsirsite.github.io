@@ -1,10 +1,13 @@
 # 🚛 超详细Redis7.X 安装以及快速入门加常见面试题讲解
 
 # Redis简介
+
 ## 1.1 什么是Redis
+
 Redis是一个基于内存的 key-value 键值存储的、可持久化的数据库，并且提供了非常丰富的数据结构，同时还支持非常丰富的功能特性。
 
 ## 1.2 Redis的数据结构
+
 + **字符串（Strings）：** 存储字符串类型的值。
 + **哈希表（Hashes）：** 存储字段和对应值的映射。
 + **列表（Lists）：** 存储有序的字符串列表。
@@ -12,9 +15,10 @@ Redis是一个基于内存的 key-value 键值存储的、可持久化的数据�
 + **有序集合（Sorted Sets）：** 类似集合，但每个元素都关联一个分数，可以按分数排序。
 
 ## 1.3 Redis的功能特性
+
 + **安全性**：
-    - 密码保护：通过设置密码保护访问。
-    - ACL：用户访问控制列表。
+  + 密码保护：通过设置密码保护访问。
+  + ACL：用户访问控制列表。
 + **多种数据结构**：十种数据结构。
 + **事务**：支持将多个命令打包执行，保持原子性。
 + **支持持久化：**可以将数据持久化到磁盘，保证数据安全。
@@ -25,10 +29,13 @@ Redis是一个基于内存的 key-value 键值存储的、可持久化的数据�
 + **慢查询日志**：记录执行时间超过指定阈值的查询。
 
 # Redis 安装
+
 本教程将演示在 linux 环境下安装 Redis7，给大家最简单，最快捷的安装方式，其中包括单机部署、主从部署、哨兵部署、集群部署的安装以及相应的架构介绍。
 
 ## 单机部署
+
 ### 检查安装 gcc 环境
+
 Redis是由C语言编写的，它的运行需要C环境，因此我们需要先安装gcc。
 
 ```shell
@@ -65,6 +72,7 @@ sudo yum update -y
 ![1716282945088-f1512b02-ad5d-41fd-a01a-78e46b8dac8d.png](./img/6PscNGN3Y6C5nou2/1716282945088-f1512b02-ad5d-41fd-a01a-78e46b8dac8d-491604.png)
 
 ### 下载安装 Redis
+
 ```shell
 -- 安装应用养成良好习惯，文件归类
 mkdir -p /opt/software/redis
@@ -103,6 +111,7 @@ redis-server
 ![1716290916620-0bc40575-d99c-447c-b880-0cd9423bb455.png](./img/6PscNGN3Y6C5nou2/1716290916620-0bc40575-d99c-447c-b880-0cd9423bb455-585330.png)
 
 ### 配置Redis
+
 前面的启动方式无法再后台运行，退出之后直接关闭了 Redis 服务，所以我们还需要针对 Redis 做一些设置。
 
 ```shell
@@ -123,27 +132,27 @@ protected-mode no                   #111行，允许远程连接       如果不
 
 ```scheme
 一、翻页操作
-    Ctrl + f	向下翻一整页（Forward）	
-    Ctrl + b	向上翻一整页（Backward）	
-    Ctrl + d	向下翻半页（Down）	
-    Ctrl + u	向上翻半页（Up）	
-    H	跳转到屏幕顶部（High）	
-    M	跳转到屏幕中间（Middle）	
-    L	跳转到屏幕底部（Low）	
-    zz	将当前行居中显示	
-    zt	将当前行置顶显示（Top）	
-    zb	将当前行置底显示（Bottom）
+    Ctrl + f 向下翻一整页（Forward） 
+    Ctrl + b 向上翻一整页（Backward） 
+    Ctrl + d 向下翻半页（Down） 
+    Ctrl + u 向上翻半页（Up） 
+    H 跳转到屏幕顶部（High） 
+    M 跳转到屏幕中间（Middle） 
+    L 跳转到屏幕底部（Low） 
+    zz 将当前行居中显示 
+    zt 将当前行置顶显示（Top） 
+    zb 将当前行置底显示（Bottom）
 二、跳转指定行
     1. 绝对行号跳转
-        :行号	跳转到指定行（需回车确认）	
-        行号G	直接跳转到指定行（无需回车）
-        gg		跳转到文件第一行	快速回到文件开头
-        G			跳转到文件最后一行	快速定位文件末尾
+        :行号 跳转到指定行（需回车确认） 
+        行号G 直接跳转到指定行（无需回车）
+        gg  跳转到文件第一行 快速回到文件开头
+        G   跳转到文件最后一行 快速定位文件末尾
     2. 相对行号跳转
-        +数字	向下跳转指定行数（默认1行）
-        -数字	向上跳转指定行数（默认1行）
-        数字j	向下跳转N行（同 数字↓）
-        数字k	向上跳转N行（同 数字↑）
+        +数字 向下跳转指定行数（默认1行）
+        -数字 向上跳转指定行数（默认1行）
+        数字j 向下跳转N行（同 数字↓）
+        数字k 向上跳转N行（同 数字↑）
 ```
 
 修改完成后，使用配置文件启动 Redis，并使用 redis-cli 连接测试，需要注意由于前面我们配置了安全密码，所以连接后需要先验证密码，否则会报错。
@@ -157,6 +166,7 @@ auth 1qaz@WSX
 ![1716293135037-3e57cbee-a157-4942-becc-4854552a8388.png](./img/6PscNGN3Y6C5nou2/1716293135037-3e57cbee-a157-4942-becc-4854552a8388-156978.png)
 
 ### 退出 OR 关闭 redis
+
 ```shell
 -- 退出redis
 quit
@@ -166,17 +176,20 @@ redis-cli shutdown
 ```
 
 ## 主从部署（Master-Slave Replication）
+
 ![1716379414621-476955f4-7de9-4776-ad49-a1b1ee70490c.png](./img/6PscNGN3Y6C5nou2/1716379414621-476955f4-7de9-4776-ad49-a1b1ee70490c-626379.png)
 
 主从复制，是指将一台Redis服务器的数据，复制到其他的Redis服务器。前者称为主节点(Master)，后者称为从节点(Slave)；数据的复制是单向的，只能由主节点到从节点。默认情况下，每台Redis服务器都是主节点；且一个主节点可以有多个从节点(或没有从节点)，但一个从节点只能有一个主节点。
 
 ### 主从复制的作用
+
 a）数据冗余：主从复制实现了数据的热备份，是持久化之外的一种数据冗余方式。  
 b）故障恢复：当主节点出现问题时，可以由从节点提供服务，实现快速的故障恢复；实际上是一种服务的冗余。  
 c）负载均衡：在主从复制的基础上，配合读写分离，可以由主节点提供写服务，由从节点提供读服务（即写Redis数据时应用连接主节点，读Redis数据时应用连接从节点），分担服务器负载；尤其是在写少读多的场景下，通过多个从节点分担读负载，可以大大提高Redis服务器的并发量。  
 d）高可用基石：除了上述作用以外，主从复制还是哨兵和集群能够实施的基础，因此说主从复制是Redis高可用的基础。
 
 ### 主从复制部署
+
 整体架构图
 
 ![1718106998028-c66a516d-a9c8-4224-922d-9143a04b891d.png](./img/6PscNGN3Y6C5nou2/1718106998028-c66a516d-a9c8-4224-922d-9143a04b891d-585188.png)
@@ -198,6 +211,7 @@ info Replication
 ![1716383218107-b085eb32-9e19-4a3d-bb08-1aecfc6748b3.png](./img/6PscNGN3Y6C5nou2/1716383218107-b085eb32-9e19-4a3d-bb08-1aecfc6748b3-348950.png)
 
 ### 主从复制缺点
+
 + 复制延时，信号衰减
 
 由于所有的写操作都是现在master上操作，然后同步更新到slave上，所以从master同步到slave机器上有一定的延迟，当系统很繁忙的时候，延迟问题会更加严重，slave机器数量的增加也会使这个问题更加严重。
@@ -207,14 +221,17 @@ info Replication
 默认情况下，不会在slave节点中自动重选一个master，每次都要人工干预。
 
 ## 哨兵部署（Sentinel）
+
 Redis的主从复制主要用于实现数据的冗余备份和读分担，并不是为了提供高可用性。因此在系统高可用方面，单纯的主从架构无法很好的保证整个系统高可用
 
 ### 哨兵模式的原理
+
 Redis哨兵模式是通过在独立的哨兵节点上运行特定的哨兵进程来实现的。这些哨兵进程监控主从节点的状态，并在发现故障时自动完成故障发现和转移，并通知应用方，实现高可用性。
 
 ![1716380615568-9681a760-dc9c-4e94-b77c-33c273a336cb.png](./img/6PscNGN3Y6C5nou2/1716380615568-9681a760-dc9c-4e94-b77c-33c273a336cb-397706.png)
 
 ### 哨兵
+
 在启动时，每个哨兵节点会执行选举过程，其中一个哨兵节点被选为领导者（leader），负责协调其他哨兵节点。
 
 + **选举过程：**
@@ -228,23 +245,25 @@ Redis哨兵模式是通过在独立的哨兵节点上运行特定的哨兵进程
 哨兵节点通过发送命令周期性地检查主从节点的健康状态，包括主节点是否在线、从节点是否同步等。如果哨兵节点发现主节点不可用，它会触发一次故障转移。
 
 + **故障转移：**  
-    	一旦主节点被判定为不可用，哨兵节点会执行故障转移操作。它会从当前的从节点中选出一个新的主节点，并将其他从节点切换到新的主节点。这样，系统可以继续提供服务而无需人工介入。
+     一旦主节点被判定为不可用，哨兵节点会执行故障转移操作。它会从当前的从节点中选出一个新的主节点，并将其他从节点切换到新的主节点。这样，系统可以继续提供服务而无需人工介入。
 + **故障转移过程：**  
-	由Sentinel节点定期监控发现主节点是否出现了故障： sentinel会向master发送心跳PING来确认master是否存活，如果master在“一定时间范围”内不回应PONG 或者是回复了一个错误消息，那么这个sentinel会主观地(单方面地)认为这个master已经不可用了。
+ 由Sentinel节点定期监控发现主节点是否出现了故障： sentinel会向master发送心跳PING来确认master是否存活，如果master在“一定时间范围”内不回应PONG 或者是回复了一个错误消息，那么这个sentinel会主观地(单方面地)认为这个master已经不可用了。
 + **确认主节点：**
-    - 过滤掉不健康的（下线或断线），没有回复过哨兵ping响应的从节点
-    - 选择从节点优先级最高的
-    - 选择复制偏移量最大，此指复制最完整的从节点
-    - 当主节点出现故障， 由领导者负责处理主节点的故障转移。
+  + 过滤掉不健康的（下线或断线），没有回复过哨兵ping响应的从节点
+  + 选择从节点优先级最高的
+  + 选择复制偏移量最大，此指复制最完整的从节点
+  + 当主节点出现故障， 由领导者负责处理主节点的故障转移。
 + **客户端重定向：**  
-	哨兵节点会通知客户端新的主节点的位置，使其能够与新的主节点建立连接并发送请求。这确保了客户端可以无缝切换到新的主节点，继续进行操作。
+ 哨兵节点会通知客户端新的主节点的位置，使其能够与新的主节点建立连接并发送请求。这确保了客户端可以无缝切换到新的主节点，继续进行操作。
 
 此外，哨兵节点还负责监控从节点的状态。如果从节点出现故障，哨兵节点可以将其下线，并在从节点恢复正常后重新将其加入集群。
 
 ### 客观下线
+
 当主观下线的节点是主节点时，此时该哨兵3节点会通过指令sentinel is-masterdown-by-addr寻求其它哨兵节点对主节点的判断，当超过quorum（选举）个数，此时哨兵节点则认为该主节点确实有问题，这样就客观下线了，大部分哨兵节点都同意下线操作，也就说是客观下线。
 
 ### 哨兵模式部署
+
 整体架构图
 
 ![1718114759846-fca7d8be-e549-4111-bde0-ef28b366a919.png](./img/6PscNGN3Y6C5nou2/1718114759846-fca7d8be-e549-4111-bde0-ef28b366a919-493649.png)
@@ -311,22 +330,25 @@ cat sentinel.conf
 ![1716447327154-09be9b8b-2ec4-4ce0-be23-a9fa6037525c.png](./img/6PscNGN3Y6C5nou2/1716447327154-09be9b8b-2ec4-4ce0-be23-a9fa6037525c-612845.png)![1716447327154-09be9b8b-2ec4-4ce0-be23-a9fa6037525c.png](./img/6PscNGN3Y6C5nou2/1716447327154-09be9b8b-2ec4-4ce0-be23-a9fa6037525c-612845.png)
 
 ### 哨兵使用建议
+
 + <font style="color:rgba(0, 0, 0, 0.75);">哨兵节点的数量应为多个，哨兵本身应该集群，保证高可用</font>
 + <font style="color:rgba(0, 0, 0, 0.75);">哨兵节点数应该是奇数</font>
 + <font style="color:rgba(0, 0, 0, 0.75);">各个哨兵结点的配置应一致</font>
 + <font style="color:rgba(0, 0, 0, 0.75);">如果哨兵节点部署在Docker等容器里面，尤其要注意端口号的正确映射</font>
 
 ### 哨兵模式：并不能保证数据零丢失
+
 1. **<font style="color:rgb(6, 6, 7);">复制延迟</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">在主从复制中，从节点的数据是异步复制自主节点的。这意味着在主节点故障时，从节点可能还没有完全同步最新的数据，从而导致数据丢失。</font>
+    + <font style="color:rgb(6, 6, 7);">在主从复制中，从节点的数据是异步复制自主节点的。这意味着在主节点故障时，从节点可能还没有完全同步最新的数据，从而导致数据丢失。</font>
 2. **<font style="color:rgb(6, 6, 7);">故障检测和转移时间</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">Sentinel 检测到主节点故障并执行故障转移需要一定的时间。在这段时间内，主节点可能已经接收了一些写操作，但这些操作尚未被复制到从节点。</font>
+    + <font style="color:rgb(6, 6, 7);">Sentinel 检测到主节点故障并执行故障转移需要一定的时间。在这段时间内，主节点可能已经接收了一些写操作，但这些操作尚未被复制到从节点。</font>
 3. **<font style="color:rgb(6, 6, 7);">网络分区</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">在发生网络分区（网络分裂）的情况下，一部分节点可能与主节点失去联系。如果此时主节点继续处理写操作，那么在网络恢复之前，这些操作可能不会被复制到从节点。</font>
+    + <font style="color:rgb(6, 6, 7);">在发生网络分区（网络分裂）的情况下，一部分节点可能与主节点失去联系。如果此时主节点继续处理写操作，那么在网络恢复之前，这些操作可能不会被复制到从节点。</font>
 4. **<font style="color:rgb(6, 6, 7);">多个从节点同时故障</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">如果所有的从节点同时故障或在故障转移之前与主节点失联，那么在主节点故障时，将没有可用的从节点来提升为主节点。</font>
+    + <font style="color:rgb(6, 6, 7);">如果所有的从节点同时故障或在故障转移之前与主节点失联，那么在主节点故障时，将没有可用的从节点来提升为主节点。</font>
 
 ## 集群部署（Cluster）
+
 <font style="color:rgb(6, 6, 7);">Redis 集群是 Redis 的一种分布式运行模式，它通过分片（sharding）来提供数据的自动分区和管理，从而实现数据的高可用性和可扩展性。</font>
 
 <font style="color:rgb(6, 6, 7);">在集群模式下，数据被分割成多个部分（称为槽或slots），分布在多个 Redis 节点上。</font>
@@ -334,6 +356,7 @@ cat sentinel.conf
 集群中的节点分为主节点和从节点：**主节点**负责读写请求和集群信息的维护；**从节点**只进行主节点数据和状态信息的复制。
 
 ### Redis集群的作用
+
 **数据分区：**数据分区(或称数据分片)是集群最核心的功能。 集群将数据分散到多个节点，一方面突破了Redis单机内存大小的限制，存储容量大大增加；
 
 另一方面每个主节点都可以对外提供读服务和写服务，大大提高了集群的响应能力。 Redis单机内存大小受限问题，在介绍持久化和主从复制时都有提及；
@@ -343,6 +366,7 @@ cat sentinel.conf
 **高可用：**集群支持主从复制和主节点的自动故障转移（与哨兵类似）；当任一节点发生故障时，集群仍然可以对外提供服务。
 
 ### Redis集群的数据分片
+
 <font style="color:rgb(0, 0, 0);">Redis集群引入了哈希槽的概念 Redis集群有16384个哈希槽（编号0-16383） 集群的每个节点负责一部分哈希槽 每个Key通过CRC16校验后对16384取余来决定放置哪个哈希槽，</font>
 
 <font style="color:rgb(0, 0, 0);">通过这个值，去找到对应的插槽所对应的节点，然后直接自动跳转到这个对应的节点上进行存取操作</font>
@@ -353,12 +377,15 @@ cat sentinel.conf
 <font style="color:rgb(0, 0, 0);">为每个节点添加一个从节点A1、B1、C1整个集群便有三个Master节点和三个slave节点组成，在节点B失败后，集群选举B1位为的主节点继续服务。当B和B1都失败后，集群将不可用</font>
 
 ### Reids 集群部署
+
 ![1716449134672-13af7e7b-1f67-4a2f-8766-bb4d502a4b0c.png](./img/6PscNGN3Y6C5nou2/1716449134672-13af7e7b-1f67-4a2f-8766-bb4d502a4b0c-121910.png)
 
 #### redis 环境简述
+
 Redis Cluster被配置为三主三从模式。这意味着每台服务器上的两个Redis节点中，一个节点作为主库（master），另一个作为从库（slave）。
 
 #### redis 集群配置准备
+
 ```shell
 -- 创建集群配置文件夹，将下面的配置复制过去，另外两个机器重复这个过程
 mkdir -p /opt/software/redis/redis-stable/cluster
@@ -451,6 +478,7 @@ dbfilename "dump6380.rdb"
 ![1716453022235-f728fad3-3014-46bb-a39c-c213c83cf627.png](./img/6PscNGN3Y6C5nou2/1716453022235-f728fad3-3014-46bb-a39c-c213c83cf627-549767.png)
 
 #### Redis 集群数据读写
+
 ```shell
 -- 连接一个主节点进行写数据
 redis-cli info replication
@@ -469,6 +497,7 @@ set k1 b1
 ![1716454725658-5fe7e4e2-bcb5-4b7c-8314-05e371e8dfdf.png](./img/6PscNGN3Y6C5nou2/1716454725658-5fe7e4e2-bcb5-4b7c-8314-05e371e8dfdf-299324.png)
 
 #### 模拟故障转移
+
 ```shell
 -- 注意机器ip的区分
 -- 将129机器的主节点给干掉(129的6379服务)
@@ -496,7 +525,9 @@ redis-cli -p 6379 info replication
 至此 Redis 部署篇章结束，完结撒花~~~~~
 
 # 客户端连接 Redis
+
 ## 使用官方 Redis Insight
+
 Redis Insight 是 Redis 官方推荐的客户端工具，功能非常的齐全，不过不支持中文
 
 下载地址：[https://redis.io/insight/](https://redis.io/insight/)  进入之后划到网页最下方，然后填入一些信息(不会检查其真实性)，然后点击 download。
@@ -508,7 +539,9 @@ Redis Insight 是 Redis 官方推荐的客户端工具，功能非常的齐全�
 ![1717829059624-81c81fdf-cce5-4a20-bda7-04e0d53d0150.png](./img/6PscNGN3Y6C5nou2/1717829059624-81c81fdf-cce5-4a20-bda7-04e0d53d0150-053308.png)![1717829662424-ccb61b81-21be-49c4-a171-b5d6dae257e7.png](./img/6PscNGN3Y6C5nou2/1717829662424-ccb61b81-21be-49c4-a171-b5d6dae257e7-644743.png)![1717829925337-3b9027de-5a74-450a-be13-afc62aac7035.png](./img/6PscNGN3Y6C5nou2/1717829925337-3b9027de-5a74-450a-be13-afc62aac7035-911618.png)
 
 ### tips
+
 #### Redis 数据库
+
 Redis 支持多个数据库，默认情况下有 16 个数据库（编号从 0 到 15），可以使用 SELECT 命令切换不同的数据库。
 
 **每个数据库之间是相互隔离的**，可以在不同数据库中存储不同的数据。
@@ -519,7 +552,8 @@ SET key1 value1  # 在数据库 0 中设置键值对
 ```
 
 ## 使用第三方工具连接 Redis
-强烈推荐大家使用** Tiny RDM，**UI 很好看，支持中文，还丧心病狂的支持字体设置，没错它还支持字体设置。。。
+
+强烈推荐大家使用**Tiny RDM，**UI 很好看，支持中文，还丧心病狂的支持字体设置，没错它还支持字体设置。。。
 
 官网地址：[https://redis.tinycraft.cc/zh/](https://redis.tinycraft.cc/zh/)
 
@@ -534,9 +568,11 @@ SET key1 value1  # 在数据库 0 中设置键值对
 ![1716294878402-93d89428-a94e-4e58-9db2-e3c4f6583c58.png](./img/6PscNGN3Y6C5nou2/1716294878402-93d89428-a94e-4e58-9db2-e3c4f6583c58-310112.png)
 
 ## Java 客户端连接 Redis
+
 在 SpringBoot 中想要连接 Redis 服务很简单，当我们创建好一个 SpringBoot 项目后。
 
 ### 在 pom 中添加 SpringDateRedis 依赖 与 Json 序列化依赖
+
 ```xml
 <!-- Redis依赖 -->
 <dependency>
@@ -553,6 +589,7 @@ SET key1 value1  # 在数据库 0 中设置键值对
 ```
 
 ### 在 application 配置文件中添加 Redis 相关设置，示例使用的 yml 配置方式
+
 ```yaml
 spring:
   data:
@@ -573,6 +610,7 @@ spring:
 ```
 
 ### 将 RedisTemplate 注入
+
 ```java
 /**
  * Redis相关Bean配置
@@ -598,6 +636,7 @@ public class RedisConfig {
 ```
 
 ### 测试
+
 ```java
 package com.baili.springbootredis;
 
@@ -627,6 +666,7 @@ class SpringBootRedisApplicationTests {
 ```
 
 ### Redis 工具类
+
 给大家提供一个工具，每个方法都添加了注释，方便大家使用，缺少的也可以自行补充。
 
 ```java
@@ -1263,11 +1303,15 @@ public class RedisUtil {
 ```
 
 # 数据结构与操作
+
 ## 基本数据结构
+
 ### 字符串（String）
+
 <font style="color:rgb(33, 37, 41);">String 是 Redis 中最简单同时也是最常用的一个数据结构。它是一种二进制安全的数据结构，可以用来存储任何类型的数据比如字符串、整数、浮点数、图片（图片的 base64 编码或者解码或者图片的路径）、序列化后的对象。</font>
 
 #### <font style="color:rgb(33, 37, 41);">应用场景：</font>
+
 ```shell
 需要存储常规数据的场景
   ● 举例 ：缓存 session、token、图片地址、序列化后的对象(相比较于 Hash 存储更节省内存)。
@@ -1279,7 +1323,8 @@ public class RedisUtil {
   ● 利用 SETNX key value 命令可以实现一个最简易的分布式锁（存在一些缺陷，通常不建议这样实现分布式锁）。
 ```
 
-#### 基本操作：
+#### 基本操作
+
 ```shell
 SET key value：设置指定的key值
 GET key：获取指定key的值
@@ -1287,19 +1332,22 @@ EXISTS key：判断指定 key 是否存在
 DEL key：删除指定的 key
 ```
 
-#### 批量设置：
+#### 批量设置
+
 ```shell
 MSET key value [ key value … ]：同时设置一个或者多个键值对
 MGET key1 [ key2 ]：获取所有（一个或多个）给定key的值
 ```
 
-#### 数值操作：
+#### 数值操作
+
 ```shell
 INCR key：将 key 中储存的数字值增一
 DECR key：将 key 中储存的数字值减一
 ```
 
-#### 设置过期时间：
+#### 设置过期时间
+
 ```shell
 EXPIRE key seconds：给指定 key 设置过期时间
 SETNX key seconds value：设置值并设置过期时间
@@ -1330,9 +1378,11 @@ TTL key：查看剩余过期时间
 ```
 
 ### 列表（List）
+
 Redis列表是简单的字符串列表，按照插入顺序排序。可以添加一个元素到列表的头部（左边）或者尾部（右边）。
 
 #### <font style="color:rgb(33, 37, 41);">应用场景：</font>
+
 ```shell
 信息流展示
   ● 举例 ：最新文章、最新动态。
@@ -1344,6 +1394,7 @@ Redis列表是简单的字符串列表，按照插入顺序排序。可以添加
 ```
 
 #### <font style="color:rgb(33, 37, 41);">基本操作：</font>
+
 ```shell
 RPUSH key value1 [ value2 ]：在列表中添加一个或者多个值
 LPOP key：移出并获取列表的第一个元素
@@ -1351,18 +1402,21 @@ RPOP key：移除并获取列表最后一个元素
 LLEN key：获取列表长度
 ```
 
-#### 范围操作：
+#### 范围操作
+
 ```shell
 LRANGE key start stop：获取列表指定范围内的元素
 ```
 
 #### <font style="color:rgb(33, 37, 41);">实现队列 （先进先出）：</font>
+
 ```shell
 RPUSH key value1 [ value2 ]：在列表尾部添加一个或者多个值
 LPOP key：移出并获取列表的第一个元素
 ```
 
-#### 实现栈（先进后出）：
+#### 实现栈（先进后出）
+
 ```shell
 LPUSH key value1 [ value2 ]：在列表头部添加一个或者多个值
 LPOP key：移除并获取列表最后一个元素
@@ -1390,9 +1444,11 @@ LPOP key：移除并获取列表最后一个元素
 ```
 
 ### 哈希（Hash）
+
 <font style="color:rgb(33, 37, 41);">Redis 中的 Hash 是一个 String 类型的 field-value（键值对） 的映射表，特别适合用于存储对象，我们也可以直接修改对象中的某些字段值。</font>
 
 #### <font style="color:rgb(33, 37, 41);">应用场景：</font>
+
 ```shell
 对象数据存储场景
   ● 举例 ：用户信息、商品信息、文章信息。
@@ -1402,6 +1458,7 @@ LPOP key：移除并获取列表最后一个元素
 ```
 
 #### <font style="color:rgb(33, 37, 41);">基本操作：</font>
+
 ```shell
 HSET key field value：将哈希表key中的字段field的值设为value
 HMSET key field1 value1 [ field2 value2 ]：同时将多个field-value（域-值）对设置到哈希表key中
@@ -1430,9 +1487,11 @@ HGETALL key：获取在哈希表中指定key的所有字段和值
 ```
 
 ### 集合（Set）
+
 Redis 中的 Set 类型是一种无序集合，集合中的元素唯一，也就是集合中的元素是无重复的，有点类似于 Java 中的 HashSet 。
 
 #### 应用场景
+
 ```shell
 需要随机获取数据源中的元素的场景
   ● 举例 ：抽奖系统、随机。
@@ -1443,6 +1502,7 @@ Redis 中的 Set 类型是一种无序集合，集合中的元素唯一，也就
 ```
 
 #### 基本操作
+
 ```shell
 SADD key member1 [ member2 ]：向集合添加一个或者多个成员
 SMEBERS key：返回集合中的所有成员
@@ -1452,16 +1512,19 @@ SREM key member1 [ member2 ]：移除集合中一个或者多个成员
 ```
 
 #### 交集
+
 ```shell
 SINTER key1 [ key2 ]：返回所有给定集合的交集
 ```
 
 #### 并集
+
 ```shell
 SUNION key1 [ key2 ]：返回所有给定集合的并集
 ```
 
 #### 差集
+
 ```shell
 SDIFF key1 [ key2 ]：返回给定所有集合的差集
 ```
@@ -1486,9 +1549,11 @@ SDIFF key1 [ key2 ]：返回给定所有集合的差集
 ```
 
 ### 有序集合（Sorted Set）
+
 <font style="color:rgb(33, 37, 41);">Sorted Set 类似于 Set，但和 Set 相比，Sorted Set 增加了一个 double 类型的分数，使得集合中的元素能够按分数进行有序排列。</font>
 
 #### <font style="color:rgb(33, 37, 41);">应用场景：</font>
+
 ```shell
 需要随机获取数据源中的元素根据某个权重进行排序的场景
   ● 举例 ：各种排行榜比如直播间送礼物的排行榜、朋友圈的微信步数排行榜、王者荣耀中的段位排行榜、话题热度排行榜等等。
@@ -1496,6 +1561,7 @@ SDIFF key1 [ key2 ]：返回给定所有集合的差集
 ```
 
 #### <font style="color:rgb(33, 37, 41);">基本操作：</font>
+
 ```shell
 ZADD key score menber1 [ score2 menber2 ]：向有序集合添加一个或者多个成员，或者更新已存在的成员分数
 ZCARD key：获取有序集合的元素个数
@@ -1506,21 +1572,25 @@ ZREVRANGE key start stop：通过索引区间返回有序集合成指定区间�
 ```
 
 #### <font style="color:rgb(33, 37, 41);">获取指定元素排名：</font>
+
 ```shell
 ZRANK key menber：返回有序集合中指定成员的索引
 ```
 
 #### <font style="color:rgb(33, 37, 41);">交集：</font>
+
 ```shell
 ZINTERSTORE destination numkeys key [ key… ]：计算给定的一个或者多个有序集的交集并将结果集存储在新的有序集合key中
 ```
 
 #### <font style="color:rgb(33, 37, 41);">并集：</font>
+
 ```shell
 ZUNIONSTORE destination numkeys key [ key… ]：计算给定的一个或者多个有序集的并集并将结果集存储在新的有序集合key中
 ```
 
 #### <font style="color:rgb(33, 37, 41);">差集：</font>
+
 ```shell
 ZDIFF destination numkeys key [ key… ]：计算给定的一个或者多个有序集的差集并将结果集存储在新的有序集合key中
 ```
@@ -1545,10 +1615,13 @@ ZDIFF destination numkeys key [ key… ]：计算给定的一个或者多个有�
 ```
 
 ## 高级数据结构
+
 ### 位图（Bitmaps）
+
 <font style="color:rgb(33, 37, 41);">Bitmap 存储的是连续的二进制数字（0 和 1），通过 Bitmap, 只需要一个 bit 位来表示某个元素对应的值或者状态，key 就是对应元素本身 。我们知道 8 个 bit 可以组成一个 byte，所以 Bitmap 本身会极大的节省储存空间。</font>
 
 #### <font style="color:rgb(33, 37, 41);">应用场景：</font>
+
 ```shell
 需要保存状态信息（0/1 即可表示）的场景
   ● 举例：用户签到情况、活跃用户情况、用户行为统计（比如是否点赞过某个视频）。
@@ -1556,6 +1629,7 @@ ZDIFF destination numkeys key [ key… ]：计算给定的一个或者多个有�
 ```
 
 #### <font style="color:rgb(33, 37, 41);">基本操作：</font>
+
 ```shell
 setbit key offset val：给指定key的值的第offset赋值val 时间复杂度：O（1）
 getbit key offset：获取指定key的第offset位 时间复杂度：O（1）
@@ -1571,18 +1645,21 @@ BITPOS key bit start end：查找字符串中第一个设置为1或0的位的位
 ```
 
 ### 超日志（HyperLogLog）
+
 <font style="color:rgb(33, 37, 41);">HyperLogLog 是一种有名的基数计数概率算法 ，并不是 Redis 特有的，Redis 只是实现了这个算法并提供了一些开箱即用的 API。</font>
 
 <font style="color:rgb(33, 37, 41);">Redis 提供的 HyperLogLog 占用空间非常非常小，只需要 12k 的空间就能存储接近</font>2^64<font style="color:rgb(33, 37, 41);">个不同元素。</font>
 
 #### <font style="color:rgb(33, 37, 41);">应用场景：</font>
+
 ```shell
 数量量巨大（百万、千万级别以上）的计数场景
 ● 举例：热门网站每日/每周/每月访问 ip 数统计、热门帖子 uv 统计
 ● 相关命令：PFADD、PFCOUNT 。
 ```
 
-#### 基本操作：
+#### 基本操作
+
 ```shell
 PFADD key element [ element ]：添加一个或多个元素到 HyperLogLog 中
 PFCOUNT key [ key… ]：获取一个或者多个 HyperLogLog 的唯一计数。
@@ -1590,11 +1667,13 @@ PFMERGE destkey sourcekey [ sourcekey… ]：将多个 HyperLogLog 合并到 des
 ```
 
 ### 地理空间（Geospatial）
+
 <font style="color:rgb(33, 37, 41);">Geospatial index（地理空间索引，简称 GEO） 主要用于存储地理位置信息，基于 Sorted Set 实现。</font>
 
 <font style="color:rgb(33, 37, 41);">通过 GEO 我们可以轻松实现两个位置距离的计算、获取指定位置附近的元素等功能。</font>
 
 #### <font style="color:rgb(33, 37, 41);">应用场景：</font>
+
 ```shell
 需要管理使用地理空间数据的场景
   ● 举例：附近的人。
@@ -1602,18 +1681,21 @@ PFMERGE destkey sourcekey [ sourcekey… ]：将多个 HyperLogLog 合并到 des
 ```
 
 #### <font style="color:rgb(33, 37, 41);">基本操作：</font>
+
 ```shell
 GEOADD key longitude1 latitude1 member1 [longitude latitude member ...]：添加一个或多个元素对应的经纬度信息到 GEO 中
 GEOPOS key member [member ...]:返回给定元素的经纬度信息
 GEODIST key member1 member2 [m|km|ft|mi]：计算两个位置之间的距离。
 ```
 
-#### 获取指定位置范围内的其他元素（附近的人）：
+#### 获取指定位置范围内的其他元素（附近的人）
+
 ```shell
 GEORADIUS key longitude latitude radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count] [ASC|DESC] [STORE key] [STOREDIST key]：根据用户给定的经纬度坐标来获取指定范围内的地理位置集合。
 ```
 
 #### <font style="color:rgb(33, 37, 41);">使用 Zset 命令的操作（GEO 底层为 Sorted Set）：</font>
+
 ```shell
 ZREM key menber [ member ]：移除有序集合中的一个或多个成员
 ZRANGE key start stop [ WITHSCORES ]：通过索引区间返回有序集合成指定区间内的成员
@@ -1629,15 +1711,18 @@ ZRANGE key start stop [ WITHSCORES ]：通过索引区间返回有序集合成�
 ```
 
 ### 发布/订阅（Pub/Sub）
+
 <font style="color:rgb(51, 51, 51);">Redis 发布/订阅是一种消息传模式，其中发布者发送消息，而订阅者接收消息，传递消息的通道称为</font>**<font style="color:rgb(51, 51, 51);">channel</font>**<font style="color:rgb(51, 51, 51);">。</font>
 
 #### <font style="color:rgb(51, 51, 51);">应用场景：</font>
+
 ```shell
 简易的实时消息传递场景(无法持久化)：
   ● 通知系统：例如在社交媒体平台上，当有新评论或新点赞时，可以通过 Pub/Sub 通知相关用户。
 ```
 
 #### <font style="color:rgb(51, 51, 51);">基本操作：</font>
+
 ```shell
 SUBSCRIBE：订阅给定的一个或多个频道的信息。
 PUBLISH：将信息发送到指定的频道。
@@ -1653,9 +1738,11 @@ PUBLISH：将信息发送到指定的频道。
 ```
 
 ### 流（Streams）
+
 <font style="color:rgb(51, 51, 51);">Redis Stream 主要用于消息队列（MQ，Message Queue），Redis 本身是有一个 Redis 发布订阅 (pub/sub) 来实现消息队列的功能，但它有个缺点就是消息无法持久化，如果出现网络断开、Redis 宕机等，消息就会被丢弃，而 Redis Stream 提供了消息的持久化和主备复制功能，可以让任何客户端访问任何时刻的数据，并且能记住每一个客户端的访问位置，还能保证消息不丢失。</font>
 
 #### <font style="color:rgb(51, 51, 51);">基本操作：</font>
+
 ```shell
 XADD key ID field value [field value ...]：添加消息到末尾
 XTRIM key MAXLEN [~] count：对流进行修剪，限制长度
@@ -1665,6 +1752,7 @@ XRANGE key start end [COUNT count]：获取消息列表，会自动过滤已经�
 ```
 
 #### <font style="color:rgb(51, 51, 51);">应用场景：</font>
+
 ```shell
 消息队列
   ● Redis Streams 可以用作消息队列，支持发布/订阅模式和消费者组，确保消息能够可靠地传递给多个消费者。例如：
@@ -1695,6 +1783,7 @@ XRANGE key start end [COUNT count]：获取消息列表，会自动过滤已经�
 ```
 
 ## Redis 基本操作指令
+
 ```shell
 keys * :查看当前库中的所有key
 exists key :判断某个key是否存在
@@ -1710,10 +1799,13 @@ flushall :清空所有库
 ```
 
 # 常见面试题讲解
+
 ## <font style="color:rgb(38, 38, 38);">Redis缓存击穿、缓存雪崩、缓存穿透</font>
+
 缓存击穿、缓存雪崩和缓存穿透是我们在日常开发与手撕面试官过程中必须battle的常见问题，下面我会解释它们的含义与解决方案。
 
-### 缓存击穿（Cache Miss） 
+### 缓存击穿（Cache Miss）
+
 什么是缓存击穿？
 
 缓存击穿是指在高并发访问下，一个热点数据失效时，大量请求会直接绕过缓存，直接查询数据库，导致数据库压力剧增。
@@ -1726,7 +1818,8 @@ flushall :清空所有库
 
 使用互斥锁：保证同一时间只有一个线程来查询数据库，其他线程等待查询结果。
 
-### 缓存雪崩（Cache Avalanche） 
+### 缓存雪崩（Cache Avalanche）
+
 什么是缓存雪崩？
 
 缓存雪崩是指在大规模缓存失效或者缓存宕机的情况下，大量请求同时涌入数据库，导致数据库负载过大甚至崩溃的情况。  
@@ -1741,7 +1834,8 @@ flushall :清空所有库
 
 高可用架构：使用Redis主从复制或者集群来增加缓存的可用性，避免单点故障导致整个系统无法使用。
 
-### 缓存穿透（Cache Penetration） 
+### 缓存穿透（Cache Penetration）
+
 什么是缓存穿透？
 
 缓存穿透是指恶意请求查询一个不存在于缓存和数据库中的数据，导致每次请求都直接访问数据库，从而增加数据库的负载。攻击者可以通过故意构造不存在的 Key 来进行缓存穿透攻击。
@@ -1755,7 +1849,9 @@ flushall :清空所有库
 布隆过滤器：判断请求的参数是否存在于缓存或数据库中。
 
 ## 数据库和缓存一致性问题
+
 ### 问题来源
+
 使用redis做一个缓冲操作，让请求先访问到redis，而不是直接访问MySQL等数据库：
 
 ![1691911161900-02a5e730-8b09-4ac6-9186-93c5a5ee0bca.png](./img/6PscNGN3Y6C5nou2/1691911161900-02a5e730-8b09-4ac6-9186-93c5a5ee0bca-506693.webp)
@@ -1764,7 +1860,8 @@ flushall :清空所有库
 
 不管是先写MySQL数据库，再删除Redis缓存；还是先删除缓存，再写库，都有可能出现数据不一致的情况。
 
-### 举一个例子：
+### 举一个例子
+
 先更新Mysql，再更新Redis。
 
 如果更新Redis失败，可能仍然不一致  
@@ -1772,11 +1869,14 @@ flushall :清空所有库
  再次查询的时候在将数据添加到缓存中，这种方案能解决1方案的问题，但是在高并发下性能较低，而且仍然会出现数据不一致的问题，比如线程1删除了Redis缓存数据，正在更新Mysql，此时另外一个查询再查询，那么就会把Mysql中老数据又查到Redis中  
 因为写和读是并发的，没法保证顺序,就会出现缓存和数据库的数据不一致的问题
 
-### 解决方案：
+### 解决方案
+
 #### 延时双删
+
 先删除Redis缓存数据，再更新Mysql，延迟几百毫秒再删除Redis缓存数据，这样就算在更新Mysql时，有其他线程读了Mysql，把老数据读到了Redis中，那么也会被删除掉，从而把数据保持一致。
 
 #### 队列 + 重试机制
+
 ![1691917750473-32ce4f56-aa89-4e07-afc1-5bbb25541a3f.png](./img/6PscNGN3Y6C5nou2/1691917750473-32ce4f56-aa89-4e07-afc1-5bbb25541a3f-633646.webp)
 
 更新数据库数据；
@@ -1790,16 +1890,19 @@ flushall :清空所有库
 对业务线代码造成大量的侵入。
 
 #### 异步更新缓存(基于订阅binlog的同步机制)
+
 ![1691925278364-ae26d897-a6b6-4418-9348-728b7284d066.png](./img/6PscNGN3Y6C5nou2/1691925278364-ae26d897-a6b6-4418-9348-728b7284d066-461941.webp)
 
 其实这种机制，很类似MySQL的主从备份机制，因为MySQL的主备也是通过binlog来实现的数据一致性。
 
-### 实际应用：
+### 实际应用
+
 使用阿里的一款开源框架canal，通过该框架可以对MySQL的binlog进行订阅，而canal正是模仿了mysql的slave数据库的备份请求，使得Redis的数据更新达到了相同的效果，
 
 MQ消息中间可以采用RocketMQ来实现推送。
 
 ## Redis 事务
+
 Redis 事务是一个用于将多个命令打包在一起执行的功能，它可以保证这些命令按照特定的顺序执行，并且要么全部成功，要么全部失败，即具有原子性。Redis 事务通过使用 MULTI 和 EXEC 命令来实现：
 
 1. **MULTI**：开始一个事务块。当执行到 MULTI 命令时，Redis 会进入事务状态，之后的命令会被缓存起来，但不会立即执行。
@@ -1809,16 +1912,19 @@ Redis 事务是一个用于将多个命令打包在一起执行的功能，它�
 5. **DISCARD**：取消事务。如果在执行 EXEC 之前需要放弃事务，可以使用 DISCARD 命令来清空事务队列并退出事务状态。
 
 ### Redis 事务的优点
+
 + **原子性**：事务中的命令要么全部执行，要么全部不执行，不会有中间状态。
 + **序列化**：在事务执行期间，不会有其他客户端命令插入执行。
 + **简单性**：使用简单，易于理解和实现。
 
 ### Redis 事务的缺点
+
 + **不支持回滚**：如果 EXEC 命令执行的事务队列中有某个命令失败，Redis 会忽略该失败命令，但会继续执行事务队列中的其他命令。
 + **阻塞性**：在执行 EXEC 命令时，如果 Redis 正在执行其他事务，那么新的事务请求将会被阻塞，直到当前事务完成。
 + **监控键失效**：如果在事务执行前监控的键被其他客户端改变，整个事务将不会执行。
 
 ## Redis 持久化
+
 Redis之所以能够提供高速读写操作是因为数据存储在内存中，但这也带来了一个风险，即在服务器宕机或断电的情况下，内存中的数据会丢失。为了解决这个问题，Redis提供了持久化机制来确保数据的持久性和可靠性。
 
 + RDB(Redis Data Base) ：内存快照
@@ -1826,22 +1932,27 @@ Redis之所以能够提供高速读写操作是因为数据存储在内存中，
 + 混合持久化：RDB + AOF
 
 ### RDB持久化
+
 在指定的时间间隔内将内存中的数据集快照写入磁盘，每次都是从Redis中生成一个二进制快照进行数据的全量备份。
 
 #### RDB持久化流程
+
 RDB持久化方案进行备份时，Redis会单独fork一个子进程来进行持久化，会将数据写入一个临时文件中，持久化完成后替换旧的RDB文件。  
 在整个持久化过程中，主进程（为客户端提供服务的进程）不参与IO操作，这样能确保Redis服务的高性能，RDB持久化机制适合对数据完整性要求不高但追求高效恢复的使用场景。
 
 ![1716354913470-c291fb7c-8d90-48ba-b2d5-d266a7e46c22.png](./img/6PscNGN3Y6C5nou2/1716354913470-c291fb7c-8d90-48ba-b2d5-d266a7e46c22-720405.png)
 
 #### RDB触发规则
+
 ##### 手动触发
+
     - save：  
-	阻塞当前 Redis进程，直到RDB持久化过程完成，如果内存实例比较大会造成长时间阻塞，尽量不要使用这方式
+ 阻塞当前 Redis进程，直到RDB持久化过程完成，如果内存实例比较大会造成长时间阻塞，尽量不要使用这方式
     - bgsave：  
-	Redis主进程fork创建子进程，由子进程完成持久化，阻塞时间很短（微秒级）
+ Redis主进程fork创建子进程，由子进程完成持久化，阻塞时间很短（微秒级）
 
 ##### 自动触发
+
     - 配置触发：
 
 在Redis安装目录下的redis.conf配置文件中搜索 /snapshot 即可快速定位，配置文件默认注释了下面三行数据，通过配置规则来触发RDB的持久化，需要开启或者根据自己的需求按照规则来配置。
@@ -1858,28 +1969,35 @@ shutdown触发Redis的RDB持久化机制非常简单，我们在客户端执行s
 flushall清空Redis所有数据库的数据（16个库数据都会被删除）（等同于删库跑路）![1716361302641-5cb23c8b-2490-46b4-8f4e-f2a1f75c3370.png](./img/6PscNGN3Y6C5nou2/1716361302641-5cb23c8b-2490-46b4-8f4e-f2a1f75c3370-680025.png)
 
 #### 优点
+
 性能高：RDB持久化是通过生成一个快照文件来保存数据，因此在恢复数据时速度非常快。  
 文件紧凑：RDB文件是二进制格式的数据库文件，相对于AOF文件来说，文件体积较小。
 
 #### 缺点
+
 可能丢失数据：由于RDB是定期生成的快照文件，如果Redis意外宕机，最近一次的修改可能会丢失。
 
 #### TIPS
+
 Redis持久化默认开启为RDB持久化
 
 ### AOF持久化
+
 AOF持久化需要手动修改conf配置开启。
 
 #### AOF持久化流程
+
 ![1716355296617-e5a79f8c-f374-4beb-aa83-d763adf054e3.png](./img/6PscNGN3Y6C5nou2/1716355296617-e5a79f8c-f374-4beb-aa83-d763adf054e3-834881.png)
 
 AOF持久化方案进行备AOF持久化方案进行备份时，客户端所有请求的写命令都会被追加到AOF缓冲区中，缓冲区中的数据会根据Redis配置文件中配置的同步策略来同步到磁盘上的AOF文件中，同时当AOF的文件达到重写策略配置的阈值时，Redis会对AOF日志文件进行重写，给AOF日志文件瘦身。Redis服务重启的时候，通过加载AOF日志文件来恢复数据。
 
 #### AOF配置
+
 AOF默认不开启，默认为appendonly no，开启则需要修改为appendonly yes  
 关闭AOF+RDB混合模式，需要将 aof-use-rdb-preamble 改为 no
 
 #### AOF同步策略
+
 + **appendfsync always：**  
 每次Redis写操作，都写入AOF日志，非常耗性能的。
 + **appendfsync everysec**  
@@ -1888,6 +2006,7 @@ AOF默认不开启，默认为appendonly no，开启则需要修改为appendonly
 Redis进程不会主动的去刷新缓冲区中的数据到AOF文件中，而是直接交给操作系统去判断，这种操作也是不推荐的，丢失数据的可能性非常大。
 
 #### AOF修复功能
+
 redis 7版本，AOF文件存储在appendonlydir文件下，base是基准文件，incr是追加数据。![1716361720778-797e5d46-4b51-414b-8c8f-f9383bd887e7.png](./img/6PscNGN3Y6C5nou2/1716361720778-797e5d46-4b51-414b-8c8f-f9383bd887e7-658652.png)  
 先存入三条数据，然后破坏incr结尾的文件内容，末尾加上baili![1716361888374-b2a60188-d701-41e2-8a75-1617a17efbe1.png](./img/6PscNGN3Y6C5nou2/1716361888374-b2a60188-d701-41e2-8a75-1617a17efbe1-856564.png)![1716361851950-168ca8cc-5e01-48d9-9288-5da752bbe4af.png](./img/6PscNGN3Y6C5nou2/1716361851950-168ca8cc-5e01-48d9-9288-5da752bbe4af-581865.png)  
 重新启动 Redis 出现异常：
@@ -1898,9 +2017,11 @@ redis 7版本，AOF文件存储在appendonlydir文件下，base是基准文件�
 观察数据可以知道，丢失了 baili3 的数据。这种丢失是被允许的。再启动恢复正常。
 
 #### AOF重写
+
 重写其实是针对AOF存储的重复性冗余指令进行整理，比如有些key反复修改，又或者key反复修改后最终被删除，这些过程中的指令都是冗余且不需要存储的。
 
 ##### 自动重写
+
 当AOF日志文件达到阈值时会触发自动重写。
 
 + 重写阈值配置：  
@@ -1910,6 +2031,7 @@ auto-aof-rewrite-min-size 64mb：当AOF文件体积超过这个阈值时，会�
 当AOF文件的体积达到或超过上次重写之后的比例，并且超过了最小体积阈值时，Redis会自动触发AOF重写操作，生成一个新的AOF文件。
 
 ##### 手动重写：bgrewriteaof
+
 正常启动后存在三个文件
 
 ![1716363379052-40920b0c-e99f-40f7-b29d-c940b1ad2fed.png](./img/6PscNGN3Y6C5nou2/1716363379052-40920b0c-e99f-40f7-b29d-c940b1ad2fed-650062.png)  
@@ -1917,20 +2039,24 @@ auto-aof-rewrite-min-size 64mb：当AOF文件体积超过这个阈值时，会�
 ![1716363379052-40920b0c-e99f-40f7-b29d-c940b1ad2fed.png](./img/6PscNGN3Y6C5nou2/1716363379052-40920b0c-e99f-40f7-b29d-c940b1ad2fed-650062.png)
 
 #### 优点
+
 + 数据更加可靠：AOF持久化记录了每个写命令的操作，因此在出现故障时，可以通过重新执行AOF文件来保证数据的完整性。
 + 可以保留写命令历史：AOF文件是一个追加日志文件，可以用于回放过去的写操作。
 
 #### 缺点
+
 + 文件较大：由于记录了每个写命令，AOF文件体积通常比RDB文件要大。
 + 恢复速度较慢：当AOF文件较大时，Redis重启时需要重新执行整个AOF文件，恢复速度相对较慢。
 
 ### 混合持久化
+
 Redis4.0版本开始支持混合持久化，因为RDB虽然加载快但是存在数据丢失，AOF数据安全但是加载缓慢。
 
 混合持久化通过 aof-use-rdb-preamble yes 开启，Redis 4.0以上版本默认开启。  
 混合持久化会在appendonlydir文件下生成一个rdb文件与一个aof文件。
 
 #### 混合持久化流程
+
 ![1716364971302-1fb32b00-3d01-4804-aefb-5a2fc673e1c6.png](./img/6PscNGN3Y6C5nou2/1716364971302-1fb32b00-3d01-4804-aefb-5a2fc673e1c6-032017.png)  
 ![1716364133740-8b235306-462d-4ee7-9485-973f081e7dc4.png](./img/6PscNGN3Y6C5nou2/1716364133740-8b235306-462d-4ee7-9485-973f081e7dc4-654250.png)  
 ![1716364971302-1fb32b00-3d01-4804-aefb-5a2fc673e1c6.png](./img/6PscNGN3Y6C5nou2/1716364971302-1fb32b00-3d01-4804-aefb-5a2fc673e1c6-032017.png)
@@ -1938,7 +2064,9 @@ Redis4.0版本开始支持混合持久化，因为RDB虽然加载快但是存在
 ![1716364407943-940ed0e9-67fb-4b49-925e-675ab49dfad3.png](./img/6PscNGN3Y6C5nou2/1716364407943-940ed0e9-67fb-4b49-925e-675ab49dfad3-099843.png)
 
 # 完整的文件目录与配置文件与使用过程中的命令
+
 ## 文件目录
+
 ```shell
 /opt/software/redis/   -- Redis应用
 /opt/software/redis/redis-stable -- Redis应用根目录
@@ -1949,7 +2077,9 @@ Redis4.0版本开始支持混合持久化，因为RDB虽然加载快但是存在
 ![1716701083307-7024fa77-1108-4d81-bd4d-3e748c2978ca.png](./img/6PscNGN3Y6C5nou2/1716701083307-7024fa77-1108-4d81-bd4d-3e748c2978ca-191328.png)
 
 ## 配置文件
+
 ### 单机Redis配置文件
+
 所在目录：/opt/software/redis/redis-stable
 
 ```shell
@@ -2030,6 +2160,7 @@ jemalloc-bg-thread yes
 ```
 
 ### 主从节点配置
+
 所在目录：/opt/software/redis/redis-stable
 
 大家可以将不同服务器的端口设置不同的值，以方便区分。
@@ -2121,6 +2252,7 @@ jemalloc-bg-thread yes
 ```
 
 ### 哨兵模式
+
 所在目录：/opt/software/redis/redis-stable
 
 主从配置无需修改，直接配置 sentinel 文件，3 个机器配置相同
@@ -2145,6 +2277,7 @@ SENTINEL master-reboot-down-after-period mymaster 0
 ```
 
 ### 集群
+
 所在目录：/opt/software/redis/redis-stable/cluster
 
 3 个机器配置相同
@@ -2206,6 +2339,7 @@ dbfilename "dump6380.rdb"
 ```
 
 ### 命令
+
 ```shell
 ----------------------------------- Redis基础常见命令 ----------------------------------------
 keys *：查看当前库所有的key
@@ -2350,4 +2484,3 @@ redis-server ./cluster/redis_6379.conf
 redis-cli -p 6379 info replication
 -- 观察131.6380日志，129.6379 重新加入集群
 ```
-

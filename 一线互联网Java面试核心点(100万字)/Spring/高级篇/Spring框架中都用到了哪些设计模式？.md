@@ -22,4 +22,3 @@
     - **<font style="background-color:rgb(247, 247, 248);">AOP的方法调用</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：Spring AOP通过责任链模式实现通知（Advice）的调用，确保通知按顺序执行。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">Spring框架的设计哲学是通过这些设计模式来提供强大的功能和可定制性。它的模块化、松耦合的设计使得开发人员能够更轻松地构建可维护、可扩展和灵活的应用程序。这些设计模式的应用有助于实现代码重用、降低开发成本，是Spring框架广受欢迎的原因之一。</font>
-

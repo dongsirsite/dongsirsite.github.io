@@ -10,4 +10,3 @@
 8. **监听器和扩展点：**<font style="color:rgb(55, 65, 81);"> 在整个启动过程中，Spring Boot会调用各种监听器和扩展点，这些组件可以用来对应用程序进行扩展和定制。例如，您可以使用监听器来处理应用程序启动和关闭事件，或者使用ApplicationContextInitializer来自定义ApplicationContext的初始化。</font>
 
 <font style="color:rgb(55, 65, 81);">总的来说，Spring Boot的启动过程是一个复杂的流程，它从Main方法开始，经过一系列步骤来初始化Spring容器和启动内置tomcat。</font>
-

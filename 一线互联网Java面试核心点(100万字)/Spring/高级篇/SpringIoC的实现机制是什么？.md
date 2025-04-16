@@ -9,4 +9,3 @@
 5. <font style="color:rgb(36, 41, 47);">依赖注入：Spring使用依赖注入来解决Bean之间的依赖关系。通过依赖注入，Spring容器负责将Bean所依赖的其他Bean实例注入到它们之中。Spring使用反射和配置元数据来确定依赖关系，并在运行时进行注入。</font>
 
 <font style="color:rgb(36, 41, 47);">总结起来，Spring的IoC底层实现机制主要依赖于反射、配置元数据、Bean定义、Bean工厂和依赖注入等技术和组件。通过这些机制，Spring实现了Bean的创建、配置和管理，以及Bean之间的解耦和依赖注入</font>
-

@@ -8,4 +8,3 @@
 <font style="color:rgb(5, 7, 59);">另外，ShardingSphere 还提供了接入分布式事务的 SPI，并针对性能要求较高、一致性要求较低的业务提供了基于柔性事务的方案。在整合Seata AT事务时，ShardingSphere 通过扩展服务间的传输机制，将Seata的全局事务上下文传递到分片执行引擎中，从而保证了分布式事务的一致性。</font>
 
 <font style="color:rgb(5, 7, 59);">总之，ShardingSphere 通过XA事务和柔性事务两种方式来保证分布式事务的一致性。在实现过程中，ShardingSphere 还提供了相应的工具类和抽象类，方便开发者进行相关操作。</font>
-

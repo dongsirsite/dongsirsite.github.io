@@ -27,4 +27,3 @@ Resource是JDK提供的注解，Spring在实现上提供了对这种注解功能
 当指定为byName时，Spring会根据Bean的名称进行依赖注入；
 
 指定为byType时，Spring会根据类型来实现依赖注入。
-

@@ -31,4 +31,3 @@ docker attach my-container
 ```
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">这会附加到容器的标准输出和标准错误输出，实时显示容器的日志信息。注意，一旦你使用</font><font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">docker attach</font><font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">进入容器后，将无法再退出容器。如果要退出，可以按下</font><font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">Ctrl + C</font><font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">组合键强制中断容器运行。</font>
-

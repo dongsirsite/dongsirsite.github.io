@@ -1,10 +1,6 @@
 # Spring Cloud Alibaba AI 初体验
 
-
-
 示例代码：[https://gitee.com/xscodeit/spring-cloud-alibaba-ai-example.git](https://gitee.com/xscodeit/spring-cloud-alibaba-ai-example.git)
-
-
 
 [Spring AI](https://docs.spring.io/spring-ai/reference/0.8-SNAPSHOT/index.html)<font style="color:rgb(53, 56, 65);"> 旨在简化包含人工智能相关功能的应用程序的开发，避免不必要的复杂性。</font>
 
@@ -23,6 +19,7 @@
 + <font style="color:rgb(53, 56, 65);">数据工程的 ETL 框架</font>
 
 ## Spring Cloud Alibaba AI
+
 <font style="color:rgb(53, 56, 65);">Spring Cloud Alibaba AI （以下简称 SCA AI）</font>**<font style="color:rgb(53, 56, 65);">基于 Spring AI 0.8.1</font>**<font style="color:rgb(53, 56, 65);"> 版本完成通义系列大模型的接入。</font>
 
 <font style="color:rgb(53, 56, 65);">DashScope灵积模型服务建立在</font><font style="color:rgb(53, 56, 65);"> </font>_<font style="color:rgb(53, 56, 65);">模型即服务</font>_<font style="color:rgb(53, 56, 65);">（Model-as-a-Service，MaaS）的理念基础之上，围绕AI各领域模型，通过标准化的API提供包括模型推理、模型微调训练在内的多种模型服务。。</font>
@@ -30,7 +27,9 @@
 <font style="color:rgb(53, 56, 65);">SCA AI 目前支持的模型主要有：对话、文生图、文生语音，更多功能特性正在适配中。</font>
 
 ## 快速体验
+
 #### 创建 SCA AI 应用
+
 <font style="color:rgb(53, 56, 65);">在 pom.xml 中引入如下依赖配置：</font>
 
 ```xml
@@ -83,6 +82,7 @@ issue：https://github.com/spring-projects/spring-ai/issues/537
 ```
 
 #### api-key 配置
+
 <font style="color:rgb(53, 56, 65);">在正式开始体验之前，需要申请到模型的 api-key。申请地址：</font>[https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key)
 
 <font style="color:rgb(53, 56, 65);">您可以通过 DashScope 提供的方式配置 api-key，SCA AI 完全兼容 DashScope 环境变量配置 key 的方式：</font>[https://help.aliyun.com/zh/dashscope/developer-reference/api-key-settings](https://help.aliyun.com/zh/dashscope/developer-reference/api-key-settings)
@@ -98,6 +98,7 @@ spring:
 ```
 
 #### 聊天对话体验
+
 <font style="color:rgb(53, 56, 65);">官方 Example：</font>[https://github.com/alibaba/spring-cloud-alibaba/tree/2023.x/spring-cloud-alibaba-examples/spring-cloud-ai-example](https://github.com/alibaba/spring-cloud-alibaba/tree/2023.x/spring-cloud-alibaba-examples/spring-cloud-ai-example)
 
 ```java
@@ -259,6 +260,7 @@ Because he wanted to have eggs-clusive relationships with his hens!
 ```
 
 #### 文生图体验
+
 ```java
 public class ImagesService {
 
@@ -349,6 +351,7 @@ $ curl http://localhost:8080/img?prompt="美女"
 ![1718354020190-fcae2072-75b3-4f97-b428-d6d0b060fee2.png](./img/DWM2vxbN06wvVJHz/1718354020190-fcae2072-75b3-4f97-b428-d6d0b060fee2-545780.png)
 
 #### 文生语音体验
+
 ```java
 public class AudioService {
 
@@ -481,4 +484,3 @@ D:\open_sources\sca-ai\spring-ai\04-29-22-44-22.wav
 <font style="color:rgb(53, 56, 65);">至此，Spring Cloud Alibaba AI 提供的三种基本功能已经体验完成，后续您还可以通过设置一些个性化的参数来使大模型生成各种各样的图片和音频等。</font>
 
 <font style="color:rgb(53, 56, 65);">更多配置项可以参考：</font>[https://help.aliyun.com/zh/dashscope/developer-reference/api-details。社区相关的文档正在完善，更多功能正在开发中！](https://help.aliyun.com/zh/dashscope/developer-reference/api-details%E3%80%82%E7%A4%BE%E5%8C%BA%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%87%E6%A1%A3%E6%AD%A3%E5%9C%A8%E5%AE%8C%E5%96%84%EF%BC%8C%E6%9B%B4%E5%A4%9A%E5%8A%9F%E8%83%BD%E6%AD%A3%E5%9C%A8%E5%BC%80%E5%8F%91%E4%B8%AD%EF%BC%81)
-

@@ -11,4 +11,3 @@
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">最后，SkyWalking的上下文传播和分布式跟踪功能，可以帮助我们跟踪请求在分布式系统中的传播路径，了解请求在各服务之间的调用情况，找出调用过程中出现的问题。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">综上所述，通过SkyWalking提供的一系列工具和技术，我们可以较为方便地进行故障排查和性能优化工作，从而提升分布式系统的性能和可用性。</font>
-

@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">JVM内存模型主要指的是Java虚拟机在运行时管理内存的方式，以及它如何保证线程之间规范而安全地共享数据。JVM内存模型可分为几个关键区域，各自负责不同的功能：</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">JVM内存结构</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">程序计数器（Program Counter Register）</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">每个线程都有自己的程序计数器，是一个小内存空间。它记录了当前线程执行的字节码的地址，帮助CPU知道下一步要执行的指令是哪个。这也是唯一一个在JVM规范中不报内存溢出的区域。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">Java虚拟机栈（Java Virtual Machine Stack）</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
@@ -14,4 +15,4 @@
 5. **<font style="color:rgba(0, 0, 0, 0.82);">方法区（Method Area）</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">也是线程共享的，用于存储已被JVM加载的类信息、常量、静态变量，即时编译后的代码等。Java 8开始将方法区移出了堆内存，成为了一个独立的元空间（Metaspace），并存储在本地内存中。</font>
 
-### 
+###

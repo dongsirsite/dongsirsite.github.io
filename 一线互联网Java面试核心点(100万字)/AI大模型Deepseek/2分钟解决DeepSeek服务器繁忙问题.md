@@ -1,6 +1,7 @@
 # 2分钟解决 DeepSeek 服务器繁忙问题
 
 # 一. 硅基流动的API Key
+
 <font style="color:rgba(0, 0, 0, 0.9);">首先，注册and登陆硅基流动官网。</font>
 
 **<font style="color:rgba(0, 0, 0, 0.9);">大家在注册时可以通过推广链接注册，这样都会得到一些免费额度（新用户额度+推广双赢额度）：</font>**<font style="color:rgba(0, 0, 0, 0.9);">  
@@ -31,6 +32,7 @@
 <font style="color:rgba(0, 0, 0, 0.9);">需要注意秘钥别泄露了，本来就是白嫖的额度，泄露分分钟干完。</font>
 
 # 二. 下载Chatbox AI
+
 <font style="color:rgba(0, 0, 0, 0.9);">打开网址  https://chatboxai.app/zh#download</font>
 
 ![1738740897648-6d753ac7-456a-4b35-a14f-4dd32fb7a41e.png](./img/09GV11qRjPED-JZ-/1738740897648-6d753ac7-456a-4b35-a14f-4dd32fb7a41e-311880.png)
@@ -62,4 +64,3 @@
 ![1738741877347-1937f477-67d4-48aa-a3f9-8d2265cdaa08.png](./img/09GV11qRjPED-JZ-/1738741877347-1937f477-67d4-48aa-a3f9-8d2265cdaa08-311584.png)
 
 <font style="color:rgba(0, 0, 0, 0.9);">Good，竟然还有思考过程，牛逼 Plus++++++ 普天同庆啊。</font>
-

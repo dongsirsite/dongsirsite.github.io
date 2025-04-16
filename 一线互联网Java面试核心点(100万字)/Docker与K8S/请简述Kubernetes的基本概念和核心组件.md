@@ -17,4 +17,3 @@
 4. **<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">Kubelet</font>**<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">：是Master节点在每个Node上的“眼线”。它定期向API Server汇报Node的状态，并接受Master的指令以采取适当的行动。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">这些组件共同协作，使得Kubernetes能够以自动化的方式管理、调度和运行容器化应用程序。</font>
-

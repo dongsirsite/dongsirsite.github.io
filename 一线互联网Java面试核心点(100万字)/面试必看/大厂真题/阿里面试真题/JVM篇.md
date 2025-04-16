@@ -362,8 +362,6 @@ CMS收集器<font style="color:rgb(62, 62, 62);">是一种年老代垃圾收集�
 
 **<font style="color:rgb(62, 62, 62);">jstat：查看JVM运行时的状态信息，包括内存状态、垃圾回收</font>**
 
-
-
 ```plain
 jstat [option] LVMID [interval] [count]其中LVMID是进程id，interval是打印间隔时间（毫秒），count是打印次数（默认一直打印）  option参数解释：-gc 垃圾回收堆的行为统计-gccapacity 各个垃圾回收代容量(young,old,perm)和他们相应的空间统计-gcutil 垃圾回收统计概述-gcnew 新生代行为统计-gcold 年老代和永生代行为统计
 ```
@@ -390,8 +388,6 @@ jmap [option] <pid> (连接正在执行的进程)option参数解释：-heap 打�
 <font style="color:rgb(62, 62, 62);">支持 Lamda 表达式、集合的 stream 操作、提升HashMap性能</font>
 
 **<font style="color:rgb(62, 62, 62);">JDK9</font>**
-
-
 
 ```plain
 //Stream API中iterate方法的新重载方法，可以指定什么时候结束迭代IntStream.iterate(1, i -> i < 100, i -> i + 1).forEach(System.out::println);
@@ -727,4 +723,3 @@ less $pid.log
 <font style="color:rgb(62, 62, 62);">我们在 jstack 日志搜关键字DEAD，以及中找到了 CPU 使用最多的几个线程id。</font>
 
 <font style="color:rgb(62, 62, 62);">可以看到问题发生的根源，是我们的堆已经满了，但是又没有发生 OOM，于是 GC 进程就一直在那里回收，回收的效果又非常一般，造成 CPU 升高应用假死。接下来的具体问题排查，就需要把内存 dump 一份下来，使用 MAT 等工具分析具体原因了。</font>
-

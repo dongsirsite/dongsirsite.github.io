@@ -7,7 +7,4 @@
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">总的来说，普通集群适用于对性能要求高，但可以接受数据丢失的情况。而镜像集群则适用于对数据持久性和可用性有更高要求，并愿意付出一些性能代价的场景。</font>
 
-
-
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"></font>
-

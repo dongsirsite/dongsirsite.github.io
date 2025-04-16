@@ -82,6 +82,7 @@ public class NettyServer {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">代码解释</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">线程模型</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - `<font style="color:rgba(0, 0, 0, 0.82);">bossGroup</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">和</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">workerGroup</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">是两个 NioEventLoopGroup，分别处理连接建立和 I/O 读写。</font>
     - `<font style="color:rgba(0, 0, 0, 0.82);">NioEventLoopGroup</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">的线程数设置为</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">Runtime.getRuntime().availableProcessors() * 2</font>`<font style="color:rgba(0, 0, 0, 0.82);">，充分利用多核 CPU 性能。</font>
@@ -100,4 +101,3 @@ public class NettyServer {
     - <font style="color:rgba(0, 0, 0, 0.82);">Netty 内部的零拷贝并未在这个简单的示例中直接展示，但在内部实现中使用了 DirectBuffer 等技术来减少内存复制。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">通过这些设计和实现，Netty 能够实现高性能、低延迟的网络通信，适用于各种高并发场景。</font>
-

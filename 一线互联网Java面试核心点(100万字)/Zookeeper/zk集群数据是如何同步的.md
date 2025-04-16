@@ -12,4 +12,3 @@ Zookeeper集群的数据同步过程如下：
 8. 然后发送commit命令给Follower节点，Follower节点收到commit命令后也会更新本地内存中的数据。
 
 这样，Zookeeper集群的数据同步就完成了。
-

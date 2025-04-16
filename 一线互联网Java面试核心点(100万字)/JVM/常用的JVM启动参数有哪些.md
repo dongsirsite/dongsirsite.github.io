@@ -17,4 +17,3 @@
 13. **<font style="background-color:rgb(247, 247, 248);">-Dproperty=value</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：设置Java系统属性，可以在应用程序中使用 </font>**<font style="background-color:rgb(247, 247, 248);">System.getProperty("property")</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 来获取这些属性的值。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">这些是一些常见的JVM启动参数，可以根据应用程序的需求和性能调优的目标进行调整。JVM启动参数的使用可以显著影响应用程序的性能和行为，因此在设置这些参数时需要谨慎。同时，JVM支持的启动参数因不同的JVM版本和供应商而有所不同，建议查阅相关文档以获取更详细的信息。</font>
-

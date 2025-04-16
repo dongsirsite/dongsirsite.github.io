@@ -1,8 +1,11 @@
 # 通俗易懂-MySQL常用函数解析
 
 ## ![1743341729896-ff5ffe14-d86c-40c5-84b7-ea069a5d55de.png](./img/HPqUVLdzI35skViE/1743341729896-ff5ffe14-d86c-40c5-84b7-ea069a5d55de-426177.png)
+
 ## 数学函数
+
 #### count()
+
 `count()`、`count(field)` 统计某个结果集中的总数量，`field`为要统计的字段。
 
 ```plsql
@@ -12,6 +15,7 @@ select count( 1 ) from order_details;
 ---
 
 #### sum()
+
 `sum(field)` 统计某个字段累计的总和，field为要统计的字段。
 
 ```plsql
@@ -21,6 +25,7 @@ select sum( price ) from order_details;
 ---
 
 #### avg()
+
 `avg(field)` 统计某个字段的平均数，field为要统计的字段。
 
 ```plsql
@@ -30,6 +35,7 @@ select avg( price )  from order_details;
 ---
 
 #### round()
+
 `round(number,x)`返回某个数字按指定位数取整后的数字，`number`被操作的数字，`x`为精确的位数
 
 ```plsql
@@ -43,6 +49,7 @@ select round(765.4321,2);
 ---
 
 #### abs()
+
 `abs(number)` 取绝对值
 
 ```plsql
@@ -51,6 +58,7 @@ select abs(-88);
 ```
 
 #### rand()
+
 `rand()` 返回0-1.0之间的浮点随机数
 
 ```plsql
@@ -61,7 +69,9 @@ select rand();
 ---
 
 ## 类型转换
+
 #### cast()
+
 `cast(data as type)` 将一种类型的数据转换成另一种类型。data为数据， type为类型。
 
 必须是数据库支持的数据类型。
@@ -77,7 +87,9 @@ SELECT CAST('123' AS SIGNED);
 ---
 
 ## 字符串函数
+
 #### concat()
+
 `concat(data1,data2,data3,datan...)`拼接字符串。
 
 如果其中一个数据为`null`则返回`null`。
@@ -93,6 +105,7 @@ select concat(1,2,3,null);
 ---
 
 #### concat_ws()
+
 `concat_ws(separator,data1,data2,data3,datan...)` 根据指定的分隔符(`separator`)拼接字符串，存在`null`则拼接空白。
 
 ```plsql
@@ -107,6 +120,7 @@ select concat_ws('-',1,2,3,null);
 ---
 
 #### group_concat()
+
 `group_concat()` 根据某个字段分组然后汇总数据。
 
 ```plsql
@@ -132,6 +146,7 @@ select group_concat(name order by id desc) as names_summary_desc from test;
 ---
 
 #### date_format()
+
 `date_format(dateStr,pattern)`格式化时间函数。`dataStr`为要格式化的时间，`pattern`为格式。
 
 ```plsql
@@ -175,10 +190,10 @@ select date_format('2025-3-28 15:33:04',   '%Y-%m-%d');
 | %Y | 年，4 位 |
 | %y | 年，2 位 |
 
-
 ---
 
 #### length()
+
 `length()`返回字符串的长度。
 
 ```plsql
@@ -189,6 +204,7 @@ select length('123');
 ---
 
 #### replace()
+
 `replace()`替换指定字符串中的指定字符串为指定字符串
 
 ```plsql
@@ -199,6 +215,7 @@ select replace('1234abcd','1234','aaaaa-');
 ---
 
 #### find_in_set()
+
 `find_in_set()` 查找指定的字符串在不在字符串列表中
 
 ```plsql
@@ -212,6 +229,7 @@ select find_in_set('百里1','徐庶,诸葛,百里');
 ---
 
 #### locate()
+
 `locate()` 返回字符串首次出现的位置，下标从1开始
 
 ```plsql
@@ -225,7 +243,9 @@ select locate('1','123');
 ---
 
 ## 日期函数
+
 #### curdate()
+
 `curdate()` 返回今天的日期
 
 ```plsql
@@ -234,6 +254,7 @@ select curdate();
 ```
 
 #### curtime()
+
 `curtime()` 返回今天的时间
 
 ```plsql
@@ -242,6 +263,7 @@ select curtime();
 ```
 
 #### now()
+
 `now()` 返回日期和时间
 
 ```plsql
@@ -252,7 +274,9 @@ select now();
 ---
 
 ## 逻辑函数
+
 #### if()
+
 `if()` 判断表达式是否成立，格式`if(表达式,成立返回,不成立返回)`，注意成立和不成立的返回必须是一个类型的，要是字符串必须都是字符串，不能一个是字符串一个是数字。
 
 ```plsql
@@ -275,7 +299,8 @@ select if(1 is not null and 1=2,'成立','不成立');
 ---
 
 #### case
-`case` 多表达式判断，返回最先成立表达式的结果，格式`CASE WHEN 表达式1 THEN 表达式1成立的结果 WHEN 表达式2 THEN 表达式2成立的结果 ELSE 都不成立的结果 END `
+
+`case` 多表达式判断，返回最先成立表达式的结果，格式`CASE WHEN 表达式1 THEN 表达式1成立的结果 WHEN 表达式2 THEN 表达式2成立的结果 ELSE 都不成立的结果 END`
 
 ```plsql
 -- 返回 1=1
@@ -291,6 +316,7 @@ select case when 1=2 then '1=1' when 2=3 then '2=2' else '都不成立' end
 ---
 
 #### ifnull()
+
 `ifnull()` 如果传入的值为null，就返回指定的值，不为null，就返回传入的值
 
 ```plsql
@@ -302,4 +328,3 @@ select ifnull(null,'111');
 ```
 
 ---
-

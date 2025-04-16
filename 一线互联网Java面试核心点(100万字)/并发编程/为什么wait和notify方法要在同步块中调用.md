@@ -1,6 +1,5 @@
 # 为什么 wait 和 notify 方法要在同步块中调用
 
-  
 当使用 wait() 和 notify() 方法时，需要将它们放在同步块内，这是因为：
 
 1. **互斥性**： 多线程环境下，我们希望在同一时刻只有一个线程能够执行 wait()、notify() 或 notifyAll() 方法。使用同步块（synchronized）提供了这种互斥性，避免多线程并发修改的问题。
@@ -11,4 +10,3 @@
 
 <font style="color:rgb(0, 0, 0);">  
 </font>
-

@@ -9,7 +9,9 @@
 <font style="color:rgba(0, 0, 0, 0.82);">为了解决这些问题，可以采取以下解决方案：</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">解决方案</font>
+
 #### <font style="color:rgba(0, 0, 0, 0.82);">1. </font>**<font style="color:rgba(0, 0, 0, 0.82);">分拆大Key</font>**
+
 <font style="color:rgba(0, 0, 0, 0.82);">big list： list1、list2、...listN</font>
 
 <font style="color:rgb(74, 74, 74);">big hash：可以将数据分段存储，比如一个大的key，假设存了1百万的用户数据，可以拆分成200个key，每个key下面存放5000个用户数据</font>
@@ -48,6 +50,7 @@ public class DataCompressor {
 ```
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">3.</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>**<font style="color:rgba(0, 0, 0, 0.82);">惰性删除</font>**
+
 <font style="color:rgba(0, 0, 0, 0.82);">当更新或删除大Key时使用惰性删除(</font>**<font style="color:rgb(74, 74, 74);">lazyfree-lazy-expire yes</font>**<font style="color:rgb(74, 74, 74);"></font><font style="color:rgba(0, 0, 0, 0.82);">)来避免阻塞整个Redis。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">4. </font>**<font style="color:rgba(0, 0, 0, 0.82);">使用SCAN替代KEYS</font>**
@@ -87,5 +90,5 @@ public class RedisScanner {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">结论</font>
-<font style="color:rgba(0, 0, 0, 0.82);">分片、压缩、异步删除和合理的遍历方式可以有效解决Redis大Key问题。在实际应用中，根据具体的使用场景和系统架构选择和组合这些方案。此外，要定期监控Redis节点的内存和数据使用情况，优化大Key的管理。注意，解决大Key问题往往需要架构上的设计调整。</font>
 
+<font style="color:rgba(0, 0, 0, 0.82);">分片、压缩、异步删除和合理的遍历方式可以有效解决Redis大Key问题。在实际应用中，根据具体的使用场景和系统架构选择和组合这些方案。此外，要定期监控Redis节点的内存和数据使用情况，优化大Key的管理。注意，解决大Key问题往往需要架构上的设计调整。</font>

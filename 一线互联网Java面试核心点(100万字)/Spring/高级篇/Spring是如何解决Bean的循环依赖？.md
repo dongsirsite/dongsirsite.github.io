@@ -1,6 +1,7 @@
 # Spring是如何解决Bean的循环依赖？
 
 ## 引入：<font style="color:rgba(0, 0, 0, 0.87);">循环依赖的场景</font>
+
 <font style="color:rgba(0, 0, 0, 0.87);">假设有两个Bean</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>**<font style="color:rgba(0, 0, 0, 0.87);">A</font>**<font style="color:rgba(0, 0, 0, 0.87);"> </font><font style="color:rgba(0, 0, 0, 0.87);">和</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>**<font style="color:rgba(0, 0, 0, 0.87);">B</font>**<font style="color:rgba(0, 0, 0, 0.87);">，彼此依赖：</font>
 
 + **<font style="color:rgba(0, 0, 0, 0.87);">A</font>**<font style="color:rgba(0, 0, 0, 0.87);"> </font><font style="color:rgba(0, 0, 0, 0.87);">依赖</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>**<font style="color:rgba(0, 0, 0, 0.87);">B</font>**<font style="color:rgba(0, 0, 0, 0.87);">（通过</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@Autowired</font>`<font style="color:rgba(0, 0, 0, 0.87);">注入）</font>
@@ -9,6 +10,7 @@
 <font style="color:rgba(0, 0, 0, 0.87);">此时，Spring在创建Bean时会陷入“鸡生蛋、蛋生鸡”的问题。传统单线程构造方法无法解决此问题，但Spring通过 </font>**<font style="color:rgba(0, 0, 0, 0.87);">三级缓存</font>**<font style="color:rgba(0, 0, 0, 0.87);"> 机制打破僵局。当然处理此相互依赖你还能想到另外两种循环依赖的情况吗？（自，三）</font>
 
 #### 简答
+
 Spring是如何解决的循环依赖： 采用三级缓存解决的 就是三个Map ； 关键： 一定要有一个缓存保存它的早期对象作为死循环的出口
 
 1. <font style="color:rgb(33, 37, 41);">1、一级缓存</font>**singletonObjects**<font style="color:rgb(33, 37, 41);">存</font>**<font style="color:rgb(33, 37, 41);">完整</font>**<font style="color:rgb(33, 37, 41);">单例bean。</font>  
@@ -19,13 +21,16 @@ Spring是如何解决的循环依赖： 采用三级缓存解决的 就是三个
 
 ![1744621634152-717c37e4-df06-4334-bcd2-1a2a7b720824.jpeg](./img/bTVSvXAyi18aTrod/1744621634152-717c37e4-df06-4334-bcd2-1a2a7b720824-090599.jpeg)
 
-## 面试官还可能问：
+## 面试官还可能问
+
 ### <font style="color:rgb(0, 0, 0);">二级缓存能不能解决循环依赖？</font>
+
     1. <font style="color:rgb(0, 0, 0);"> 如果只是循环依赖导致的死循环的问题： 一级缓存就可以解决 ，但是无法解决在并发下获取不完整的Bean。</font>
     2. <font style="color:rgb(0, 0, 0);">二级可以完全解决循环依赖：  只是需要在实例化后就创建动态代理，</font><font style="color:rgba(0, 0, 0, 0.87);">导致逻辑复杂且性能下降，</font><font style="color:rgb(0, 0, 0);">不符合spring生命周期规范。</font>
     3. <font style="color:rgb(0, 0, 0);">故而需要三级缓存+工厂：通过</font><font style="color:rgba(0, 0, 0, 0.87);">延迟代理对象的生成，只有在真正发生循环依赖时才创建代理，避免不必要的代理生成</font>
 
 ### <font style="color:rgb(0, 0, 0);">既然二级缓存解决不了的需要三级缓存，那能不能不要二级缓存呢？</font>
+
 <font style="color:rgb(0, 0, 0);"> 假定套娃逻辑：A 需要找 B 和 C，但是 B 需要找 A，C 也需要找 A。</font>
 
 <font style="color:rgb(0, 0, 0);">假如 A 需要进⾏ AOP，因为代理对象每次都是⽣成不同的对象，如果⼲掉第⼆级缓存，只有第⼀、三级缓存：</font>
@@ -40,10 +45,7 @@ Spring是如何解决的循环依赖： 采用三级缓存解决的 就是三个
 
 <font style="color:rgb(0, 0, 0);">如果没有 AOP 的话，我们其实只要 1、3 级缓存，就可以满⾜要求。</font>
 
- 
-
 ### <font style="color:rgb(0, 0, 0);">Spring有没有解决多例Bean/</font><font style="color:rgba(0, 0, 0, 0.87);">原型Bean</font><font style="color:rgb(0, 0, 0);">的循环依赖？</font>
-
 
 **<font style="color:rgba(0, 0, 0, 0.87);">（</font>**<font style="color:#000000;">@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)</font>**<font style="color:rgba(0, 0, 0, 0.87);">）</font>**
 
@@ -52,14 +54,17 @@ Spring是如何解决的循环依赖： 采用三级缓存解决的 就是三个
     6. <font style="color:rgb(0, 0, 0);">解决方案：避免原型bean的循环依赖，使用工厂方法延迟依赖注入或者使用@Lazy注解</font>
 
 ### <font style="color:rgb(0, 0, 0);">Spring有没有解决构造函数参数Bean的循环依赖？</font>
+
     7. <font style="color:rgb(0, 0, 0);">构造函数的循环依赖也是会报错（</font><font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">BeanCurrentlyInCreationException</font><font style="color:rgb(0, 0, 0);">）。原因：</font><font style="color:rgba(0, 0, 0, 0.87);">构造器注入在 </font>**<font style="color:rgba(0, 0, 0, 0.87);">实例化阶段</font>**<font style="color:rgba(0, 0, 0, 0.87);"> 就需要依赖对象，但此时Bean尚未放入三级缓存，无法提前暴露半成品对象</font>
     8. <font style="color:rgb(0, 0, 0);">可以通过人工进行解决：@Lazy </font>
         1. <font style="color:rgb(0, 0, 0);">就不会立即创建依赖的bean了</font>
         2. <font style="color:rgb(0, 0, 0);">而是等到用到才通过动态代理进行创建</font>
     9. 使用setter/Field注入代替构造器注入
 
-### 更多细节深入：
+### 更多细节深入
+
 #### **<font style="color:rgba(0, 0, 0, 0.87);">循环依赖与AOP代理的交互</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">问题</font>**<font style="color:rgba(0, 0, 0, 0.87);">：当Bean被AOP代理（如</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@Transactional</font>`<font style="color:rgba(0, 0, 0, 0.87);">、</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@Async</font>`<font style="color:rgba(0, 0, 0, 0.87);">）时，Spring如何解决循环依赖？  
 </font>**<font style="color:rgba(0, 0, 0, 0.87);">答案</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
@@ -89,9 +94,8 @@ public class B {
 
 + **<font style="color:rgba(0, 0, 0, 0.87);">自调用问题</font>**<font style="color:rgba(0, 0, 0, 0.87);">：若A的方法内部调用自己的另一个方法（未被AOP增强），由于代理对象的存在，可能无法触发预期切面（需通过</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AopContext.currentProxy()</font>`<font style="color:rgba(0, 0, 0, 0.87);">解决）。</font>
 
-
-
 #### **<font style="color:rgba(0, 0, 0, 0.87);">不同作用域Bean的组合循环依赖</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">场景</font>**<font style="color:rgba(0, 0, 0, 0.87);">：单例Bean依赖原型Bean，原型Bean又依赖单例Bean。  
 </font>**<font style="color:rgba(0, 0, 0, 0.87);">示例</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
@@ -132,13 +136,14 @@ public class SingletonB {
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);"> Spring Boot中的自动配置与循环依赖</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">问题</font>**<font style="color:rgba(0, 0, 0, 0.87);">：Spring Boot的自动配置是否更容易引入循环依赖？  
 </font>**<font style="color:rgba(0, 0, 0, 0.87);">分析</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
 + <font style="color:rgba(0, 0, 0, 0.87);">自动配置通过</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@Conditional</font>`<font style="color:rgba(0, 0, 0, 0.87);">按需加载Bean，若多个自动配置类隐式依赖彼此，可能意外引入循环依赖。</font>
 + **<font style="color:rgba(0, 0, 0, 0.87);">调试方法</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
-    - <font style="color:rgba(0, 0, 0, 0.87);">启用</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">debug</font>`<font style="color:rgba(0, 0, 0, 0.87);">日志：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">spring.main.log-startup-info=true</font>`<font style="color:rgba(0, 0, 0, 0.87);">，查看Bean创建顺序。</font>
-    - <font style="color:rgba(0, 0, 0, 0.87);">使用</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@AutoConfigureAfter</font>`<font style="color:rgba(0, 0, 0, 0.87);">或</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@AutoConfigureBefore</font>`<font style="color:rgba(0, 0, 0, 0.87);">显式控制自动配置类的加载顺序。</font>
+  + <font style="color:rgba(0, 0, 0, 0.87);">启用</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">debug</font>`<font style="color:rgba(0, 0, 0, 0.87);">日志：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">spring.main.log-startup-info=true</font>`<font style="color:rgba(0, 0, 0, 0.87);">，查看Bean创建顺序。</font>
+  + <font style="color:rgba(0, 0, 0, 0.87);">使用</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@AutoConfigureAfter</font>`<font style="color:rgba(0, 0, 0, 0.87);">或</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">@AutoConfigureBefore</font>`<font style="color:rgba(0, 0, 0, 0.87);">显式控制自动配置类的加载顺序。</font>
 
 **<font style="color:rgba(0, 0, 0, 0.87);">示例</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
@@ -156,6 +161,7 @@ public class MyCustomAutoConfig {
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">循环依赖对启动性能的影响</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">影响</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
 + **<font style="color:rgba(0, 0, 0, 0.87);">额外缓存操作</font>**<font style="color:rgba(0, 0, 0, 0.87);">：三级缓存的读写、工厂对象的生成会增加少量开销。</font>
@@ -169,6 +175,7 @@ public class MyCustomAutoConfig {
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);"> 替代设计模式避免循环依赖</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">推荐实践</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
 1. **<font style="color:rgba(0, 0, 0, 0.87);">依赖倒置（DIP）</font>**<font style="color:rgba(0, 0, 0, 0.87);">：通过接口解耦具体实现。</font>
@@ -227,6 +234,7 @@ public class ServiceB {
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">Spring源码中的循环依赖处理（关键方法解析）</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">核心类</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AbstractAutowireCapableBeanFactory</font>`<font style="color:rgba(0, 0, 0, 0.87);">  
 </font>**<font style="color:rgba(0, 0, 0, 0.87);">关键方法</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
@@ -261,6 +269,7 @@ protected Object doCreateBean(..., RootBeanDefinition mbd, Object[] args) {
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">Spring版本差异与循环依赖处理</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">Spring 5.x的改进</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
 + **<font style="color:rgba(0, 0, 0, 0.87);">优化代理生成逻辑</font>**<font style="color:rgba(0, 0, 0, 0.87);">：减少不必要的代理检查，提升性能。</font>
@@ -270,6 +279,7 @@ protected Object doCreateBean(..., RootBeanDefinition mbd, Object[] args) {
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);"> 单元测试中的循环依赖模拟</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">测试场景</font>**<font style="color:rgba(0, 0, 0, 0.87);">：验证存在循环依赖时Spring能否正确处理。  
 </font>**<font style="color:rgba(0, 0, 0, 0.87);">工具</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
@@ -300,6 +310,7 @@ public class CircularDependencyTest {
 ---
 
 ### **<font style="color:rgba(0, 0, 0, 0.87);">总结</font>**
+
 <font style="color:rgba(0, 0, 0, 0.87);">循环依赖的深入问题涵盖代理交互、作用域组合、性能影响、设计模式替代方案及源码机制。理解这些细节有助于：</font>
 
 1. <font style="color:rgba(0, 0, 0, 0.87);">高效排查启动错误。</font>
@@ -307,12 +318,12 @@ public class CircularDependencyTest {
 3. <font style="color:rgba(0, 0, 0, 0.87);">在复杂场景下合理使用Spring特性。  
 </font><font style="color:rgba(0, 0, 0, 0.87);">实际开发中，</font>**<font style="color:rgba(0, 0, 0, 0.87);">优先通过代码重构避免循环依赖</font>**<font style="color:rgba(0, 0, 0, 0.87);">，而非过度依赖框架机制。</font>
 
-
-
 ### <font style="color:rgba(0, 0, 0, 0.87);">tips:应部分学员要求继续加深到源码解读。</font>
+
 <font style="color:rgba(0, 0, 0, 0.87);">不具备相关基础可忽略此部分</font>
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">1. 核心类与关键方法</font>**
+
 <font style="color:rgba(0, 0, 0, 0.87);">Spring 解决循环依赖的核心逻辑位于以下类中：</font>
 
 + `**<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">DefaultSingletonBeanRegistry</font>**`<font style="color:rgba(0, 0, 0, 0.87);">：管理单例Bean的注册、缓存（三级缓存的核心实现）。</font>
@@ -322,11 +333,13 @@ public class CircularDependencyTest {
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">2. 源码流程拆解</font>**
+
 <font style="color:rgba(0, 0, 0, 0.87);">以下以</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>**<font style="color:rgba(0, 0, 0, 0.87);">单例Bean A → 依赖 B → 单例Bean B → 依赖 A</font>**<font style="color:rgba(0, 0, 0, 0.87);"> </font><font style="color:rgba(0, 0, 0, 0.87);">的循环依赖场景为例，分析源码执行流程：</font>
 
 ---
 
 ##### **<font style="color:rgba(0, 0, 0, 0.87);">步骤1：获取Bean A（</font>**`**<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">getBean("A")</font>**`**<font style="color:rgba(0, 0, 0, 0.87);">）</font>**
+
 + **<font style="color:rgba(0, 0, 0, 0.87);">入口方法</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AbstractBeanFactory.getBean(String name)</font>`
 
 ```java
@@ -340,6 +353,7 @@ public Object getBean(String name) throws BeansException {
 ---
 
 ##### **<font style="color:rgba(0, 0, 0, 0.87);">步骤2：检查三级缓存（</font>**`**<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">DefaultSingletonBeanRegistry.getSingleton</font>**`**<font style="color:rgba(0, 0, 0, 0.87);">）</font>**
+
 + **<font style="color:rgba(0, 0, 0, 0.87);">方法</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">DefaultSingletonBeanRegistry.getSingleton(String beanName, boolean allowEarlyReference)</font>`
 
 ```java
@@ -381,6 +395,7 @@ protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 ---
 
 ##### **<font style="color:rgba(0, 0, 0, 0.87);">步骤3：创建Bean A（</font>**`**<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">createBean</font>**`**<font style="color:rgba(0, 0, 0, 0.87);"> </font>****<font style="color:rgba(0, 0, 0, 0.87);">→</font>****<font style="color:rgba(0, 0, 0, 0.87);"> </font>**`**<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">doCreateBean</font>**`**<font style="color:rgba(0, 0, 0, 0.87);">）</font>**
+
 <font style="color:rgba(0, 0, 0, 0.87);">若缓存中无Bean A，进入创建流程：</font>
 
 + **<font style="color:rgba(0, 0, 0, 0.87);">方法</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AbstractAutowireCapableBeanFactory.doCreateBean(String beanName, RootBeanDefinition mbd, Object[] args)</font>`
@@ -418,6 +433,7 @@ protected Object doCreateBean(String beanName, RootBeanDefinition mbd, Object[] 
 ---
 
 ##### **<font style="color:rgba(0, 0, 0, 0.87);">步骤4：填充属性时触发Bean B的创建（</font>**`**<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">populateBean</font>**`**<font style="color:rgba(0, 0, 0, 0.87);">）</font>**
+
 + **<font style="color:rgba(0, 0, 0, 0.87);">方法</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AbstractAutowireCapableBeanFactory.populateBean</font>`
 
 ```java
@@ -441,6 +457,7 @@ protected void populateBean(String beanName, RootBeanDefinition mbd, BeanWrapper
 ---
 
 ##### **<font style="color:rgba(0, 0, 0, 0.87);">步骤5：再次获取Bean A（触发三级缓存）</font>**
+
 <font style="color:rgba(0, 0, 0, 0.87);">当</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">getBean("A")</font>`<font style="color:rgba(0, 0, 0, 0.87);"> </font><font style="color:rgba(0, 0, 0, 0.87);">再次被调用时：</font>
 
 1. <font style="color:rgba(0, 0, 0, 0.87);">一级缓存中无Bean A。</font>
@@ -453,17 +470,21 @@ protected void populateBean(String beanName, RootBeanDefinition mbd, BeanWrapper
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">3. 源码中的关键设计</font>**
+
 ##### **<font style="color:rgba(0, 0, 0, 0.87);">设计1：三级缓存的必要性</font>**
+
 + **<font style="color:rgba(0, 0, 0, 0.87);">三级缓存（</font>**`**<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">singletonFactories</font>**`**<font style="color:rgba(0, 0, 0, 0.87);">）</font>**<font style="color:rgba(0, 0, 0, 0.87);">：存储</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">ObjectFactory</font>`<font style="color:rgba(0, 0, 0, 0.87);">，允许在需要时才生成半成品Bean（处理AOP代理时尤为重要）。</font>
 + **<font style="color:rgba(0, 0, 0, 0.87);">延迟代理生成</font>**<font style="color:rgba(0, 0, 0, 0.87);">：若Bean需要AOP代理，通过</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">getEarlyBeanReference()</font>`<font style="color:rgba(0, 0, 0, 0.87);"> </font><font style="color:rgba(0, 0, 0, 0.87);">生成代理对象，避免重复生成。</font>
 
 ##### **<font style="color:rgba(0, 0, 0, 0.87);">设计2：循环依赖检测</font>**
+
 + **<font style="color:rgba(0, 0, 0, 0.87);">记录创建中的Bean</font>**<font style="color:rgba(0, 0, 0, 0.87);">：通过</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">singletonsCurrentlyInCreation</font>`<font style="color:rgba(0, 0, 0, 0.87);"> </font><font style="color:rgba(0, 0, 0, 0.87);">集合（</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">Set<String></font>`<font style="color:rgba(0, 0, 0, 0.87);">）记录当前正在创建的Bean名称。</font>
 + **<font style="color:rgba(0, 0, 0, 0.87);">异常抛出</font>**<font style="color:rgba(0, 0, 0, 0.87);">：当检测到循环依赖无法解决时（如构造器注入），抛出</font><font style="color:rgba(0, 0, 0, 0.87);"> </font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">BeanCurrentlyInCreationException</font>`<font style="color:rgba(0, 0, 0, 0.87);">。</font>
 
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">4. 构造器注入为何无法解决循环依赖？</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">源码证据</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
 + <font style="color:rgba(0, 0, 0, 0.87);">构造器注入在实例化阶段（</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">createBeanInstance</font>`<font style="color:rgba(0, 0, 0, 0.87);">）就需要完成依赖注入：</font>
@@ -481,6 +502,7 @@ protected BeanWrapper createBeanInstance(String beanName, RootBeanDefinition mbd
 ---
 
 #### **<font style="color:rgba(0, 0, 0, 0.87);">5. AOP代理与循环依赖的结合</font>**
+
 **<font style="color:rgba(0, 0, 0, 0.87);">核心方法</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>`<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AbstractAutowireCapableBeanFactory.getEarlyBeanReference()</font>`
 
 ```java
@@ -505,11 +527,13 @@ protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, 
 ---
 
 ### **<font style="color:rgba(0, 0, 0, 0.87);">图解总结</font>**
+
 ![1744621760018-ea212d95-529c-486a-889e-362d4fedf08a.png](./img/bTVSvXAyi18aTrod/1744621760018-ea212d95-529c-486a-889e-362d4fedf08a-200959.png)
 
 <font style="color:rgba(0, 0, 0, 0.87);">Spring通过三级缓存和</font>**<font style="color:rgba(0, 0, 0, 0.87);">提前暴露半成品Bean</font>**<font style="color:rgba(0, 0, 0, 0.87);">的机制解决单例Bean的循环依赖，源码核心逻辑集中在：</font>
 
 ### **<font style="color:rgba(0, 0, 0, 0.87);">关键源码节点标注</font>**
+
 | **<font style="color:rgb(51, 51, 51);">步骤</font>** | **<font style="color:rgb(51, 51, 51);">对应源码方法/类</font>** |
 | :---: | :---: |
 | <font style="color:rgba(0, 0, 0, 0.87);">检查三级缓存</font> | `<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">DefaultSingletonBeanRegistry.getSingleton()</font>` |
@@ -517,7 +541,6 @@ protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, 
 | <font style="color:rgba(0, 0, 0, 0.87);">加入三级缓存</font> | `<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">DefaultSingletonBeanRegistry.addSingletonFactory()</font>` |
 | <font style="color:rgba(0, 0, 0, 0.87);">填充属性</font> | `<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AbstractAutowireCapableBeanFactory.populateBean()</font>` |
 | <font style="color:rgba(0, 0, 0, 0.87);">生成半成品代理</font> | `<font style="color:rgba(0, 0, 0, 0.87);background-color:rgb(241, 241, 241);">AbstractAutowireCapableBeanFactory.getEarlyBeanReference()</font>` |
-
 
 **<font style="color:rgba(0, 0, 0, 0.87);">避坑指南</font>**<font style="color:rgba(0, 0, 0, 0.87);">：</font>
 
@@ -532,4 +555,3 @@ protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, 
 <font style="color:rgba(0, 0, 0, 0.87);"></font>
 
 <font style="color:rgba(0, 0, 0, 0.87);"></font>
-

@@ -7,4 +7,3 @@
 3. <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">Dledger模式（高可用集群部署）：在Master-Slave模式的基础上增加了Raft协议，实现了自动脑裂后的数据高可靠性。即使某个节点从网络上掉下来或者宕机后，仍然能够保证所有的消息不会丢失。这种模式的优点是高可用性和高可靠性，即使某个节点出现故障，也能保证服务的可用性。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">总的来说，单Master模式适合测试和开发环境，Master-Slave模式适合生产环境，而Dledger模式适合需要高可靠性的生产环境。</font>
-

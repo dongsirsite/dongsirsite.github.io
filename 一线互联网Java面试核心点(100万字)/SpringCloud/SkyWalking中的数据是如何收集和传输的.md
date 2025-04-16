@@ -7,4 +7,3 @@
 3. **<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">数据消费</font>**<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">：SkyWalking的数据存储组件不仅可以将收集到的数据存储在本地，还可以将数据发送给其他系统进行进一步的处理和消费。例如，SkyWalking可以将数据发送给可视化组件（UI），从而可以在图形化界面中查看和监控应用程序的性能数据。SkyWalking还可以将数据发送给告警系统，以便在性能问题发生时及时通知相关人员。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">在SkyWalking的数据传输过程中，可能会使用到GRPC等协议进行高效的数据传输。而在数据消费阶段，SkyWalking也支持多种不同的数据处理和消费方式，具体方式可以在配置中进行设置。</font>
-

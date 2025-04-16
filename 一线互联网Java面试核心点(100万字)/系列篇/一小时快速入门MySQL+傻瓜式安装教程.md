@@ -1,9 +1,11 @@
 # 👍 一小时快速入门MySQL+傻瓜式安装教程
 
 ## 1.课程介绍
+
 2024 年给大家带来一个快速入门 MySQL 的超详细教程，帮助还没有使用过 MySQL 的小伙伴快速掌握 MySQL 的安装与入门使用，接下来就开始 MySQL 的扫盲行动吧。
 
 ## 2.MySQL简介
+
 MySQL是一个开源的关系型数据库管理系统，广泛应用于Web应用程序的数据存储和管理。它支持多用户并发访问，具有高性能、稳定可靠、易于使用和管理等特点。
 
 MySQL官网提供了详细的文档、下载、社区支持等资源，官网地址为[https://www.mysql.com/。在官网上，你可以找到各种版本的MySQL，包括社区版、企业版等，以及适用于不同操作系统的安装包。](https://www.mysql.com/%E3%80%82%E5%9C%A8%E5%AE%98%E7%BD%91%E4%B8%8A%EF%BC%8C%E4%BD%A0%E5%8F%AF%E4%BB%A5%E6%89%BE%E5%88%B0%E5%90%84%E7%A7%8D%E7%89%88%E6%9C%AC%E7%9A%84MySQL%EF%BC%8C%E5%8C%85%E6%8B%AC%E7%A4%BE%E5%8C%BA%E7%89%88%E3%80%81%E4%BC%81%E4%B8%9A%E7%89%88%E7%AD%89%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%80%82%E7%94%A8%E4%BA%8E%E4%B8%8D%E5%90%8C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E5%8C%85%E3%80%82)
@@ -11,18 +13,19 @@ MySQL官网提供了详细的文档、下载、社区支持等资源，官网地
 安装MySQL的方式多样化，可以根据需求选择合适的方式进行安装。一种常见的方式是通过Linux的工具包管理器进行安装，比如使用apt-get、yum等。另外，你也可以使用Docker容器来快速部署MySQL，这种方式方便灵活，能够在不同的环境中快速部署MySQL服务。在本教程中，将会详细介绍 Linux 安装、Windows 安装两种常见的安装方式。
 
 ## 3.Windows安装
+
 ### 3.1 软件下载
+
 打开 MySQL 官网，选择 DownLoads，在点击下方 Community DownLoads，然后依次按照图示进行操作下载，如下：
 
 ![1714310974888-f8cf8f28-c7a6-4bf9-a33a-e4c7d0f726f8.png](./img/1zg-PbMyqkST3euS/1714310974888-f8cf8f28-c7a6-4bf9-a33a-e4c7d0f726f8-662271.png)
-
-
 
 ![1714311202239-662aea43-c9cb-40b3-a845-f60276f32e13.png](./img/1zg-PbMyqkST3euS/1714311202239-662aea43-c9cb-40b3-a845-f60276f32e13-708776.png)
 
 ![1714311330950-e78d7573-13b0-4440-9a24-7ed3c69f6a49.png](./img/1zg-PbMyqkST3euS/1714311330950-e78d7573-13b0-4440-9a24-7ed3c69f6a49-505559.png)![1714311452014-affb74ff-f5cf-4f01-8e4d-0cad38236473.png](./img/1zg-PbMyqkST3euS/1714311452014-affb74ff-f5cf-4f01-8e4d-0cad38236473-653233.png)
 
 ### 3.2 安装
+
 Windows 的安装有图形化界面，非常的方便快捷，直接运行下载好的 msi 文件，大多数都是下一步，极少步骤需要处理，需要单独处理的步骤提到了前面，大家稍微记一下就行，其他无脑下一步。需要注意如下图示： **完整的过程图再文末。**
 
 ![1714311796926-12527830-74bf-4d31-880d-284a52488983.png](./img/1zg-PbMyqkST3euS/1714311796926-12527830-74bf-4d31-880d-284a52488983-498077.png)
@@ -30,9 +33,11 @@ Windows 的安装有图形化界面，非常的方便快捷，直接运行下载
 ![1714312162382-9440e550-5c05-46cd-9cb5-d44753112a86.png](./img/1zg-PbMyqkST3euS/1714312162382-9440e550-5c05-46cd-9cb5-d44753112a86-989706.png)
 
 ### 3.3 测试是否安装成功
+
 相信安装过程没什么问题，操作完成后，使用 cmd 进行简单测试。
 
-#### 3.3.1 win + R 输入 cmd 或者 win 搜索 cmd 打开命令窗口登录 MySQL。
+#### 3.3.1 win + R 输入 cmd 或者 win 搜索 cmd 打开命令窗口登录 MySQL
+
 ![1714312699909-17747749-5325-4bd9-b646-7fa39871137b.png](./img/1zg-PbMyqkST3euS/1714312699909-17747749-5325-4bd9-b646-7fa39871137b-463696.png)
 
 输入登录 MySQL 命令：**mysql -u root -p** ,如果出现以下报错，则需要配置下 MySQL 环境变量。
@@ -44,13 +49,17 @@ mysql -u root -p
 ![1714312743909-d6af1a3c-a4ec-4c63-b10e-5fd617337efe.png](./img/1zg-PbMyqkST3euS/1714312743909-d6af1a3c-a4ec-4c63-b10e-5fd617337efe-155115.png)
 
 ### 3.3.2 配置 MySQL 环境变量
+
 #### 3.3.2.1 进入 MySQL 安装目录，打开 bin 目录，复制 bin 所在目录链接
+
 ![1714312983452-d1f4b464-49b7-45fb-8f8e-458a6b61fe4b.png](./img/1zg-PbMyqkST3euS/1714312983452-d1f4b464-49b7-45fb-8f8e-458a6b61fe4b-443858.png)
 
 #### 3.3.2.2 打开我的电脑属性 --> 高级系统设置 --> 环境变量 ······ 按图示操作![1714313119592-f7aabd76-2577-4acb-9e21-e8a7c0979130.png](./img/1zg-PbMyqkST3euS/1714313119592-f7aabd76-2577-4acb-9e21-e8a7c0979130-564157.png)
+
 ![1714313218934-9e584b5b-deee-4712-8d21-84380485c399.png](./img/1zg-PbMyqkST3euS/1714313218934-9e584b5b-deee-4712-8d21-84380485c399-479094.png)
 
-#### 3.3.2.3 需要注意，配置环境变量后，需要重新打开一个 cmd 窗口才能生效。效果如下，输入安装时的 root 密码后，出下 MySQL 提示，则代表安装成功，可以简单测试下：
+#### 3.3.2.3 需要注意，配置环境变量后，需要重新打开一个 cmd 窗口才能生效。效果如下，输入安装时的 root 密码后，出下 MySQL 提示，则代表安装成功，可以简单测试下
+
 ```plsql
 mysql -u root -p
 show databases;
@@ -63,21 +72,26 @@ quit;
 ![1714313538824-add8880e-a097-446d-a4c5-387c11aa3f10.png](./img/1zg-PbMyqkST3euS/1714313538824-add8880e-a097-446d-a4c5-387c11aa3f10-116661.png)
 
 ## 4.Linux安装
+
 **使用 Centos7 安装 MySQL8.0**
 
 ### 4.1 检查系统是否已经安装数据库
+
 ```shell
 [root@localhost ~]# rpm -qa | grep mysql
 [root@localhost ~]# rpm -qa | grep mariabd
 ```
 
 ### 4.2 如果存在卸载相应数据库
+
 ```shell
 [root@localhost ~]# rpm -e --nodeps mysql/mariabd（已经安装程序名称）
 ```
 
 ### 4.3 <font style="color:rgb(79, 79, 79);">安装下载工具wget</font>
+
 #### <font style="color:rgb(77, 77, 77);">4.3.1 查看安装情况</font>
+
 ```shell
 [root@localhost ~]# wget -V
 GNU Wget 1.14 在 linux-gnu 上编译。
@@ -87,37 +101,44 @@ wget-1.14-18.el7_6.1.x86_64
 ```
 
 #### 4.3.2 如果没有安装
+
 ```shell
 [root@localhost ~]# yum install -y wget
 ```
 
 ### 4.4 <font style="color:rgb(79, 79, 79);">下载阿里云 yum 源文件</font>
+
 ```shell
 [root@localhost ~]# wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
 ### 4.5 <font style="color:rgb(79, 79, 79);">清理yum缓存</font>
+
 ```shell
 [root@localhost ~]# yum clean all
 [root@localhost ~]# yum makecache
 ```
 
 ### 4.6 <font style="color:rgb(79, 79, 79);">下载 mysql 源安装包</font>
+
 ```shell
 [root@localhost ~]# wget http://dev.mysql.com/get/mysql80-community-release-el7-8.noarch.rpm
 ```
 
 ### 4.7 安装 MySQL 源
+
 ```shell
 [root@localhost ~]# yum localinstall -y mysql80-community-release-el7-8.noarch.rpm
 ```
 
 ### 4.8 安装 MySQL
+
 ```shell
 [root@localhost ~]# yum -y install mysql-community-server --nogpgcheck
 ```
 
 ### 4.9 检查是否安装成功
+
 ```shell
 [root@localhost ~]# rpm -qa |grep mysql
 mysql-community-common-8.0.37-1.el7.x86_64
@@ -131,6 +152,7 @@ mysql-community-client-plugins-8.0.37-1.el7.x86_64
 ```
 
 ### 4.10 启动 MySQL & 设置开机自启 & 重新加载配置文件
+
 ```shell
 [root@localhost ~]# systemctl start mysqld
 [root@localhost ~]# systemctl enable mysqld
@@ -138,11 +160,13 @@ mysql-community-client-plugins-8.0.37-1.el7.x86_64
 ```
 
 ### 4.11 卸载防火墙
+
 ```shell
 [root@localhost ~]# yum remove firewalld
 ```
 
 ### 4.12 <font style="color:rgb(79, 79, 79);">查看mysql密码</font>
+
 ```shell
 [root@localhost ~]# cat /var/log/mysqld.log | grep password
 2024-04-30T13:41:28.767968Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: Nle-H4q:-%zp
@@ -151,12 +175,14 @@ mysql-community-client-plugins-8.0.37-1.el7.x86_64
 其中"**Nle-H4q:-%zp**"为 root 初始密码，复制准备登录。
 
 ### 4.13 登录 MySQL
+
 ```shell
 [root@localhost ~]# mysql -u root -p
 Enter password: 
 ```
 
 ### 4.14 修改 root 密码
+
 ```shell
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1qaz@WSX';
 mysql> quit;
@@ -167,6 +193,7 @@ Enter password:
 修改后退出重新登录
 
 ### 4.15 修改 root 账户登录设置
+
 ```shell
 mysql> use mysql;
 mysql> update user set host='%' where user='root';
@@ -174,23 +201,31 @@ mysql> flush privileges;
 ```
 
 ### 4.16 完结撒花
+
 至此 MySQL8.0 的安装完成，远程登录也搞定（就是步骤 4.15）。
 
-需要注意通过这种方式安装的 MySQL，并没有加载 my.cnf 这个配置文件，修改方式点击这个[链接](https://www.yuque.com/tulingzhouyu/db22bv/ugdfg4q0ccqo0r28?singleDoc# 《👍 一小时快速入门数据同步神器-Canal》 密码：ilps)，参考第四章节
+需要注意通过这种方式安装的 MySQL，并没有加载 my.cnf 这个配置文件，修改方式点击这个[链接](<https://www.yuque.com/tulingzhouyu/db22bv/ugdfg4q0ccqo0r28?singleDoc#> 《👍 一小时快速入门数据同步神器-Canal》 密码：ilps)，参考第四章节
 
 ## 5.HeidiSQL
+
 MySQL 服务已经安装完成，由于命令方式输入比较复杂，所以我们还需要一款图形化软件来进行操作 MySQL，推荐大家使用 HeidiSQL，完全免费。下载地址：[https://www.heidisql.com/download.php](https://www.heidisql.com/download.php)
 
 ### 5.1 选择 64 就可以了
+
 ![1714898303460-241890ca-336a-41d0-b5fd-61e38dbc6481.png](./img/1zg-PbMyqkST3euS/1714898303460-241890ca-336a-41d0-b5fd-61e38dbc6481-794114.png)
 
 ### 5.2 然后就正常下一步，安装完成后打开软件。连接数据库，如下是连接了本机、虚机 windows、虚机 Linux 三个机器的 MySQL 服务，确认好 ip 地址，填入账号密码即可。![1714898387617-28b3ef6e-354b-40dd-bdb6-ed800a4e2b8a.png](./img/1zg-PbMyqkST3euS/1714898387617-28b3ef6e-354b-40dd-bdb6-ed800a4e2b8a-247969.png)
+
 ### 5.3 连接 Linux 机器 MySQL
+
 ![1714898677246-0a8acabb-4518-46f6-97b7-030f2fb97e69.png](./img/1zg-PbMyqkST3euS/1714898677246-0a8acabb-4518-46f6-97b7-030f2fb97e69-047882.png)
 
 ### 5.4 至此图形化客户端处理完成
+
 ## 6.创建数据库
+
 ### 6.1 使用命令方式创建
+
 如果是使用命令方式创建表，首先我们可以通过:
 
 ```shell
@@ -218,6 +253,7 @@ drop database test;
 ![1714907567980-39b0b350-9a0a-4497-aa2b-250f1b522051.png](./img/1zg-PbMyqkST3euS/1714907567980-39b0b350-9a0a-4497-aa2b-250f1b522051-241940.png)
 
 ### 6.2 使用 HeidiSQL 创建
+
 **选中连接的数据库，然后右键-->创建新的-->数据库**
 
 ![1714907651084-9022a381-f57a-497d-a87b-d4d3e24312a9.png](./img/1zg-PbMyqkST3euS/1714907651084-9022a381-f57a-497d-a87b-d4d3e24312a9-790065.png)
@@ -235,7 +271,9 @@ drop database test;
 ![1714908577138-2fe5184a-04fd-4f83-bb5c-5077cb208f98.png](./img/1zg-PbMyqkST3euS/1714908577138-2fe5184a-04fd-4f83-bb5c-5077cb208f98-852086.png)
 
 ## 7.创建表
+
 ### 7.1 <font style="color:rgb(36, 41, 47);">创建测试表</font>
+
 ```plsql
 -- 创建一个名为 "test" 的简单表，其中包含三个字段
 CREATE TABLE test (
@@ -246,6 +284,7 @@ CREATE TABLE test (
 ```
 
 ### 7.2 <font style="color:rgb(36, 41, 47);">添加新的字段</font>
+
 ```plsql
 -- 添加一个新的 "email" 字段
 ALTER TABLE test
@@ -253,6 +292,7 @@ ADD email VARCHAR(100); -- 添加一个新的VARCHAR字段
 ```
 
 ### <font style="color:rgb(36, 41, 47);">7.3 修改字段名称</font>
+
 ```plsql
 -- 将 "name" 字段重命名为 "full_name"
 ALTER TABLE test
@@ -260,6 +300,7 @@ RENAME COLUMN name TO full_name;
 ```
 
 ### <font style="color:rgb(36, 41, 47);">7.4 修改字段类型</font>
+
 ```plsql
 -- 将 "age" 字段从 INT 修改为 SMALLINT 使用 MODIFY
 ALTER TABLE test
@@ -267,6 +308,7 @@ MODIFY COLUMN age SMALLINT;
 ```
 
 ### <font style="color:rgb(36, 41, 47);">7.5 为字段设置默认值</font>
+
 ```plsql
 -- 为 "age" 字段设置默认值 18
 ALTER TABLE test
@@ -274,6 +316,7 @@ ALTER COLUMN age SET DEFAULT 18;
 ```
 
 ### <font style="color:rgb(36, 41, 47);">7.6 删除字段</font>
+
 ```plsql
 -- 删除 "email" 字段
 ALTER TABLE test
@@ -281,12 +324,14 @@ DROP COLUMN email;
 ```
 
 ### <font style="color:rgb(36, 41, 47);">7.7 删除表</font>
+
 ```plsql
 -- 删除整个表
 DROP TABLE test;
 ```
 
 ### 7.8 数据库常见数据类型汇总
+
 **数字类型**
 
 ![1715065638846-c69811dd-7a08-45ee-9031-58bfe929a80c.png](./img/1zg-PbMyqkST3euS/1715065638846-c69811dd-7a08-45ee-9031-58bfe929a80c-041284.png)
@@ -300,6 +345,7 @@ DROP TABLE test;
 ![1715065705675-7a41988b-9bd4-4923-a990-09e61b050197.png](./img/1zg-PbMyqkST3euS/1715065705675-7a41988b-9bd4-4923-a990-09e61b050197-371257.png)
 
 ## 8.数据的增删改查
+
 ```plsql
 -- 插入一行新数据：
 INSERT INTO test (full_name, age) VALUES ('Alice Johnson', 40);
@@ -327,11 +373,13 @@ DELETE FROM test WHERE full_name = 'Alice Johnson';
 ```
 
 ## 9.数据的导入与导出
+
 使用 HeidiSQL 导出非常的简单，选中表右键，然后选中需要导出的数据与保存目录就可以了
 
 ![1714912459705-c234fd99-e962-4739-a5d9-64c3968e39d9.png](./img/1zg-PbMyqkST3euS/1714912459705-c234fd99-e962-4739-a5d9-64c3968e39d9-456515.png)![1714912513523-2ff528ae-92bb-4ff6-83bd-bb67f8761984.png](./img/1zg-PbMyqkST3euS/1714912513523-2ff528ae-92bb-4ff6-83bd-bb67f8761984-377508.png)![1714912603273-5c7a6a48-0a7d-4cb7-96bb-d25ec9256c70.png](./img/1zg-PbMyqkST3euS/1714912603273-5c7a6a48-0a7d-4cb7-96bb-d25ec9256c70-623818.png)
 
 ## 10.常用语句
+
 ```plsql
 -- 补充测试数据
 INSERT IGNORE INTO `test` (`full_name`, `age`) VALUES
@@ -436,6 +484,7 @@ WHERE full_name REGEXP '[aeiou]{2}';
 ```
 
 ## 11.子查询
+
 <font style="color:rgb(36, 41, 47);">子查询是一种在一个 SQL 语句中嵌入另一个查询的方式。子查询可以用于从表中选择数据，然后在外层查询中使用这些数据进行进一步操作。下面是几个常见的子查询示例，涵盖不同的场景。</font>
 
 ```plsql
@@ -481,6 +530,7 @@ ON t.full_name = ud.full_name;
 ```
 
 ## 12.表关联
+
 ```plsql
 -- 内连接 (INNER JOIN)：内连接返回两个表中匹配行的交集。
 SELECT t.full_name, t.age, ud.address
@@ -502,6 +552,7 @@ SELECT * FROM test AS t, user_details AS ud;
 ```
 
 ## 13.索引
+
 ```plsql
 -- 创建单列索引：
 -- 创建单列索引在 full_name 列上
@@ -530,6 +581,7 @@ DROP INDEX idx_full_name_age ON test;
 ```
 
 ## 常见 MySQL 命令合集
+
 ```plsql
 连接到 MySQL 服务器：
 mysql -u 用户名 -p
@@ -571,7 +623,8 @@ UPDATE 表名 SET 列1 = 值1, 列2 = 值2 WHERE 条件;
 DELETE FROM 表名 WHERE 条件;
 ```
 
-## Windows 安装 msi 文件完整图示：
+## Windows 安装 msi 文件完整图示
+
 ![1714311796926-12527830-74bf-4d31-880d-284a52488983.png](./img/1zg-PbMyqkST3euS/1714311796926-12527830-74bf-4d31-880d-284a52488983-498077.png)
 
 ![1714311939479-215cd796-dc14-4453-b11e-4b8bcea106a4.png](./img/1zg-PbMyqkST3euS/1714311939479-215cd796-dc14-4453-b11e-4b8bcea106a4-241986.png)
@@ -595,4 +648,3 @@ DELETE FROM 表名 WHERE 条件;
 ![1714312282744-db13b76f-c2ee-4423-b713-702b73e9d1d3.png](./img/1zg-PbMyqkST3euS/1714312282744-db13b76f-c2ee-4423-b713-702b73e9d1d3-131593.png)![1714312300006-a56e0473-dc5a-4569-9604-7cdc4fa22a2f.png](./img/1zg-PbMyqkST3euS/1714312300006-a56e0473-dc5a-4569-9604-7cdc4fa22a2f-097974.png)
 
 ![1714312323977-4e1118ee-fe33-4665-b241-78da731ff395.png](./img/1zg-PbMyqkST3euS/1714312323977-4e1118ee-fe33-4665-b241-78da731ff395-182241.png)
-

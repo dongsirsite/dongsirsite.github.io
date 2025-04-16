@@ -9,4 +9,3 @@
 3. <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">数据仓库集成：Kafka 可以将数据传输到数据仓库，如Hadoop或Elasticsearch，以进行高级分析和报告。</font>
 4. <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">应用程序集成：许多应用程序可以使用 Kafka 作为消息中间件来实现异步通信，包括微服务架构、批处理作业等。</font>
 5. <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">流媒体处理：Kafka 可以用于流媒体处理，例如实时监控、事件驱动的应用程序等</font>
-

@@ -9,4 +9,3 @@
 <font style="color:rgb(0,0,0);">针，从而达到快速访问节点的目的。跳跃表支持平均 O（logN）、最坏 O（N）复杂度的 </font>
 
 <font style="color:rgb(0,0,0);">节点查找，还可以通过顺序性操作来批量处理节点。</font>
-

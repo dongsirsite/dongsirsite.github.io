@@ -2,72 +2,43 @@
 
 ## 什么是CI/CD?
 
-
 持续集成（ContinousIntergration，CI）是在源代码变更后自动检测、拉取、构建和进行自动化测试的过程，属于开发人员的自动化流程。该解决方案可以解决在一次开发中有太多应用分支，从而导致相互冲突的问题。其基本思路是，自动化监测代码仓库的变化并拉取最新代码、编译构建和自动化测试。CI的触发方式可分为以下三种：
-
-
 
 + 轮询：按一定的时间间隔反复询问代码仓库是否发生了变更，若发生了变更则开启CI流程
 + 定时：定期从代码仓库拉去最新代码并进行构建与测试，不必关心是否有变更发生
 + 推送：当代码仓库发生变更时，通过推送的方式(如webhook)通知CI进行任务，这需要CI环境被代码仓库访问到。
 
-
-
 持续部署（ContinousDelivery，CD）通常是指开发人员对应用的更改会自动进行错误测试，并上传到存储库（如 GitHub 或容器注册表），然后由运维团队将其部署到实时生产环境中。持续部署指的是自动将开发人员的更改从存储库发布到生产环境，它以持续交付为基础，实现了管道后续阶段的自动化。 CI/CD 既可能仅指持续集成和持续交付构成的关联环节，也可以指持续集成、持续交付和持续部署这三项构成的关联环节。
-
-
 
 ## 什么是Drone?
 
-
 Drone 是一种基于容器技术的持续交付系统。Drone 使用简单的 YAML 配置文件（docker-compose 的超集）来定义和执行 Docker 容器中的 Pipelines。
-
-
 
 Drone 与流行的源代码管理系统无缝集成，包括 GitHub、GitHub Enterprise、Bitbucket、Gitee、Gitlab等。
 
-
-
 ## 自动化流程
-
 
 ![18fb0bf1-a25a-458a-be3b-8d811a826367.png](./img/hdiQ7MtHBaiyxR7M/1723963772140-9597e289-16e5-4425-8d04-99b84a989b42-623975.png)
 
-
-
 ## 基础设施
-
 
 + gitee代码托管：[https://gitee.com](https://gitee.com)
 + drone持续交付系统: [https://drone.io](https://drone.io)
 + 服务器信息：`ubuntu`、`docker`、`docker-compose`
 
-
-
 ## 部署步骤
-
 
 ### 配置Gitee第三方授权
 
-
 ![042da93c-50a4-4397-ab44-07ad9a51abc1.png](./img/hdiQ7MtHBaiyxR7M/1723963772069-5ed99c95-dbec-4e22-8f2d-219096573af8-783623.png)
-
-
 
 ![38b08673-050b-42b6-adfc-6ca6dd8c3f9b.png](./img/hdiQ7MtHBaiyxR7M/1723963772110-434370e0-031a-4b73-9666-40ba622f8a19-680987.png)
 
-
-
 ![565541e9-c005-4cb8-a315-eefa1c6c97f9.png](./img/hdiQ7MtHBaiyxR7M/1723963772120-688a4123-747d-499d-baf4-13653a955e33-366255.png)
-
-
 
 ### 安装Drone
 
-
 docker-compose文件配置如下：
-
-
 
 ```plain
 version: '3'
@@ -115,14 +86,9 @@ services:
       - drone-server
 ```
 
-
-
 ## SpringBoot工程配置
 
-
 + 根目录下加入：`.drone.yml`配置文件：
-
-
 
 ```yaml
 kind: pipeline
@@ -185,11 +151,7 @@ steps:
         }
 ```
 
-
-
 + 增加run.sh脚本文件
-
-
 
 ```shell
 #!/usr/bin/env bash
@@ -218,11 +180,7 @@ docker run -p 8080:8080 --name ${app_name} \
 echo '----start container----'
 ```
 
-
-
 + 增加Dockerfile文件
-
-
 
 ```plain
 FROM openjdk:17-oracle
@@ -231,18 +189,10 @@ ADD beiming-talk-backend-0.0.1-SNAPSHOT.jar beiming-talk-backend-0.0.1-SNAPSHOT.
 ENTRYPOINT ["java", "-jar", "beiming-talk-backend-0.0.1-SNAPSHOT.jar"]
 ```
 
-
-
 ## 效果演示
-
 
 ![6422972f-8901-48ef-80b3-46327d68a871.png](./img/hdiQ7MtHBaiyxR7M/1723963772083-ee43fc3e-589e-4863-b0d0-787aa61ea18d-677222.png)
 
-
-
 ![56af44da-50db-48d6-8ffd-5d32b4564984.png](./img/hdiQ7MtHBaiyxR7M/1723963772100-a31d2bca-1c4f-48ad-a7ee-11f23fe00a60-522216.png)
 
-
-
 ![66e4d363-3ec9-4f76-bac0-b1bcd4c542b3.png](./img/hdiQ7MtHBaiyxR7M/1723963772100-74e44757-a4c1-426a-af1b-e127eb1abb50-255219.png)
-

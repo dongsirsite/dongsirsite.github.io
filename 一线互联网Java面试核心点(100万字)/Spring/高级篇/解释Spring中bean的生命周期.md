@@ -23,4 +23,3 @@ Bean生命周期：指定的就是Bean从创建到销毁的整个过程: 分4大
 <font style="color:rgb(0, 0, 0);">这4大步组成了Bean的生命周期</font>
 
 <font style="color:rgb(0, 0, 0);"></font>
-

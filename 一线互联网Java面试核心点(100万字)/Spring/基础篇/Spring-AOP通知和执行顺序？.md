@@ -8,8 +8,6 @@
 4. <font style="color:rgb(0, 0, 0);">异常通知：在目标方法抛出异常后调用通知；</font>
 5. <font style="color:rgb(0, 0, 0);">环绕通知：通知包裹了被通知的方法，在被通知的方法调用之前和调用之后执行自定义的行为。</font>
 
-
-
 执行顺序：
 
 **<font style="color:rgb(223, 64, 42);">Spring在5.2.7之前的执行顺序是：</font>**
@@ -25,4 +23,3 @@
 <font style="color:rgb(51, 51, 51);"></font>
 
 <font style="color:rgb(51, 51, 51);"></font>
-

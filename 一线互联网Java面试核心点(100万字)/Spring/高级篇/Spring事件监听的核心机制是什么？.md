@@ -12,4 +12,3 @@ Spring事件监听的核心机制围绕观察者模式展开：</font>
 3. **<font style="background-color:rgb(247, 247, 248);">事件监听器：</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 事件监听器充当观察者的角色，负责监听并响应事件的发生。它实现了</font>**<font style="background-color:rgb(247, 247, 248);">ApplicationListener</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">接口，通过</font>**<font style="background-color:rgb(247, 247, 248);">onApplicationEvent()</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">方法来处理事件。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">总之，Spring事件监听机制的核心机制是观察者模式，通过事件、事件发布者和事件监听器的协作，实现了松耦合的组件通信，使得应用程序更加灵活和可维护。</font>
-

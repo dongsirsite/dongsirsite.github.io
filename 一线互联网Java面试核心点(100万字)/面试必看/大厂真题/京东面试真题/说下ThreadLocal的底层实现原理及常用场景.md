@@ -15,4 +15,3 @@
 + <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">事务管理：线程可以通过ThreadLocal存储事务上下文，用于管理事务的提交、回滚等操作。</font>
 
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">需要注意的是，ThreadLocal虽然能够实现线程隔离，但过度使用ThreadLocal也会导致内存泄露的问题，因此在使用时需谨慎考虑。</font>
-

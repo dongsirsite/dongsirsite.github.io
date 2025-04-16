@@ -3,6 +3,7 @@
 `<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 是 Java 提供的一种用于解决并发读写问题的锁机制，其主要目的在于提高在</font>**<font style="color:rgba(0, 0, 0, 0.82);">读多写少的场景</font>**<font style="color:rgba(0, 0, 0, 0.82);">下的并发性能。</font>`<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 允许多个线程同时读取共享资源，但是对写操作是独占的。这意味着在一个线程写入数据时，其他线程既不能读取也不能写入。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">应用场景</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">缓存系统</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">在缓存系统中，数据读取频率通常远高于数据写入，因此使用读写锁可以提高读取操作的并发性和效率。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">配置管理</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
@@ -13,6 +14,7 @@
     - <font style="color:rgba(0, 0, 0, 0.82);">游戏服务器可能需要频繁读取玩家的状态，而状态更新相对较少，因此读写锁可以提高状态读取的性能。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">代码示例</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">以下是一个使用</font><font style="color:rgba(0, 0, 0, 0.82);"> </font>`<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">的示例代码，这个示例演示了如何在共享数据结构中使用读写锁，以确保线程安全并提高并发读取的性能。</font>
 
 ```java
@@ -84,10 +86,9 @@ public class ReadWriteLockExample {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">关键点</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">提升读取性能</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>`<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">允许多个读取线程同时访问共享资源，从而提高了读取性能。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">写锁独占</font>**<font style="color:rgba(0, 0, 0, 0.82);">：只有在没有其他线程读取或写入时，写锁才能获得，这保障了数据在写入时的一致性和安全性。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">适用性</font>**<font style="color:rgba(0, 0, 0, 0.82);">：适用于读多写少场景，能显著提高系统在并发读取场景下的性能。</font>
-+ **<font style="color:rgba(0, 0, 0, 0.82);">易于使用</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>`<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">提供了清晰的语义分离（读与写），使得代码更具可读性和维护性。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">提升读取性能</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>`<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">允许多个读取线程同时访问共享资源，从而提高了读取性能。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">写锁独占</font>**<font style="color:rgba(0, 0, 0, 0.82);">：只有在没有其他线程读取或写入时，写锁才能获得，这保障了数据在写入时的一致性和安全性。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">适用性</font>**<font style="color:rgba(0, 0, 0, 0.82);">：适用于读多写少场景，能显著提高系统在并发读取场景下的性能。</font>
+- **<font style="color:rgba(0, 0, 0, 0.82);">易于使用</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>`<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> </font><font style="color:rgba(0, 0, 0, 0.82);">提供了清晰的语义分离（读与写），使得代码更具可读性和维护性。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">在高并发应用中，通过合理使用 </font>`<font style="color:rgba(0, 0, 0, 0.82);">ReadWriteLock</font>`<font style="color:rgba(0, 0, 0, 0.82);"> 可以在保持数据一致性的同时大幅提高程序的并发性能。</font>
-

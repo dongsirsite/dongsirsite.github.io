@@ -8,4 +8,3 @@
 4. **<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">客户端凭证模式</font>**<font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">：在此模式下，客户端以自己的身份去访问资源服务器，这种模式在实现上也比较简单，但同样存在安全性的问题。</font>
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">以上是OAuth2的四种授权模式，具体选择哪种模式需要根据实际应用场景和安全需求来决定。</font>
-

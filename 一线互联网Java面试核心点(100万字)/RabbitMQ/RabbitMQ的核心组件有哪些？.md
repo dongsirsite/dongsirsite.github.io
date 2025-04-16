@@ -13,4 +13,3 @@
 <font style="color:rgb(5, 7, 59);">此外，生产者和消费者也是RabbitMQ的核心组件，生产者负责发送消息到Exchange或者 Queue，消费者负责从Queue中订阅和处理消息。</font>
 
 <font style="color:rgb(5, 7, 59);">这些核心组件共同构建了 RabbitMQ 的消息传递系统，他们协同工作才能实现消息的可靠传递、路由和业务处理等功能。</font>
-

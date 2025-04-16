@@ -1,6 +1,7 @@
 # HashMap底层原理常见面试题
 
 ### <font style="color:#595959;">1、HashMap 的底层数据结构</font>
+
 在 **<font style="color:#74B602;">JDK 1.7 </font>**中 HashMap 是以**「数组加链表」**的形式组成的，**<font style="color:#DF2A3F;">JDK 1.8</font>** 之后新增了**「红黑树」**的组成结构，**「当链表长度大于 8 并且 hash 桶的容量大于 64 时，链表结构会转换成红黑树结构」**。所以，它的组成结构如下图所示：
 
 ![1736682333559-14d52d6a-d0c1-4e9d-8ce9-efb3a9e8ce1f.png](./img/dIn1_b44R6mUzb-z/1736682333559-14d52d6a-d0c1-4e9d-8ce9-efb3a9e8ce1f-932156.png)
@@ -45,9 +46,11 @@ static class Node < K, V > implements Map.Entry < K, V > {
 :::
 
 ### <font style="color:#595959;">2、HashMap 的重要方法</font>
+
 PS：以下源码分析全部基于 JDK1.8 版本。
 
 #### <font style="color:black;">查询（get 方法）</font>
+
 源码如下：
 
 ```java
@@ -90,6 +93,7 @@ final Node < K, V > getNode(int hash, Object key) {
 代码注释已经很详细，强调一点：当哈希冲突时我们不仅需要判断 hash 值，还需要通过判断 key 值是否相等，才能确认此元素是不是我们想要的元素。
 
 #### <font style="color:black;">新增（put 方法）</font>
+
 源码如下：
 
 ```java
@@ -164,6 +168,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 put 流程
 
 #### <font style="color:black;">扩容（resize 方法）</font>
+
 源码如下：
 
 ```plain
@@ -286,6 +291,7 @@ JDK 1.8 在扩容时并没有像 JDK 1.7 那样，重新计算每个元素的哈
 扩容
 
 ### <font style="color:#595959;">3、HashMap 有哪些属性？</font>
+
 如下，看代码注释，写的很清楚了。
 
 ```java
@@ -309,6 +315,7 @@ static final int MIN_TREEIFY_CAPACITY = 64;
 ```
 
 ### <font style="color:#595959;">4、为什么 HashMap 的初始化长度是 16 ？（必须是2的幂次方）</font>
+
 前面说过，从 Key 映射到 HashMap 数组的对应位置，会用到一个 Hash 函数，比如：index = Hash ("徐庶")
 
 注意到 HashMap 初始化长度用的是 1<<4，而不是直接写 16。这是为啥呢？其实这样是为了位运算的方便，**「位与运算比算数计算的效率高太多了，之所以选择 16，是为了服务将 Key 映射到 index 的算法」**。
@@ -321,14 +328,10 @@ static final int MIN_TREEIFY_CAPACITY = 64;
 
 把以上两个结果做与运算：101110001110101110 1001 & 1111 = 1001；1001 的十进制 = 9, 所以 index=9。
 
- 
-
 :::danger
 <font style="color:#000000;">也就是说：</font>**<font style="color:#000000;">「hash 算法最终得到的 index 结果，取决于 hashcode 值的最后几位」</font>**
 
 :::
-
- 
 
 :::danger
 <font style="color:#000000;">你可以试试把长度指定为 10 以及其他非 2 次幂的数字，做位运算。发现 index 出现相同的概率大大升高。而长度 16 或者其他 2 的幂，length - 1 的值是所有二进制位全为 1, 这种情况下，index 的结果等同于 hashcode 后几位的值，只要输入的 hashcode 本身分布均匀，hash 算法的结果就是均匀的</font>
@@ -338,14 +341,14 @@ static final int MIN_TREEIFY_CAPACITY = 64;
 **「所以，HashMap 的默认长度为 16，是为了降低 hash 碰撞的几率」**。
 
 ### <font style="color:#595959;">5、为什么树化是 8，退树化是 6？</font>
+
 红黑树平均查找长度为 log (n)，长度为 8 时，查找长度为 3，而链表平均查找长度为 n/2；也就是 8 除以 2；查找长度链表大于树，转化为树，效率更高。
 
 当为 6 时，树：2.6；链表：3。链表 > 树。这时理应也还是树化，但是树化需要时间，为了这点效率牺牲时间是不划算的。
 
 ### <font style="color:#595959;">6、什么是加载因子？加载因子为什么是  0.75 ？</font>
+
 前面说了扩容机制。那什么时候扩容呢？这就取决于原数组长度和加载因子两个因素了。
-
-
 
 :::danger
 <font style="color:rgb(89, 89, 89);">加载因子也叫扩容因子或负载因子，用来判断什么时候进行扩容的，假如加载因子是 0.5，HashMap 的初始化容量是 16，那么当 HashMap 中有 16*0.5=8 个元素时，HashMap 就会进行扩容。</font>
@@ -361,12 +364,12 @@ static final int MIN_TREEIFY_CAPACITY = 64;
 **「所以综合了以上情况就取了一个 0.5 到 1.0 的平均数 0.75 作为加载因子」**。
 
 ### <font style="color:#595959;">7、HashMap 是线程安全的么？</font>
+
 不是，因为 get 和 put 方法都没有上锁。**「多线程操作无法保证：此刻 put 的值，片刻后 get 还是相同的值，会造成线程安全问题」**。
 
 还有个 HashTable 是线程安全的，但是加锁的粒度太大。并发度很低，最多同时允许一个线程访问，性能不高。一般我们使用 currentHashMap。
 
 ### <font style="color:#595959;">8、为什么重写 equals 方法的时，需要重写 hashCode 方法呢？</font>
- 
 
 :::danger
 <font style="color:#000000;">Java 中，所有的对象都是继承于 Object 类。Ojbect 类中有两个方法 equals、hashCode，这两个方法都是用来比较两个对象是否相等的。</font>
@@ -393,6 +396,7 @@ return (this == obj);
 前面的 get 方法说过：**「当哈希冲突时我们不仅需要判断 hash 值，还需要通过判断 key 值是否相等，才能确认此元素是不是我们想要的元素」**。我们去 get 首先是找到 hash 值一样的，那怎么知道你想要的是那个对象呢？**「没错，就是利用 equals 方法」**，如果重写 hashCode 方法，不写 equals 方法，当发生 hash 冲突，hashcode 一样时，就不知道取哪个对象了。
 
 ### <font style="color:#595959;">9、HashMap 死循环分析</font>
+
 以下代码基于 JDK1.7 分析。这个问题，主要是 JDK1.7 的链表头插法造成的。假设 HashMap 默认大小为 2，原本 HashMap 中没有一个元素。使用三个线程：t1、t2、t3 添加元素 key1，key2，key3。我在扩容之前打了个断点，让三个线程都停在这里。源码如下：
 
 ```plain
@@ -434,5 +438,5 @@ void transfer(Entry[] newTable, boolean rehash) {
 当然发生死循环的原因是 JDK 1.7 链表插入方式为首部倒序插入，这种方式在扩容时会改变链表节点之间的顺序。**「这个问题在 JDK 1.8 得到了改善，变成了尾部正序插入」**，在扩容时会保持链表元素原本的顺序，就不会出现链表成环的问题。
 
 ### <font style="color:#595959;">10、总结</font>
-HashMap 是 Java 基础中的重点。可以说无论是在工作中还是面试中都很常用，小伙伴们必须做到熟练运用、信手拈来才算是过关的。本篇文章基本说到了 HashMap 的所有重点，因为篇幅原因红黑树没有展开说，在我们架构课中会详细讲解。另外，如果发现本文有啥错误，欢迎友善指正。
 
+HashMap 是 Java 基础中的重点。可以说无论是在工作中还是面试中都很常用，小伙伴们必须做到熟练运用、信手拈来才算是过关的。本篇文章基本说到了 HashMap 的所有重点，因为篇幅原因红黑树没有展开说，在我们架构课中会详细讲解。另外，如果发现本文有啥错误，欢迎友善指正。

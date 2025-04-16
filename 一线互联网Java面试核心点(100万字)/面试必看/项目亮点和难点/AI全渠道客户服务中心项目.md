@@ -5,9 +5,11 @@
 今年各位大佬已经归位，重点强调AI时代即将到来，Java将重新主导AI应用领域，准备突击新的赛道让简历和面试在竞争者中脱颖而出的小伙伴，可参看这里给大家优化的一份 AI Agent 智能体平台项目。
 
 ### **<font style="color:rgb(6, 6, 7);">项目描述</font>**
+
 <font style="color:rgb(6, 6, 7);">AI Cloud全渠道客户服务中心是一个基于Java的AI微服务</font>**<font style="color:rgb(6, 6, 7);">大型平台</font>**<font style="color:rgb(6, 6, 7);">，</font><font style="color:rgba(6, 8, 31, 0.88);">日均</font>**<font style="color:rgba(6, 8, 31, 0.88);">10万</font>**<font style="color:rgba(6, 8, 31, 0.88);">+API调用服务。</font><font style="color:rgb(6, 6, 7);">该项目集成了先进的人工智能技术，通过大模型应用、呼叫中心、在线客服机器人、呼入机器人、人工在线客服以及工单系统，实现了多渠道覆盖和</font>**<font style="color:rgb(6, 6, 7);">多场景</font>**<font style="color:rgb(6, 6, 7);">应用的智能化服务等</font>**<font style="color:rgb(6, 6, 7);">几十种解决方案</font>**<font style="color:rgb(6, 6, 7);">。它不仅提升了服务效率和协同工作效率，还通过一呼即应的AI语音服务和稳定的功能，为企业提供</font>**<font style="color:rgb(6, 6, 7);">高性价比</font>**<font style="color:rgb(6, 6, 7);">的客服体验，从而推动企业服务的创新和升级。</font>
 
 ### **<font style="color:rgb(6, 6, 7);">所用技术</font>**
+
 + **<font style="color:rgb(6, 6, 7);">框架</font>**<font style="color:rgb(6, 6, 7);">：Spring Boot、Spring Cloud Alibaba</font>
 + **<font style="color:rgb(6, 6, 7);">数据库</font>**<font style="color:rgb(6, 6, 7);">：MySQL、ShardingSphere</font>
 + **<font style="color:rgb(6, 6, 7);">缓存</font>**<font style="color:rgb(6, 6, 7);">：Redis</font>
@@ -18,38 +20,42 @@
 + **<font style="color:rgb(6, 6, 7);">存储</font>**<font style="color:rgb(6, 6, 7);">：MinIO</font>
 
 ### **<font style="color:rgb(6, 6, 7);">项目亮点</font>**
+
 1. **<font style="color:rgb(6, 6, 7);">高性能架构</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">使用Higress作为API网关，支持高性能和丰富的功能特性。</font><font style="color:rgba(6, 8, 31, 0.88);">采用多级缓存架构，将API查询延迟控制在100ms以内</font>
-    - <font style="color:rgb(6, 6, 7);">通过ShardingSphere实现数据库的分库分表，提升数据处理能力。</font><font style="color:rgba(6, 8, 31, 0.88);">解决了亿级消息数据存储问题</font>
-    - <font style="color:rgb(6, 6, 7);">使用MinIO作为对象存储，优化文件存储和访问效率。支持PB级文档存储，100+种格式在线预览。</font>
+    + <font style="color:rgb(6, 6, 7);">使用Higress作为API网关，支持高性能和丰富的功能特性。</font><font style="color:rgba(6, 8, 31, 0.88);">采用多级缓存架构，将API查询延迟控制在100ms以内</font>
+    + <font style="color:rgb(6, 6, 7);">通过ShardingSphere实现数据库的分库分表，提升数据处理能力。</font><font style="color:rgba(6, 8, 31, 0.88);">解决了亿级消息数据存储问题</font>
+    + <font style="color:rgb(6, 6, 7);">使用MinIO作为对象存储，优化文件存储和访问效率。支持PB级文档存储，100+种格式在线预览。</font>
 2. **<font style="color:rgb(6, 6, 7);">AI能力集成</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">集成Spring AI,Spring AI Alibaba框架，支持对话、绘图等AI功能。并完善处理AI模型故障转移，准确率90%以上</font>
-    - <font style="color:rgb(6, 6, 7);">提供了Model、Prompt、RAG、Tools等AI应用开发所需的必备能力，支持从低层次的提示词模板到高层次的智能体和对话记忆等功能。提供多轮对话和用户历史数据管理，提升用户体验。</font>
+    + <font style="color:rgb(6, 6, 7);">集成Spring AI,Spring AI Alibaba框架，支持对话、绘图等AI功能。并完善处理AI模型故障转移，准确率90%以上</font>
+    + <font style="color:rgb(6, 6, 7);">提供了Model、Prompt、RAG、Tools等AI应用开发所需的必备能力，支持从低层次的提示词模板到高层次的智能体和对话记忆等功能。提供多轮对话和用户历史数据管理，提升用户体验。</font>
 3. **<font style="color:rgb(6, 6, 7);">优化策略</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - **<font style="color:rgb(6, 6, 7);">缓存优化</font>**<font style="color:rgb(6, 6, 7);">：引入Redis缓存热点数据，减少数据库压力。缓存命中率90%以上。</font>
-    - **<font style="color:rgb(6, 6, 7);">异步处理</font>**<font style="color:rgb(6, 6, 7);">：集成Kafka实现异步消息处理，提升系统吞吐量。</font><font style="color:rgba(6, 8, 31, 0.88);">提高系统可用性达99.99%</font>
-    - **<font style="color:rgb(6, 6, 7);">限流与熔断</font>**<font style="color:rgb(6, 6, 7);">：通过Higress设置合理的限流规则，并启用熔断器模式，确保高并发场景下的稳定性</font><font style="color:rgb(6, 6, 7);">。</font>
+    + **<font style="color:rgb(6, 6, 7);">缓存优化</font>**<font style="color:rgb(6, 6, 7);">：引入Redis缓存热点数据，减少数据库压力。缓存命中率90%以上。</font>
+    + **<font style="color:rgb(6, 6, 7);">异步处理</font>**<font style="color:rgb(6, 6, 7);">：集成Kafka实现异步消息处理，提升系统吞吐量。</font><font style="color:rgba(6, 8, 31, 0.88);">提高系统可用性达99.99%</font>
+    + **<font style="color:rgb(6, 6, 7);">限流与熔断</font>**<font style="color:rgb(6, 6, 7);">：通过Higress设置合理的限流规则，并启用熔断器模式，确保高并发场景下的稳定性</font><font style="color:rgb(6, 6, 7);">。</font>
 4. **<font style="color:rgb(6, 6, 7);">用户体验</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">提供社区讨论、评论和点赞功能，增强用户互动。并加入AI评论审核等功能，提升用户体验。</font>
-    - <font style="color:rgb(6, 6, 7);">基于Spring AI Alibaba和通义大模型，通过RAG能力和向量数据库优化查询效率，并通过Higress插件实现服务的高可用性和安全性。最终，该项目在开源官网的流量提升了20%，人工答疑成本降低了20%，准确率达到了90%以上</font>
+    + <font style="color:rgb(6, 6, 7);">提供社区讨论、评论和点赞功能，增强用户互动。并加入AI评论审核等功能，提升用户体验。</font>
+    + <font style="color:rgb(6, 6, 7);">基于Spring AI Alibaba和通义大模型，通过RAG能力和向量数据库优化查询效率，并通过Higress插件实现服务的高可用性和安全性。最终，该项目在开源官网的流量提升了20%，人工答疑成本降低了20%，准确率达到了90%以上</font>
 
 ### **<font style="color:rgb(6, 6, 7);">项目难点</font>**
+
 1. **<font style="color:rgb(6, 6, 7);">高并发请求处理</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">采用多级缓存(本地缓存+Redis集群)架构，将高频请求延迟控制在200ms以内</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">设计了分布式锁+消息队列的架构，实现消息会话峰值1000+TPS的稳定处理</font>
-    - <font style="color:rgba(6, 8, 31, 0.88);">使用分库分表技术，解决了亿级消息数据存储问题（视情况写）</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">采用多级缓存(本地缓存+Redis集群)架构，将高频请求延迟控制在200ms以内</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">设计了分布式锁+消息队列的架构，实现消息会话峰值1000+TPS的稳定处理</font>
+    + <font style="color:rgba(6, 8, 31, 0.88);">使用分库分表技术，解决了亿级消息数据存储问题（视情况写）</font>
 2. **<font style="color:rgb(6, 6, 7);">数据一致性</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">分布式架构下如何保证数据一致性是一个关键问题</font><font style="color:rgb(6, 6, 7);">。</font>
-    - <font style="color:rgb(6, 6, 7);">解决方案：使用ShardingSphere的分布式事务和Canal监控MySQL的Binlog，确保数据的实时同步和一致性</font><font style="color:rgb(6, 6, 7);">。</font>
-    - <font style="color:rgb(6, 6, 7);">并且加入</font><font style="color:rgba(6, 8, 31, 0.88);">补偿机制处理分布式事务异常，确保数据最终一致性</font>
+    + <font style="color:rgb(6, 6, 7);">分布式架构下如何保证数据一致性是一个关键问题</font><font style="color:rgb(6, 6, 7);">。</font>
+    + <font style="color:rgb(6, 6, 7);">解决方案：使用ShardingSphere的分布式事务和Canal监控MySQL的Binlog，确保数据的实时同步和一致性</font><font style="color:rgb(6, 6, 7);">。</font>
+    + <font style="color:rgb(6, 6, 7);">并且加入</font><font style="color:rgba(6, 8, 31, 0.88);">补偿机制处理分布式事务异常，确保数据最终一致性</font>
 3. **<font style="color:rgb(6, 6, 7);">AI模型调用优化</font>**<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">如何在保证AI功能的同时，降低模型调用成本和延迟</font><font style="color:rgb(6, 6, 7);">。</font>
-    - <font style="color:rgb(6, 6, 7);">解决方案：通过Spring AI的全局参数和增强函数调用能力，优化数据库操作和模型调用流程。并加入异步消息处理缓存热点，优化资源池，响应时间控制在100ms内。</font>
+    + <font style="color:rgb(6, 6, 7);">如何在保证AI功能的同时，降低模型调用成本和延迟</font><font style="color:rgb(6, 6, 7);">。</font>
+    + <font style="color:rgb(6, 6, 7);">解决方案：通过Spring AI的全局参数和增强函数调用能力，优化数据库操作和模型调用流程。并加入异步消息处理缓存热点，优化资源池，响应时间控制在100ms内。</font>
 
 ---
 
 ### **<font style="color:rgb(6, 6, 7);">场景题及答案</font>**
+
 #### **<font style="color:rgb(6, 6, 7);">1. 场景题：高并发场景下的性能优化</font>**
+
 **<font style="color:rgb(6, 6, 7);">问题</font>**<font style="color:rgb(6, 6, 7);">：  
 </font><font style="color:rgb(6, 6, 7);">在AI Cloud项目中，当面临高并发请求时，系统可能会出现响应延迟和资源瓶颈。请描述一下你是如何优化系统的性能以应对这种情况的？</font>
 
@@ -81,6 +87,7 @@ spec:
 ---
 
 #### **<font style="color:rgb(6, 6, 7);">2. 场景题：AI模型调用的优化</font>**
+
 **<font style="color:rgb(6, 6, 7);">问题</font>**<font style="color:rgb(6, 6, 7);">： 当第三方API？  
 </font><font style="color:rgb(6, 6, 7);">在AI Cloud项目中，AI模型的调用是性能瓶颈之一。你是如何优化AI模型调用的性能，同时保证调用的准确性和效率的？</font>
 
@@ -98,6 +105,7 @@ spec:
 ---
 
 #### **<font style="color:rgb(6, 6, 7);">3. 场景题：分布式事务一致性</font>**
+
 **<font style="color:rgb(6, 6, 7);">问题</font>**<font style="color:rgb(6, 6, 7);">：  
 </font><font style="color:rgb(6, 6, 7);">在AI Cloud项目中，由于采用了分库分表的架构，分布式事务的一致性是一个关键问题。你是如何解决分布式事务一致性问题的？</font>
 
@@ -114,6 +122,7 @@ spec:
 ---
 
 #### **<font style="color:rgb(6, 6, 7);">4. 场景题：AI模型的故障转移</font>**
+
 **<font style="color:rgb(6, 6, 7);">问题</font>**<font style="color:rgb(6, 6, 7);">：  
 </font><font style="color:rgb(6, 6, 7);">在AI Cloud项目中，如果某个AI模型服务出现故障，你是如何实现故障转移，确保系统的可用性的？</font>
 
@@ -130,6 +139,7 @@ spec:
 ---
 
 #### **<font style="color:rgb(6, 6, 7);">5. 场景题：社区功能的性能优化</font>**
+
 **<font style="color:rgb(6, 6, 7);">问题</font>**<font style="color:rgb(6, 6, 7);">：  
 </font><font style="color:rgb(6, 6, 7);">在AI Cloud项目中，社区讨论、评论和点赞功能是用户交互的重要部分。这些功能可能会对数据库造成较大压力，你是如何优化这些功能的性能的？</font>
 
@@ -147,6 +157,7 @@ spec:
 <font style="color:rgb(6, 6, 7);">通过对AI Cloud项目的优化，系统在高并发场景下的稳定性显著提升，响应速度大幅加快，用户体验得到极大改善</font>
 
 #### **<font style="color:rgb(6, 6, 7);">6. 场景题：Spring AI 接入最新Deepseek满血版</font>**
+
 <font style="color:rgb(6, 6, 7);">问题：  
 </font><font style="color:rgb(6, 6, 7);">在AI Cloud项目中，Spring AI 如何接入最新Deepseek满血版？用户问问题每次都是新的一次对话，无法做到多轮次，如何解决对话记忆多轮追问的问题。</font>
 
@@ -166,8 +177,8 @@ logging.level.org.springframework.ai.chat.client.advisor=DEBUG
 
 ```yaml
 <dependency>
-			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+   <groupId>org.springframework.ai</groupId>
+   <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
 </dependency>
 ```
 
@@ -242,6 +253,7 @@ npm create vite@latest
 ![1739859972403-6a31b0f4-d951-4b7f-a64f-d2fc0b4c2d93.png](./img/euaKCGvLOEZa-Kgm/1739859972403-6a31b0f4-d951-4b7f-a64f-d2fc0b4c2d93-514701.png)
 
 #### <font style="color:rgb(79, 79, 79);">对话记忆(多轮对话)</font>
+
 <font style="color:rgb(77, 77, 77);">到目前为止对话实现，其实存在一个大问题，用户问问题每次都是新的一次对话，无法做到多轮次，就是常说的对话记忆，如下图所示问题所在：</font>
 
 ![1739859994369-10895f4d-2443-4d9f-96bf-1d9388e4880e.png](./img/euaKCGvLOEZa-Kgm/1739859994369-10895f4d-2443-4d9f-96bf-1d9388e4880e-479543.png)
@@ -264,8 +276,6 @@ class Config {
 
 }
 ```
-
-
 
 <font style="color:rgb(77, 77, 77);"></font>
 
@@ -301,16 +311,16 @@ class Config {
 构造函数<font style="color:rgb(6, 6, 7);">接收三个参数：</font>
 
 1. `**inMemoryChatMemory**`<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">这是一个对象，是某种内存中的聊天历史存储（</font>`InMemoryChatMemory`<font style="color:rgb(6, 6, 7);">）。它可能是一个数据结构（如数组、列表或哈希表），用于存储当前会话的聊天记录。</font>
-    - <font style="color:rgb(6, 6, 7);">这个参数可能是 </font>`MessageChatMemoryAdvisor`<font style="color:rgb(6, 6, 7);"> 的主要依赖，用于读取和操作聊天历史。</font>
+    + <font style="color:rgb(6, 6, 7);">这是一个对象，是某种内存中的聊天历史存储（</font>`InMemoryChatMemory`<font style="color:rgb(6, 6, 7);">）。它可能是一个数据结构（如数组、列表或哈希表），用于存储当前会话的聊天记录。</font>
+    + <font style="color:rgb(6, 6, 7);">这个参数可能是 </font>`MessageChatMemoryAdvisor`<font style="color:rgb(6, 6, 7);"> 的主要依赖，用于读取和操作聊天历史。</font>
 2. `**userId**`<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">这是一个用户标识符，用于区分不同的用户会话。</font>
-    - <font style="color:rgb(6, 6, 7);">在多用户场景下，</font>`userId`<font style="color:rgb(6, 6, 7);"> 是必要的，以确保每个用户的聊天历史被正确隔离和管理。</font>
+    + <font style="color:rgb(6, 6, 7);">这是一个用户标识符，用于区分不同的用户会话。</font>
+    + <font style="color:rgb(6, 6, 7);">在多用户场景下，</font>`userId`<font style="color:rgb(6, 6, 7);"> 是必要的，以确保每个用户的聊天历史被正确隔离和管理。</font>
 3. `**10**`<font style="color:rgb(6, 6, 7);">：</font>
-    - <font style="color:rgb(6, 6, 7);">这个参数是一个配置值，例如：</font>
-        * **<font style="color:rgb(6, 6, 7);">限制聊天历史的长度</font>**<font style="color:rgb(6, 6, 7);">：只保留最近的 10 条消息。</font>
-        * **<font style="color:rgb(6, 6, 7);">设置某种阈值</font>**<font style="color:rgb(6, 6, 7);">：例如清理旧消息的频率或触发条件。</font>
-        * **<font style="color:rgb(6, 6, 7);">其他配置</font>**<font style="color:rgb(6, 6, 7);">：例如内存大小限制、优先级等。</font>
+    + <font style="color:rgb(6, 6, 7);">这个参数是一个配置值，例如：</font>
+        + **<font style="color:rgb(6, 6, 7);">限制聊天历史的长度</font>**<font style="color:rgb(6, 6, 7);">：只保留最近的 10 条消息。</font>
+        + **<font style="color:rgb(6, 6, 7);">设置某种阈值</font>**<font style="color:rgb(6, 6, 7);">：例如清理旧消息的频率或触发条件。</font>
+        + **<font style="color:rgb(6, 6, 7);">其他配置</font>**<font style="color:rgb(6, 6, 7);">：例如内存大小限制、优先级等。</font>
 
 <font style="color:rgb(77, 77, 77);">对话添加一个上下文记忆增强，每个用户数据是隔离的，10表示历史对话数据最多取10条，每次向大模型发送消息，实际上会把用户前面的问题一起组装到Prompt中。</font>
 
@@ -320,7 +330,8 @@ class Config {
 
 <font style="color:rgb(77, 77, 77);">这样就实现了上下文记忆。</font>
 
-##### 更多详情：
+##### 更多详情
+
 [Spring AI 快速接入 DeepSeek构建 AI智能机器人](https://blog.csdn.net/renpeng301/article/details/145369138)
 
 <font style="color:rgb(6, 6, 7);">AI 和大模型相关细节可参看</font>**<font style="color:rgb(6, 6, 7);"> </font>**[**AI大模型Deepseek目录**](https://www.yuque.com/tulingzhouyu/db22bv/mdm69mxldu64dfld)<font style="color:rgb(6, 6, 7);">下面的文档。</font>
@@ -338,8 +349,6 @@ Langchain4J也让Java能直接对接DS，GPT这样的模型，开源的Jlama框�
 **Java+AI的三大主攻方向**：
 
 1：Agent应用开发，2：模型私有定制化，3智能搜索和广告推荐
-
-
 
 **相关产品**：
 
@@ -378,6 +387,3 @@ Langchain4J也让Java能直接对接DS，GPT这样的模型，开源的Jlama框�
 <font style="color:rgb(0, 0, 0);">17AI Cloud Open Source：面向开源AI Cloud服务商与开源大模型应用提供商，考察企业在AI云基础设施、平台、服务等全流程中的项目开源与社区生态建设能力；面向甲方企业，基于开源大模型、开源AI云服务、开放数据等进行应用落地实践以及开源项目社区贡献。</font>
 
 <font style="color:rgb(6, 6, 7);">18Al Cloud 交通大模型 ： 针对公路、铁路、港口、民航、物流等交通细分领域，面向技术提供方，提供的大模型落地实践的产品或服务；面向建设需求方，基于交通运输行业实际业务需求，在细分领域及场景应用方面开展的创新性解决方案和应用落地实践。</font>
-
-
-

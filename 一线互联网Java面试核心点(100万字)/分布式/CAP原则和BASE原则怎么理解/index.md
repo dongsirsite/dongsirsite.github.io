@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">CAP原则和BASE原则都是在分布式系统设计中常用的概念。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">CAP原则</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">CAP原则是由Eric Brewer提出的分布式系统设计的基本定理。它指出在一个分布式系统中，以下三个特性最多只能同时满足其中两个：</font>
 
 + <font style="color:rgba(0, 0, 0, 0.82);">Consistency（一致性）：所有节点在同一时间具有相同的数据。</font>
@@ -20,9 +21,8 @@
 + <font style="color:rgba(0, 0, 0, 0.82);">如果我们选择保证一致性（C）和分区容错性（P），那么我们必须让至少一个数据中心停止接受写操作，以避免数据不一致，这就牺牲了可用性（A）。</font>
 + <font style="color:rgba(0, 0, 0, 0.82);">如果我们选择保证可用性（A）和分区容错性（P），那么两个数据中心都可以继续独立工作，但可能会导致数据不一致，因此牺牲了一致性（C）。</font>
 
-
-
 ### <font style="color:rgba(0, 0, 0, 0.82);">BASE原则</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">BASE是对CAP中一致性和可用性权衡的结果，它的全称是：</font>
 
 + <font style="color:rgba(0, 0, 0, 0.82);">Basically Available（基本可用）</font>
@@ -42,14 +42,14 @@
 **<font style="color:rgba(0, 0, 0, 0.82);">符合BASE原则的特征：</font>**
 
 1. **<font style="color:rgba(0, 0, 0, 0.82);">基本可用（Basically Available）：</font>**
-    - <font style="color:rgba(0, 0, 0, 0.82);">在这个系统中，即使有部分数据中心出现故障，其他数据中心依然可以处理用户的状态更新和查看请求。</font>
-    - <font style="color:rgba(0, 0, 0, 0.82);">用户可以不间断地继续发布状态，而不需要等待所有数据中心同步完成。</font>
+    + <font style="color:rgba(0, 0, 0, 0.82);">在这个系统中，即使有部分数据中心出现故障，其他数据中心依然可以处理用户的状态更新和查看请求。</font>
+    + <font style="color:rgba(0, 0, 0, 0.82);">用户可以不间断地继续发布状态，而不需要等待所有数据中心同步完成。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">软状态（Soft state）：</font>**
-    - <font style="color:rgba(0, 0, 0, 0.82);">用户发布的状态信息在传播过程中，允许在短时间内不同数据中心的数据有所不同。</font>
-    - <font style="color:rgba(0, 0, 0, 0.82);">不一致被认为是暂时的，并且在最终一致性（eventual consistency）下会得到解决。</font>
+    + <font style="color:rgba(0, 0, 0, 0.82);">用户发布的状态信息在传播过程中，允许在短时间内不同数据中心的数据有所不同。</font>
+    + <font style="color:rgba(0, 0, 0, 0.82);">不一致被认为是暂时的，并且在最终一致性（eventual consistency）下会得到解决。</font>
 3. **<font style="color:rgba(0, 0, 0, 0.82);">最终一致性（Eventually Consistent）：</font>**
-    - <font style="color:rgba(0, 0, 0, 0.82);">虽然在某个时间点，不同的数据中心可能会显示出不同的用户状态，但是随着时间的推移，通过后台的同步和合并机制，所有数据中心最终会达到一致的状态。</font>
-    - <font style="color:rgba(0, 0, 0, 0.82);">系统可能使用异步复制来慢慢将所有数据中心的数据同步一致。</font>
+    + <font style="color:rgba(0, 0, 0, 0.82);">虽然在某个时间点，不同的数据中心可能会显示出不同的用户状态，但是随着时间的推移，通过后台的同步和合并机制，所有数据中心最终会达到一致的状态。</font>
+    + <font style="color:rgba(0, 0, 0, 0.82);">系统可能使用异步复制来慢慢将所有数据中心的数据同步一致。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">BASE原则是对CAP中一致性和可用性权衡的结果，它通过牺牲强一致性来获得可用性，并允许数据在一段时间内是不一致的，但最终达到一致状态。</font>
 
@@ -59,4 +59,3 @@
 + <font style="color:rgba(0, 0, 0, 0.82);">对于可以容忍短期不一致，但需要高可用的场景（如社交网络的点赞功能），可能更适合选择AP（可用性和分区容错性）并遵循BASE原则。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">在实际应用中，我们可能会使用各种技术和框架来实现这些原则，如分布式事务、最终一致性等。理解这些原则对于设计可靠的分布式系统至关重要。</font>
-

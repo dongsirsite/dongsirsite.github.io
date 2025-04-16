@@ -42,4 +42,3 @@ docker push fox666/tulingmall-product:0.0.1
 ```
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);">上传过程中，Docker将会逐层上传镜像的每个层，并计算每个层的SHA256哈希值。在上传完成后，可以在Docker Hub上看到已上传的镜像。</font>
-

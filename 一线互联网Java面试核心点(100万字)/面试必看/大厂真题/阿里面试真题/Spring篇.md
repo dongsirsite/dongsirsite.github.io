@@ -62,10 +62,10 @@
 **<font style="color:rgb(62, 62, 62);">多个扩展点</font>**
 
 + <font style="color:rgb(62, 62, 62);">影响多个Bean</font>
-    - <font style="color:rgb(62, 62, 62);">BeanPostProcessor</font>
-    - <font style="color:rgb(62, 62, 62);">InstantiationAwareBeanPostProcessor</font>
+  + <font style="color:rgb(62, 62, 62);">BeanPostProcessor</font>
+  + <font style="color:rgb(62, 62, 62);">InstantiationAwareBeanPostProcessor</font>
 + <font style="color:rgb(62, 62, 62);">影响单个Bean</font>
-    - <font style="color:rgb(62, 62, 62);">Aware</font>
+  + <font style="color:rgb(62, 62, 62);">Aware</font>
 
 **<font style="color:rgb(62, 62, 62);">完整流程</font>**
 
@@ -183,8 +183,6 @@
 
 <font style="color:rgb(62, 62, 62);">EnableAutoConfigurationImportSelector选择器给Spring容器中来导入一些组件。</font>
 
-
-
 ```plain
 @Import(EnableAutoConfigurationImportSelector.class)public @interface EnableAutoConfiguration
 ```
@@ -193,8 +191,6 @@
 </font>
 
 **<font style="color:rgb(62, 62, 62);">2、@SpringMVC</font>**
-
-
 
 ```plain
 @Controller 声明该类为SpringMVC中的Controller@RequestMapping 用于映射Web请求@ResponseBody 支持将返回值放在response内，而不是一个页面，通常用户返回json数据@RequestBody 允许request的参数在request体中，而不是在直接连接在地址后面。@PathVariable 用于接收路径参数@RequestMapping("/hello/{name}")申明的路径，将注解放在参数中前，即可获取该值，通常作为Restful的接口实现方法。
@@ -266,8 +262,6 @@ mybatis如何防止sql注入？
 
 **<font style="color:rgb(62, 62, 62);">4、@Transactional</font>**
 
-
-
 ```plain
 @EnableTransactionManagement @Transactional
 ```
@@ -306,6 +300,3 @@ mybatis如何防止sql注入？
 **<font style="color:rgb(62, 62, 62);">观察者模式：</font>**<font style="color:rgb(62, 62, 62);"> Spring 事件驱动模型就是观察者模式很经典的⼀个应⽤。</font>
 
 **<font style="color:rgb(62, 62, 62);">适配器模式：</font>**<font style="color:rgb(62, 62, 62);">Spring AOP 的增强或通知(Advice)使⽤到了适配器模式、spring MVC 中也是⽤到了适配器模式适配 Controller 。</font>
-
-
-

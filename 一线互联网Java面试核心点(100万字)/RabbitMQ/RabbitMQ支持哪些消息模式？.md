@@ -8,4 +8,3 @@
 + <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">Topic 基于话题路由机制：在基于内容路由的基础上，对routingKey增加了模糊匹配的功能。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">另外，RabbitMQ 还支持双向同步的 RPC 机制，不过一般用得比较少。这些消息模式允许开发者根据应用程序的需求选择合适的消息通信方式，以满足不同的业务场景和可靠性要求。不同的模式可以用于构建各种类型的分布式系统和应用程序。</font>
-

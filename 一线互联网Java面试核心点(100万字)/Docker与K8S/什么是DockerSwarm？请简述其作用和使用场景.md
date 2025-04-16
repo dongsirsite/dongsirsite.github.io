@@ -17,4 +17,3 @@ Docker Swarm的作用主要有以下几点：
 4. 需要自动化部署和管理容器服务，以提高效率。
 
 <font style="color:rgb(5, 7, 59);background-color:rgb(253, 253, 254);"></font>
-

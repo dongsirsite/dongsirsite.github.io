@@ -1,18 +1,23 @@
 # 💎 备战金三银四-Java面试题
 
 # <font style="color:#000000;">前言</font>
+
 <font style="color:#000000;">技术为王的时代已经过去了，希望看到本篇笔记的小伙伴能够有些自己的收获，有些自己的理解，现在大行情不太好，很多时候面试不止是面技术，还面人情世故，还面思想境界，因为技术好并不一定工作好。因此我们在准备面试的时候，不单单要背八股，要熟悉项目，还在针对每道面试题究竟想问的是什么，提前准备好自己的回答，这个回答不是死记硬背，是将自己针对这道题的理解整理出来，形成缜密的思维逻辑，发表出自己的看法，自己的角度，自己的态度；即使面试官本身没有多问的意思，但是在回答过程中，说出面试官都出乎意料的答案，肯定是可以加分的。接下来进入正文 gogogogogogogo</font>
 
 # <font style="color:#000000;">为什么使用消息队列？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">有些人在项目中用消息队列或其他技术，但却不知道为什么要用。他们可能只是跟风或盲目从众，并没有深思熟虑过选择这些技术的原因。这种缺乏思考和理解的态度通常会给面试官留下不好的印象，因为他们担心这样的人在工作中可能缺乏创造性思维和解决问题的能力。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">针对这道面试题，想必很多小伙伴都能回答出解耦，异步，削峰。</font>
 
 <font style="color:#000000;">解耦指的就是传统来说 A 系统调用 B 系统，A 系统需要等待 B 系统的返回结果，A 系统才能返回；使用消息队列之后 A 系统就不用等待 B 系统的返回结果在返回给用户了。这是大多数小伙伴针对解耦的一个回答，那么消息队列的解耦真的就只是不用等待 B 系统的返回结果吗？有没有小伙伴还有其他的理解？</font>
 
 ### <font style="color:#000000;">解耦</font>
+
 <font style="color:#000000;">针对解耦我们可以进行正反对比，没有使用消息队列的场景？使用了消息队列的场景？</font>
 
 <font style="color:#000000;">先从讲讲没有使用消息队列的场景</font>
@@ -30,6 +35,7 @@
 **<font style="color:#000000;">总结</font>**<font style="color:#000000;">：通过使用 MQ，Pub/Sub 发布订阅消息模型，A 系统就跟其它系统彻底解耦了。</font>
 
 ### <font style="color:#000000;">异步</font>
+
 <font style="color:#000000;">再来看一个场景，A 系统接收一个请求，需要在自己本地写库，还需要在 BCD 三个系统写库，自己本地写库要 3ms，BCD 三个系统分别写库要 300ms、450ms、200ms。最终请求总延时是 3 + 300 + 450 + 200 = 953ms，接近 1s，用户感觉搞个什么东西，慢死了慢死了。用户通过浏览器发起请求，等待个 1s，这几乎是不可接受的。</font>
 
 ![1708871526049-cffcd96e-c997-489c-b3a9-90836ef7801e.png](./img/nqqJ4R6bo7quzfcr/1708871526049-cffcd96e-c997-489c-b3a9-90836ef7801e-743273.png)
@@ -41,6 +47,7 @@
 ![1708871540897-87a06670-5839-49b3-98a3-2b23020ac291.png](./img/nqqJ4R6bo7quzfcr/1708871540897-87a06670-5839-49b3-98a3-2b23020ac291-550372.png)
 
 ### <font style="color:#000000;">削峰</font>
+
 <font style="color:#000000;">每天 0:00 到 12:00，A 系统风平浪静，每秒并发请求数量就 50 个。结果每次一到 12:00 ~ 13:00 ，每秒并发请求数量突然会暴增到 5k+ 条。但是系统是直接基于 MySQL 的，大量的请求涌入 MySQL，每秒钟对 MySQL 执行约 5k 条 SQL。</font>
 
 <font style="color:#000000;">一般的 MySQL，扛到每秒 2k 个请求就差不多了，如果每秒请求到 5k 的话，可能就直接把 MySQL 给打死了，导致系统崩溃，用户也就没法再使用系统了。</font>
@@ -55,10 +62,13 @@
 <font style="color:#000000;">这个短暂的高峰期积压是 ok 的，因为高峰期过了之后，每秒钟就 50 个请求进 MQ，但是 A 系统依然会按照每秒 2k 个请求的速度在处理。所以说，只要高峰期一过，A 系统就会快速将积压的消息给解决掉。</font>
 
 # <font style="color:#000000;">消息队列有什么优缺点</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">既然你在系统中使用了消息队列，你是否了解这样做的优缺点呢？如果你从未考虑过这一点，盲目地引入消息队列，那么一旦出现问题，你是不是就会擅自离开，给公司留下麻烦？如果你没有考虑引入新技术可能带来的负面影响和风险，那么被面试官录用的可能就是那种会制造问题的候选人。担心的是，你可能会在岗位上挖坑，然后一年后跳槽，给公司带来长期隐患。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">优点上面已经说了，就是</font>**<font style="color:#000000;">在特殊场景下有其对应的好处</font>**<font style="color:#000000;">，</font>**<font style="color:#000000;">解耦</font>**<font style="color:#000000;">、</font>**<font style="color:#000000;">异步</font>**<font style="color:#000000;">、</font>**<font style="color:#000000;">削峰</font>**<font style="color:#000000;">。</font>
 
 <font style="color:#000000;">缺点有以下几个：</font>
@@ -73,10 +83,13 @@
 <font style="color:#000000;">所以消息队列实际是一种非常复杂的架构，你引入它有很多好处，但是也得针对它带来的坏处做各种额外的技术方案和架构来规避掉， 做好之后，你会发现，妈呀，系统复杂度提升了一个数量级，也许是复杂了 10 倍。但是关键时刻，用，还是得用的。</font>
 
 # <font style="color:#000000;">Kafka、RabbitMQ、RocketMQ 有什么优缺点？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">既然你引入了消息队列（MQ），可能是某一种特定的消息队列，那么当时你有没有进行过相关调研呢？不要盲目地凭个人喜好或者头脑一热就选择了某种消息队列，比如 Kafka，甚至对业界流行的消息队列都没有做过调研。每种消息队列都有其优点和缺点，并没有绝对的优劣之分，关键是要根据具体场景来选择合适的消息队列，利用其优势，规避其劣势。如果招进团队的是一个不考虑技术选型的候选人，当领导交给他一个任务去设计系统时，他可能在技术选型上并没有充分考虑，最终选择的技术可能并不合适，也会留下隐患。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 | <font style="color:#000000;">特性</font> | <font style="color:#000000;">RabbitMQ</font> | <font style="color:#000000;">RocketMQ</font> | <font style="color:#000000;">Kafka</font> |
 | --- | --- | --- | --- |
 | <font style="color:#000000;">单机吞吐量</font> | <font style="color:#000000;">万级，比 RocketMQ、Kafka 低一个数量级</font> | <font style="color:#000000;">10 万级，支撑高吞吐</font> | <font style="color:#000000;">10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</font> |
@@ -87,33 +100,38 @@
 | <font style="color:#000000;">优劣势总结</font> | <font style="color:#000000;">基于 erlang 开发，并发能力很强，性能极好，延时很低</font> | <font style="color:#000000;">基于 MQ 功能较为完善，还是分布式的，良好的可伸缩性和高可用性</font> | <font style="color:#000000;">功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</font> |
 | <font style="color:#000000;">适用场景</font> | <font style="color:#000000;">需要可靠消息传递的业务场景，例如金融系统的支付、订单处理等。</font><br/><font style="color:#000000;">需要高度灵活性的消息模型，例如消息路由、动态队列等。</font><br/><font style="color:#000000;">需要与其他应用集成的场景，RabbitMQ提供了丰富的客户端库和协议支持。</font> | <font style="color:#000000;">高性能、高可用性的消息传递场景，例如实时数据分析、电商秒杀等。</font><br/><font style="color:#000000;">需要强大的消息过滤和消息追踪功能的场景，例如广告投放、用户推送等。</font><br/><font style="color:#000000;">需要分布式事务支持的场景，RocketMQ提供了分布式事务消息特性。</font> | <font style="color:#000000;">需要高吞吐量和低延迟的实时数据处理场景，例如用户行为日志分析、实时监控等。</font><br/><font style="color:#000000;">需要保留大量历史数据并支持数据回溯的场景，例如大数据分析、数据仓库等。</font><br/><font style="color:#000000;">需要构建事件驱动架构的场景，Kafka可以作为事件源和消息总线。</font> |
 
-
 <font style="color:#000000;">综上，各种对比之后，有如下建议：</font>
 
 <font style="color:#000000;">现在很多公司都引入 MQ，一开始是 ActiveMQ，但是支持不很好，我们就不做推荐了，后来大家开始用 RabbitMQ，但是确实 erlang 语言阻止了大量的 Java 工程师去深入研究和掌控它，对公司而言，几乎处于不可控的状态，但是确实人家是开源的，比较稳定的支持，活跃度也高；</font>
 
-<font style="color:#000000;">不过现在越来越多的公司都在用 </font>**<font style="color:#000000;">RocketMQ</font>**<font style="color:#000000;">，确实很不错，毕竟是阿里出品，目前 RocketMQ 已捐给 </font><font style="color:#000000;">Apache</font><font style="color:#000000;">，不过有些功能只有阿里商业版才有，对自己公司技术实力有绝对自信的，推荐用 RocketMQ，对 RocketMQ 不太了解的小伙伴，在可以点这个快速入门 </font>[<font style="color:#000000;">RocketMQ5.X教程</font>](https://www.yuque.com/tulingzhouyu/db22bv/pcztmw6gdpmg3l83?singleDoc# 《🚛 RocketMQ5.x教程-从安装到实战到经典面试题》 密码：dwkq)<font style="color:#000000;">。</font>
+<font style="color:#000000;">不过现在越来越多的公司都在用 </font>**<font style="color:#000000;">RocketMQ</font>**<font style="color:#000000;">，确实很不错，毕竟是阿里出品，目前 RocketMQ 已捐给 </font><font style="color:#000000;">Apache</font><font style="color:#000000;">，不过有些功能只有阿里商业版才有，对自己公司技术实力有绝对自信的，推荐用 RocketMQ，对 RocketMQ 不太了解的小伙伴，在可以点这个快速入门 </font>[<font style="color:#000000;">RocketMQ5.X教程</font>](<https://www.yuque.com/tulingzhouyu/db22bv/pcztmw6gdpmg3l83?singleDoc#> 《🚛 RocketMQ5.x教程-从安装到实战到经典面试题》 密码：dwkq)<font style="color:#000000;">。</font>
 
 <font style="color:#000000;">所以</font>**<font style="color:#000000;">中小型公司</font>**<font style="color:#000000;">，技术实力较为一般，技术挑战不是特别高，用 RabbitMQ 是不错的选择；</font>**<font style="color:#000000;">大型公司</font>**<font style="color:#000000;">，基础架构研发实力较强，用 RocketMQ 是很好的选择。</font>
 
 <font style="color:#000000;">如果是</font>**<font style="color:#000000;">大数据领域</font>**<font style="color:#000000;">的实时计算、日志采集等场景，用 Kafka 是业内标准的，绝对没问题，社区活跃度很高，绝对不会黄，何况几乎是全世界这个领域的事实性规范。</font>
 
 # <font style="color:#000000;">如何保证消息队列的高可用？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">当涉及到 MQ 知识时，高可用性是一个必谈的话题。前述讲解了 MQ 可能导致系统不稳定，因此，无论何时使用了 MQ，接下来关于 MQ 的问题都将聚焦在如何解决这些缺陷上。</font>
 
 <font style="color:#000000;">如果你盲目地只是使用了某个 MQ，从未考虑过各种问题，那么情况就很糟糕了。面试官会认为你只懂得简单应用技术，没有深思熟虑，这会给他留下不佳印象。这样的人，如果只是做一些薪资在 20k 以下的普通工作还凑合，但如果要从事薪资在 20k+ 的高级工程师工作，就会很艰难。如果让你设计系统，其中必然会存在许多风险，一旦发生问题，公司将遭受损失，整个团队将承担责任。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 ### <font style="color:#000000;">RabbitMQ</font>
+
 <font style="color:#000000;">RabbitMQ 是比较有代表性的，因为是</font>**<font style="color:#000000;">基于主从</font>**<font style="color:#000000;">（非分布式）做高可用性的，我们就以 RabbitMQ 为例子讲解第一种 MQ 的高可用性怎么实现。</font>
 
 <font style="color:#000000;">RabbitMQ 有三种模式：单机模式、普通集群模式、镜像集群模式。</font>
 
 #### <font style="color:#000000;">单机模式</font>
+
 <font style="color:#000000;">单机模式，就是 Demo 级别的，一般就是你本地启动了玩玩儿的</font><font style="color:#000000;">😄</font><font style="color:#000000;">，没人生产用单机模式。</font>
 
 #### <font style="color:#000000;">普通集群模式（无高可用性）</font>
+
 <font style="color:#000000;">普通集群模式，意思就是在多台机器上启动多个 RabbitMQ 实例，每个机器启动一个。你</font>**<font style="color:#000000;">创建的 queue，只会放在一个 RabbitMQ 实例上</font>**<font style="color:#000000;">，但是每个实例都同步 queue 的元数据（元数据可以认为是 queue 的一些配置信息，通过元数据，可以找到 queue 所在实例）。你消费的时候，实际上如果连接到了另外一个实例，那么那个实例会从 queue 所在实例上拉取数据过来。</font>
 
 <font style="color:#000000;">  
@@ -126,6 +144,7 @@
 <font style="color:#000000;">所以这个事儿就比较尴尬了，这就</font>**<font style="color:#000000;">没有什么所谓的高可用性</font>**<font style="color:#000000;">，</font>**<font style="color:#000000;">这方案主要是提高吞吐量的</font>**<font style="color:#000000;">，就是说让集群中多个节点来服务某个 queue 的读写操作。</font>
 
 #### <font style="color:#000000;">镜像集群模式（高可用性）</font>
+
 <font style="color:#000000;">这种模式，才是所谓的 RabbitMQ 的高可用模式。跟普通集群模式不一样的是，在镜像集群模式下，你创建的 queue，无论元数据还是 queue 里的消息都会</font>**<font style="color:#000000;">存在于多个实例上</font>**<font style="color:#000000;">，就是说，每个 RabbitMQ 节点都有这个 queue 的一个</font>**<font style="color:#000000;">完整镜像</font>**<font style="color:#000000;">，包含 queue 的全部数据的意思。然后每次你写消息到 queue 的时候，都会自动把</font>**<font style="color:#000000;">消息同步</font>**<font style="color:#000000;">到多个实例的 queue 上。</font>
 
 ![1709534152555-110838b5-10e1-4c84-96ad-e2f942a8f08b.png](./img/nqqJ4R6bo7quzfcr/1709534152555-110838b5-10e1-4c84-96ad-e2f942a8f08b-394260.png)<font style="color:#000000;">  
@@ -134,6 +153,7 @@
 <font style="color:#000000;">这样的话，好处在于，你任何一个机器宕机了，没事儿，其它机器（节点）还包含了这个 queue 的完整数据，别的 consumer 都可以到其它节点上去消费数据。坏处在于，第一，这个性能开销也太大了吧，消息需要同步到所有机器上，导致网络带宽压力和消耗很重！第二，这么玩儿，不是分布式的，就</font>**<font style="color:#000000;">没有扩展性可言</font>**<font style="color:#000000;">了，如果某个 queue 负载很重，你加机器，新增的机器也包含了这个 queue 的所有数据，并</font>**<font style="color:#000000;">没有办法线性扩展</font>**<font style="color:#000000;">你的 queue。你想，如果这个 queue 的数据量很大，大到这个机器上的容量无法容纳了，此时该怎么办呢？</font>
 
 ### <font style="color:#000000;">Kafka</font>
+
 <font style="color:#000000;">Kafka 一个最基本的架构认识：由多个 broker 组成，每个 broker 是一个节点；你创建一个 topic，这个 topic 可以划分为多个 partition，每个 partition 可以存在于不同的 broker 上，每个 partition 就放一部分数据。</font>
 
 <font style="color:#000000;">这就是</font>**<font style="color:#000000;">天然的分布式消息队列</font>**<font style="color:#000000;">，就是说一个 topic 的数据，是</font>**<font style="color:#000000;">分散放在多个机器上的，每个机器就放一部分数据</font>**<font style="color:#000000;">。</font>
@@ -158,10 +178,13 @@
 <font style="color:#000000;">看到这里，相信你大致明白了 Kafka 是如何保证高可用机制的了，对吧？不至于一无所知，现场还能给面试官画画图。要是遇上面试官确实是 Kafka 高手，深挖了问，那你只能说不好意思，太深入的你没研究过。</font><font style="color:#000000;"></font>
 
 # <font style="color:#000000;">如何保证消息不被重复消费？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">首先这道面试题也是消息队列中必问的一道面试题，本质上还是问大家使用消息队列如何保证幂等性，当然这个也是在架构设计中需要考虑的一个点。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">回答这个问题，首先你别听到重复消息这个事儿，就一无所知吧，你</font>**<font style="color:#000000;">先大概说一说可能会有哪些重复消费的问题</font>**<font style="color:#000000;">。</font>
 
 <font style="color:#000000;">首先，比如 RabbitMQ、RocketMQ、Kafka，都有可能会出现消息重复消费的问题，正常。因为这问题通常不是 MQ 自己保证的，是由我们开发来保证的。挑一个 Kafka 来举个例子，说说怎么重复消费吧。</font>
@@ -197,14 +220,19 @@
 ![1709712499513-971ccff0-2458-4ccd-8f84-23df0159f86b.png](./img/nqqJ4R6bo7quzfcr/1709712499513-971ccff0-2458-4ccd-8f84-23df0159f86b-774365.png)
 
 # <font style="color:#000000;">如何处理消息丢失的问题？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">跟前面的两个问题一样，这个问题我们在架构设计的时候也要好好考虑，因为</font><font style="color:#000000;">用 MQ 有个基本原则，就是</font>**<font style="color:#000000;">数据不能多一条，也不能少一条</font>**
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 ### <font style="color:#000000;">RabbitMQ</font>
+
 <font style="color:#000000;">数据的丢失问题，可能出现在生产者、MQ、消费者中，接下来从 RabbitMQ 和 Kafka 分别分析一下</font>![1709733134770-17aada7c-2c9a-4f17-a650-db2f6552fb14.png](./img/nqqJ4R6bo7quzfcr/1709733134770-17aada7c-2c9a-4f17-a650-db2f6552fb14-841363.png)
 
 #### <font style="color:#000000;">生产者弄丢了数据</font>
+
 <font style="color:#000000;">生产者将数据发送到 RabbitMQ 的时候，可能数据就在半路给搞丢了，因为网络问题啥的，都有可能。</font>
 
 <font style="color:#000000;">此时可以选择用 RabbitMQ 提供的事务功能，就是生产者</font>**<font style="color:#000000;">发送数据之前</font>**<font style="color:#000000;">开启 RabbitMQ 事务</font><font style="color:#000000;">channel.txSelect</font><font style="color:#000000;">，然后发送消息，如果消息没有成功被 RabbitMQ 接收到，那么生产者会收到异常报错，此时就可以回滚事务</font><font style="color:#000000;">channel.txRollback</font><font style="color:#000000;">，然后重试发送消息；如果收到了消息，那么可以提交事务</font><font style="color:#000000;">channel.txCommit</font><font style="color:#000000;">。</font>
@@ -233,6 +261,7 @@ channel.txCommit
 <font style="color:#000000;">所以一般在生产者这块</font>**<font style="color:#000000;">避免数据丢失</font>**<font style="color:#000000;">，都是用</font><font style="color:#000000;"> </font><font style="color:#000000;">confirm</font><font style="color:#000000;"> </font><font style="color:#000000;">机制的。</font>
 
 #### <font style="color:#000000;">RabbitMQ 弄丢了数据</font>
+
 <font style="color:#000000;">就是 RabbitMQ 自己弄丢了数据，这个你必须</font>**<font style="color:#000000;">开启 RabbitMQ 的持久化</font>**<font style="color:#000000;">，就是消息写入之后会持久化到磁盘，哪怕是 RabbitMQ 自己挂了，</font>**<font style="color:#000000;">恢复之后会自动读取之前存储的数据</font>**<font style="color:#000000;">，一般数据不会丢。除非极其罕见的是，RabbitMQ 还没持久化，自己就挂了，</font>**<font style="color:#000000;">可能导致少量数据丢失</font>**<font style="color:#000000;">，但是这个概率较小。</font>
 
 <font style="color:#000000;">设置持久化有</font>**<font style="color:#000000;">两个步骤</font>**<font style="color:#000000;">：</font>
@@ -249,6 +278,7 @@ channel.txCommit
 <font style="color:#000000;">所以，持久化可以跟生产者那边的</font><font style="color:#000000;"> </font><font style="color:#000000;">confirm</font><font style="color:#000000;"> </font><font style="color:#000000;">机制配合起来，只有消息被持久化到磁盘之后，才会通知生产者</font><font style="color:#000000;"> </font><font style="color:#000000;">ack</font><font style="color:#000000;"> </font><font style="color:#000000;">了，所以哪怕是在持久化到磁盘之前，RabbitMQ 挂了，数据丢了，生产者收不到</font><font style="color:#000000;"> </font><font style="color:#000000;">ack</font><font style="color:#000000;">，你也是可以自己重发的。</font>
 
 #### <font style="color:#000000;">消费端弄丢了数据</font>
+
 <font style="color:#000000;">RabbitMQ 如果丢失了数据，主要是因为你消费的时候，</font>**<font style="color:#000000;">刚消费到，还没处理，结果进程挂了</font>**<font style="color:#000000;">，比如重启了，那么就尴尬了，RabbitMQ 认为你都消费了，这数据就丢了。</font>
 
 <font style="color:#000000;">这个时候得用 RabbitMQ 提供的</font><font style="color:#000000;"> </font><font style="color:#000000;">ack</font><font style="color:#000000;"> </font><font style="color:#000000;">机制，简单来说，就是你必须关闭 RabbitMQ 的自动</font><font style="color:#000000;"> </font><font style="color:#000000;">ack</font><font style="color:#000000;">，可以通过一个 api 来调用就行，然后每次你自己代码里确保处理完的时候，再在程序里</font><font style="color:#000000;"> </font><font style="color:#000000;">ack</font><font style="color:#000000;"> </font><font style="color:#000000;">一把。这样的话，如果你还没处理完，不就没有</font><font style="color:#000000;"> </font><font style="color:#000000;">ack</font><font style="color:#000000;"> </font><font style="color:#000000;">了？那 RabbitMQ 就认为你还没处理完，这个时候 RabbitMQ 会把这个消费分配给别的 consumer 去处理，消息是不会丢的。</font>
@@ -256,7 +286,9 @@ channel.txCommit
 ![1709733126977-5057415a-cb08-49a8-a174-1b9cc5401d03.png](./img/nqqJ4R6bo7quzfcr/1709733126977-5057415a-cb08-49a8-a174-1b9cc5401d03-365655.png)<font style="color:#000000;"></font>
 
 ### <font style="color:#000000;">Kafka</font>
+
 #### <font style="color:#000000;">消费端弄丢了数据</font>
+
 <font style="color:#000000;">唯一可能导致消费者弄丢数据的情况，就是说，你消费到了这个消息，然后消费者那边</font>**<font style="color:#000000;">自动提交了 offset</font>**<font style="color:#000000;">，让 Kafka 以为你已经消费好了这个消息，但其实你才刚准备处理这个消息，你还没处理，你自己就挂了，此时这条消息就丢咯。</font>
 
 <font style="color:#000000;">这不是跟 RabbitMQ 差不多吗，大家都知道 Kafka 会自动提交 offset，那么只要</font>**<font style="color:#000000;">关闭自动提交</font>**<font style="color:#000000;"> </font><font style="color:#000000;">offset，在处理完之后自己手动提交 offset，就可以保证数据不会丢。但是此时确实还是</font>**<font style="color:#000000;">可能会有重复消费</font>**<font style="color:#000000;">，比如你刚处理完，还没提交 offset，结果自己挂了，此时肯定会重复消费一次，自己保证幂等性就好了。</font>
@@ -264,6 +296,7 @@ channel.txCommit
 <font style="color:#000000;">生产环境碰到的一个问题，就是说我们的 Kafka 消费者消费到了数据之后是写到一个内存的 queue 里先缓冲一下，结果有的时候，你刚把消息写入内存 queue，然后消费者会自动提交 offset。然后此时我们重启了系统，就会导致内存 queue 里还没来得及处理的数据就丢失了。</font>
 
 #### <font style="color:#000000;">Kafka 弄丢了数据</font>
+
 <font style="color:#000000;">这块比较常见的一个场景，就是 Kafka 某个 broker 宕机，然后重新选举 partition 的 leader。大家想想，要是此时其他的 follower 刚好还有些数据没有同步，结果此时 leader 挂了，然后选举某个 follower 成 leader 之后，不就少了一些数据？这就丢了一些数据啊。</font>
 
 <font style="color:#000000;">所以此时一般是要求起码设置如下 4 个参数：</font>
@@ -276,16 +309,21 @@ channel.txCommit
 <font style="color:#000000;">我们生产环境就是按照上述要求配置的，这样配置之后，至少在 Kafka broker 端就可以保证在 leader 所在 broker 发生故障，进行 leader 切换时，数据不会丢失。</font>
 
 #### <font style="color:#000000;">生产者会不会弄丢数据？</font>
+
 <font style="color:#000000;">如果按照上述的思路设置了 acks=all，一定不会丢，要求是，你的 leader 接收到消息，所有的 follower 都同步到了消息之后，才认为本次写成功了。如果没满足这个条件，生产者会自动不断的重试，重试无限次。</font>
 
 # <font style="color:#000000;">如何保证消息的顺序性?</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">MQ 必考知识点了，主要是一些场景需要严格按照顺序来进行消费</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">比如说你在某个网站注册了账号，然后加积分 10，为了兑换商品发文章加积分 20，再去兑换某个商品或者是服务扣减积分 30，那这整个过程是有严格的顺序性的，如果是先扣减积分是不是就会出现负积分的场景，这只是个简单的例子，大家还是要对顺序性以及如何保证消息顺序的方案有一定的了解。</font>
 
 ### <font style="color:#000000;">先看看顺序会错乱的俩场景：</font>
+
 + **<font style="color:#000000;">RabbitMQ</font>**<font style="color:#000000;">：一个 queue，多个 consumer。比如，生产者向 RabbitMQ 里发送了三条数据，顺序依次是 data1/data2/data3，压入的是 RabbitMQ 的一个内存队列。有三个消费者分别从 MQ 中消费这三条数据中的一条，结果消费者2先执行完操作，把 data2 存入数据库，然后是 data1/data3。这不明显乱了。</font>
 
 ![1709820060120-388ad165-a814-408b-b3ed-f106288dc0b8.png](./img/nqqJ4R6bo7quzfcr/1709820060120-388ad165-a814-408b-b3ed-f106288dc0b8-974446.png)
@@ -296,25 +334,32 @@ channel.txCommit
 ![1709820072916-eb29504e-eb55-47b8-a998-c58665630918.png](./img/nqqJ4R6bo7quzfcr/1709820072916-eb29504e-eb55-47b8-a998-c58665630918-104260.png)<font style="color:#000000;"></font>
 
 ### <font style="color:#000000;">解决方案</font>
+
 #### <font style="color:#000000;">RabbitMQ</font>
+
 <font style="color:#000000;">拆分多个 queue，每个 queue 一个 consumer，就是多一些 queue 而已，确实是麻烦点；或者就一个 queue 但是对应一个 consumer，然后这个consumer 内部用内存队列做排队，然后分发给底层不同的 worker 来处理。</font>
 
 ![1709820101601-1d9e6972-6a6c-403b-9263-eeb9d6bfb75b.png](./img/nqqJ4R6bo7quzfcr/1709820101601-1d9e6972-6a6c-403b-9263-eeb9d6bfb75b-445175.png)
 
 #### <font style="color:#000000;">Kafka</font>
+
 + <font style="color:#000000;">一个 topic，一个 partition，一个 consumer，内部单线程消费，单线程吞吐量太低，一般不会用这个。</font>
 + <font style="color:#000000;">写 N 个内存 queue，具有相同 key 的数据都到同一个内存 queue；然后对于 N 个线程，每个线程分别消费一个内存 queue 即可，这样就能保证顺序性。</font>
 
 ![1709820116082-63b8499f-dba8-4451-8212-9dc3cd392ebb.png](./img/nqqJ4R6bo7quzfcr/1709820116082-63b8499f-dba8-4451-8212-9dc3cd392ebb-085292.png)
 
 # <font style="color:#000000;">为什么要用缓存？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">同样的，我们在使用某项技术的时候，先要搞清楚为什么要用它，用它的好处是什么，同时会带来什么问题。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">用缓存，主要有两个用途：</font>**<font style="color:#000000;">高性能</font>**<font style="color:#000000;">、</font>**<font style="color:#000000;">高并发</font>**<font style="color:#000000;">。</font>
 
 ## <font style="color:#000000;">高性能</font>
+
 <font style="color:#000000;">假设这么个场景，你有个操作，一个请求过来，吭哧吭哧你各种乱七八糟操作 mysql，半天查出来一个结果，耗时 600ms。但是这个结果可能接下来几个小时都不会变了，或者变了也可以不用立即反馈给用户。那么此时咋办？</font>
 
 <font style="color:#000000;">缓存啊，折腾 600ms 查出来的结果，扔缓存里，一个 key 对应一个 value，下次再有人查，别走 mysql 折腾 600ms 了，直接从缓存里，通过一个 key 查出来一个 value，2ms 搞定。性能提升 300 倍。</font>
@@ -322,21 +367,27 @@ channel.txCommit
 <font style="color:#000000;">就是说对于一些需要复杂操作耗时查出来的结果，且确定后面不怎么变化，但是有很多读请求，那么直接将查询出来的结果放在缓存中，后面直接读缓存就好。</font>
 
 ## <font style="color:#000000;">高并发</font>
+
 <font style="color:#000000;">mysql 这么重的数据库，压根儿设计不是让你玩儿高并发的，虽然也可以玩儿，但是天然支持不好。mysql 单机支撑到</font><font style="color:#000000;"> </font><font style="color:#000000;">2000QPS</font><font style="color:#000000;"> </font><font style="color:#000000;">也开始容易报警了。</font>
 
 <font style="color:#000000;">所以要是你有个系统，高峰期一秒钟过来的请求有 1万，那一个 mysql 单机绝对会死掉。你这个时候就只能上缓存，把很多数据放缓存，别放 mysql。缓存功能简单，说白了就是 </font><font style="color:#000000;">key-value</font><font style="color:#000000;"> 式操作，单机支撑的并发量轻松一秒几万十几万，支撑高并发 so easy。单机承载并发量是 mysql 单机的几十倍。</font>
 
 ## <font style="color:#000000;">用了缓存之后会有什么不良后果？</font>
+
 + <font style="color:#000000;">缓存与数据库双写不一致</font>
 + <font style="color:#000000;">缓存雪崩、缓存穿透</font>
 + <font style="color:#000000;">缓存并发竞争</font>
 
 # <font style="color:#000000;">redis 的线程模型是什么？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">这道面试有些面试官其实不会这么问，通常会问：</font><font style="color:#000000;">为什么 redis 单线程却能支撑高并发？这里面就涉及到了 redis 的内部原理跟特点了。你要是这个都不知道，那后面玩儿 redis 的时候，出了问题岂不是什么都不知道？</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 ### <font style="color:#000000;">redis 的线程模型</font>
+
 <font style="color:#000000;">redis 内部使用文件事件处理器</font><font style="color:#000000;"> </font><font style="color:#000000;">file event handler</font><font style="color:#000000;">，这个文件事件处理器是单线程的，所以 redis 才叫做单线程的模型。它采用 IO 多路复用机制同时监听多个 socket，将产生事件的 socket 压入内存队列中，事件分派器根据 socket 上的事件类型来选择对应的事件处理器进行处理。</font>
 
 <font style="color:#000000;">文件事件处理器的结构包含 4 个部分：</font>
@@ -351,6 +402,7 @@ channel.txCommit
 <font style="color:#000000;">来看客户端与 redis 的一次通信过程：</font>
 
 ## ![1710331531287-cb5fbf0f-9740-4fd3-b17f-424239d55d14.png](./img/nqqJ4R6bo7quzfcr/1710331531287-cb5fbf0f-9740-4fd3-b17f-424239d55d14-492452.png)
+
 <font style="color:#000000;">要明白，通信是通过 socket 来完成的，不懂的同学可以先去看一看 socket 网络编程。</font>
 
 <font style="color:#000000;">首先，redis 服务端进程初始化的时候，会将 server socket 的</font><font style="color:#000000;"> </font><font style="color:#000000;">AE_READABLE</font><font style="color:#000000;"> </font><font style="color:#000000;">事件与连接应答处理器关联。</font>
@@ -362,16 +414,20 @@ channel.txCommit
 <font style="color:#000000;">如果此时客户端准备好接收返回结果了，那么 redis 中的 socket01 会产生一个 </font><font style="color:#000000;">AE_WRITABLE</font><font style="color:#000000;"> 事件，同样压入队列中，事件分派器找到相关联的命令回复处理器，由命令回复处理器对 socket01 输入本次操作的一个结果，比如 </font><font style="color:#000000;">ok</font><font style="color:#000000;">，之后解除 socket01 的 </font><font style="color:#000000;">AE_WRITABLE</font><font style="color:#000000;"> 事件与命令回复处理器的关联。</font>
 
 ### <font style="color:#000000;">为啥 redis 单线程模型也能效率这么高？</font>
+
 + <font style="color:#000000;">纯内存操作。</font>
 + <font style="color:#000000;">核心是基于非阻塞的 IO 多路复用机制。</font>
 + <font style="color:#000000;">C 语言实现，一般来说，C 语言实现的程序“距离”操作系统更近，执行速度相对会更快。</font>
 + <font style="color:#000000;">单线程反而避免了多线程的频繁上下文切换问题，预防了多线程可能产生的竞争问题。</font>
 
 # <font style="color:#000000;">redis 都有哪些数据类型？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">其实这道面试题，问的频率不是很高，通常是根据简历写的技术栈有关系，技术栈比较可能就会问问这个题，不过大家对基本的数据类型以及场景还是要掌握</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">redis 主要有以下几种数据类型：</font>
 
 + <font style="color:#000000;">string</font>
@@ -381,6 +437,7 @@ channel.txCommit
 + <font style="color:#000000;">sorted set</font>
 
 ### <font style="color:#000000;">string</font>
+
 <font style="color:#000000;">这是最简单的类型，就是普通的 set 和 get，做简单的 KV 缓存。</font>
 
 ```plain
@@ -388,6 +445,7 @@ set k1 v1
 ```
 
 ### <font style="color:#000000;">hash</font>
+
 <font style="color:#000000;">这个是类似 map 的一种结构，这个一般就是可以将结构化的数据，比如一个对象（前提是</font>**<font style="color:#000000;">这个对象没嵌套其他的对象</font>**<font style="color:#000000;">）给缓存在 redis 里，然后每次读写缓存的时候，可以就操作 hash 里的</font>**<font style="color:#000000;">某个字段</font>**<font style="color:#000000;">。</font>
 
 ```plain
@@ -406,6 +464,7 @@ person = {
 ```
 
 ### <font style="color:#000000;">list</font>
+
 <font style="color:#000000;">list 是有序列表，这个可以玩儿出很多花样。</font>
 
 <font style="color:#000000;">比如可以通过 list 存储一些列表型的数据结构，类似粉丝列表、文章的评论列表之类的东西。</font>
@@ -429,6 +488,7 @@ rpop mylist
 ```
 
 ### <font style="color:#000000;">set</font>
+
 <font style="color:#000000;">set 是无序集合，自动去重。</font>
 
 <font style="color:#000000;">直接基于 set 将系统里需要去重的数据扔进去，自动就给去重了，如果你需要对一些数据进行快速的全局去重，你当然也可以基于 jvm 内存里的 HashSet 进行去重，但是如果你的某个系统部署在多台机器上呢？得基于 redis 进行全局的 set 去重。</font>
@@ -473,6 +533,7 @@ sdiff yourSet mySet
 ```
 
 ### <font style="color:#000000;">sorted set</font>
+
 <font style="color:#000000;">sorted set 是排序的 set，去重但可以排序，写进去的时候给一个分数，自动根据分数排序。</font>
 
 ```plain
@@ -489,11 +550,15 @@ zrank board zhaoliu
 ```
 
 # <font style="color:#000000;">redis 的过期策略都有哪些？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">这道面试题是 redis 必需掌握的一道面试题，因为现在缓存的使用非常普遍，虽然内存的价格已经下来了，但是相比硬盘还是贵很多，因此内存空间的利用率非常的重要，</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 ### <font style="color:#000000;">redis 过期策略</font>
+
 <font style="color:#000000;">redis 过期策略是：</font>**<font style="color:#000000;">定期删除+惰性删除</font>**<font style="color:#000000;">。</font>
 
 <font style="color:#000000;">所谓</font>**<font style="color:#000000;">定期删除</font>**<font style="color:#000000;">，指的是 redis 默认是每隔 100ms 就随机抽取一些设置了过期时间的 key，检查其是否过期，如果过期就删除。</font><font style="color:#000000;">如果本轮检查的已过期 key 的数量，超过 5 个（20/4），也就是「已过期 key 的数量」占比「随机抽取 key 的数量」大于 25%，则继续重复步骤 1；如果已过期的 key 比例小于 25%，则停止继续删除过期 key，然后等待下一轮再检查。</font>
@@ -509,6 +574,7 @@ zrank board zhaoliu
 <font style="color:#000000;">答案是：</font>**<font style="color:#000000;">走内存淘汰机制</font>**<font style="color:#000000;">。</font>
 
 ### <font style="color:#000000;">内存淘汰机制</font>
+
 <font style="color:#000000;">redis 内存淘汰机制有以下几个：</font>
 
 + <font style="color:#000000;">noeviction: 当内存不足以容纳新写入数据时，新写入操作会报错，这个一般没人用吧，实在是太恶心了。</font>
@@ -519,12 +585,15 @@ zrank board zhaoliu
 + <font style="color:#000000;">volatile-ttl：当内存不足以容纳新写入数据时，在</font>**<font style="color:#000000;">设置了过期时间的键空间</font>**<font style="color:#000000;">中，有</font>**<font style="color:#000000;">更早过期时间</font>**<font style="color:#000000;">的 key 优先移除。</font>
 
 # <font style="color:#000000;">如何保证 redis 的高并发和高可用？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">这个面试题也是 redis 的一个必考题，其实问这个问题，主要是考考你，redis 单机能承载多高并发？如果单机扛不住如何扩容扛更多的并发？redis 会不会挂？既然 redis 会挂那怎么保证 redis 是高可用的？</font>
 
 <font style="color:#000000;">其实针对的都是项目中你肯定要考虑的一些问题，如果你没考虑过，那确实你对生产系统中的问题思考太少。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">如果你用 redis 缓存技术的话，肯定要考虑如何用 redis 来加多台机器，保证 redis 是高并发的，还有就是如何让 redis 保证自己不是挂掉以后就直接死掉了，即 redis 高可用。</font><font style="color:#000000;">  
 </font><font style="color:#000000;">redis 的高可用主要涉及到两部分</font>
 
@@ -532,12 +601,14 @@ zrank board zhaoliu
 + <font style="color:#000000;">redis 基于哨兵实现高可用</font>
 
 ### <font style="color:#000000;">redis 主从架构</font>
+
 <font style="color:#000000;">单机的 redis，能够承载的 QPS 大概就在上万到几万不等。对于缓存来说，一般都是用来支撑</font>**<font style="color:#000000;">读高并发</font>**<font style="color:#000000;">的。因此架构做成主从(master-slave)架构，一主多从，主负责写，并且将数据复制到其它的 slave 节点，从节点负责读。所有的</font>**<font style="color:#000000;">读请求全部走从节点</font>**<font style="color:#000000;">。这样也可以很轻松实现水平扩容，</font>**<font style="color:#000000;">支撑读高并发</font>**<font style="color:#000000;">。</font><font style="color:#000000;">  
 </font><font style="color:#000000;"> </font>![1710333274422-9b301438-2605-4049-b81c-ed9d85a634b9.png](./img/nqqJ4R6bo7quzfcr/1710333274422-9b301438-2605-4049-b81c-ed9d85a634b9-963802.png)
 
 <font style="color:#000000;">redis replication -> 主从架构 -> 读写分离 -> 水平扩容支撑读高并发</font>
 
 #### <font style="color:#000000;">redis replication 的核心机制</font>
+
 + <font style="color:#000000;">redis 采用</font>**<font style="color:#000000;">异步方式</font>**<font style="color:#000000;">复制数据到 slave 节点，不过 redis2.8 开始，slave node 会周期性地确认自己每次复制的数据量；</font>
 + <font style="color:#000000;">一个 master node 是可以配置多个 slave node 的；</font>
 + <font style="color:#000000;">slave node 也可以连接其他的 slave node；</font>
@@ -550,6 +621,7 @@ zrank board zhaoliu
 <font style="color:#000000;">另外，master 的各种备份方案，也需要做。万一本地的所有文件丢失了，从备份中挑选一份 rdb 去恢复 master，这样才能</font>**<font style="color:#000000;">确保启动的时候，是有数据的</font>**<font style="color:#000000;">，即使采用了后续讲解的</font><font style="color:#000000;">高可用机制</font><font style="color:#000000;">，slave node 可以自动接管 master node，但也可能 sentinel 还没检测到 master failure，master node 就自动重启了，还是可能导致上面所有的 slave node 数据被清空。</font>
 
 #### <font style="color:#000000;">redis 主从复制的核心原理</font>
+
 <font style="color:#000000;">当启动一个 slave node 的时候，它会发送一个</font><font style="color:#000000;"> </font><font style="color:#000000;">PSYNC</font><font style="color:#000000;"> </font><font style="color:#000000;">命令给 master node。</font>
 
 <font style="color:#000000;">如果这是 slave node 初次连接到 master node，那么会触发一次 </font><font style="color:#000000;">full resynchronization</font><font style="color:#000000;"> 全量复制。此时 master 会启动一个后台线程，开始生成一份 </font><font style="color:#000000;">RDB</font><font style="color:#000000;"> 快照文件，同时还会将从客户端 client 新收到的所有写命令缓存在内存中。</font><font style="color:#000000;">RDB</font><font style="color:#000000;"> 文件生成完毕后， master 会将这个 </font><font style="color:#000000;">RDB</font><font style="color:#000000;"> 发送给 slave，slave 会先</font>**<font style="color:#000000;">写入本地磁盘，然后再从本地磁盘加载到内存</font>**<font style="color:#000000;">中，接着 master 会将内存中缓存的写命令发送到 slave，slave 也会同步这些数据。slave node 如果跟 master node 有网络故障，断开了连接，会自动重连，连接之后 master node 仅会复制给 slave 部分缺少的数据。</font>
@@ -557,6 +629,7 @@ zrank board zhaoliu
 ![1710333343905-3fd8bae8-8157-49fc-aa22-79272fe4d895.png](./img/nqqJ4R6bo7quzfcr/1710333343905-3fd8bae8-8157-49fc-aa22-79272fe4d895-024497.png)
 
 ##### <font style="color:#000000;">主从复制的断点续传</font>
+
 <font style="color:#000000;">从 redis2.8 开始，就支持主从复制的断点续传，如果主从复制过程中，网络连接断掉了，那么可以接着上次复制的地方，继续复制下去，而不是从头开始复制一份。</font>
 
 <font style="color:#000000;">master node 会在内存中维护一个 backlog，master 和 slave 都会保存一个 replica offset 还有一个 master run id，offset 就是保存在 backlog 中的。如果 master 和 slave 网络连接断掉了，slave 会让 master 从上次 replica offset 开始继续复制，如果没有找到对应的 offset，那么就会执行一次</font><font style="color:#000000;"> </font><font style="color:#000000;">resynchronization</font><font style="color:#000000;">。</font>
@@ -564,6 +637,7 @@ zrank board zhaoliu
 <font style="color:#000000;">如果根据 host+ip 定位 master node，是不靠谱的，如果 master node 重启或者数据出现了变化，那么 slave node 应该根据不同的 run id 区分。</font>
 
 ##### <font style="color:#000000;">无磁盘化复制</font>
+
 <font style="color:#000000;">master 在内存中直接创建 RDB，然后发送给 slave，不会在自己本地落地磁盘了。只需要在配置文件中开启 repl-diskless-sync yes 即可。</font>
 
 ```plain
@@ -574,9 +648,11 @@ repl-diskless-sync-delay 5
 ```
 
 ##### <font style="color:#000000;">过期 key 处理</font>
+
 <font style="color:#000000;">slave 不会过期 key，只会等待 master 过期 key。如果 master 过期了一个 key，或者通过 LRU 淘汰了一个 key，那么会模拟一条 del 命令发送给 slave。</font>
 
 #### <font style="color:#000000;">复制的完整流程</font>
+
 <font style="color:#000000;">slave node 启动时，会在自己本地保存 master node 的信息，包括 master node 的</font><font style="color:#000000;">host</font><font style="color:#000000;">和</font><font style="color:#000000;">ip</font><font style="color:#000000;">，但是复制流程没开始。</font>
 
 <font style="color:#000000;">slave node 内部有个定时任务，每秒检查是否有新的 master node 要连接和复制，如果发现，就跟 master node 建立 socket 网络连接。然后 slave node 发送</font><font style="color:#000000;"> </font><font style="color:#000000;">ping</font><font style="color:#000000;"> </font><font style="color:#000000;">命令给 master node。如果 master 设置了 requirepass，那么 slave node 必须发送 masterauth 的口令过去进行认证。master node</font><font style="color:#000000;"> </font>**<font style="color:#000000;">第一次执行全量复制</font>**<font style="color:#000000;">，将所有数据发给 slave node。而在后续，master node 持续将写命令，异步复制给 slave node。</font>
@@ -584,6 +660,7 @@ repl-diskless-sync-delay 5
 ![1710333388731-8cf7d3e1-0959-4195-b635-20c7fa2208c3.png](./img/nqqJ4R6bo7quzfcr/1710333388731-8cf7d3e1-0959-4195-b635-20c7fa2208c3-325459.png)
 
 ##### <font style="color:#000000;">全量复制</font>
+
 + <font style="color:#000000;">master 执行 bgsave ，在本地生成一份 rdb 快照文件。</font>
 + <font style="color:#000000;">master node 将 rdb 快照文件发送给 slave node，如果 rdb 复制时间超过 60秒（repl-timeout），那么 slave node 就会认为复制失败，可以适当调大这个参数(对于千兆网卡的机器，一般每秒传输 100MB，6G 文件，很可能超过 60s)</font>
 + <font style="color:#000000;">master node 在生成 rdb 时，会将所有新的写命令缓存在内存中，在 slave node 保存了 rdb 之后，再将新的写命令复制给 slave node。</font>
@@ -595,19 +672,23 @@ repl-diskless-sync-delay 5
 + <font style="color:#000000;">如果 slave node 开启了 AOF，那么会立即执行 BGREWRITEAOF，重写 AOF。</font>
 
 ##### <font style="color:#000000;">增量复制</font>
+
 + <font style="color:#000000;">如果全量复制过程中，master-slave 网络连接断掉，那么 slave 重新连接 master 时，会触发增量复制。</font>
 + <font style="color:#000000;">master 直接从自己的 backlog 中获取部分丢失的数据，发送给 slave node，默认 backlog 就是 1MB。</font>
 + <font style="color:#000000;">master 就是根据 slave 发送的 psync 中的 offset 来从 backlog 中获取数据的。</font>
 
 ##### <font style="color:#000000;">heartbeat</font>
+
 <font style="color:#000000;">主从节点互相都会发送 heartbeat 信息。</font>
 
 <font style="color:#000000;">master 默认每隔 10秒 发送一次 heartbeat，slave node 每隔 1秒 发送一个 heartbeat。</font>
 
 ##### <font style="color:#000000;">异步复制</font>
+
 <font style="color:#000000;">master 每次接收到写命令之后，先在内部写入数据，然后异步发送给 slave node。</font>
 
 #### <font style="color:#000000;">redis 如何才能做到高可用</font>
+
 <font style="color:#000000;">如果系统在 365 天内，有 99.99% 的时间，都是可以哗哗对外提供服务的，那么就说系统是高可用的。</font>
 
 <font style="color:#000000;">一个 slave 挂掉了，是不会影响可用性的，还有其它的 slave 在提供相同数据下的相同的对外的查询服务。</font>
@@ -620,7 +701,9 @@ repl-diskless-sync-delay 5
 </font><font style="color:#000000;"> </font>
 
 ### <font style="color:#000000;">Redis 哨兵集群实现高可用</font>
+
 #### <font style="color:#000000;">哨兵的介绍</font>
+
 <font style="color:#000000;">sentinel，中文名是哨兵。哨兵是 redis 集群机构中非常重要的一个组件，主要有以下功能：</font>
 
 + <font style="color:#000000;">集群监控：负责监控 redis master 和 slave 进程是否正常工作。</font>
@@ -634,6 +717,7 @@ repl-diskless-sync-delay 5
 + <font style="color:#000000;">即使部分哨兵节点挂掉了，哨兵集群还是能正常工作的，因为如果一个作为高可用机制重要组成部分的故障转移系统本身是单点的，那就很坑爹了。</font>
 
 #### <font style="color:#000000;">哨兵的核心知识</font>
+
 + <font style="color:#000000;">哨兵至少需要 3 个实例，来保证自己的健壮性。</font>
 + <font style="color:#000000;">哨兵 + redis 主从的部署架构，是</font>**<font style="color:#000000;">不保证数据零丢失</font>**<font style="color:#000000;">的，只能保证 redis 集群的高可用性。</font>
 + <font style="color:#000000;">对于哨兵 + redis 主从这种复杂的部署架构，尽量在测试环境和生产环境，都进行充足的测试和演练。</font>
@@ -676,7 +760,9 @@ repl-diskless-sync-delay 5
 <font style="color:#000000;">配置 </font><font style="color:#000000;">quorum=2</font><font style="color:#000000;">，如果 M1 所在机器宕机了，那么三个哨兵还剩下 2 个，S2 和 S3 可以一致认为 master 宕机了，然后选举出一个来执行故障转移，同时 3 个哨兵的 majority 是 2，所以还剩下的 2 个哨兵运行着，就可以允许执行故障转移。</font>
 
 ### <font style="color:#000000;">redis 哨兵主备切换的数据丢失问题</font>
+
 #### <font style="color:#000000;">两种情况和导致数据丢失</font>
+
 <font style="color:#000000;">主备切换的过程，可能会导致数据丢失：</font>
 
 + <font style="color:#000000;">异步复制导致的数据丢失</font>
@@ -694,6 +780,7 @@ repl-diskless-sync-delay 5
 ![1710333751189-a2446c0f-3512-4ba7-8d31-d2bebe66b68a.png](./img/nqqJ4R6bo7quzfcr/1710333751189-a2446c0f-3512-4ba7-8d31-d2bebe66b68a-278204.png)
 
 #### <font style="color:#000000;">数据丢失问题的解决方案</font>
+
 <font style="color:#000000;">进行如下配置：</font>
 
 ```plain
@@ -714,24 +801,28 @@ min-slaves-max-lag 10
 <font style="color:#000000;">如果一个 master 出现了脑裂，跟其他 slave 丢了连接，那么上面两个配置可以确保说，如果不能继续给指定数量的 slave 发送数据，而且 slave 超过 10 秒没有给自己 ack 消息，那么就直接拒绝客户端的写请求。因此在脑裂场景下，最多就丢失 10 秒的数据。</font>
 
 #### <font style="color:#000000;">sdown 和 odown 转换机制</font>
+
 + <font style="color:#000000;">sdown 是主观宕机，就一个哨兵如果自己觉得一个 master 宕机了，那么就是主观宕机</font>
 + <font style="color:#000000;">odown 是客观宕机，如果 quorum 数量的哨兵都觉得一个 master 宕机了，那么就是客观宕机</font>
 
 <font style="color:#000000;">sdown 达成的条件很简单，如果一个哨兵 ping 一个 master，超过了 </font><font style="color:#000000;">is-master-down-after-milliseconds</font><font style="color:#000000;"> 指定的毫秒数之后，就主观认为 master 宕机了；如果一个哨兵在指定时间内，收到了 quorum 数量的其它哨兵也认为那个 master 是 sdown 的，那么就认为是 odown 了。</font>
 
 #### <font style="color:#000000;">哨兵集群的自动发现机制</font>
-<font style="color:#000000;">哨兵互相之间的发现，是通过 redis 的</font><font style="color:#000000;"> </font><font style="color:#000000;">pub/sub</font><font style="color:#000000;"> </font><font style="color:#000000;">系统实现的，每个哨兵都会往</font><font style="color:#000000;"> </font><font style="color:#000000;">__sentinel__:hello</font><font style="color:#000000;"> </font><font style="color:#000000;">这个 channel 里发送一个消息，这时候所有其他哨兵都可以消费到这个消息，并感知到其他的哨兵的存在。</font>
 
-<font style="color:#000000;">每隔两秒钟，每个哨兵都会往自己监控的某个 master+slaves 对应的</font><font style="color:#000000;"> </font><font style="color:#000000;">__sentinel__:hello</font><font style="color:#000000;"> </font><font style="color:#000000;">channel 里</font>**<font style="color:#000000;">发送一个消息</font>**<font style="color:#000000;">，内容是自己的 host、ip 和 runid 还有对这个 master 的监控配置。</font>
+<font style="color:#000000;">哨兵互相之间的发现，是通过 redis 的</font><font style="color:#000000;"> </font><font style="color:#000000;">pub/sub</font><font style="color:#000000;"> </font><font style="color:#000000;">系统实现的，每个哨兵都会往</font><font style="color:#000000;"> </font><font style="color:#000000;">**sentinel**:hello</font><font style="color:#000000;"> </font><font style="color:#000000;">这个 channel 里发送一个消息，这时候所有其他哨兵都可以消费到这个消息，并感知到其他的哨兵的存在。</font>
 
-<font style="color:#000000;">每个哨兵也会去</font>**<font style="color:#000000;">监听</font>**<font style="color:#000000;">自己监控的每个 master+slaves 对应的</font><font style="color:#000000;"> </font><font style="color:#000000;">__sentinel__:hello</font><font style="color:#000000;"> </font><font style="color:#000000;">channel，然后去感知到同样在监听这个 master+slaves 的其他哨兵的存在。</font>
+<font style="color:#000000;">每隔两秒钟，每个哨兵都会往自己监控的某个 master+slaves 对应的</font><font style="color:#000000;"> </font><font style="color:#000000;">**sentinel**:hello</font><font style="color:#000000;"> </font><font style="color:#000000;">channel 里</font>**<font style="color:#000000;">发送一个消息</font>**<font style="color:#000000;">，内容是自己的 host、ip 和 runid 还有对这个 master 的监控配置。</font>
+
+<font style="color:#000000;">每个哨兵也会去</font>**<font style="color:#000000;">监听</font>**<font style="color:#000000;">自己监控的每个 master+slaves 对应的</font><font style="color:#000000;"> </font><font style="color:#000000;">**sentinel**:hello</font><font style="color:#000000;"> </font><font style="color:#000000;">channel，然后去感知到同样在监听这个 master+slaves 的其他哨兵的存在。</font>
 
 <font style="color:#000000;">每个哨兵还会跟其他哨兵交换对</font><font style="color:#000000;"> </font><font style="color:#000000;">master</font><font style="color:#000000;"> </font><font style="color:#000000;">的监控配置，互相进行监控配置的同步。</font>
 
 #### <font style="color:#000000;">slave 配置的自动纠正</font>
+
 <font style="color:#000000;">哨兵会负责自动纠正 slave 的一些配置，比如 slave 如果要成为潜在的 master 候选人，哨兵会确保 slave 复制现有 master 的数据；如果 slave 连接到了一个错误的 master 上，比如故障转移之后，那么哨兵会确保它们连接到正确的 master 上。</font>
 
 #### <font style="color:#000000;">slave->master 选举算法</font>
+
 <font style="color:#000000;">如果一个 master 被认为 odown 了，而且 majority 数量的哨兵都允许主备切换，那么某个哨兵就会执行主备切换操作，此时首先要选举一个 slave 来，会考虑 slave 的一些信息：</font>
 
 + <font style="color:#000000;">跟 master 断开连接的时长</font>
@@ -752,6 +843,7 @@ min-slaves-max-lag 10
 + <font style="color:#000000;">如果上面两个条件都相同，那么选择一个 run id 比较小的那个 slave。</font>
 
 #### <font style="color:#000000;">quorum 和 majority</font>
+
 <font style="color:#000000;">每次一个哨兵要做主备切换，首先需要 quorum 数量的哨兵认为 odown，然后选举出一个哨兵来做切换，这个哨兵还需要得到 majority 哨兵的授权，才能正式执行切换。</font>
 
 <font style="color:#000000;">如果 quorum < majority，比如 5 个哨兵，majority 就是 3，quorum 设置为 2，那么就 3 个哨兵授权就可以执行切换。</font>
@@ -759,6 +851,7 @@ min-slaves-max-lag 10
 <font style="color:#000000;">但是如果 quorum >= majority，那么必须 quorum 数量的哨兵都授权，比如 5 个哨兵，quorum 是 5，那么必须 5 个哨兵都同意授权，才能执行切换。</font>
 
 #### <font style="color:#000000;">configuration epoch</font>
+
 <font style="color:#000000;">哨兵会对一套 redis master+slaves 进行监控，有相应的监控的配置。</font>
 
 <font style="color:#000000;">执行切换的那个哨兵，会从要切换到的新 master（salve->master）那里得到一个 configuration epoch，这就是一个 version 号，每次切换的 version 号都必须是唯一的。</font>
@@ -766,12 +859,15 @@ min-slaves-max-lag 10
 <font style="color:#000000;">如果第一个选举出的哨兵切换失败了，那么其他哨兵，会等待 failover-timeout 时间，然后接替继续执行切换，此时会重新获取一个新的 configuration epoch，作为新的 version 号。</font>
 
 #### <font style="color:#000000;">configuration 传播</font>
+
 <font style="color:#000000;">哨兵完成切换之后，会在自己本地更新生成最新的 master 配置，然后同步给其他的哨兵，就是通过之前说的</font><font style="color:#000000;"> </font><font style="color:#000000;">pub/sub</font><font style="color:#000000;"> </font><font style="color:#000000;">消息机制。</font>
 
 <font style="color:#000000;">这里之前的 version 号就很重要了，因为各种消息都是通过一个 channel 去发布和监听的，所以一个哨兵完成一次新的切换之后，新的 master 配置是跟着新的 version 号的。其他的哨兵都是根据版本号的大小来更新自己的 master 配置的。</font>
 
 # <font style="color:#000000;">redis 的持久化有哪几种方式？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">redis 如果仅仅只是将数据缓存在内存里面，如果 redis 宕机了再重启，内存里的数据就全部都弄丢了啊。你必须得用 redis 的持久化机制，将数据写入内存的同时，异步的慢慢的将数据写入磁盘文件里，进行持久化。</font>
 
 <font style="color:#000000;">如果 redis 宕机重启，自动从磁盘上加载之前持久化的一些数据就可以了，也许会丢失少许数据，但是至少不会将所有数据都弄丢。</font>
@@ -779,6 +875,7 @@ min-slaves-max-lag 10
 <font style="color:#000000;">这个其实一样，针对的都是 redis 的生产环境可能遇到的一些问题，就是 redis 要是挂了再重启，内存里的数据不就全丢了？能不能重启的时候把数据给恢复了？</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">持久化主要是做灾难恢复、数据恢复，也可以归类到高可用的一个环节中去，比如你 redis 整个挂了，然后 redis 就不可用了，你要做的事情就是让 redis 变得可用，尽快变得可用。</font>
 
 <font style="color:#000000;">重启 redis，尽快让它对外提供服务，如果没做数据备份，这时候 redis 启动了，也不可用啊，数据都没了。</font>
@@ -788,6 +885,7 @@ min-slaves-max-lag 10
 <font style="color:#000000;">如果你把 redis 持久化做好，备份和恢复方案做到企业级的程度，那么即使你的 redis 故障了，也可以通过备份数据，快速恢复，一旦恢复立即对外提供服务。</font>
 
 ### <font style="color:#000000;">redis 持久化的两种方式</font>
+
 + <font style="color:#000000;">RDB：RDB 持久化机制，是对 redis 中的数据执行</font>**<font style="color:#000000;">周期性</font>**<font style="color:#000000;">的持久化。</font>
 + <font style="color:#000000;">AOF：AOF 机制对每条写入命令作为日志，以</font><font style="color:#000000;"> </font><font style="color:#000000;">append-only</font><font style="color:#000000;"> </font><font style="color:#000000;">的模式写入一个日志文件中，在 redis 重启的时候，可以通过</font>**<font style="color:#000000;">回放</font>**<font style="color:#000000;"> </font><font style="color:#000000;">AOF 日志中的写入指令来重新构建整个数据集。</font>
 
@@ -798,6 +896,7 @@ min-slaves-max-lag 10
 <font style="color:#000000;">如果同时使用 RDB 和 AOF 两种持久化机制，那么在 redis 重启的时候，会使用</font><font style="color:#000000;"> </font>**<font style="color:#000000;">AOF</font>**<font style="color:#000000;"> </font><font style="color:#000000;">来重新构建数据，因为 AOF 中的</font>**<font style="color:#000000;">数据更加完整</font>**<font style="color:#000000;">。</font>
 
 #### <font style="color:#000000;">RDB 优缺点</font>
+
 + <font style="color:#000000;">RDB 会生成多个数据文件，每个数据文件都代表了某一个时刻中 redis 的数据，这种多个数据文件的方式，</font>**<font style="color:#000000;">非常适合做冷备</font>**<font style="color:#000000;">。</font>
 + <font style="color:#000000;">RDB 对 redis 对外提供的读写服务，影响非常小，可以让 redis</font><font style="color:#000000;"> </font>**<font style="color:#000000;">保持高性能</font>**<font style="color:#000000;">，因为 redis 主进程只需要 fork 一个子进程，让子进程执行磁盘 IO 操作来进行 RDB 持久化即可。</font>
 + <font style="color:#000000;">相对于 AOF 持久化机制来说，直接基于 RDB 数据文件来重启和恢复 redis 进程，更加快速。</font>
@@ -805,6 +904,7 @@ min-slaves-max-lag 10
 + <font style="color:#000000;">RDB 每次在 fork 子进程来执行 RDB 快照数据文件生成的时候，如果数据文件特别大，可能会导致对客户端提供的服务暂停数毫秒，或者甚至数秒。</font>
 
 #### <font style="color:#000000;">AOF 优缺点</font>
+
 + <font style="color:#000000;">AOF 可以更好的保护数据不丢失，一般 AOF 会每隔 1 秒，通过一个后台线程执行一次</font><font style="color:#000000;">fsync</font><font style="color:#000000;">操作，最多丢失 1 秒钟的数据。</font>
 + <font style="color:#000000;">AOF 日志文件以</font><font style="color:#000000;"> </font><font style="color:#000000;">append-only</font><font style="color:#000000;"> </font><font style="color:#000000;">模式写入，所以没有任何磁盘寻址的开销，写入性能非常高，而且文件不容易破损，即使文件尾部破损，也很容易修复。</font>
 + <font style="color:#000000;">AOF 日志文件即使过大的时候，出现后台重写操作，也不会影响客户端的读写。因为在</font><font style="color:#000000;"> </font><font style="color:#000000;">rewrite</font><font style="color:#000000;"> </font><font style="color:#000000;">log 的时候，会对其中的指令进行压缩，创建出一份需要恢复数据的最小日志出来。在创建新日志文件的时候，老的日志文件还是照常写入。当新的 merge 后的日志文件 ready 的时候，再交换新老日志文件即可。</font>
@@ -814,16 +914,21 @@ min-slaves-max-lag 10
 + <font style="color:#000000;">以前 AOF 发生过 bug，就是通过 AOF 记录的日志，进行数据恢复的时候，没有恢复一模一样的数据出来。所以说，类似 AOF 这种较为复杂的基于命令日志 / merge / 回放的方式，比基于 RDB 每次持久化一份完整的数据快照文件的方式，更加脆弱一些，容易有 bug。不过 AOF 就是为了避免 rewrite 过程导致的 bug，因此每次 rewrite 并不是基于旧的指令日志进行 merge 的，而是</font>**<font style="color:#000000;">基于当时内存中的数据进行指令的重新构建</font>**<font style="color:#000000;">，这样健壮性会好很多。</font>
 
 ### <font style="color:#000000;">RDB 和 AOF 到底该如何选择</font>
+
 + <font style="color:#000000;">不要仅仅使用 RDB，因为那样会导致你丢失很多数据；</font>
 + <font style="color:#000000;">也不要仅仅使用 AOF，因为那样有两个问题：第一，你通过 AOF 做冷备，没有 RDB 做冷备来的恢复速度更快；第二，RDB 每次简单粗暴生成数据快照，更加健壮，可以避免 AOF 这种复杂的备份和恢复机制的 bug；</font>
 + <font style="color:#000000;">redis 支持同时开启开启两种持久化方式，我们可以综合使用 AOF 和 RDB 两种持久化机制，用 AOF 来保证数据不丢失，作为数据恢复的第一选择; 用 RDB 来做不同程度的冷备，在 AOF 文件都丢失或损坏不可用的时候，还可以使用 RDB 来进行快速的数据恢复。</font>
 
 # <font style="color:#000000;">了解什么是 redis 的雪崩、穿透和击穿？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">其实这是问到缓存必问的，因为缓存雪崩和穿透，是缓存最大的两个问题，要么不出现，一旦出现就是致命性的问题，所以面试官一定会问你。</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 ### <font style="color:#000000;">缓存雪崩</font>
+
 <font style="color:#000000;">对于系统 A，假设每天高峰期每秒 5000 个请求，本来缓存在高峰期可以扛住每秒 4000 个请求，但是缓存机器意外发生了全盘宕机。缓存挂了，此时 1 秒 5000 个请求全部落数据库，数据库必然扛不住，它会报一下警，然后就挂了。此时，如果没有采用什么特别的方案来处理这个故障，DBA 很着急，重启数据库，但是数据库立马又被新的流量给打死了。</font>
 
 <font style="color:#000000;">这就是缓存雪崩。</font>
@@ -849,6 +954,7 @@ min-slaves-max-lag 10
 + <font style="color:#000000;">只要有 2/5 的请求可以被处理，就意味着你的系统没死，对用户来说，可能就是点击几次刷不出来页面，但是多点几次，就可以刷出来一次。</font>
 
 ### <font style="color:#000000;">缓存穿透</font>
+
 <font style="color:#000000;">对于系统A，假设一秒 5000 个请求，结果其中 4000 个请求是黑客发出的恶意攻击。</font>
 
 <font style="color:#000000;">黑客发出的那 4000 个攻击，缓存中查不到，每次你去数据库里查，也查不到。</font>
@@ -860,20 +966,25 @@ min-slaves-max-lag 10
 <font style="color:#000000;">解决方式很简单，每次系统 A 从数据库中只要没查到，就写一个空值到缓存里去，比如 </font><font style="color:#000000;">set -999 UNKNOWN</font><font style="color:#000000;">。然后设置一个过期时间，这样的话，下次有相同的 key 来访问的时候，在缓存失效之前，都可以直接从缓存中取数据。</font>
 
 ### <font style="color:#000000;">缓存击穿</font>
+
 <font style="color:#000000;">缓存击穿，就是说某个 key 非常热点，访问非常频繁，处于集中式高并发访问的情况，当这个 key 在失效的瞬间，大量的请求就击穿了缓存，直接请求数据库，就像是在一道屏障上凿开了一个洞。</font>
 
 <font style="color:#000000;">解决方式也很简单，可以将热点数据设置为永远不过期；或者基于 redis or zookeeper 实现互斥锁，等待第一个请求构建完缓存之后，再释放锁，进而其它请求才能通过该 key 访问数据。</font>
 
 # <font style="color:#000000;">如何保证缓存与数据库的双写一致性？</font>
+
 ## <font style="color:#000000;">面试官心理分析</font>
+
 <font style="color:#000000;">你只要用缓存，就可能会涉及到缓存与数据库双存储双写，你只要是双写，就一定会有数据一致性的问题，那么你如何解决一致性问题？</font>
 
 ## <font style="color:#000000;">面试题剖析</font>
+
 <font style="color:#000000;">一般来说，如果允许缓存可以稍微的跟数据库偶尔有不一致的情况，也就是系统</font>**<font style="color:#000000;">不是严格要求</font>**<font style="color:#000000;"> “缓存+数据库” 必须保持一致，那就最好不要做这个方案，即：</font>**<font style="color:#000000;">读请求和写请求串行化</font>**<font style="color:#000000;">，串到一个</font>**<font style="color:#000000;">内存队列</font>**<font style="color:#000000;">里去。</font>
 
 <font style="color:#000000;">串行化可以保证一定不会出现不一致的情况，但是它也会导致系统的吞吐量大幅度降低，用比正常情况下多几倍的机器去支撑线上的一个请求。</font>
 
 ### <font style="color:#000000;">缓存分离模式</font>
+
 <font style="color:#000000;">最经典的缓存+数据库读写的模式，就是缓存分离模式</font>
 
 + <font style="color:#000000;">读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。</font>
@@ -892,6 +1003,7 @@ min-slaves-max-lag 10
 <font style="color:#000000;">其实删除缓存，而不是更新缓存，就是一个 lazy 计算的思想，不要每次都重新做复杂的计算，不管它会不会用到，而是让它到需要被使用的时候再重新计算。像 mybatis，hibernate，都有懒加载思想。查询一个部门，部门带了一个员工的 list，没有必要说每次查询部门，都里面的 1000 个员工的数据也同时查出来啊。80% 的情况，查这个部门，就只是要访问这个部门的信息就可以了。先查部门，同时要访问里面的员工，那么这个时候只有在你要访问里面的员工的时候，才会去数据库里面查询 1000 个员工。</font>
 
 ### <font style="color:#000000;">最初级的缓存不一致问题及解决方案</font>
+
 <font style="color:#000000;">问题：先更新数据库，再删除缓存。如果删除缓存失败了，那么会导致数据库中是新数据，缓存中是旧数据，数据就出现了不一致。</font>
 
 ![1710853284865-9fe1aa26-daf5-418b-800e-2555662ea606.png](./img/nqqJ4R6bo7quzfcr/1710853284865-9fe1aa26-daf5-418b-800e-2555662ea606-443937.png)
@@ -899,12 +1011,15 @@ min-slaves-max-lag 10
 <font style="color:#000000;">解决思路：先删除缓存，再更新数据库。如果数据库更新失败了，那么数据库中是旧数据，缓存中是空的，那么数据不会不一致。因为读的时候缓存没有，所以去读了数据库中的旧数据，然后更新到缓存中。</font>
 
 ### <font style="color:#000000;">比较复杂的数据不一致问题分析</font>
+
 <font style="color:#000000;">数据发生了变更，先删除了缓存，然后要去修改数据库，此时还没修改。一个请求过来，去读缓存，发现缓存空了，去查询数据库，</font>**<font style="color:#000000;">查到了修改前的旧数据</font>**<font style="color:#000000;">，放到了缓存中。随后数据变更的程序完成了数据库的修改。完了，数据库和缓存中的数据不一样了...</font>
 
 ### <font style="color:#000000;">为什么上亿流量高并发场景下，缓存会出现这个问题？</font>
+
 <font style="color:#000000;">只有在对一个数据在并发的进行读写的时候，才可能会出现这种问题。其实如果说你的并发量很低的话，特别是读并发很低，每天访问量就 1 万次，那么很少的情况下，会出现刚才描述的那种不一致的场景。但是问题是，如果每天的是上亿的流量，每秒并发读是几万，每秒只要有数据更新的请求，就</font>**<font style="color:#000000;">可能会出现上述的数据库+缓存不一致的情况</font>**<font style="color:#000000;">。</font>
 
 ### <font style="color:#000000;">解决方案如下：</font>
+
 <font style="color:#000000;">更新数据的时候，根据</font>**<font style="color:#000000;">数据的唯一标识</font>**<font style="color:#000000;">，将操作路由之后，发送到一个 jvm 内部队列中。读取数据的时候，如果发现数据不在缓存中，那么将重新读取数据+更新缓存的操作，根据唯一标识路由之后，也发送同一个 jvm 内部队列中。</font>
 
 <font style="color:#000000;">一个队列对应一个工作线程，每个工作线程</font>**<font style="color:#000000;">串行</font>**<font style="color:#000000;">拿到对应的操作，然后一条一条的执行。这样的话，一个数据变更的操作，先删除缓存，然后再去更新数据库，但是还没完成更新。此时如果一个读请求过来，没有读到缓存，那么可以先将缓存更新的请求发送到队列中，此时会在队列中积压，然后同步等待缓存更新完成。</font>
@@ -954,6 +1069,7 @@ min-slaves-max-lag 10
 <font style="color:#000000;">万一某个商品的读写请求特别高，全部打到相同的机器的相同的队列里面去了，可能会造成某台机器的压力过大。就是说，因为只有在商品数据更新的时候才会清空缓存，然后才会导致读写并发，所以其实要根据业务系统去看，如果更新频率不是太高的话，这个问题的影响并不是特别大，但是的确可能某些机器的负载会高一些。</font>
 
 # <font style="color:#000000;">执行一条 select 语句，期间发生了什么？</font>
+
 <font style="color:#000000;">学习 SQL 的时候，大家肯定第一个先学到的就是 select 查询语句了，比如下面这句查询语句：</font>
 
 ```sql
@@ -966,6 +1082,7 @@ select * from product where id = 1;
 <font style="color:#000000;">带着这个问题，我们可以很好的了解 MySQL 内部的架构，所以这次就带大家拆解一下 MySQL 内部的结构，看看内部里的每一个“零件”具体是负责做什么的。</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#mysql-%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84)<font style="color:#000000;">MySQL 执行流程是怎样的？</font>
+
 <font style="color:#000000;">先来一个上帝视角图，下面就是 MySQL 执行一条 SQL 查询语句的流程，也从图中可以看到 MySQL 内部架构里的各个功能模块。</font>
 
 ![1711369612751-aff34fd0-f5a6-44ac-879e-894f56e95c0e.png](./img/nqqJ4R6bo7quzfcr/1711369612751-aff34fd0-f5a6-44ac-879e-894f56e95c0e-181258.png)
@@ -978,6 +1095,7 @@ select * from product where id = 1;
 <font style="color:#000000;">好了，现在我们对 Server 层和存储引擎层有了一个简单认识，接下来，就详细说一条 SQL 查询语句的执行流程，依次看看每一个功能模块的作用。</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E8%BF%9E%E6%8E%A5%E5%99%A8)<font style="color:#000000;">第一步：连接器</font>
+
 <font style="color:#000000;">如果你在 Linux 操作系统里要使用 MySQL，那你第一步肯定是要先连接 MySQL 服务，然后才能执行 SQL 语句，普遍我们都是使用下面这条命令进行连接：</font>
 
 ```shell
@@ -1000,6 +1118,7 @@ mysql -h$ip -u$user -p
 <font style="color:#000000;">所以，如果一个用户已经建立了连接，即使管理员中途修改了该用户的权限，也不会影响已经存在连接的权限。修改完成后，只有再新建的连接才会使用新的权限设置。</font>
 
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">如何查看 MySQL 服务被多少个客户端连接了？</font>
+
 <font style="color:#000000;">如果你想知道当前 MySQL 服务被多少个客户端连接了，你可以执行</font><font style="color:#000000;"> </font><font style="color:#000000;">show processlist</font><font style="color:#000000;"> </font><font style="color:#000000;">命令进行查看。</font>
 
 ![1711368499042-3a064adf-c96f-4199-8f87-f13db3e6cc47.png](./img/nqqJ4R6bo7quzfcr/1711368499042-3a064adf-c96f-4199-8f87-f13db3e6cc47-519142.png)
@@ -1007,6 +1126,7 @@ mysql -h$ip -u$user -p
 <font style="color:#000000;">比如上图的显示结果，共有两个用户名为 root 的用户连接了 MySQL 服务，其中 id 为 6 的用户的 Command 列的状态为</font><font style="color:#000000;"> </font><font style="color:#000000;">Sleep</font><font style="color:#000000;"> </font><font style="color:#000000;">，这意味着该用户连接完 MySQL 服务就没有再执行过任何命令，也就是说这是一个空闲的连接，并且空闲的时长是 736 秒（ Time 列）。</font>
 
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">空闲连接会一直占用着吗？</font>
+
 <font style="color:#000000;">当然不是了，MySQL 定义了空闲连接的最大空闲时长，由 </font><font style="color:#000000;">wait_timeout</font><font style="color:#000000;"> 参数控制的，默认值是 8 小时（28880秒），如果空闲连接超过了这个时间，连接器就会自动将它断开。</font>
 
 ```sql
@@ -1029,6 +1149,7 @@ Query OK, 0 rows affected (0.00 sec)
 <font style="color:#000000;">一个处于空闲状态的连接被服务端主动断开后，这个客户端并不会马上知道，等到客户端在发起下一个请求的时候，才会收到这样的报错“ERROR 2013 (HY000): Lost connection to MySQL server during query”。</font>
 
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">MySQL 的连接数有限制吗？</font>
+
 <font style="color:#000000;">MySQL 服务支持的最大连接数由 max_connections 参数控制，比如我的 MySQL 服务默认是 151 个,超过这个值，系统就会拒绝接下来的连接请求，并报错提示“Too many connections”。</font>
 
 ```sql
@@ -1063,6 +1184,7 @@ mysql> show variables like 'max_connections';
 <font style="color:#000000;">但是，使用长连接后可能会占用内存增多，因为 MySQL 在执行查询过程中临时使用内存管理连接对象，这些连接对象资源只有在连接断开时才会释放。如果长连接累计很多，将导致 MySQL 服务占用内存太大，有可能会被系统强制杀掉，这样会发生 MySQL 服务异常重启的现象。</font>
 
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">怎么解决长连接占用内存的问题？</font>
+
 <font style="color:#000000;">有两种解决方式。</font>
 
 <font style="color:#000000;">第一种，</font>**<font style="color:#000000;">定期断开长连接</font>**<font style="color:#000000;">。既然断开连接后就会释放连接占用的内存资源，那么我们可以定期断开长连接。</font>
@@ -1076,6 +1198,7 @@ mysql> show variables like 'max_connections';
 + <font style="color:#000000;">如果用户名和密码都对了，会读取该用户的权限，然后后面的权限逻辑判断都基于此时读取到的权限；</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E6%9F%A5%E8%AF%A2%E7%BC%93%E5%AD%98)<font style="color:#000000;">第二步：查询缓存</font>
+
 <font style="color:#000000;">连接器得工作完成后，客户端就可以向 MySQL 服务发送 SQL 语句了，MySQL 服务收到 SQL 语句后，就会解析出 SQL 语句的第一个字段，看看是什么类型的语句。</font>
 
 <font style="color:#000000;">如果 SQL 是查询语句（select 语句），MySQL 就会先去查询缓存（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 key-value 形式保存在内存中的，key 为 SQL 查询语句，value 为 SQL 语句查询的结果。</font>
@@ -1095,9 +1218,11 @@ mysql> show variables like 'max_connections';
 <font style="color:#000000;background-color:rgb(243, 245, 247);">这里说的查询缓存是 server 层的，也就是 MySQL 8.0 版本移除的是 server 层的查询缓存，并不是 Innodb 存储引擎中的 buffer pool，他们是</font>**<font style="color:#000000;background-color:rgb(243, 245, 247);">两个不同的组件</font>**<font style="color:#000000;background-color:rgb(243, 245, 247);">。</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E8%A7%A3%E6%9E%90-sql)<font style="color:#000000;">第三步：解析 SQL</font>
+
 <font style="color:#000000;">在正式执行 SQL 查询语句之前， MySQL 会先对 SQL 语句做解析，这个工作交由「解析器」来完成。</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E8%A7%A3%E6%9E%90%E5%99%A8)<font style="color:#000000;">解析器</font>
+
 <font style="color:#000000;">解析器会做如下两件事情。</font>
 
 <font style="color:#000000;">第一件事情，</font>**<font style="color:#000000;">词法分析</font>**<font style="color:#000000;">。MySQL 会根据你输入的字符串识别出关键字出来，例如，SQL语句 select username from userinfo，在分析之后，会得到4个Token，其中有2个Keyword，分别为select和from：</font>
@@ -1105,7 +1230,6 @@ mysql> show variables like 'max_connections';
 | <font style="color:#000000;">关键字</font> | <font style="color:#000000;">非关键字</font> | <font style="color:#000000;">关键字</font> | <font style="color:#000000;">非关键字</font> |
 | --- | --- | --- | --- |
 | <font style="color:#000000;">select</font> | <font style="color:#000000;">username</font> | <font style="color:#000000;">from</font> | <font style="color:#000000;">userinfo</font> |
-
 
 <font style="color:#000000;">第二件事情，</font>**<font style="color:#000000;">语法分析</font>**<font style="color:#000000;">。根据词法分析的结果，语法解析器会根据语法规则，判断你输入的这个 SQL 语句是否满足 MySQL 语法，如果没问题就会构建出 SQL 语法树，这样方便后面模块获取 SQL 类型、表名、字段名、 where 条件等等。</font>
 
@@ -1120,6 +1244,7 @@ mysql> show variables like 'max_connections';
 <font style="color:#000000;">那到底谁来做检测表和字段是否存在的工作呢？别急，接下来就是了。</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E7%AC%AC%E5%9B%9B%E6%AD%A5-%E6%89%A7%E8%A1%8C-sql)<font style="color:#000000;">第四步：执行 SQL</font>
+
 <font style="color:#000000;">经过解析器后，接着就要进入执行 SQL 查询语句的流程了，每条</font><font style="color:#000000;">SELECT</font><font style="color:#000000;"> </font><font style="color:#000000;">查询语句流程主要可以分为下面这三个阶段：</font>
 
 + <font style="color:#000000;">prepare 阶段，也就是预处理阶段；</font>
@@ -1127,6 +1252,7 @@ mysql> show variables like 'max_connections';
 + <font style="color:#000000;">execute 阶段，也就是执行阶段；</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8)<font style="color:#000000;">预处理器</font>
+
 <font style="color:#000000;">我们先来说说预处理阶段做了什么事情。</font>
 
 + <font style="color:#000000;">检查 SQL 查询语句中的表或者字段是否存在；</font>
@@ -1140,6 +1266,7 @@ ERROR 1146 (42S02): Table 'mysql.test' doesn't exist
 ```
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E4%BC%98%E5%8C%96%E5%99%A8)<font style="color:#000000;">优化器</font>
+
 <font style="color:#000000;">经过预处理阶段后，还需要为 SQL 查询语句先制定一个执行计划，这个工作交由「优化器」来完成的。</font>
 
 **<font style="color:#000000;">优化器主要负责将 SQL 查询语句的执行方案确定下来</font>**<font style="color:#000000;">，比如在表里面有多个索引的时候，优化器会基于查询成本的考虑，来决定选择使用哪个索引。</font>
@@ -1149,22 +1276,25 @@ ERROR 1146 (42S02): Table 'mysql.test' doesn't exist
 <font style="color:#000000;">要想知道优化器选择了哪个索引，我们可以在查询语句最前面加个 </font><font style="color:#000000;">explain</font><font style="color:#000000;"> 命令，这样就会输出这条 SQL 语句的执行计划，然后执行计划中的 key 就表示执行过程中使用了哪个索引。</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/how_select.html#%E6%89%A7%E8%A1%8C%E5%99%A8)<font style="color:#000000;">执行器</font>
+
 <font style="color:#000000;">经历完优化器后，就确定了执行方案，接下来 MySQL 就真正开始执行语句了，这个工作是由「执行器」完成的。在执行的过程中，执行器就会和存储引擎交互了，交互是以记录为单位的。</font>
 
 ## <font style="color:#000000;">总结</font>
+
 <font style="color:#000000;">执行一条 SQL 查询语句，期间发生了什么？</font>
 
 + <font style="color:#000000;">连接器：建立连接，管理连接、校验用户身份；</font>
 + <font style="color:#000000;">查询缓存：查询语句如果命中查询缓存则直接返回，否则继续往下执行。MySQL 8.0 已删除该模块；</font>
 + <font style="color:#000000;">解析 SQL，通过解析器对 SQL 查询语句进行词法分析、语法分析，然后构建语法树，方便后续模块读取表名、字段、语句类型；</font>
 + <font style="color:#000000;">执行 SQL：执行 SQL 共有三个阶段：</font>
-    - <font style="color:#000000;">预处理阶段：检查表或字段是否存在；将</font><font style="color:#000000;"> </font><font style="color:#000000;">select *</font><font style="color:#000000;"> </font><font style="color:#000000;">中的</font><font style="color:#000000;"> </font><font style="color:#000000;">*</font><font style="color:#000000;"> </font><font style="color:#000000;">符号扩展为表上的所有列。</font>
-    - <font style="color:#000000;">优化阶段：基于查询成本的考虑， 选择查询成本最小的执行计划；</font>
-    - <font style="color:#000000;">执行阶段：根据执行计划执行 SQL 查询语句，从存储引擎读取记录，返回给客户端；</font>
+  + <font style="color:#000000;">预处理阶段：检查表或字段是否存在；将</font><font style="color:#000000;"> </font><font style="color:#000000;">select *</font><font style="color:#000000;"> </font><font style="color:#000000;">中的</font><font style="color:#000000;"> </font><font style="color:#000000;">*</font><font style="color:#000000;"> </font><font style="color:#000000;">符号扩展为表上的所有列。</font>
+  + <font style="color:#000000;">优化阶段：基于查询成本的考虑， 选择查询成本最小的执行计划；</font>
+  + <font style="color:#000000;">执行阶段：根据执行计划执行 SQL 查询语句，从存储引擎读取记录，返回给客户端；</font>
 
 <font style="color:#000000;">怎么样？现在再看这张图，是不是很清晰了。</font>![1711369612751-aff34fd0-f5a6-44ac-879e-894f56e95c0e.png](./img/nqqJ4R6bo7quzfcr/1711369612751-aff34fd0-f5a6-44ac-879e-894f56e95c0e-181258.png)
 
 # <font style="color:#000000;">MySQL 一行记录是怎么存储的？</font>
+
 <font style="color:#000000;">之前有小伙伴说在面试过程中被问到：是否知道 MySQL 的 null 值是怎么存放的？</font>
 
 <font style="color:#000000;">其实如果大家知道 MySQL 一行记录的存储结构，</font><font style="color:#000000;">那么这个问题对你没什么难度。</font>
@@ -1183,6 +1313,7 @@ ERROR 1146 (42S02): Table 'mysql.test' doesn't exist
 <font style="color:#000000;">好了，话不多说，发车！</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#mysql-%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AD%98%E6%94%BE%E5%9C%A8%E5%93%AA%E4%B8%AA%E6%96%87%E4%BB%B6)<font style="color:#000000;">MySQL 的数据存放在哪个文件？</font>
+
 <font style="color:#000000;">大家都知道 MySQL 的数据都是保存在磁盘的，那具体是保存在哪个文件呢？</font>
 
 <font style="color:#000000;">MySQL 存储的行为是由存储引擎实现的，MySQL 支持多种存储引擎，不同的存储引擎保存的文件自然也不同。</font>
@@ -1220,6 +1351,7 @@ mysql> SHOW VARIABLES LIKE 'datadir';
 <font style="color:#000000;">好了，现在我们知道了一张数据库表的数据是保存在「 表名字.ibd 」的文件里的，这个文件也称为独占表空间文件。</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#%E8%A1%A8%E7%A9%BA%E9%97%B4%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84%E6%98%AF%E6%80%8E%E4%B9%88%E6%A0%B7%E7%9A%84)<font style="color:#000000;">表空间文件的结构是怎么样的？</font>
+
 **<font style="color:#000000;">表空间由段（segment）、区（extent）、页（page）、行（row）组成</font>**<font style="color:#000000;">，InnoDB存储引擎的逻辑存储结构大致如下图：</font>
 
 ![1711520523779-1e1b904e-b786-4615-817e-0cbbb237cd4f.png](./img/nqqJ4R6bo7quzfcr/1711520523779-1e1b904e-b786-4615-817e-0cbbb237cd4f-762312.png)
@@ -1227,11 +1359,13 @@ mysql> SHOW VARIABLES LIKE 'datadir';
 <font style="color:#000000;">下面我们从下往上一个个看看。</font>
 
 #### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#_1%E3%80%81%E8%A1%8C-row)<font style="color:#000000;">1、行（row）</font>
+
 <font style="color:#000000;">数据库表中的记录都是按行（row）进行存放的，每行记录根据不同的行格式，有不同的存储结构。</font>
 
 <font style="color:#000000;">后面我们详细介绍 InnoDB 存储引擎的行格式，也是本文重点介绍的内容。</font>
 
 #### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#_2%E3%80%81%E9%A1%B5-page)<font style="color:#000000;">2、页（page）</font>
+
 <font style="color:#000000;">记录是按照行来存储的，但是数据库的读取并不以「行」为单位，否则一次读取（也就是一次 I/O 操作）只能处理一行数据，效率会非常低。</font>
 
 <font style="color:#000000;">因此，</font>**<font style="color:#000000;">InnoDB 的数据是按「页」为单位来读写的</font>**<font style="color:#000000;">，也就是说，当需要读一条记录的时候，并不是将这个行记录从磁盘读出来，而是以页为单位，将其整体读入内存。</font>
@@ -1241,6 +1375,7 @@ mysql> SHOW VARIABLES LIKE 'datadir';
 <font style="color:#000000;">页是 InnoDB 存储引擎磁盘管理的最小单元，意味着数据库每次读写都是以 16KB 为单位的，一次最少从磁盘中读取 16K 的内容到内存中，一次最少把内存中的 16K 内容刷新到磁盘中。</font>
 
 #### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#_3%E3%80%81%E5%8C%BA-extent)<font style="color:#000000;">3、区（extent）</font>
+
 <font style="color:#000000;">我们知道 InnoDB 存储引擎是用 B+ 树来组织数据的。</font>
 
 <font style="color:#000000;">B+ 树中每一层都是通过双向链表连接起来的，如果是以页为单位来分配存储空间，那么链表中相邻的两个页之间的物理位置并不是连续的，可能离得非常远，那么磁盘查询时就会有大量的随机I/O，随机 I/O 是非常慢的。</font>
@@ -1252,6 +1387,7 @@ mysql> SHOW VARIABLES LIKE 'datadir';
 **<font style="color:#000000;">在表中数据量大的时候，为某个索引分配空间的时候就不再按照页为单位分配了，而是按照区（extent）为单位分配。每个区的大小为 1MB，对于 16KB 的页来说，连续的 64 个页会被划为一个区，这样就使得链表中相邻的页的物理位置也相邻，就能使用顺序 I/O 了</font>**<font style="color:#000000;">。</font>
 
 #### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#_4%E3%80%81%E6%AE%B5-segment)<font style="color:#000000;">4、段（segment）</font>
+
 <font style="color:#000000;">表空间是由各个段（segment）组成的，段是由多个区（extent）组成的。段一般分为数据段、索引段和回滚段等。</font>
 
 + <font style="color:#000000;">索引段：存放 B + 树的非叶子节点的区的集合；</font>
@@ -1263,6 +1399,7 @@ mysql> SHOW VARIABLES LIKE 'datadir';
 <font style="color:#000000;">之所以要绕一大圈才讲行记录的格式，主要是想让大家知道行记录是存储在哪个文件，以及行记录在这个表空间文件中的哪个区域，有一个从上往下切入的视角，这样理解起来不会觉得很抽象。</font>
 
 ## <font style="color:#000000;">InnoDB 行格式有哪些？</font>
+
 <font style="color:#000000;">行格式（row_format），就是一条记录的存储结构。</font>
 
 <font style="color:#000000;">InnoDB 提供了 4 种行格式，分别是 </font>**<font style="color:#000000;">Redundant</font>**<font style="color:#000000;">、</font>**<font style="color:#000000;">Compact</font>**<font style="color:#000000;">、</font>**<font style="color:#000000;">Dynamic</font>**<font style="color:#000000;">和 </font>**<font style="color:#000000;">Compressed</font>**<font style="color:#000000;"> 行格式。</font>
@@ -1276,6 +1413,7 @@ mysql> SHOW VARIABLES LIKE 'datadir';
 <font style="color:#000000;">所以，弄懂了 Compact 行格式，之后你们在去了解其他行格式，很快也能看懂。</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#compact-%E8%A1%8C%E6%A0%BC%E5%BC%8F%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7)<font style="color:#000000;">COMPACT 行格式长什么样？</font>
+
 <font style="color:#000000;">先跟 Compact 行格式混个脸熟，它长这样：</font>
 
 ![1711520523755-df2c520a-6f9f-4095-8c6f-c8c07281db72.png](./img/nqqJ4R6bo7quzfcr/1711520523755-df2c520a-6f9f-4095-8c6f-c8c07281db72-752452.png)
@@ -1285,9 +1423,11 @@ mysql> SHOW VARIABLES LIKE 'datadir';
 <font style="color:#000000;">接下里，分别详细说下。</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#%E8%AE%B0%E5%BD%95%E7%9A%84%E9%A2%9D%E5%A4%96%E4%BF%A1%E6%81%AF)<font style="color:#000000;">记录的额外信息</font>
+
 <font style="color:#000000;">记录的额外信息包含 3 个部分：变长字段长度列表、NULL 值列表、记录头信息。</font>
 
 #### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#_1-%E5%8F%98%E9%95%BF%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6%E5%88%97%E8%A1%A8)<font style="color:#000000;">1. 变长字段长度列表</font>
+
 <font style="color:#000000;">varchar(n) 和 char(n) 的区别是什么，相信大家都非常清楚，char 是定长的，varchar 是变长的，变长字段实际存储的数据的长度（大小）不固定的。</font>
 
 <font style="color:#000000;">所以，在存储数据的时候，也要把数据占用的大小存起来，存到「变长字段长度列表」里面，读取数据的时候才能根据这个「变长字段长度列表」去读取对应长度的数据。其他 TEXT、BLOB 等变长字段也是这么实现的。</font>
@@ -1343,6 +1483,7 @@ CREATE TABLE `t_user` (
 <font style="color:#000000;">所以「变长字段长度列表」只出现在数据表有变长字段的时候。</font>
 
 #### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#_2-null-%E5%80%BC%E5%88%97%E8%A1%A8)<font style="color:#000000;">2. NULL 值列表</font>
+
 <font style="color:#000000;">表中的某些列可能会存储 NULL 值，如果把这些 NULL 值都放到记录的真实数据中会比较浪费空间，所以 Compact 行格式把这些值为 NULL 的列存储到 NULL值列表中。</font>
 
 <font style="color:#000000;">如果存在允许 NULL 值的列，则每个列对应一个二进制位（bit），二进制位按照列的顺序逆序排列。</font>
@@ -1395,6 +1536,7 @@ CREATE TABLE `t_user` (
 <font style="color:#000000;">当一条记录有 9 个字段值都是 NULL，那么就会创建 2 字节空间的「NULL 值列表」，以此类推。</font>
 
 #### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#_3-%E8%AE%B0%E5%BD%95%E5%A4%B4%E4%BF%A1%E6%81%AF)<font style="color:#000000;">3. 记录头信息</font>
+
 <font style="color:#000000;">记录头信息中包含的内容很多，我就不一一列举了，这里说几个比较重要的：</font>
 
 + <font style="color:#000000;">delete_mask ：标识此条数据是否被删除。从这里可以知道，我们执行 detele 删除记录的时候，并不会真正的删除记录，只是将这个记录的 delete_mask 标记为 1。</font>
@@ -1402,6 +1544,7 @@ CREATE TABLE `t_user` (
 + <font style="color:#000000;">record_type：表示当前记录的类型，0表示普通记录，1表示B+树非叶子节点记录，2表示最小记录，3表示最大记录</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#%E8%AE%B0%E5%BD%95%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%95%B0%E6%8D%AE)<font style="color:#000000;">记录的真实数据</font>
+
 <font style="color:#000000;">记录真实数据部分除了我们定义的字段，还有三个隐藏字段，分别为：row_id、trx_id、roll_pointer，我们来看下这三个字段是什么。</font>
 
 ![1711520524778-4545b74a-57b7-46fa-921b-aa24b713e57d.png](./img/nqqJ4R6bo7quzfcr/1711520524778-4545b74a-57b7-46fa-921b-aa24b713e57d-072931.png)
@@ -1419,6 +1562,7 @@ CREATE TABLE `t_user` (
 <font style="color:#000000;">这条记录上一个版本的指针。roll_pointer 是必需的，占用 7 个字节。</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#varchar-n-%E4%B8%AD-n-%E6%9C%80%E5%A4%A7%E5%8F%96%E5%80%BC%E4%B8%BA%E5%A4%9A%E5%B0%91)<font style="color:#000000;">varchar(n) 中 n 最大取值为多少？</font>
+
 <font style="color:#000000;">我们要清楚一点，</font>**<font style="color:#000000;">MySQL 规定除了 TEXT、BLOBs 这种大对象类型之外，其他所有的列（不包括隐藏列和记录头信息）占用的字节长度加起来不能超过 65535 个字节</font>**<font style="color:#000000;">。</font>
 
 <font style="color:#000000;">也就是说，一行记录除了 TEXT、BLOBs 类型的列，限制最大为 65535 字节，注意是一行的总长度，不是一列。</font>
@@ -1430,6 +1574,7 @@ CREATE TABLE `t_user` (
 <font style="color:#000000;">要算 varchar(n) 最大能允许存储的字节数，还要看数据库表的字符集，因为字符集代表着，1个字符要占用多少字节，比如 ascii 字符集， 1 个字符占用 1 字节，那么 varchar(100) 意味着最大能允许存储 100 字节的数据。</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#%E5%8D%95%E5%AD%97%E6%AE%B5%E7%9A%84%E6%83%85%E5%86%B5)<font style="color:#000000;">单字段的情况</font>
+
 <font style="color:#000000;">前面我们知道了，一行记录最大只能存储 65535 字节的数据。</font>
 
 <font style="color:#000000;">那假设数据库表只有一个 varchar(n) 类型的列且字符集是 ascii，在这种情况下， varchar(n) 中 n 最大取值是 65535 吗？</font>
@@ -1496,9 +1641,11 @@ CREATE TABLE test (
 <font style="color:#000000;">上面所说的只是针对于一个字段的计算方式。</font>
 
 ### [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#%E5%A4%9A%E5%AD%97%E6%AE%B5%E7%9A%84%E6%83%85%E5%86%B5)<font style="color:#000000;">多字段的情况</font>
+
 **<font style="color:#000000;">如果有多个字段的话，要保证所有字段的长度 + 变长字段字节数列表所占用的字节数 + NULL值列表所占用的字节数 <= 65535</font>**<font style="color:#000000;">。</font>
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#%E8%A1%8C%E6%BA%A2%E5%87%BA%E5%90%8E-mysql-%E6%98%AF%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%E7%9A%84)<font style="color:#000000;">行溢出后，MySQL 是怎么处理的？</font>
+
 <font style="color:#000000;">MySQL 中磁盘和内存交互的基本单位是页，一个页的大小一般是</font><font style="color:#000000;"> </font><font style="color:#000000;">16KB</font><font style="color:#000000;">，也就是</font><font style="color:#000000;"> </font><font style="color:#000000;">16384字节</font><font style="color:#000000;">，而一个 varchar(n) 类型的列最多可以存储</font><font style="color:#000000;"> </font><font style="color:#000000;">65532字节</font><font style="color:#000000;">，一些大对象如 TEXT、BLOB 可能存储更多的数据，这时一个页可能就存不了一条记录。这个时候就会</font>**<font style="color:#000000;">发生行溢出，多的数据就会存到另外的「溢出页」中</font>**<font style="color:#000000;">。</font>
 
 <font style="color:#000000;">如果一个数据页存不了一条记录，InnoDB 存储引擎会自动将溢出的数据存放到「溢出页」中。在一般情况下，InnoDB 的数据都是存放在 「数据页」中。但是当发生行溢出时，溢出的数据会存放到「溢出页」中。</font>
@@ -1516,15 +1663,19 @@ CREATE TABLE test (
 ![1711520525711-a87b871d-81ec-4f61-a23e-4eb154271357.png](./img/nqqJ4R6bo7quzfcr/1711520525711-a87b871d-81ec-4f61-a23e-4eb154271357-596755.png)
 
 ## [<font style="color:#000000;"></font>](https://xiaolincoding.com/mysql/base/row_format.html#%E6%80%BB%E7%BB%93)<font style="color:#000000;">总结</font>
+
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">MySQL 的 NULL 值是怎么存放的？</font>
+
 <font style="color:#000000;">MySQL 的 Compact 行格式中会用「NULL值列表」来标记值为 NULL 的列，NULL 值并不会存储在行格式中的真实数据部分。</font>
 
 <font style="color:#000000;">NULL值列表会占用 1 字节空间，当表中所有字段都定义成 NOT NULL，行格式中就不会有 NULL值列表，这样可节省 1 字节的空间。</font>
 
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">MySQL 怎么知道 varchar(n) 实际占用数据的大小？</font>
+
 <font style="color:#000000;">MySQL 的 Compact 行格式中会用「变长字段长度列表」存储变长字段实际占用的数据大小。</font>
 
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">varchar(n) 中 n 最大取值为多少？</font>
+
 <font style="color:#000000;">一行记录最大能存储 65535 字节的数据，但是这个是包含「变长字段字节数列表所占用的字节数」和「NULL值列表所占用的字节数」。所以， 我们在算 varchar(n) 中 n 最大值时，需要减去这两个列表所占用的字节数。</font>
 
 <font style="color:#000000;">如果一张表只有一个 varchar(n) 字段，且允许为 NULL，字符集为 ascii。varchar(n) 中 n 最大取值为 65532。</font>
@@ -1534,6 +1685,7 @@ CREATE TABLE test (
 <font style="color:#000000;">如果有多个字段的话，要保证所有字段的长度 + 变长字段字节数列表所占用的字节数 + NULL值列表所占用的字节数 <= 65535。</font>
 
 ### <font style="color:#000000;background-color:rgb(227, 242, 253);">行溢出后，MySQL 是怎么处理的？</font>
+
 <font style="color:#000000;">如果一个数据页存不了一条记录，InnoDB 存储引擎会自动将溢出的数据存放到「溢出页」中。</font>
 
 <font style="color:#000000;">Compact 行格式针对行溢出的处理是这样的：当发生行溢出时，在记录的真实数据处只会保存该列的一部分数据，而把剩余的数据放在「溢出页」中，然后真实数据处用 20 字节存储指向溢出页的地址，从而可以找到剩余数据所在的页。</font>
@@ -1541,6 +1693,7 @@ CREATE TABLE test (
 <font style="color:#000000;">Compressed 和 Dynamic 这两种格式采用完全的行溢出方式，记录的真实数据处不会存储该列的一部分数据，只存储 20 个字节的指针来指向溢出页。而实际的数据都存储在溢出页中。</font>
 
 # <font style="color:#000000;">最左前缀原则一定需要最左列吗？</font>
+
 <font style="color:#000000;">最近在整理 mysql 知识点的时候，发现一个有意思的最左前缀问题，话不多说直接上代码：</font>
 
 <font style="color:#000000;">创建了一张数据库表，表里的字段只有主键索引（</font><font style="color:#000000;background-color:rgb(248, 248, 248);">id</font><font style="color:#000000;">）和联合索引（</font><font style="color:#000000;background-color:rgb(248, 248, 248);">a，b，c</font><font style="color:#000000;">）</font>
@@ -1619,7 +1772,7 @@ select * from t where c = 3;
 
 <font style="color:#000000;">知道了联合索引的最左匹配原则后，再来看看第一个问题。</font>
 
-_<font style="color:#000000;">为什么  </font>__<font style="color:#000000;background-color:rgb(248, 248, 248);">select * from t where c = 0;</font>__<font style="color:#000000;"> 这条不符合联合索引的最左匹配原则的查询语句走了索引查询呢？</font>_
+*<font style="color:#000000;">为什么  </font>**<font style="color:#000000;background-color:rgb(248, 248, 248);">select * from t where c = 0;</font>**<font style="color:#000000;"> 这条不符合联合索引的最左匹配原则的查询语句走了索引查询呢？</font>*
 
 <font style="color:#000000;">应该是因为这个 SQL 可以使用覆盖索引。</font>
 
@@ -1635,13 +1788,14 @@ _<font style="color:#000000;">为什么  </font>__<font style="color:#000000;bac
 
 <font style="color:#000000;">再来回答第二个问题。</font>
 
-_<font style="color:#000000;">为什么表加了非索引字段，执行同样的查询语句后，会变成全表扫描呢？</font>_
+*<font style="color:#000000;">为什么表加了非索引字段，执行同样的查询语句后，会变成全表扫描呢？</font>*
 
 <font style="color:#000000;">加了其他字段后无法使用覆盖索引了。</font>
 
 <font style="color:#000000;background-color:rgb(248, 248, 248);">select * from t where c = 0;</font><font style="color:#000000;"> 查询的内容就不能在联合索引树里找到了，而且条件也不符合最左匹配原则，这样既不能覆盖索引也不能执行回表操作，所以这时只能通过扫描全表来查询到所有的数据。</font>
 
 # <font style="color:#000000;">MySQL 日志文件</font>
+
 日志是mysql数据库的重要组成部分，记录着数据库运行期间各种状态信息。常见的日志有以下集中：
 
 ![画板](./img/nqqJ4R6bo7quzfcr/1711872490760-cb5d50a0-1b6a-4745-b2f0-1ec23ee9404b-858079.jpeg)
@@ -1649,22 +1803,26 @@ _<font style="color:#000000;">为什么表加了非索引字段，执行同样�
 作为开发，我们重点需要关注的是二进制日志(binlog)和事务日志(包括redo log和undolog)，本文接下来会详细介绍这三种日志。
 
 ## <font style="color:rgb(37, 41, 51);">binlog</font>
+
 binlog 用于记录数据库执行的写操作(不包括查询)信息，以二进制的形式保存在磁盘中。binlog 是mysql 的逻辑日志，并且由 Server 层进行记录，使用任何存储引擎的 mysql 数据库都会记录 binlog 日志。
 
 binlog 是通过追加的方式进行写入的，可以通过 max_binlog_size 参数设置每个 binlog 文件的大小，当文件大小达到给定值之后，会生成新的文件来保存日志。
 
 ### tips
+
 逻辑日志：可以简单理解为记录的就是sql语句。
 
 物理日志：因为 mysql 数据最终是保存在数据页中的，物理日志记录的就是数据页变更。
 
 ### 使用场景
+
 在实际应用中，binlog 的主要使用场景有两个，分别是**主从复制**和**数据恢复**。
 
 1. **主从复制**：在Master端开启 binlog，然后将 binlog 发送到各个 Slave 端，Slave 端重放 binlog 从而达到主从数据一致。
 2. **数据恢复**：通过使用 mysqlbinlog 工具来恢复数据。
 
 ### <font style="color:rgb(37, 41, 51);">刷盘机制</font>
+
 对于 InnoDB 存储引擎而言，只有在事务提交时才会记录 binlog，那么 binlog 什么时候才会将内存中的数据刷到磁盘呢？其实 mysql 是通过 sync_binlog 参数控制 binlog 的刷盘时机，取值范围是0-N：
 
 + 0：不去强制要求，由系统自行判断何时写入磁盘；
@@ -1672,18 +1830,21 @@ binlog 是通过追加的方式进行写入的，可以通过 max_binlog_size �
 + N：每N个事务，才会将 binlog 写入磁盘。
 
 ### 存储格式
+
 binlog日志有三种格式，分别为STATMENT、ROW和MIXED。
 
-+ STATMENT：基于SQL语句的复制，每一条会修改数据的sql语句会记录到binlog中。 
-    - 优点：不需要记录每一行的变化，减少了binlog日志量，节约了IO, 从而提高了性能；
-    -  缺点：在某些情况下会导致主从数据不一致，比如执行sysdate()、sleep()等。
++ STATMENT：基于SQL语句的复制，每一条会修改数据的sql语句会记录到binlog中。
+  + 优点：不需要记录每一行的变化，减少了binlog日志量，节约了IO, 从而提高了性能；
+  + 缺点：在某些情况下会导致主从数据不一致，比如执行sysdate()、sleep()等。
 + ROW：基于行的复制，不记录每条sql语句的上下文信息，仅需记录哪条数据被修改了。
-    -  优点：不会出现某些特定情况下的存储过程、或function、或trigger的调用和触发无法被正确复制的问题； 
-    - 缺点：会产生大量的日志，尤其是alter table的时候会让日志暴涨
+  + 优点：不会出现某些特定情况下的存储过程、或function、或trigger的调用和触发无法被正确复制的问题；
+  + 缺点：会产生大量的日志，尤其是alter table的时候会让日志暴涨
 + MIXED：基于 STATMENT 和 ROW 两种模式的混合复制，一般的复制使用STATEMENT模式保存binlog，对于STATEMENT模式无法复制的操作使用ROW模式保存binlog
 
 ## redo log
+
 ### 为什么需要redo log
+
 我们都知道，事务的四大特性里面有一个是**持久性**，具体来说就是**只要事务提交成功，那么对数据库做的修改就被永久保存下来了，不可能因为任何原因再回到原来的状态**。那么mysql是如何保证持久性的呢？最简单的做法是在每次事务提交的时候，将该事务涉及修改的数据页全部刷新到磁盘中。但是这么做会有严重的性能问题，主要体现在两个方面：
 
 1. 因为Innodb是以页为单位进行磁盘交互的，而一个事务很可能只修改一个数据页里面的几个字节，这个时候将完整的数据页刷到磁盘的话，太浪费资源了！
@@ -1692,6 +1853,7 @@ binlog日志有三种格式，分别为STATMENT、ROW和MIXED。
 因此mysql设计了redo log，**具体来说就是只记录事务对数据页做了哪些修改**，这样就能完美地解决性能问题了(相对而言文件更小并且是顺序IO)。
 
 ### redo log基本概念
+
 redo log包括两部分：一个是内存中的日志缓冲(redo log buffer)，另一个是磁盘上的日志文件(redo log file)。mysql每执行一条DML语句，先将记录写入redo log buffer，后续某个时间点再一次性将多个操作记录写到redo log file。这种**先写日志，再写磁盘**的技术就是MySQL里经常说到的WAL(Write-Ahead Logging) 技术。
 
 在计算机操作系统中，用户空间(user space)下的缓冲区数据一般情况下是无法直接写入磁盘的，中间必须经过操作系统内核空间(kernel space)缓冲区(OS Buffer)。因此，redo log buffer写入redo log file实际上是先写入OS Buffer，然后再通过系统调用fsync()将其刷到redo log file中，过程如下： ![1711876706304-da65190b-2d64-44d2-8840-7dbc574d8c51.png](./img/nqqJ4R6bo7quzfcr/1711876706304-da65190b-2d64-44d2-8840-7dbc574d8c51-795704.png)
@@ -1705,6 +1867,7 @@ mysql支持三种将redo log buffer写入redo log file的时机，可以通过in
 ![1711876727612-b703247b-282b-4084-b29f-840ad0dad354.png](./img/nqqJ4R6bo7quzfcr/1711876727612-b703247b-282b-4084-b29f-840ad0dad354-840887.png)
 
 ### redo log记录形式
+
 前面说过，redo log实际上记录数据页的变更，而这种变更记录是没必要全部保存，因此redo log实现上采用了大小固定，循环写入的方式，当写到结尾时，会回到开头循环写日志。如下图： ![1711876720787-5629a842-b6bc-4d63-b0e8-58ca7c837289.png](./img/nqqJ4R6bo7quzfcr/1711876720787-5629a842-b6bc-4d63-b0e8-58ca7c837289-890260.png)
 
 同时我们很容易得知，**在innodb中，既有redo log****需要刷盘，还有****数据页****也需要刷盘，redo log****存在的意义主要就是降低对****数据页****刷盘的要求**。在上图中，write pos表示redo log当前记录的LSN(逻辑序列号)位置，check point表示**数据页更改记录**刷盘后对应redo log所处的LSN(逻辑序列号)位置。write pos到check point之间的部分是redo log空着的部分，用于记录新的记录；check point到write pos之间是redo log待落盘的数据页更改记录。当write pos追上check point时，会先推动check point向前移动，空出位置再记录新的日志。
@@ -1712,6 +1875,7 @@ mysql支持三种将redo log buffer写入redo log file的时机，可以通过in
 启动innodb的时候，不管上次是正常关闭还是异常关闭，总是会进行恢复操作。因为redo log记录的是数据页的物理变化，因此恢复的时候速度比逻辑日志(如binlog)要快很多。 重启innodb时，首先会检查磁盘中数据页的LSN，如果数据页的LSN小于日志中的LSN，则会从checkpoint开始恢复。 还有一种情况，在宕机前正处于checkpoint的刷盘过程，且数据页的刷盘进度超过了日志页的刷盘进度，此时会出现数据页中记录的LSN大于日志中的LSN，这时超出日志进度的部分将不会重做，因为这本身就表示已经做过的事情，无需再重做。
 
 ### redo log与binlog区别
+
 |  | redo log | binlog |
 | --- | --- | --- |
 | 文件大小 | redo log的大小是固定的。 | binlog可通过配置参数max_binlog_size设置每个binlog文件的大小。 |
@@ -1719,13 +1883,14 @@ mysql支持三种将redo log buffer写入redo log file的时机，可以通过in
 | 记录方式 | redo log 采用循环写的方式记录，当写到结尾时，会回到开头循环写日志。 | binlog 通过追加的方式记录，当文件大小大于给定值后，后续的日志会记录到新的文件上 |
 | 适用场景 | redo log适用于崩溃恢复(crash-safe) | binlog适用于主从复制和数据恢复 |
 
-
 由binlog和redo log的区别可知：binlog日志只用于归档，只依靠binlog是没有crash-safe能力的。但只有redo log也不行，因为redo log是InnoDB特有的，且日志上的记录落盘后会被覆盖掉。因此需要binlog和redo log二者同时记录，才能保证当数据库发生宕机重启时，数据不会丢失。
 
 ## undo log
+
 数据库事务四大特性中有一个是**原子性**，具体来说就是 **原子性是指对数据库的一系列操作，要么全部成功，要么全部失败，不可能出现部分成功的情况**。实际上，**原子性**底层就是通过undo log实现的。undo log主要记录了数据的逻辑变化，比如一条INSERT语句，对应一条DELETE的undo log，对于每个UPDATE语句，对应一条相反的UPDATE的undo log，这样在发生错误时，就能回滚到事务之前的数据状态。<font style="color:rgb(77, 77, 77);">同时， undo log 也是 MVCC(多版本并发控制)实现的关键。</font>
 
 # update 在什么情况下行锁会升级表锁
+
 最近发现还有许多小伙伴对行锁升级表锁的场景不太了解，本文就以最简单的方式帮助大家拿下这道面试题。
 
 其实导致锁升级的情况只有一种，那就是**没有使用索引更新数据，**why？
@@ -1815,6 +1980,7 @@ update t set b = b + 1 where c = 2;
 最后给大家留一个问题，自行测试下其他隔离级别下 update 的锁升级情况是怎么样？
 
 # 为什么阿里不推荐使用外键？
+
 ![1711976979774-b0d8815f-284f-4ecb-9e25-f87709c6dc03.png](./img/nqqJ4R6bo7quzfcr/1711976979774-b0d8815f-284f-4ecb-9e25-f87709c6dc03-776675.png)
 
 <font style="color:black;">大家在学习数据库的过程中一定都接触过外键这个概念，并且在各种课后习题中外键还是一个非常重要的考察内容，但是在实际的企业开发过程中，你会发现有些公司允许使用外键，有些公司不允许使用外键，各持己见，为什么出现这种情况呢？</font>
@@ -1858,12 +2024,15 @@ CREATE TABLE `score` (
 因此，外键与级联并不适合分布式、高并发集群，但单机低并发业务可以考虑使用外键保证一致性和完整性。
 
 # 有哪些方式优化慢 SQL？
+
 慢 SQL 的优化，主要从两个方面考虑，SQL 语句本身的优化，以及数据库设计的优化。
 
 ## 避免不必要的列
+
 SQL 查询的时候，应该只查询需要的列，而不要包含额外的列，像select * 这种写法应该尽量避免。
 
 ## 分页优化
+
 在数据量比较大，分页比较深的情况下，需要考虑分页的优化。
 
 ```sql
@@ -1890,6 +2059,7 @@ select * from table where id >
 ```
 
 ## 索引优化
+
 合理地设计和使用索引，是优化慢 SQL 的利器。
 
 + **利用覆盖索引**
@@ -1944,6 +2114,7 @@ select * from test where month(updateTime) = 7;
 使用联合索引的时候，注意最左匹配原则。
 
 ## JOIN 优化
+
 + **优化子查询**
 
 尽量使用 Join 语句来替代子查询，因为子查询是嵌套查询，而嵌套查询会新创建一张临时表，而临时表的创建与销毁会占用一定的系统资源以及花费一定的时间，同时对于返回结果集比较大的子查询，其对查询性能的影响更大
@@ -1965,6 +2136,7 @@ select * from test where month(updateTime) = 7;
 《阿里巴巴 Java 开发手册》规定不要 join 超过三张表，第一 join 太多降低查询的速度，第二 join 的 buffer 会占用更多的内存。
 
 ## 排序优化
+
 + **利用索引扫描做排序**
 
 MySQL 有两种方式生成有序结果：一是对结果集进行排序的操作，二是按照索引顺序扫描得出的结果，索引是排好序的数据结构，自然是有序的。
@@ -1981,6 +2153,7 @@ select b, c from test where a like 'aa%' order by b,c;
 只有当索引的列顺序和 ORDER BY 子句的顺序完全一致，并且所有列的排序方向都一样时，才能够使用索引来对结果做排序。
 
 ## UNION 优化
+
 + **条件下推**
 
 MySQL 处理 union 的策略是先创建临时表，然后将各个查询结果填充到临时表中最后再来做查询，很多优化策略在 union 查询中都会失效，因为它无法利用索引。
@@ -1990,15 +2163,19 @@ MySQL 处理 union 的策略是先创建临时表，然后将各个查询结果�
 此外，除非确实需要服务器去重，一定要使用 union all，如果不加 all 关键字，MySQL 会给临时表加上 distinct 选项，这会导致对整个临时表做唯一性检查，代价很高。
 
 ## 总结
+
 ![画板](./img/nqqJ4R6bo7quzfcr/1712488289506-b995b049-5fa6-4981-9375-6b200326e8ba-431237.jpeg)
 
 # 防御性编程
+
 ![1732609197528-9d89b447-106d-4b92-8798-8025141b27b4.png](./img/nqqJ4R6bo7quzfcr/1732609197528-9d89b447-106d-4b92-8798-8025141b27b4-722101.png)
 
 # 优雅的进行异常处理
+
 ![1732709617592-13f6f835-56ad-48f3-974d-648ca9716862.png](./img/nqqJ4R6bo7quzfcr/1732709617592-13f6f835-56ad-48f3-974d-648ca9716862-484259.png)
 
 # <font style="color:rgb(44, 62, 80);">在 mapper 中如何传递多个参数？</font>
+
 ![1733125125760-9e0927d2-9d9b-46fc-b6c6-31f55bd3b06a.png](./img/nqqJ4R6bo7quzfcr/1733125125760-9e0927d2-9d9b-46fc-b6c6-31f55bd3b06a-898630.png)
 
 **<font style="color:rgb(44, 62, 80);">方法 1：顺序传参法</font>**
@@ -2059,6 +2236,3 @@ where user_name = #{userName} and dept_id = #{deptId}
 
 + `<font style="color:rgb(44, 62, 80);">\#{}</font>`<font style="color:rgb(44, 62, 80);">里面的名称对应的是 User 类里面的成员属性。</font>
 + <font style="color:rgb(44, 62, 80);">这种方法直观，需要建一个实体类，扩展不容易，需要加属性，但代码可读性强，业务逻辑处理方便，推荐使用。（推荐使用）。</font>
-
-
-

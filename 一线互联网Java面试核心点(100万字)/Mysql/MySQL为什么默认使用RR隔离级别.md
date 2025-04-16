@@ -22,4 +22,3 @@
     - <font style="color:rgba(0, 0, 0, 0.82);">在 MySQL 环境中，对于大多数应用程序（尤其是 Web 应用），RR 已经能够满足常见的数据一致性需求，而不必承担使用 SERIALIZABLE 级别带来的额外性能损耗。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">综上所述，MySQL 选择 default 为 Repeatable Read 是为了在一致性和性能上找到一个合理的平衡点。RR 足以应对绝大部分场景，而同时支持较高的并发操作。</font>
-

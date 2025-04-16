@@ -23,4 +23,3 @@
     - **<font style="background-color:rgb(247, 247, 248);">Hashtable</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 的性能相对较差，因为它使用全局锁，只允许一个线程操作整个数据结构。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">总的来说，</font>**<font style="background-color:rgb(247, 247, 248);">ConcurrentHashMap</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 是在多线程环境中更常用的选择，因为它提供了更好的性能和灵活性，同时避免了 </font>**<font style="background-color:rgb(247, 247, 248);">Hashtable</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 中的一些限制和性能瓶颈。然而，在某些情况下，如果不需要特定的高并发性能要求，</font>**<font style="background-color:rgb(247, 247, 248);">Hashtable</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);"> 仍然可以用作线程安全的数据结构。</font>
-

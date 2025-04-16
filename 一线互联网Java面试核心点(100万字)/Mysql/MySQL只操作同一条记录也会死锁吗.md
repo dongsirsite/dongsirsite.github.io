@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">在MySQL中，即使多个事务仅对同一条记录进行操作，也可能发生死锁。这通常与InnoDB存储引擎的锁管理机制有关。以下是一些触发这种情况的场景：</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">可能的死锁原因</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">索引导致的锁竞争</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">如果事务在WHERE子句中使用不同的索引来查找相同的行，InnoDB可能会导致多个事务以不同顺序锁住这些索引，从而产生死锁。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">自增锁（auto-increment lock）</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
@@ -11,6 +12,7 @@
     - <font style="color:rgba(0, 0, 0, 0.82);">外键检查过程中可能会涉及多个表，多个事务可能会因为不同的锁顺序而陷入死锁。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">示例</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">假设有一个表</font>`<font style="color:rgba(0, 0, 0, 0.82);">accounts</font>`<font style="color:rgba(0, 0, 0, 0.82);">，事务A和事务B都对记录ID为1的行进行更新操作导致产生死锁。</font>
 
 ```sql
@@ -42,6 +44,7 @@ UPDATE accounts SET balance = balance + 10 WHERE account_id = 1;
 <font style="color:rgba(0, 0, 0, 0.82);">如果事务A和事务B在不提交事务的情况下，都在等待对方持有的锁释放，就会发生死锁。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">解决方法</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">合适的索引和查询计划</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">确保查询使用最优的索引，以减少锁的粒度。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">减少锁定时间</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
@@ -52,6 +55,7 @@ UPDATE accounts SET balance = balance + 10 WHERE account_id = 1;
     - <font style="color:rgba(0, 0, 0, 0.82);">配置合适的重试机制，当捕获死锁异常时重试事务操作。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">Java代码示例</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">当检测到死锁时，可以使用重试机制来解决问题，如以下Java代码示例：</font>
 
 ```java
@@ -100,4 +104,3 @@ public class DeadlockRetryExample {
 ```
 
 <font style="color:rgba(0, 0, 0, 0.82);">通过理解MySQL的锁机制和适当规划应用程序事务，可以有效地减少因操作同一记录导致的死锁。</font>
-

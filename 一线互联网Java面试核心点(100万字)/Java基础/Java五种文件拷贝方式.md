@@ -5,7 +5,9 @@
 ---
 
 # <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">一、文件拷贝的 5 种实现方式</font>
+
 ### <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">1. 传统字节流拷贝（</font>`<font style="background-color:rgb(252, 252, 252);">FileInputStream</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> + </font>`<font style="background-color:rgb(252, 252, 252);">FileOutputStream</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">）</font>
+
 ```java
 public static void main(String[] args) throws IOException {
     try (InputStream is = new FileInputStream("source.txt");
@@ -25,6 +27,7 @@ public static void main(String[] args) throws IOException {
 ---
 
 ### <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">2. 缓冲流优化拷贝（</font>`<font style="background-color:rgb(252, 252, 252);">BufferedInputStream</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> + </font>`<font style="background-color:rgb(252, 252, 252);">BufferedOutputStream</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">）</font>
+
 ```java
 public static void main(String[] args) throws IOException {
     try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream("source.txt"));
@@ -44,6 +47,7 @@ public static void main(String[] args) throws IOException {
 ---
 
 ### <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">3. NIO </font>`<font style="background-color:rgb(252, 252, 252);">Files.copy</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> 方法（Java 7+）</font>
+
 ```java
 public static void main(String[] args) throws IOException {
     Path source = Paths.get("source.txt");
@@ -58,6 +62,7 @@ public static void main(String[] args) throws IOException {
 ---
 
 ### <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">4. NIO </font>`<font style="background-color:rgb(252, 252, 252);">FileChannel</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> 通道拷贝</font>
+
 ```java
 public static void main(String[] args) throws IOException {
     try (FileChannel sourceChannel = new FileInputStream("source.txt").getChannel();
@@ -73,6 +78,7 @@ public static void main(String[] args) throws IOException {
 ---
 
 ### <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">5. 内存映射文件拷贝（</font>`<font style="background-color:rgb(252, 252, 252);">MappedByteBuffer</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">）</font>
+
 ```java
 public static void main(String[] args) throws IOException {
     try (RandomAccessFile sourceFile = new RandomAccessFile("source.txt", "r");
@@ -90,6 +96,7 @@ public static void main(String[] args) throws IOException {
 ---
 
 # <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">二、效率对比（1GB 文件测试）</font>
+
 | **<font style="background-color:rgb(252, 252, 252);">方法</font>** | **<font style="background-color:rgb(252, 252, 252);">耗时（毫秒）</font>** | **<font style="background-color:rgb(252, 252, 252);">适用场景</font>** |
 | :---: | :---: | :---: |
 | <font style="background-color:rgb(252, 252, 252);">传统字节流</font> | <font style="background-color:rgb(252, 252, 252);">4500~5000</font> | <font style="background-color:rgb(252, 252, 252);">小文件（<10MB）</font> |
@@ -98,25 +105,25 @@ public static void main(String[] args) throws IOException {
 | `<font style="background-color:rgb(252, 252, 252);">FileChannel.transfer</font>` | <font style="background-color:rgb(252, 252, 252);">600~800</font> | <font style="background-color:rgb(252, 252, 252);">大文件（>100MB）</font> |
 | <font style="background-color:rgb(252, 252, 252);">内存映射文件</font> | <font style="background-color:rgb(252, 252, 252);">500~700</font> | <font style="background-color:rgb(252, 252, 252);">超大文件（>1GB）</font> |
 
-
 ---
 
 # <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">三、如何选择最高效方式？</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">小文件（<10MB）</font>**<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">  
 </font><font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">直接使用</font><font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> </font>`<font style="background-color:rgb(252, 252, 252);">Files.copy</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">，代码简洁且性能足够。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">大文件（100MB~1GB）</font>**<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">  
 </font><font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">优先选择</font><font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> </font>`<font style="background-color:rgb(252, 252, 252);">FileChannel.transferTo()</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">，利用零拷贝减少内核态与用户态数据复制。</font>
 3. **<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">超大文件（>1GB）</font>**<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">  
 </font><font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">用内存映射文件（</font>`<font style="background-color:rgb(252, 252, 252);">MappedByteBuffer</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">），但需注意：</font>
-    - <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">避免频繁映射/释放内存（开销大）。</font>
-    - <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">处理内存溢出风险（</font>`<font style="background-color:rgb(252, 252, 252);">OutOfMemoryError</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">）。</font>
+    + <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">避免频繁映射/释放内存（开销大）。</font>
+    + <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">处理内存溢出风险（</font>`<font style="background-color:rgb(252, 252, 252);">OutOfMemoryError</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">）。</font>
 4. **<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">通用场景</font>**<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">  
 </font>`<font style="background-color:rgb(252, 252, 252);">Files.copy</font>`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> </font><font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">或缓冲流，平衡代码可读性与性能。</font>
 
 ---
 
 # <font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">四、终极建议</font>
+
 + **<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">优先使用</font>****<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> </font>**`**<font style="background-color:rgb(252, 252, 252);">Files.copy</font>**`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">：Java 7+ 自带优化，简单高效。</font>
 + **<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">大文件必用</font>****<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);"> </font>**`**<font style="background-color:rgb(252, 252, 252);">FileChannel</font>**`<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">：性能碾压传统流。</font>
 + **<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">避免手动逐字节读写</font>**<font style="color:rgba(0, 0, 0, 0.9);background-color:rgb(252, 252, 252);">：除非处理特殊格式（如加密流）。</font>
-

@@ -3,6 +3,7 @@
 **<font style="color:#01B2BC;">让JAVA操作excel更简单</font>**
 
 ## <font style="color:rgb(31, 35, 40);">介绍</font>
+
 <font style="color:rgb(31, 35, 40);">EEC的设计初衷是为了解决Apache POI高内存且API臃肿的诟病，</font>EEC的底层并不依赖POI包，所有的底层代码均自己实现，<font style="color:rgb(31, 35, 40);">使用EEC基本可以做到一行代码完成Excel文件的读和写操作极易上手。</font>
 
 <font style="color:rgb(31, 35, 40);">EEC的最大特点是</font>**<font style="color:rgb(31, 35, 40);">“轻量”</font>**<font style="color:rgb(31, 35, 40);">和</font>**<font style="color:rgb(31, 35, 40);">“高效</font>**<font style="color:rgb(31, 35, 40);">”，轻量体现在包体小、接入代码量少以及运行时消耗资源少三个方面，高效指运行效率高</font>
@@ -35,9 +36,11 @@
 <font style="color:rgb(31, 35, 40);">eec与eec-e3-support版本兼容性对照参考 </font>[**<u><font style="color:rgb(31, 35, 40);">这里</font></u>**](https://github.com/wangguanquan/eec/wiki/EEC%E4%B8%8EE3-support%E5%85%BC%E5%AE%B9%E6%80%A7%E5%AF%B9%E7%85%A7%E8%A1%A8)
 
 ## <font style="color:rgb(31, 35, 40);">快速开始</font>
+
 创建一个 SpringBoot3 项目，**本文环境**：IDEA2023.1+JDK17+SpringBoot3.4.0+Maven
 
 ### 导入依赖
+
 ```java
 <!-- 注意两个依赖的版本对照关系 -->
 <!-- https://mvnrepository.com/artifact/org.ttzero/eec -->
@@ -58,6 +61,7 @@
 ```
 
 ### hello World
+
 ```java
 /**
  * 写文件
@@ -90,9 +94,11 @@ void excelWrite01() {
 ```
 
 ## <font style="color:rgb(31, 35, 40);">导出Excel</font>
+
 <font style="color:rgb(31, 35, 40);">EEC目前支持</font>`<font style="color:rgb(31, 35, 40);">SimpleSheet</font>`<font style="color:rgb(31, 35, 40);">，</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">ListSheet</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">ListMapSheet</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">TemplateSheet</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">StatementSheet</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">ResultSetSheet</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">CSVSheet</font>`<font style="color:rgb(31, 35, 40);">和</font>`<font style="color:rgb(31, 35, 40);">EmptySheet</font>`<font style="color:rgb(31, 35, 40);">几种内置的Worksheet，如果不能满足需求你也可以继承已有的Worksheet来扩展，最常见的就是对于大数据量写入时的分片处理，这个在后面会讲到，目前还是从最简单的ListSheet出发。</font>
 
 ### <font style="color:rgb(31, 35, 40);">将数据导出到excel</font>
+
 <font style="color:rgb(31, 35, 40);">数据导出应该是开发过程中比较常见的功能，可就是这种简单功能如果使用Apache POI来开发可不是一件轻松的活，幸好EEC已经为我们做了大量的封装，使我们可以做到开箱即用，下面代码展示如何开发简单的对象数组导出功能</font>
 
 ```java
@@ -126,6 +132,7 @@ public void download(HttpServletResponse response) throws IOException {
 ```
 
 ### <font style="color:rgb(31, 35, 40);">添加多个Worksheet</font>
+
 <font style="color:rgb(31, 35, 40);">EEC是通过</font>`<font style="color:rgb(31, 35, 40);">Workbook#addSheet</font>`<font style="color:rgb(31, 35, 40);">方法添加Worksheet，添加的时候你可以指定Sheet的名称，如果不指定则默认使用</font>`<font style="color:rgb(31, 35, 40);">Sheet {N}</font>`<font style="color:rgb(31, 35, 40);">命名。对于导出多个Sheet页只需要多调用几次addSheet方法即可，非常方便。 另外，添加顺序决定导出时各Sheet顺序，如果想调整此顺序可以调用</font>`<font style="color:rgb(31, 35, 40);">Workbook#insertSheet</font>`<font style="color:rgb(31, 35, 40);">方法插入到指定下标（从0开始），与普通的Array操作一样。</font>
 
 <font style="color:rgb(31, 35, 40);">下面代码演示生成多个Worksheet</font>
@@ -143,6 +150,7 @@ new Workbook("multi-sheets")
 ![1733725762457-160e4ca9-d4d3-4e87-9387-255f0c85e30b.png](./img/7urPzaZk-WufFtAp/1733725762457-160e4ca9-d4d3-4e87-9387-255f0c85e30b-237171.png)
 
 ### <font style="color:rgb(31, 35, 40);">隐藏Sheet</font>
+
 <font style="color:rgb(31, 35, 40);">出于某些安全考虑需要隐藏某个或多个Sheet页该如何处理呢？答案是只需要在对应的Sheet上调用</font>`<font style="color:rgb(31, 35, 40);">#hidden()</font>`<font style="color:rgb(31, 35, 40);">方法。调用该方法后数据依然会正常写出，只是该页被隐藏。</font>
 
 <font style="color:rgb(31, 35, 40);">下面代码演示隐藏某个Worksheet</font>
@@ -160,6 +168,7 @@ new Workbook("multiSheet")
 ![1733725753850-266a098f-d109-4d2b-83e5-31d749b2d684.png](./img/7urPzaZk-WufFtAp/1733725753850-266a098f-d109-4d2b-83e5-31d749b2d684-671949.png)
 
 ### <font style="color:rgb(31, 35, 40);">强制导出ForceExport</font>
+
 _<font style="color:rgb(31, 35, 40);">为了数据安全</font>_<font style="color:rgb(31, 35, 40);">EEC默认只会导出标记有</font>`<font style="color:rgb(31, 35, 40);">@ExcelColumn</font>`<font style="color:rgb(31, 35, 40);">的属性，但某些情况不方便在实体中加入注解此时就可以调用</font>`<font style="color:rgb(31, 35, 40);">forceExport</font>`<font style="color:rgb(31, 35, 40);">方法全字段导出（标记了</font>`<font style="color:rgb(31, 35, 40);">@IgnroeExport</font>`<font style="color:rgb(31, 35, 40);">注解除外）。</font>
 
 <font style="color:rgb(31, 35, 40);">Force Export会将实体中所有字段导出，这是非常危险的做法</font>**<font style="color:rgb(31, 35, 40);">不建议使用</font>**<font style="color:rgb(31, 35, 40);">。如果其它开发者新增了一些属性且未意识到forceExport则会出现数据泄漏风险，</font>**<font style="color:rgb(31, 35, 40);">为防止数据泄露推荐手动指定Column，这样的话即使对象被添加了敏感字段也不会被自动导出，降低不可预期风险发生。</font>**
@@ -177,6 +186,7 @@ new Workbook().addSheet(new ListSheet<>(
 ```
 
 ### <font style="color:rgb(31, 35, 40);">关于自动分页</font>
+
 <font style="color:rgb(31, 35, 40);">单个worksheet页有行数上限，xls上限为65,536，xlsx上限为1,048,576，如果数据超过该如何处理呢，需要手动进行截取么，还是抛异常？</font>
 
 <font style="color:rgb(31, 35, 40);">EEC是为大数据量而生，所以自然考虑到了这种情况，当数据量超过单sheet上限时会自动进行分页处理，无须用户额外处理，而大多数同类工具均是直接抛异常。</font>
@@ -221,9 +231,11 @@ protected void paging() {
 <font style="color:rgb(31, 35, 40);">大数据量导出请参考</font><font style="color:rgb(31, 35, 40);"> </font>[<font style="color:rgb(31, 35, 40);">大数据量导出</font>](https://github.com/wangguanquan/eec/wiki/3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E5%AF%BC%E5%87%BA)
 
 ### <font style="color:rgb(31, 35, 40);">多行表头</font>
+
 <font style="color:rgb(31, 35, 40);">多行表头请参考</font><font style="color:rgb(31, 35, 40);"> </font>[<font style="color:rgb(31, 35, 40);">如何设置多行表头</font>](https://github.com/wangguanquan/eec/wiki/%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%A4%9A%E8%A1%8C%E8%A1%A8%E5%A4%B4)
 
 ### <font style="color:rgb(31, 35, 40);">忽略表头</font>
+
 <font style="color:rgb(31, 35, 40);">EEC提供</font>`<font style="color:rgb(31, 35, 40);">Sheet#ignoreHeader</font>`<font style="color:rgb(31, 35, 40);">方法来忽略表头输出，当然你在表头上设置的任何信息依然有效，只在输出的时候跳过表头，</font>**<font style="color:rgb(31, 35, 40);">注意这里是忽略表头不是隐藏</font>**
 
 ```java
@@ -233,6 +245,7 @@ new Workbook("Ignore header")
 ```
 
 ### <font style="color:rgb(31, 35, 40);">简单数据类型导出</font>
+
 <font style="color:rgb(31, 35, 40);">有时候仅仅想导出最简单的数据类型，比如Integer,String，如果定义实体就显得过度设计，此时可以像下面示例一样导入简单类型</font>
 
 ```java
@@ -243,6 +256,7 @@ new Workbook("Integer array")
 ```
 
 ### <font style="color:rgb(31, 35, 40);">未知的数据类型</font>
+
 <font style="color:rgb(31, 35, 40);">EEC内置处理如下类型，并按照文本居左，数字居右，日期/bool/char居中输出</font>
 
 | <font style="color:rgb(31, 35, 40);">String</font> | <font style="color:rgb(31, 35, 40);">CharSequence</font> | <font style="color:rgb(31, 35, 40);">int</font> | <font style="color:rgb(31, 35, 40);">Integer</font> | <font style="color:rgb(31, 35, 40);">short</font> | <font style="color:rgb(31, 35, 40);">Short</font> |
@@ -251,7 +265,6 @@ new Workbook("Integer array")
 | <font style="color:rgb(31, 35, 40);">double</font> | <font style="color:rgb(31, 35, 40);">Double</font> | <font style="color:rgb(31, 35, 40);">BigDecimal</font> | <font style="color:rgb(31, 35, 40);">boolean</font> | <font style="color:rgb(31, 35, 40);">Boolean</font> | <font style="color:rgb(31, 35, 40);">char</font> |
 | <font style="color:rgb(31, 35, 40);">Character</font> | <font style="color:rgb(31, 35, 40);">java.util.Date</font> | <font style="color:rgb(31, 35, 40);">java.sql.Date</font> | <font style="color:rgb(31, 35, 40);">java.sql.Timestamp</font> | <font style="color:rgb(31, 35, 40);">java.sql.Time</font> | <font style="color:rgb(31, 35, 40);">java.time.LocalDate</font> |
 | <font style="color:rgb(31, 35, 40);">java.time.LocalDateTime</font> | <font style="color:rgb(31, 35, 40);">java.time.LocalTime</font> | | | | |
-
 
 <font style="color:rgb(31, 35, 40);">其余类型均默认调用</font>`<font style="color:rgb(31, 35, 40);">toString</font>`<font style="color:rgb(31, 35, 40);">方法输入，如果需要特殊处理则可以使用自定义</font>`<font style="color:rgb(31, 35, 40);">ICellValueAndStyle</font>`<font style="color:rgb(31, 35, 40);">类并覆写</font>`<font style="color:rgb(31, 35, 40);">unknownType</font>`<font style="color:rgb(31, 35, 40);">方法，示例如下</font>
 
@@ -305,6 +318,7 @@ public class MyXMLCellValueAndStyle extends XMLCellValueAndStyle {
 ```
 
 ### <font style="color:rgb(31, 35, 40);">导出图片</font>
+
 <font style="color:rgb(31, 35, 40);">默认情况下EEC总是以"值"的形式导出，即使是</font>`<font style="color:rgb(31, 35, 40);">byte[]</font>`<font style="color:rgb(31, 35, 40);">也将进行toString后导出，所以EEC是安全的。</font>
 
 <font style="color:rgb(31, 35, 40);">从v0.5.10开始支持导出图片，EEC使用以下双检查以保证安全，避免可执行文件、木马病毒写入Excel</font>
@@ -327,7 +341,6 @@ public class MyXMLCellValueAndStyle extends XMLCellValueAndStyle {
 | <font style="color:rgb(31, 35, 40);">.emf</font> | <font style="color:rgb(31, 35, 40);">image/x-emf</font> |
 | <font style="color:rgb(31, 35, 40);">.wmf</font> | <font style="color:rgb(31, 35, 40);">image/x-wmf</font> |
 | <font style="color:rgb(31, 35, 40);">.webp</font> | <font style="color:rgb(31, 35, 40);">image/webp</font> |
-
 
 <font style="color:rgb(31, 35, 40);">EEC支持</font>`<font style="color:rgb(31, 35, 40);">Path</font>`<font style="color:rgb(31, 35, 40);">，</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">File</font>`<font style="color:rgb(31, 35, 40);">，</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">URL</font>`<font style="color:rgb(31, 35, 40);">，</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">byte[]</font>`<font style="color:rgb(31, 35, 40);">，</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">ByteBuffer</font>`<font style="color:rgb(31, 35, 40);">，</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">InputStream</font>`<font style="color:rgb(31, 35, 40);">，</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">base64 image string</font>`<font style="color:rgb(31, 35, 40);">7种类型的Media，你可以使用</font>`<font style="color:rgb(31, 35, 40);">Column#writeAsMedia()</font>`<font style="color:rgb(31, 35, 40);">或者</font>`<font style="color:rgb(31, 35, 40);">@MediaColumn</font>`<font style="color:rgb(31, 35, 40);">注解来指定当前列类型为</font>`<font style="color:rgb(31, 35, 40);">Media</font>`<font style="color:rgb(31, 35, 40);">，此注解还附加了一个属性</font>`<font style="color:rgb(31, 35, 40);">presetEffect</font>`<font style="color:rgb(31, 35, 40);">用于预设图片样式</font>
 
@@ -422,10 +435,10 @@ new Workbook()
 | <font style="color:rgb(31, 35, 40);">金属圆角矩形</font> | <font style="color:rgb(31, 35, 40);">MetalRoundedRectangle</font> |
 | <font style="color:rgb(31, 35, 40);">金属椭圆</font> | <font style="color:rgb(31, 35, 40);">MetalOval</font> |
 
-
 **<font style="color:rgb(31, 35, 40);">注意：自适应列宽对</font>**`**<font style="color:rgb(31, 35, 40);">Media</font>**`**<font style="color:rgb(31, 35, 40);">列无效，它总是以固定宽度显示</font>**
 
 #### <font style="color:rgb(31, 35, 40);">关于图片下载</font>
+
 <font style="color:rgb(31, 35, 40);">虽然EEC支持远程图片下载但能力较弱，内置下载工具仅使用</font>`<font style="color:rgb(31, 35, 40);">java.net.HttpURLConnection</font>`<font style="color:rgb(31, 35, 40);">类，它不会使用连接池也没有支持ftp以及身份鉴权， 所以在集成的过程中如果有图片下载的话最好使用已有下载器，然后使用InputStream,byte[]或者ByteBuffer传入EEC，这样的话你可能需要修改实体对代码有一定的破坏性，当然你也可以自定义XMLWorksheetWriter 将下载器集成进EEC，这样就不需要修改已有Java对象了。</font>
 
 <font style="color:rgb(31, 35, 40);">下面展示一段使用OkHttp做为下载器替换</font>`<font style="color:rgb(31, 35, 40);">java.net.HttpURLConnection</font>`<font style="color:rgb(31, 35, 40);">的示例，你可以使用已有任何工具替换</font>
@@ -461,7 +474,9 @@ new Workbook().addSheet(new ListSheet<>(getRemoteUrls())
 **<font style="color:rgb(31, 35, 40);">注意：目前来说异步下载并未通过充分测试和优化，至少v0.5.10版本不要在生产环境使用</font>**
 
 ## <font style="color:rgb(31, 35, 40);">读取 Excel</font>
+
 ### <font style="color:rgb(31, 35, 40);">像TXT文件一样读Excel</font>
+
 <font style="color:rgb(31, 35, 40);">使用EEC读取Excel和读取文本文件一样简单，其设计思路和</font>`<font style="color:rgb(31, 35, 40);">Files.lines(Path)</font>`<font style="color:rgb(31, 35, 40);">一样，EEC使用</font>`<font style="color:rgb(31, 35, 40);">ExcelReader#read</font>`<font style="color:rgb(31, 35, 40);">静态方法读文件，其内部采用流式操作，当使用某一行数据时才会真正读入内存，所以即使是GB级别的Excel文件也只占用少量内存。</font>
 
 <font style="color:rgb(31, 35, 40);">我们可以写一段简单示例来比较读TXT文件和Excel的区别</font>
@@ -528,6 +543,7 @@ try (ExcelReader reader = ExcelReader.read(Paths.get("F:/excel/goods.xlsx"))) {
 <font style="color:rgb(31, 35, 40);">上面示例展示了一个完整的从读取到过滤到逻辑处理场景，其中的</font>`<font style="color:rgb(31, 35, 40);">sheet(0)</font>`<font style="color:rgb(31, 35, 40);">表示读取第一个Sheet页，</font>`<font style="color:rgb(31, 35, 40);">dataRows()</font>`<font style="color:rgb(31, 35, 40);">会读取第一个非空行做为表头解析。</font>
 
 ### <font style="color:rgb(31, 35, 40);">批量处理行逻辑</font>
+
 <font style="color:rgb(31, 35, 40);">上面的场景示例展现了简明的流处理，但one-by-one上架可能会拖慢系统速度，此时就有批量处理场景，但是标准的流仅提供单行数据，应该如何改进呢？</font>
 
 <font style="color:rgb(31, 35, 40);">呃。。。与其说是改进不如说是退化，</font>`<font style="color:rgb(31, 35, 40);">Sheet</font>`<font style="color:rgb(31, 35, 40);">接口提供iterator和dataIterator两种迭代器，可以使用迭代器收集数据，代码如下：</font>
@@ -556,6 +572,7 @@ try (ExcelReader reader = ExcelReader.read(Paths.get("F:/excel/goods.xlsx"))) {
 <font style="color:rgb(31, 35, 40);">你无需担心OOM，因为Iterator依然是按需加载数据，内存消耗与Stream相当。</font>
 
 ### <font style="color:rgb(31, 35, 40);">获取文件包含多少行</font>
+
 <font style="color:rgb(31, 35, 40);">EEC并不提供获取总行数的方法（有一个被标记为过时的</font>`<font style="color:rgb(31, 35, 40);">Sheet#getSize</font>`<font style="color:rgb(31, 35, 40);">方法目前仍然可以使用），推荐使用</font>`<font style="color:rgb(31, 35, 40);">Sheet#getDimension</font>`<font style="color:rgb(31, 35, 40);">方法替换，该方法会返回一个</font>`<font style="color:rgb(31, 35, 40);">Dimension</font>`<font style="color:rgb(31, 35, 40);">对象包含</font>`<font style="color:rgb(31, 35, 40);">firstRow</font>`<font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">lastRow</font>`<font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">firstColumn</font>`<font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">lastColumn</font>`<font style="color:rgb(31, 35, 40);">4个属性，细心的你一定发现了这4个属性将定位整个文档的有效范围。 取有效数据行数可以通过计算</font>`<font style="color:rgb(31, 35, 40);">dimension.lastRow - dimension.firstRow + 1</font>`<font style="color:rgb(31, 35, 40);">得到。</font>
 
 <font style="color:rgb(31, 35, 40);">对于标准的Office Open XML来说该范围值被写到了各worksheet的头部，大致像这样</font>`<font style="color:rgb(31, 35, 40);"><dimension ref="A1:F10"/></font>`<font style="color:rgb(31, 35, 40);">，所以标准的Excel可以快速获得。 但是并非所有工具都采用Office标准，比如POI导出的文件就不会写此属性，读取这类文件EEC做如下处理：将指针指向文件末尾，然后读取最后一个单元格的范围，将此范围做为有效数据范围，这有可能导致列范围不准确的问题。</font>
@@ -565,6 +582,7 @@ try (ExcelReader reader = ExcelReader.read(Paths.get("F:/excel/goods.xlsx"))) {
 <font style="color:rgb(31, 35, 40);">v0.5.11开始并不会解压原始文件，所以无法用上面的方法将指针移到文件末尾以快速获取最后一个单元格范围，调用</font>`<font style="color:rgb(31, 35, 40);">Sheet#getDimension</font>`<font style="color:rgb(31, 35, 40);">方法将从头开始匹配单元格范围所以此方法将消耗更多的时间</font>
 
 ### <font style="color:rgb(31, 35, 40);">反复读取</font>
+
 <font style="color:rgb(31, 35, 40);">Sheet提供</font>`<font style="color:rgb(31, 35, 40);">reset</font>`<font style="color:rgb(31, 35, 40);">方法，该方法会重置位置到文件头，从而起到反复读取效果，该方法并不会二次解压文件也不会清除SharedString和文件范围等基础信息，所以理论上会比第一次快。看上去像是一个很2的功能，但是某些情况依然有用，比如大文件需要检查某个列是否出现重复值，检查完后再逻辑处理， 因为文件太大我们无法将数据一次读到内存再检查重复和逻辑处理，此时我们就可以使用reset做两次读文件操作</font>
 
 ```java
@@ -590,6 +608,7 @@ try (ExcelReader reader = ExcelReader.read(Paths.get("F:/excel/large-goods.xlsx"
 ```
 
 ### <font style="color:rgb(31, 35, 40);">指定表头位置</font>
+
 <font style="color:rgb(31, 35, 40);">从v0.5.6开始EEC支持指定表头你可以通过</font>`<font style="color:rgb(31, 35, 40);">Sheet#header(fromRowNum, toRowNum)</font>`<font style="color:rgb(31, 35, 40);">来指定表头的位置，如上面实例中第7行为表头，则可以使用</font>
 
 ```java
@@ -599,6 +618,7 @@ List<Goods> list = reader.sheet(0).reset()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">JDBC式读取</font>
+
 <font style="color:rgb(31, 35, 40);">除了上面使用</font>`<font style="color:rgb(31, 35, 40);">row#to</font>`<font style="color:rgb(31, 35, 40);">或者</font>`<font style="color:rgb(31, 35, 40);">rot#too</font>`<font style="color:rgb(31, 35, 40);">方式将行数据直接转对象外，我们还可以使用类似于JDBC方式更原始的获取单元格的值，这种更底层的方式在复杂环境中尤为有效，比如多行表头或者非表格读取</font>
 
 ```java
@@ -612,6 +632,7 @@ List<O> list = reader.sheet(0).rows().map(row -> {
 ```
 
 ### <font style="color:rgb(31, 35, 40);">行转Map</font>
+
 <font style="color:rgb(31, 35, 40);">v0.5.6 Row提供toMap方法将行数据转为字典类型，为保证列顺序实际返回类型为LinkedHashMap，如果使用</font>`<font style="color:rgb(31, 35, 40);">Sheet#dataRows</font>`<font style="color:rgb(31, 35, 40);">或</font>`<font style="color:rgb(31, 35, 40);">Sheet#header</font>`<font style="color:rgb(31, 35, 40);">指定表头则字典的Key为表头文本，Value为表头对应的列值， 如果未指定表头那将以列索引做为Key，与导出指定的colIndex一样索引从0开始。对于多行表头字典Key将以</font>`<font style="color:rgb(31, 35, 40);">行1:行2:行n</font>`<font style="color:rgb(31, 35, 40);">的格式进行拼接，横向合并的单元格将自动将值复制到每一列，而纵向合并的单元格则不会复制</font>
 
 <font style="color:rgb(31, 35, 40);">关于单元格类型的特殊说明：行数据转对象时会根据对象定义进行一次类型转换，将单元格的值转为对象定义中的类型，但是转为字典时却不会有这一步 逻辑，类型是根据excel中的值进行粗粒度转换，例如数字类型如果带有日期格式化则会返回一个Timestamp类型， 所以最终的数据类型可能与预期有所不同</font>
@@ -679,6 +700,7 @@ reader.sheet(0).asMergeSheet() // <- 转为MergedSheet
 ```
 
 ### <font style="color:rgb(31, 35, 40);">isEmpty与isBlank的区别</font>
+
 <font style="color:rgb(31, 35, 40);">v0.5.6提供了新的空单元格判断方法</font>`<font style="color:rgb(31, 35, 40);">Row#isBlank</font>`<font style="color:rgb(31, 35, 40);">，该方法与原有的</font>`<font style="color:rgb(31, 35, 40);">Row#isEmpty</font>`<font style="color:rgb(31, 35, 40);">的区别在于</font>`<font style="color:rgb(31, 35, 40);">isEmpty</font>`<font style="color:rgb(31, 35, 40);">的判断逻辑是只要包含值和样式（格式化/边框/填充/字体/对齐等）的任何一样都会判定为</font>`<font style="color:rgb(31, 35, 40);">否</font>`<font style="color:rgb(31, 35, 40);">，而</font>`<font style="color:rgb(31, 35, 40);">isBlank</font>`<font style="color:rgb(31, 35, 40);">仅判断单元格的值、值、值，只要单元格无值则判定为</font>`<font style="color:rgb(31, 35, 40);">是</font>`
 
 <font style="color:rgb(31, 35, 40);">效果如下图所示</font>
@@ -686,9 +708,11 @@ reader.sheet(0).asMergeSheet() // <- 转为MergedSheet
 ![1734069868949-e6464a78-4340-489e-a545-0edf11c002bb.jpeg](./img/7urPzaZk-WufFtAp/1734069868949-e6464a78-4340-489e-a545-0edf11c002bb-990962.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">读取行号</font>
+
 <font style="color:rgb(31, 35, 40);">你可以使用</font>`<font style="color:rgb(31, 35, 40);">Row#getRowNum</font>`<font style="color:rgb(31, 35, 40);">方法或者使用</font>`<font style="color:rgb(31, 35, 40);">@RowNum</font>`<font style="color:rgb(31, 35, 40);">注解来获取原始文件行号，与你打开Excel所见一样此行号从1开始</font>
 
 ### <font style="color:rgb(31, 35, 40);">额外属性</font>
+
 <font style="color:rgb(31, 35, 40);">v0.5.11支持指定额外属性以丰富Row转对象时的列匹配，目前支持的属性有</font>`<font style="color:rgb(31, 35, 40);">Force Import</font>`<font style="color:rgb(31, 35, 40);">(无ExcelColumn注解强制匹配),</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">Ignore Case </font>`<font style="color:rgb(31, 35, 40);">(忽略大小写)和</font>`<font style="color:rgb(31, 35, 40);">Camel Case</font>`<font style="color:rgb(31, 35, 40);">(下划线转驼峰)三种属性，</font>_<font style="color:rgb(31, 35, 40);">属性间可以自由组合</font>_
 
 ```java
@@ -701,6 +725,7 @@ reader.sheet(0)
 ```
 
 ### <font style="color:rgb(31, 35, 40);">xlsx和xls格式</font>
+
 <font style="color:rgb(31, 35, 40);">大家应该对POI读取xls和xlsx两种格式需要两套API并不陌生吧，POI处理xls消耗内存极大，往往读几MB的文件就需要上百MB内存。 EEC统一了两种格式的API，换句话说你不需要关心该文件是xls还是xlsx，读取时EEC根据文件头来判断格式，然后选择使用何种方式解析文件。EEC读取xls消耗极小的内存，极限测试约</font>**<font style="color:rgb(31, 35, 40);">1G</font>**<font style="color:rgb(31, 35, 40);">的100万行xls文件，使用Easyexcel需要约</font>**<font style="color:rgb(31, 35, 40);">5G</font>**<font style="color:rgb(31, 35, 40);">内存，而EEC仅需要</font>**<font style="color:rgb(31, 35, 40);">7MB</font>**<font style="color:rgb(31, 35, 40);">内存。</font>
 
 <font style="color:rgb(31, 35, 40);">我分别对EEC和Easyexcel进行了极限内存测试，也就是跑完测试不抛异常时的最小内存，结果如下。</font>
@@ -710,13 +735,14 @@ reader.sheet(0)
 | <font style="color:rgb(31, 35, 40);">EEC</font> | <font style="color:rgb(31, 35, 40);">3M</font> | <font style="color:rgb(31, 35, 40);">3M</font> | <font style="color:rgb(31, 35, 40);">3M</font> | <font style="color:rgb(31, 35, 40);">5M</font> | <font style="color:rgb(31, 35, 40);">7M</font> |
 | <font style="color:rgb(31, 35, 40);">POI</font> | <font style="color:rgb(31, 35, 40);">50M</font> | <font style="color:rgb(31, 35, 40);">220M</font> | <font style="color:rgb(31, 35, 40);">440M</font> | <font style="color:rgb(31, 35, 40);">2400M</font> | <font style="color:rgb(31, 35, 40);">5000M</font> |
 
-
 <font style="color:rgb(31, 35, 40);">从上图可以看出随着文件逐渐增大POI所需内存也逐渐增大，读取文件所需的内存甚至远远超过文件本身的大小，而EEC读文件所需内存一直比较平稳且远低于POI，基本可以在10MB下完成大文件读取。</font>
 
 ## <font style="color:rgb(31, 35, 40);">大数据量导出</font>
+
 <font style="color:rgb(31, 35, 40);">前面已经展示了简单的导出示例，例子中大部分都传入一个数组，但是我们知道对于十万级、百万级的数量，不可能一次拉取到内存，此时</font>**<font style="color:rgb(31, 35, 40);">分片</font>**<font style="color:rgb(31, 35, 40);">功能就突现价值了。</font>
 
 ### <font style="color:rgb(31, 35, 40);">自动分片</font>
+
 <font style="color:rgb(31, 35, 40);">ListSheet和ListMapSheet默认支持分片，我们只需要覆写</font>`<font style="color:rgb(31, 35, 40);">protected List<T> more()</font>`<font style="color:rgb(31, 35, 40);">方法即可。</font>
 
 <font style="color:rgb(31, 35, 40);">下面代码将展示如何分页拉取学生数据，每次拉取1024条数据，这样内存中最多也就1024条数据，边写边拉取数据，直到返回空数组或者null。</font>
@@ -778,6 +804,7 @@ public static class E {
 ![1733743986010-4998cf54-184e-44af-a506-32e195bb0ea8.jpeg](./img/7urPzaZk-WufFtAp/1733743986010-4998cf54-184e-44af-a506-32e195bb0ea8-109529.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">使用data-supplier拉取数据</font>
+
 <font style="color:rgb(31, 35, 40);">v0.5.14版本新增data-supplier减化了分片开发难度，它被定义为</font>`<font style="color:rgb(31, 35, 40);">BiFunction<Integer, T, List<T>></font>`<font style="color:rgb(31, 35, 40);">其中第一个入参</font>`<font style="color:rgb(31, 35, 40);">Integer</font>`<font style="color:rgb(31, 35, 40);">表示已拉取数据的记录数， 第二个入参</font>`<font style="color:rgb(31, 35, 40);">T</font>`<font style="color:rgb(31, 35, 40);">表示上一批数据中最后一个对象，业务端可以通过这两个参数来计算下一批数据应该从哪个节点开始拉取， 通常你可以使用第一个参数除以每批拉取的数据大小来确定当前页码，如果数据已排序则可以使用T对象的排序字段来计算下一批数据的游标从而跳过</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">limit ... offset ...</font>`<font style="color:rgb(31, 35, 40);">分页查询从页极大提升取数性能。</font>
 
 ```java
@@ -787,6 +814,7 @@ new Workbook()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">增加进度兼听</font>
+
 <font style="color:rgb(31, 35, 40);">大数据量导出时往往耗时较长，表现出来就是程序卡在那里一动不动，为了防止这种假死现象我们可以在导出时增加一个进度兼听代码段，它位于</font>`<font style="color:rgb(31, 35, 40);">Workbook#onProgress</font>`<font style="color:rgb(31, 35, 40);">方法，它有两个入参 第一个是</font>`<font style="color:rgb(31, 35, 40);">sheet</font>`<font style="color:rgb(31, 35, 40);">表示当前正在导入哪个工作表，第二个是</font>`<font style="color:rgb(31, 35, 40);">rows</font>`<font style="color:rgb(31, 35, 40);">表示已写入的行数，</font>`<font style="color:rgb(31, 35, 40);">onProgress</font>`<font style="color:rgb(31, 35, 40);">方法每1000行被执行一次</font>
 
 ```java
@@ -803,6 +831,7 @@ new Workbook()
 + <font style="color:rgb(31, 35, 40);">第二阶段就比较难动态计算了，一般做法是提前拿文件做基准zip压缩测试，根据每mb的基准时间来计算，好在做完基准测试后可直接根据文件大小就能计算出压缩时长，可以粗估为第一阶段时间同等时间</font>
 
 ### <font style="color:rgb(31, 35, 40);">读取分片数据</font>
+
 <font style="color:rgb(31, 35, 40);">对于自动分片的数据，我们不需要一个sheet一个sheet读取，而是直接使用Stream的</font>`<font style="color:rgb(31, 35, 40);">flatMap</font>`<font style="color:rgb(31, 35, 40);">功能将worksheet降维处理，如下代码统计200w数据中数字大于1w的个数</font>
 
 ```java
@@ -832,9 +861,11 @@ try (ExcelReader reader = ExcelReader.read(Paths.get("F:/excel/200w.xlsx"))) {
 ![1733743964193-686bfda1-288c-476c-a5d1-152ab31ef4c1.jpeg](./img/7urPzaZk-WufFtAp/1733743964193-686bfda1-288c-476c-a5d1-152ab31ef4c1-972037.jpeg)![1733743966881-beb6e696-d518-433b-83cc-f498ec8c96f2.jpeg](./img/7urPzaZk-WufFtAp/1733743966881-beb6e696-d518-433b-83cc-f498ec8c96f2-261554.jpeg)
 
 ## <font style="color:rgb(31, 35, 40);">模板导出</font>
+
 <font style="color:rgb(31, 35, 40);">从v0.5.14开始EEC新增模板工作表TemplateSheet，它支持指定一个已有的Excel文件作为模板导出，TemplateSheet将复制模板工作表的样式并替换占位符， 同时TemplateSheet也可以和其它Worksheet混用，这意味着可以添加多个模板工作表和普通工作表。 创建模板工作表需要指定模板文件，它可以是本地文件也可是输入流InputStream，支持的类型包含xls 和xlsx两种格式，除模板文件外还需要指定工作表， 未指定工作表时默认以第一个工作表做为模板。</font>
 
 ### <font style="color:rgb(31, 35, 40);">绑定值</font>
+
 <font style="color:rgb(31, 35, 40);">TemplateSheet工作表导出时不受ExcelColumn注解限制，导出的数据范围由模板内占位符决定，默认占位符由一对关闭的大括号</font>`<font style="color:rgb(31, 35, 40);">${key}</font>`<font style="color:rgb(31, 35, 40);">组成， 虽然占位符与EL表达式写法相同但模板占位符并不具备EL的能力，所以无法使用</font>`<font style="color:rgb(31, 35, 40);">${1 + 2}</font>`<font style="color:rgb(31, 35, 40);">或</font>`<font style="color:rgb(31, 35, 40);">${System.getProperty("user.name")}</font>`<font style="color:rgb(31, 35, 40);">这类语句来做运算， 模板占位符</font>_<font style="color:rgb(31, 35, 40);">仅做替换不做运算</font>_<font style="color:rgb(31, 35, 40);">所以不需要担心安全漏洞问题。</font>
 
 `<font style="color:rgb(31, 35, 40);">setData(java.lang.Object)</font>`<font style="color:rgb(31, 35, 40);">方法为占位符绑定值，支持对象、Map、Array和List，数据量较大时可绑定一个数据生产者data-supplier来分片拉取数据， 它被定义为</font>`<font style="color:rgb(31, 35, 40);">BiFunction<Integer, T, List<T>></font>`<font style="color:rgb(31, 35, 40);">，其中第一个入参</font>`<font style="color:rgb(31, 35, 40);">Integer</font>`<font style="color:rgb(31, 35, 40);">表示已拉取数据的记录数（并非已写入数据）， 第二个入参</font>`<font style="color:rgb(31, 35, 40);">T</font>`<font style="color:rgb(31, 35, 40);">表示上一批数据中最后一个对象，业务端可以通过这两个参数来计算下一批数据应该从哪个节点开始拉取， 通常你可以使用第一个参数除以每批拉取的数据大小来确定当前页码，如果数据已排序则可以使用T对象的排序字段来计算下一批数据的游标以跳过</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">limit ... offset ... </font>`<font style="color:rgb(31, 35, 40);">分页查询从而大大提升取数性能。</font>
@@ -853,6 +884,7 @@ new Workbook("模板测试")
 ```
 
 ### <font style="color:rgb(31, 35, 40);">命名空间</font>
+
 <font style="color:rgb(31, 35, 40);">每个占位符都有一个命名空间，格式为</font>`<font style="color:rgb(31, 35, 40);">${namespace.key}</font>`<font style="color:rgb(31, 35, 40);">它用于区分不同的数据域，例如汇总数据和列表数据或多个列表数据， 当前只支持一级命名空间如果对象套对象则需要在外部拆分并以不同的命名空间设值</font>
 
 <font style="color:rgb(31, 35, 40);">有如下模板，它有3个命名空间，分别为”默认“，”list“和”summary“</font>
@@ -919,9 +951,11 @@ new Workbook()
 ![1733750055897-a0222fb3-63cf-41a1-84ce-d25bff167058.jpeg](./img/7urPzaZk-WufFtAp/1733750055897-a0222fb3-63cf-41a1-84ce-d25bff167058-211482.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">数据格式化</font>
+
 <font style="color:rgb(31, 35, 40);">只需要在模板文件中设置好格式化即可，单元格设置的任意格式化都将被复制，如上示例中价格单元格包含格式化</font>`<font style="color:rgb(31, 35, 40);">¥0.00_)</font>`<font style="color:rgb(31, 35, 40);">，模板文件看不出效果但结果文件可以看到效果（结果为数字所以有格式化效果）</font>
 
 ### <font style="color:rgb(31, 35, 40);">内置函数</font>
+
 <font style="color:rgb(31, 35, 40);">占位符中包含三个内置函数它们分别为</font>`<font style="color:rgb(31, 35, 40);">[@link:]</font>`<font style="color:rgb(31, 35, 40);">、</font>`<font style="color:rgb(31, 35, 40);">[@list:]</font>`<font style="color:rgb(31, 35, 40);">和</font>`<font style="color:rgb(31, 35, 40);">[@media:]</font>`<font style="color:rgb(31, 35, 40);">，分别用于设置单元格的值为超链接、序列和图片， 其中序列的值可以从源工作表中获取也可以使用</font>`<font style="color:rgb(31, 35, 40);">setData</font>`<font style="color:rgb(31, 35, 40);">方法来设置，</font>_<font style="color:rgb(31, 35, 40);">内置函数必须独占一个单元格且仅识别固定的三个内置函数， 任意其它命令将被识别为普通命令空间</font>_
 
 <font style="color:rgb(31, 35, 40);">占位符整体样式：</font>`<font style="color:rgb(31, 35, 40);">[@内置函数:][命名空间][.]<占位符></font>`
@@ -967,6 +1001,7 @@ new Workbook()
 <font style="color:rgb(31, 35, 40);">性别列为"序列"，头像列为"图片"，简历原件为"超链接"</font>
 
 ### <font style="color:rgb(31, 35, 40);">多种混合工作表</font>
+
 <font style="color:rgb(31, 35, 40);">在EEC中Worksheet及其子类均被视为数据源，这些数据源均可以混合使用，输出协议由WorksheetWriter决定，目前仅支持xlsx和csv格式，所以即使模板为xls格式输出也将是xlsx格式</font>
 
 ```java
@@ -978,6 +1013,7 @@ new Workbook()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">兼容性</font>
+
 <font style="color:rgb(31, 35, 40);">为了解决切换到EEC后导致现有模板失效从而大面积修改模板的问题，EEC提供了</font>`<font style="color:rgb(31, 35, 40);">setPrefix</font>`<font style="color:rgb(31, 35, 40);">和</font>`<font style="color:rgb(31, 35, 40);">setSuffix</font>`<font style="color:rgb(31, 35, 40);">两个方法来修改占位符前缀和后缀，如现有模板占位符为</font>`<font style="color:rgb(31, 35, 40);">{key}</font>`<font style="color:rgb(31, 35, 40);"> </font><font style="color:rgb(31, 35, 40);">则可以使用</font>`<font style="color:rgb(31, 35, 40);">setPrefix("{")</font>`<font style="color:rgb(31, 35, 40);">来重置前缀，这样你不需要修改现有模板来完成适配。</font>
 
 ```java
@@ -990,6 +1026,7 @@ new Workbook()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">特殊说明</font>
+
 <font style="color:rgb(31, 35, 40);">TemplateSheet工作表使用ExcelReader读取源文件，并复制样式等信息到新的工作表，它并不是直接在原工作表中追加数据，所以会丢失一些信息（只能读取当前ExcelReader所支持的内容）。</font>
 
 <font style="color:rgb(31, 35, 40);">除此之外v0.5.14版本还有一些功能限制，具体表现如下</font>
@@ -1002,12 +1039,15 @@ new Workbook()
 + <font style="color:rgb(31, 35, 40);">由于eec读取xls图片有BUG，所以模板文件中有图片时可能导致导出异常</font>
 
 ## <font style="color:rgb(31, 35, 40);">动态设置样式</font>
+
 <font style="color:rgb(31, 35, 40);">所谓动态就是根据单元格或行数据不同为每个单元格或者每一行设置不同样式，这个功能可以极大丰富文件的可读性和多样性，算是EEC的个性化功能吧。</font>
 
 ### <font style="color:rgb(31, 35, 40);">使用StyleDesign注解</font>
+
 <font style="color:rgb(31, 35, 40);">Java Bean可以使用</font>`<font style="color:rgb(31, 35, 40);">@StyleDesign</font>`<font style="color:rgb(31, 35, 40);">注解动态编辑样式（包含字体，填充，边框，格式等），StyleDesign作用于</font>`<font style="color:rgb(31, 35, 40);">Type</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">Field</font>`<font style="color:rgb(31, 35, 40);">和</font>`<font style="color:rgb(31, 35, 40);">Method</font>`<font style="color:rgb(31, 35, 40);">，前者影响整行样式，后两种影响单个Cell</font>
 
 #### <font style="color:rgb(31, 35, 40);">作用于Type</font>
+
 <font style="color:rgb(31, 35, 40);">StyleDesign指定的类需要实现</font>`<font style="color:rgb(31, 35, 40);">StyleProcessor<T></font>`<font style="color:rgb(31, 35, 40);">接口，该接口方法有3个参数，第一个为Java Bean，第2个是现有样式，第3个是Styles实例，</font>
 
 ```java
@@ -1040,6 +1080,7 @@ public static class StudentScoreStyle implements StyleProcessor<DesignStudent> {
 ![1734260790323-6ef976e9-66b9-469b-899c-001ac7ae7ca8.png](./img/7urPzaZk-WufFtAp/1734260790323-6ef976e9-66b9-469b-899c-001ac7ae7ca8-058832.png)
 
 #### <font style="color:rgb(31, 35, 40);">作用于Field和Method</font>
+
 <font style="color:rgb(31, 35, 40);">StyleDesign使用于Field和Method用法与Type完全一样，只是传入的第1个参数变成单元格的值</font>
 
 ```java
@@ -1083,9 +1124,11 @@ public static class ScoreStyle implements StyleProcessor<Integer> {
 ![1734260777455-3959941e-ce83-4c54-a444-8b6c9b5a738c.png](./img/7urPzaZk-WufFtAp/1734260777455-3959941e-ce83-4c54-a444-8b6c9b5a738c-179113.png)
 
 ### <font style="color:rgb(31, 35, 40);">使用StyleProcessor</font>
+
 <font style="color:rgb(31, 35, 40);">对于ListMapSheet,ResultSetSheet或StatementSheet这三种无法使用注解的Worksheet，EEC提供了</font>`<font style="color:rgb(31, 35, 40);">setStyleProcessor</font>`<font style="color:rgb(31, 35, 40);">方法，与StyleDesign一样，可以应用于整行或者单个单元格</font>
 
 #### <font style="color:rgb(31, 35, 40);">作用于Worksheet</font>
+
 ```java
 new Workbook()
 .addSheet(new ListSheet<>(list
@@ -1101,6 +1144,7 @@ new Workbook()
 <font style="color:rgb(31, 35, 40);"> </font>![1734260767870-7f7210a1-da67-4bfd-ac1f-b18f86b27d83.png](./img/7urPzaZk-WufFtAp/1734260767870-7f7210a1-da67-4bfd-ac1f-b18f86b27d83-487781.png)
 
 #### <font style="color:rgb(31, 35, 40);">作用于Column</font>
+
 ```java
 new Workbook()
 .addSheet(new ListSheet<>(list
@@ -1117,11 +1161,13 @@ new Workbook()
 <font style="color:rgb(31, 35, 40);">动态样式处理就展示这么多，对于样式处理有一定的学习成本，EEC处理样式一定有这两步，第一步是清除当前样式，第二步是添加新的样式。样式之间使用</font>`<font style="color:rgb(31, 35, 40);">|</font>`<font style="color:rgb(31, 35, 40);">运算符连接，也可以使用</font>`<font style="color:rgb(31, 35, 40);">Styles.modifyXX</font>`<font style="color:rgb(31, 35, 40);">不简化</font>
 
 ## <font style="color:rgb(31, 35, 40);">静态设置样式</font>
+
 <font style="color:rgb(31, 35, 40);">Excel样式包含格式化NumFmt、字体Font、填充Fill、边框Border、 垂直对齐Verticals和水平对齐Horizontals以及自动折行组成， EEC简化了样式设计，单元格样式由一个int值保存，它可以极大减少内存开销和提升查找速度，但短板是可用的样式减少，当前最多只能包含</font>**<font style="color:rgb(31, 35, 40);">256个格式化，64个字体、64个填充和64个边框</font>**<font style="color:rgb(31, 35, 40);">， 对于日常的导出需求应该是够用的但复杂场景就需要考虑将int扩大到long。</font>
 
 <font style="color:rgb(31, 35, 40);">相对于动态样式而言，设置静态样式是一次性的在初始化的时候计算所以并不会影响导出速度，默认的样式大多数情况下并不能满足每个人的审美， 好在EEC有多种方式修改默认的表头或者数据行的样式。</font>
 
 ### <font style="color:rgb(31, 35, 40);">修改表头样式</font>
+
 <font style="color:rgb(31, 35, 40);">Worksheet暴露了几个修改表头样式的方法</font>`<font style="color:rgb(31, 35, 40);">setHeadStyle</font>`<font style="color:rgb(31, 35, 40);">或</font>`<font style="color:rgb(31, 35, 40);">setHeadStyleIndex</font>`<font style="color:rgb(31, 35, 40);">可以通过这些方法设置表头样式，每个Worksheet都可以设置不同的表头。</font>
 
 <font style="color:rgb(31, 35, 40);">修改样式前必须先实例化Workbook然后才能修改样式。下面的示例展示如何修改表头字体、背景和边框</font>
@@ -1153,6 +1199,7 @@ workbook.writeTo(Paths.get("F:/excel"));
 ![1734260711789-29bc336a-0a1d-417b-8019-781236e644e6.png](./img/7urPzaZk-WufFtAp/1734260711789-29bc336a-0a1d-417b-8019-781236e644e6-899995.png)
 
 ### <font style="color:rgb(31, 35, 40);">修改部分表头样式</font>
+
 <font style="color:rgb(31, 35, 40);">如果仅需要修改表头的部分样式时则可以先获取原有样式然后再修改部分属性即可。 下面的示例展示修改部分表头的部分属性，比如修改字体、修改填充色等</font>
 
 ```java
@@ -1186,6 +1233,7 @@ sheet.setColumns(new Column[] {
 <font style="color:rgb(31, 35, 40);">可以看到"在库库存"列观感上就给用户不能修改的视觉，这样可以避免用户将库存填写在此列，而应该填写在”盘点库存“列，并且将两列必填项的背景改为橙色可以着重显示。</font>
 
 ### <font style="color:rgb(31, 35, 40);">清除表头样式</font>
+
 <font style="color:rgb(31, 35, 40);">清除表头样式就比较简单了，可以直接给StyleIndex赋值为0即可。</font>
 
 ```java
@@ -1202,6 +1250,7 @@ workbook.writeTo(Paths.get("F:/excel"));
 ![1734260681519-2d900348-6e4f-49a8-8454-508da80d860a.jpeg](./img/7urPzaZk-WufFtAp/1734260681519-2d900348-6e4f-49a8-8454-508da80d860a-308177.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">修改Body样式</font>
+
 <font style="color:rgb(31, 35, 40);">与表头类似Column也提供了类似的方法，用户可以通过</font>`<font style="color:rgb(31, 35, 40);">setCellStyle</font>`<font style="color:rgb(31, 35, 40);">方法修改样式，这里就不赘述了，也支持动态修改样式，请参照</font>[<font style="color:rgb(31, 35, 40);">动态设置样式</font>](https://github.com/wangguanquan/eec/wiki/%E5%8A%A8%E6%80%81%E8%AE%BE%E7%BD%AE%E6%A0%B7%E5%BC%8F)
 
 **<font style="color:rgb(31, 35, 40);">v0.5.12</font>**<font style="color:rgb(31, 35, 40);">提供所有样式修改，你可以在创建Column时调用</font>`<font style="color:rgb(31, 35, 40);">setFont</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setBorder</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setNumFmt</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setFill</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setHorizontal</font>`<font style="color:rgb(31, 35, 40);">和</font>`<font style="color:rgb(31, 35, 40);">setVertical</font>`<font style="color:rgb(31, 35, 40);">等方法直接设置初始样式</font>
@@ -1220,6 +1269,7 @@ new Workbook()
 ![1734260670348-fa8f6961-53a5-4ea9-956b-686ae3c263ba.jpeg](./img/7urPzaZk-WufFtAp/1734260670348-fa8f6961-53a5-4ea9-956b-686ae3c263ba-904265.jpeg)
 
 ## <font style="color:rgb(31, 35, 40);">指定导出时的列顺序和位置</font>
+
 <font style="color:rgb(31, 35, 40);">默认情况ListSheet根据对象的Field自然顺序导出，ListMapSheet是无序的，ResultSetSheet和StatementSheet的顺序当然就是Query字段的顺序，除了默认顺序还可以指定Column来调整顺序。</font>
 
 <font style="color:rgb(31, 35, 40);"> v0.4.13版本开始，ExcelColumn注解中增加了</font>`<font style="color:rgb(31, 35, 40);">colIndex</font>`<font style="color:rgb(31, 35, 40);">属性以及Column增加</font>`<font style="color:rgb(31, 35, 40);">#setColIndex</font>`<font style="color:rgb(31, 35, 40);">方法。此属性定义为</font>`<font style="color:rgb(31, 35, 40);">int</font>`<font style="color:rgb(31, 35, 40);">类型，用于指定</font>_<font style="color:rgb(31, 35, 40);">从‘0’开始</font>_<font style="color:rgb(31, 35, 40);">的列位置，</font>**<font style="color:rgb(31, 35, 40);">从‘0’开始</font>**<font style="color:rgb(31, 35, 40);">、</font>**<font style="color:rgb(31, 35, 40);">从‘0’开始</font>**<font style="color:rgb(31, 35, 40);"> 重要的事情说三遍。 </font>
@@ -1231,6 +1281,7 @@ _<font style="color:rgb(31, 35, 40);">此位置是绝对位置，如果有相同
 <font style="color:rgb(31, 35, 40);">下面列一些实际例子:</font>
 
 ### <font style="color:rgb(31, 35, 40);">自然顺序</font>
+
 <font style="color:rgb(31, 35, 40);">我们先定义一个基础的类如下：</font>
 
 ```java
@@ -1257,6 +1308,7 @@ public class OrderEntry {
 ![1734263081284-0852f998-b1f9-4b17-9f05-1016f4f4d9df.jpeg](./img/7urPzaZk-WufFtAp/1734263081284-0852f998-b1f9-4b17-9f05-1016f4f4d9df-768396.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">相同列下标</font>
+
 <font style="color:rgb(31, 35, 40);">如果出现相同列下标会如何处理，是抛异常还是别的？</font>
 
 <font style="color:rgb(31, 35, 40);">我们定义一个类继承OrderEntry，将原来第2和第3列都设置为5，如下：</font>
@@ -1284,6 +1336,7 @@ public class SameOrderEntry extends OrderEntry {
 <font style="color:rgb(31, 35, 40);">C、D两列空出来了，正好对应上面跳过的2,3。那3个5如何处理呢？它会按照属性定义的顺序，正好就是[d, s2, s4]</font>
 
 ### <font style="color:rgb(31, 35, 40);">极限下标</font>
+
 <font style="color:rgb(31, 35, 40);">我们设置一些较大的下标测试一下，设置一个xlsx可接受的最大下标16_383，定义如下：</font>
 
 ```java
@@ -1307,6 +1360,7 @@ public class LargeOrderEntry extends OrderEntry {
 ![1734263103374-b0342be8-058d-4e75-8941-42dcaa9a4289.jpeg](./img/7urPzaZk-WufFtAp/1734263103374-b0342be8-058d-4e75-8941-42dcaa9a4289-004619.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">指定开始行</font>
+
 <font style="color:rgb(31, 35, 40);">默认的EEC从第1行开始写，从v0.5.8版本开始你可以通过</font>`<font style="color:rgb(31, 35, 40);">Sheet#setStartRowIndex</font>`<font style="color:rgb(31, 35, 40);">来指定第一行的位置，行下标的范围为</font>`<font style="color:rgb(31, 35, 40);">1~${limit}</font>`<font style="color:rgb(31, 35, 40);">，这里limit与文件格式相关，xlsx格式默认最大下标</font>`<font style="color:rgb(31, 35, 40);">1_048_576</font>`<font style="color:rgb(31, 35, 40);">，xls最大下标</font>`<font style="color:rgb(31, 35, 40);">65_536</font>`
 
 `<font style="color:rgb(31, 35, 40);">startRowIndex</font>`<font style="color:rgb(31, 35, 40);">和</font>`<font style="color:rgb(31, 35, 40);">colIndex</font>`<font style="color:rgb(31, 35, 40);">两个属性可以搭配使用，下面代码展示从第7行第4列开始写表格</font>
@@ -1333,9 +1387,11 @@ try (ExcelReader reader = ExcelReader.read(Paths.get("F:/excel/Repeat Columns Fr
 ![1734263129464-ab1f8796-0b19-4968-880b-d8693b39adc8.jpeg](./img/7urPzaZk-WufFtAp/1734263129464-ab1f8796-0b19-4968-880b-d8693b39adc8-972899.jpeg)
 
 ## <font style="color:rgb(31, 35, 40);">合并单元格</font>
+
 <font style="color:rgb(31, 35, 40);">EEC通过扩展参数</font>`<font style="color:rgb(31, 35, 40);">merge_cells</font>`<font style="color:rgb(31, 35, 40);">来添加合并单元格，合并是作用于一个区域，所以使用</font>`<font style="color:rgb(31, 35, 40);">Dimension</font>`<font style="color:rgb(31, 35, 40);">来保存一个合并的起始和结束行列信息，你可以合并任意多个单元格，其中只有一个限制，那就是合并后的单元格</font>**<font style="color:rgb(31, 35, 40);">可以相邻但不能重叠</font>**
 
 ### <font style="color:rgb(31, 35, 40);">写入</font>
+
 <font style="color:rgb(31, 35, 40);">示例：</font>
 
 ```java
@@ -1362,6 +1418,7 @@ new Workbook()
 <font style="color:rgb(31, 35, 40);">你不能寄希望在自动修复上，那样将产生不可预期的效果，EEC也不会进行相关检查，所以最好事先预检，好在此预检并不复杂。</font>
 
 ### <font style="color:rgb(31, 35, 40);">读取</font>
+
 <font style="color:rgb(31, 35, 40);">我们知道合并后的值只保存在左上的第一个单元格中其它单元格均为null，EEC提供了</font>`<font style="color:rgb(31, 35, 40);">copy-on-merged</font>`<font style="color:rgb(31, 35, 40);">方法，该方法会将第一个单元格的值复制到其它单元格中使得合并范围内的所有单元格读取的内容完全一样。</font>
 
 <font style="color:rgb(31, 35, 40);">假如有如下合并单元格</font>
@@ -1380,6 +1437,7 @@ new Workbook()
 ```
 
 #### <font style="color:rgb(31, 35, 40);">使用copy-on-merge</font>
+
 <font style="color:rgb(31, 35, 40);">org.ttzero.reader.Sheet可以使用</font>`<font style="color:rgb(31, 35, 40);">asSheet</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">asMergeSheet</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">asCalcSheet</font>`<font style="color:rgb(31, 35, 40);">和</font>`<font style="color:rgb(31, 35, 40);">asFullSheet</font>`<font style="color:rgb(31, 35, 40);">相互转换，转换后Worksheet就有了不同的功能，考虑到普通的Sheet读取速度最快所以请根据需求选择。</font>
 
 ```java
@@ -1415,9 +1473,11 @@ ab | ab | ab
 <font style="color:rgb(31, 35, 40);">这样我们不需要额外处理null</font>
 
 ## <font style="color:rgb(31, 35, 40);">设置多行表头</font>
+
 EEC从v0.5.3开始支持多表头导出，同样的可以使用注解或者手动指定两种方式，最多支持10层。
 
 ### 使用注解
+
 Java Bean可以使用多个`ExcelColumn`来实现，多个ExcelColumn的顺序与导出的最终表头完全一致，具体示例如下:
 
 ```java
@@ -1493,6 +1553,7 @@ private String detail;
 ![1734263950664-9cd01659-1e81-49fd-a42c-230fa3a3ef39.jpeg](./img/7urPzaZk-WufFtAp/1734263950664-9cd01659-1e81-49fd-a42c-230fa3a3ef39-574026.jpeg)
 
 ### 手动添加
+
 Column增加`addSubColumn`方法用于添加子表头，顺序与注解相似，第一个在最上面最后一个需要指定字段名。这种方式多用于ListMapSheet和ResultSetSheet
 
 ```java
@@ -1511,6 +1572,7 @@ new Workbook().addSheet(new ListSheet<>(data
 ![1734263960047-befa5682-e3cc-4293-a347-1fde4b00fa16.jpeg](./img/7urPzaZk-WufFtAp/1734263960047-befa5682-e3cc-4293-a347-1fde4b00fa16-262885.jpeg)
 
 ### 读取带多行表头的文件
+
 v0.5.6开始EEC支持指定表头位置，你可以通过`Sheet#header(fromRowNum, toRowNum)`来指定表头，`header`方法支持`fromRowNum`和`toRowNum`两个参数，为了更加直观这两个参数均从1开始，和打开excel所看到的一样，同时from和to两端都是包含的，对于多行表头来说header将以`A1:A2:A3`这种格式进行纵向拼接
 
 我们拿上面【手动添加】的文件为例子来展示如何使用header来支持多表头，我们只需要设置header(1, 2)指定两行表头即可`reader.sheet(0).header(1, 2).dataRows().map(Row::toMap).forEach(System.out::println)`，通过这个命令可输入如下结果
@@ -1530,6 +1592,7 @@ v0.5.6开始EEC支持指定表头位置，你可以通过`Sheet#header(fromRowNu
 我们可以看到中间合并的表头表现为`证书:编号, 证书:类型, 证书:等级`，如果Java bean使用EEC注解的话也可以直接转对象`reader.sheet(0).header(1, 2).dataRows().map(row -> row.to(Order.class)).forEach(Print::println)`和单行表头完全一样
 
 ### 自定义表头
+
 v0.5.6同样也支持自定义表头，如果自动解析表头有问题则可以设置自定义表头
 
 ```java
@@ -1551,11 +1614,13 @@ reader.sheet(0).reset().header(2).bind(Object.class, new HeaderRow().with(2, hea
 ```
 
 ## <font style="color:rgb(31, 35, 40);">关于自适应列宽</font>
+
 <font style="color:rgb(31, 35, 40);">v0.5.3版本大幅优化了自适应列宽计算方式，使得在</font>**<font style="color:rgb(31, 35, 40);">默认字体</font>**<font style="color:rgb(31, 35, 40);">下列宽更加精准，相对于POI的自适应结果EEC对中文处理更精准，EEC设置自适应列宽只需要调用</font>`<font style="color:rgb(31, 35, 40);">setAutoSize</font>`<font style="color:rgb(31, 35, 40);">即可。</font>
 
 **<font style="color:rgb(31, 35, 40);">v0.5.12</font>**<font style="color:rgb(31, 35, 40);">版本进一步优化字体宽度计算逻辑，除了支持“宋体11号”字体外现在支持绝大部分字体和字号，同时还优化了自动折行时计算逻辑，升级后将分组计算每段文本宽度取最大值， 而不是当做一个长字符串处理</font>
 
 ### <font style="color:rgb(31, 35, 40);">默认字体</font>
+
 ```java
 // 测试类
 public static class WidthTestItem {
@@ -1578,6 +1643,7 @@ new Workbook()
 ![1734273269778-693ad31c-7ed2-4c3c-bc4b-b4089795b1ef.jpeg](./img/7urPzaZk-WufFtAp/1734273269778-693ad31c-7ed2-4c3c-bc4b-b4089795b1ef-182446.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">自定义字体</font>
+
 <font style="color:rgb(31, 35, 40);">下面修改4列的4种字体和字号，看一下自适应列宽的效果</font>
 
 ```java
@@ -1596,6 +1662,7 @@ new Workbook()
 <font style="color:rgb(31, 35, 40);">优化后效果看上去还不错，当然也有一些字体计算出来的结果与实际显示效果可能有很大偏差，此时可以覆写XMLWorksheetWriter#stringWidth方法调整， 内部使用</font>`<font style="color:rgb(31, 35, 40);">SwingUtilities2.getFontMetrics#stringWidth</font>`<font style="color:rgb(31, 35, 40);">方法计算字符串宽度。测试发现windows系统自带的中文字体均能很好的适应， 但几乎所有的英文字体均无法正常适应要么无法适应中文要么无法适应英文所以调整起来还是比较麻烦，EEC也只能取巧处理。</font>
 
 ### <font style="color:rgb(31, 35, 40);">Number Format列如何计算宽度</font>
+
 <font style="color:rgb(31, 35, 40);">如果格式化的列使用上面的计算方法就不准确了，格式化后的字符串基本会在原字符串上加一些分隔符，所以一般来说格式化后的长度比原长度更长，比如最常见的数字格式化</font>`<font style="color:rgb(31, 35, 40);">#,##0</font>`<font style="color:rgb(31, 35, 40);">，它的使用是每3位加一个逗号， 列宽与数字大小成正比，数字越大添加的逗号越多宽度越大。</font>
 
 <font style="color:rgb(31, 35, 40);">最终的列宽与每个格式相关，所以计算列宽的方法也在NumFmt实例中，自定义格式化需要重写</font>`<font style="color:rgb(31, 35, 40);">calcNumWidth</font>`<font style="color:rgb(31, 35, 40);">方法来微调，计算方法可以参考</font>`<font style="color:rgb(31, 35, 40);">NumFmt#calcNumWidth</font>`<font style="color:rgb(31, 35, 40);">通用计算方法。</font>
@@ -1615,6 +1682,7 @@ new Workbook()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">指定单列自适应宽度</font>
+
 <font style="color:rgb(31, 35, 40);">除在工作表所有列自适应外还支持单列自适应，可在创建列的时候指定某列自适应列宽</font>`<font style="color:rgb(31, 35, 40);">new Column().autoSize()</font>`
 
 ```java
@@ -1630,6 +1698,7 @@ new Workbook()
 ![1734273765271-2c3a4fd0-82ec-4196-b394-b8f4c739cb5e.jpeg](./img/7urPzaZk-WufFtAp/1734273765271-2c3a4fd0-82ec-4196-b394-b8f4c739cb5e-433262.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">戴上紧箍咒吧</font>
+
 <font style="color:rgb(31, 35, 40);">自适应列宽在某种程度上来说可以使文档更美观，但如果某个单元格文字太长会让楼歪掉，这个时候就需要给它戴上一个紧箍咒，不能让它超过我们设定的范围， 这个设定是通过ExcelColumn注解的maxWidth属性实现，Column也可以使用width属性限定，我们看下效果：</font>
 
 ![1734273774761-c1c2fe84-bdcf-4294-b02a-724234f68d5b.jpeg](./img/7urPzaZk-WufFtAp/1734273774761-c1c2fe84-bdcf-4294-b02a-724234f68d5b-279182.jpeg)
@@ -1637,6 +1706,7 @@ new Workbook()
 <font style="color:rgb(31, 35, 40);">左边是自适应列宽，右边是自适应列宽+MaxWidth+Wrap的效果，右边的效果只需要添加</font>`<font style="color:rgb(31, 35, 40);">@ExcelColumn(maxWidth = 20D, wrapText = true)</font>`<font style="color:rgb(31, 35, 40);">属性即可。</font>
 
 ### <font style="color:rgb(31, 35, 40);">多个属性间的组合逻辑</font>
+
 <font style="color:rgb(31, 35, 40);">当前设置列宽有2个属性，分别是auto-size和width，组合效果如下</font>
 
 | <font style="color:rgb(31, 35, 40);">auto-size</font> | <font style="color:rgb(31, 35, 40);">width</font> | <font style="color:rgb(31, 35, 40);">效果</font> |
@@ -1648,11 +1718,12 @@ new Workbook()
 | <font style="color:rgb(31, 35, 40);">FALSE</font> | <font style="color:rgb(31, 35, 40);">-</font> | <font style="color:rgb(31, 35, 40);">默认固定宽度</font> |
 | <font style="color:rgb(31, 35, 40);">FALSE</font> | <font style="color:rgb(31, 35, 40);">10</font> | <font style="color:rgb(31, 35, 40);">固定宽度10</font> |
 
-
 ## <font style="color:rgb(31, 35, 40);">批注</font>
+
 <font style="color:rgb(31, 35, 40);">表头批注可以使用注释</font>`<font style="color:rgb(31, 35, 40);">HeaderComment</font>`<font style="color:rgb(31, 35, 40);">或创建Column指定</font>`<font style="color:rgb(31, 35, 40);">new Column().setHeaderComment()</font>`<font style="color:rgb(31, 35, 40);">，批定批注时还可以额外指定宽度和高度</font>
 
 ### <font style="color:rgb(31, 35, 40);">使用注解</font>
+
 ```java
 public static class Stock {
     @ExcelColumn("库存")
@@ -1677,6 +1748,7 @@ new Workbook().addSheet(new ListSheet<>(list)).writeTo(Paths.get("F:/excel/批�
 ![1734273829273-7833c7fb-766c-4247-b18a-04c5bf4438c6.jpeg](./img/7urPzaZk-WufFtAp/1734273829273-7833c7fb-766c-4247-b18a-04c5bf4438c6-638192.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">使用Column#setHeaderComment添加</font>
+
 ```java
 new Workbook().addSheet(new ListSheet<>(list)
                         .setColumns(new Column("库存", "stock")
@@ -1690,6 +1762,7 @@ new Workbook().addSheet(new ListSheet<>(list)
 ```
 
 ### <font style="color:rgb(31, 35, 40);">使用addComment手动添加批注</font>
+
 <font style="color:rgb(31, 35, 40);">首先需要从Sheet拿到Comments，Comments是一个集合体它可以包含多个批注，目前Comment对象设计不太友好，只能通过ref指定位置没有办法指定row和col指定位置，当然头部批注也可以使用此方法添加，此方法更加灵活。</font>
 
 ```plain
@@ -1708,6 +1781,7 @@ workbook.writeTo(Paths.get("F:/excel/批注测试.xlsx"));
 ![1734273837925-11bf7c7f-cce2-4046-9ecd-cb1d104c24d8.jpeg](./img/7urPzaZk-WufFtAp/1734273837925-11bf7c7f-cce2-4046-9ecd-cb1d104c24d8-946378.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">实战</font>
+
 <font style="color:rgb(31, 35, 40);">场景：导入并校验数据是否合规，数据不合规时在对应的Cell上更改字体和背景颜色且通过批注添加异常信息</font>
 
 1. <font style="color:rgb(31, 35, 40);">提前检查数据是否合规，如果全部合规就执行导入，如果有一条不合规就提前中断并创建Excel</font>
@@ -1777,6 +1851,7 @@ try (ExcelReader reader = ExcelReader.read(Paths.get("F:/excel/students.xlsx")))
 <font style="color:rgb(31, 35, 40);">目前版本暂时不支持读取批注，敬请关注</font>
 
 ## <font style="color:rgb(31, 35, 40);">读取Excel中的图片</font>
+
 <font style="color:rgb(31, 35, 40);">导出图片请查看章节    导出Excel#导出图片</font>
 
 <font style="color:rgb(31, 35, 40);">从v0.4.12版本开始支持读取excel文件中的图片，目前有两种途径获取图片信息，一是从ExcelReader中获取所有图片，另一个是从各Worksheet中获取当前Worksheet包含的图片。</font>
@@ -1822,6 +1897,7 @@ if (pictures != null) {
 _<font style="color:rgb(31, 35, 40);">注意：本地临时路径在关闭ExcelReader后会自动清除，如果想要永久保存图片则需要将其复制到其它地方</font>_
 
 ## <font style="color:rgb(31, 35, 40);">读取单元格样式</font>
+
 <font style="color:rgb(31, 35, 40);">EEC从v0.5.6开始支持读取单元格样式，Row对象提供</font>`<font style="color:rgb(31, 35, 40);">getCellStyle</font>`<font style="color:rgb(31, 35, 40);">方法获取单元格样式，此样式仅返回一个int值表示样式索引，如果要获得具体的样式， 你需要从Styles对象中调用具体的</font>`<font style="color:rgb(31, 35, 40);">getFont</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">getFill</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">getNumFmt</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">getBorder</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">getVertical</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">getHorizontal</font>`<font style="color:rgb(31, 35, 40);">来分别获取 字体，填充，格式化，边框，垂直对齐，水平对齐 6个样式</font>
 
 ```java
@@ -1853,6 +1929,7 @@ String vertical = Verticals.of(styles.getVertical(style))
 <font style="color:rgb(31, 35, 40);">通过上面的方法你可以完整的复制一个excel</font>
 
 ## <font style="color:rgb(31, 35, 40);">动态转换</font>
+
 <font style="color:rgb(31, 35, 40);">导出数据时经常会将数据库一些状态值枚举值转为文本输出到Excel中，EEC提供了一个FunctionalInterface类</font>`<font style="color:rgb(31, 35, 40);">ConversionProcessor</font>`<font style="color:rgb(31, 35, 40);">，在创建Column时可以像这样</font><font style="color:rgb(31, 35, 40);"> </font>`<font style="color:rgb(31, 35, 40);">new Column("状态", "status", int.class, n -> ApplyStatusEnum.of((int) n).getDesc()</font>`<font style="color:rgb(31, 35, 40);">将状态这一列的数字值转为状态文本值输出，在v0.5.12版本中又引入了Converter接口 你可以在ExcelColumn注解中使用它，与ConversionProcessor相比Converter是双向的他提供输出转换</font>`<font style="color:rgb(31, 35, 40);">conversion</font>`<font style="color:rgb(31, 35, 40);">和输入转换</font>`<font style="color:rgb(31, 35, 40);">reversion</font>`
 
 ```java
@@ -1896,7 +1973,9 @@ public static class StatusConvert implements Converter<Integer> {
 ```
 
 ## <font style="color:rgb(31, 35, 40);">QA集</font>
+
 ### <font style="color:rgb(31, 35, 40);">如何设置样式</font>
+
 <font style="color:rgb(31, 35, 40);">样式设置放在表头Column对象上，使用以下</font>`<font style="color:rgb(31, 35, 40);">setFont</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setFill</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setBorder</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setNumFmt</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setVertical</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setHorizontal</font>`<font style="color:rgb(31, 35, 40);">，</font>`<font style="color:rgb(31, 35, 40);">setWrapText</font>`<font style="color:rgb(31, 35, 40);">7个方法设置字体，填充，边框，格式化，垂直对齐，水平对齐和自动折行 7个样式， 由于EEC包含边框、字体和水平对齐3个打底样式，要去除这些打底样式则需要设置新的样式来替换，边框可以使用</font>`<font style="color:rgb(31, 35, 40);">new Border()</font>`<font style="color:rgb(31, 35, 40);">空边框来清除</font>
 
 ```java
@@ -1913,6 +1992,7 @@ new Workbook()
 ![auto_width2.png](./img/7urPzaZk-WufFtAp/auto_width2-660733.png)![1734274140782-35559966-7cdb-4601-80af-64716953f4da.jpeg](./img/7urPzaZk-WufFtAp/1734274140782-35559966-7cdb-4601-80af-64716953f4da-904502.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">如何忽略表头</font>
+
 `<font style="color:rgb(31, 35, 40);">Sheet#ignoreHeader</font>`<font style="color:rgb(31, 35, 40);">可忽略表头</font>
 
 ```java
@@ -1922,6 +2002,7 @@ new Workbook()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">如何进行数据转换</font>
+
 <font style="color:rgb(31, 35, 40);">简单转换可以使用</font>`<font style="color:rgb(31, 35, 40);">ConversionProcessor</font>`<font style="color:rgb(31, 35, 40);">，它仅有一个入参和出参作用于Column列</font>
 
 <font style="color:rgb(31, 35, 40);">如下代码展示将成绩小于60分的转换为"不合格"</font>
@@ -1967,6 +2048,7 @@ public class StatusConvert implements Converter<Integer> {
 ```
 
 ### <font style="color:rgb(31, 35, 40);">如何设置斑马线</font>
+
 <font style="color:rgb(31, 35, 40);">斑马线有利于阅读，EEC使用</font>`<font style="color:rgb(31, 35, 40);">XMLZebraLineCellValueAndStyle</font>`<font style="color:rgb(31, 35, 40);">添加斑马线，除表头外每隔一行设置一个填充色做为斑马线样式</font>
 
 <font style="color:rgb(31, 35, 40);">如下示例展示设置橙色斑马线</font>
@@ -1979,6 +2061,7 @@ new Workbook()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">如何设置自适应列宽</font>
+
 <font style="color:rgb(31, 35, 40);">EEC支持工作簿、工作表和指定列三个维度设置自适应列宽，它们的关键词都是</font>`<font style="color:rgb(31, 35, 40);">AutoSize</font>`
 
 ```java
@@ -2001,6 +2084,7 @@ new Workbook()
 ```
 
 ### <font style="color:rgb(31, 35, 40);">如何设置缩放</font>
+
 <font style="color:rgb(31, 35, 40);">缩放是通过扩展参数设置，对应Key为</font>`<font style="color:rgb(31, 35, 40);">Const.ExtendPropertyKey.ZOOM_SCALE</font>`<font style="color:rgb(31, 35, 40);">，范围10-400对应缩放比例10%到400%</font>
 
 ```java
@@ -2012,6 +2096,7 @@ new Workbook()
 ![1734274152293-de63c0b0-2efe-457c-8edf-e9f6d1c95bb2.jpeg](./img/7urPzaZk-WufFtAp/1734274152293-de63c0b0-2efe-457c-8edf-e9f6d1c95bb2-573907.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">扩展参数说明</font>
+
 <font style="color:rgb(31, 35, 40);">由于程序越写越复杂，工作表Worksheet新添加功能都需要定义新的属性，为了限制无限增加的属性所以将这些属性放到扩展参数中，扩展参数由一个Map组成，使用</font>`<font style="color:rgb(31, 35, 40);">putExtProp</font>`<font style="color:rgb(31, 35, 40);">设置属性</font>`<font style="color:rgb(31, 35, 40);">getExtPropValue</font>`<font style="color:rgb(31, 35, 40);">获取扩展属性</font>
 
 <font style="color:rgb(31, 35, 40);">当前已支持扩展属性有</font>
@@ -2025,14 +2110,16 @@ new Workbook()
 | <font style="color:rgb(31, 35, 40);">DATA_VALIDATION</font> | <font style="color:rgb(31, 35, 40);">数据验证</font> | <font style="color:rgb(31, 35, 40);">List<Validation></font> |
 | <font style="color:rgb(31, 35, 40);">ZOOM_SCALE</font> | <font style="color:rgb(31, 35, 40);">缩放</font> | <font style="color:rgb(31, 35, 40);">Integer</font> |
 
-
 ### <font style="color:rgb(31, 35, 40);">可能出现的几种异常</font>
+
 + <font style="color:rgb(31, 35, 40);">java.lang.NoSuchMethodError: org.dom4j.io.SAXReader.createDefault()Lorg/dom4j/io/SAXReader; 这个异常是因为dom4j版本不一致，EEC使用的是org.dom4j:dom4j:2.1.3，如果项目中已引入dom4j则需要排除已有的低版本dom4j，低版本dom4j存在XXE安全漏洞不建议使用</font>
 
 ## <font style="color:rgb(31, 35, 40);">报表类导出样式示例</font>
+
 <font style="color:rgb(31, 35, 40);">得益于EEC的扩展性，处理报表类样式可以轻松实现，下面展示如何简单制作报表</font>
 
 ### <font style="color:rgb(31, 35, 40);">分组斑马线</font>
+
 <font style="color:rgb(31, 35, 40);">首先我们定义一个Group接口，用于指定分组字段</font>
 
 ```java
@@ -2086,6 +2173,7 @@ public class OrderDetail implements Group {
 ![1734274286764-a8ce5d15-0eaa-4ad6-8fc2-ad71e1f83981.jpeg](./img/7urPzaZk-WufFtAp/1734274286764-a8ce5d15-0eaa-4ad6-8fc2-ad71e1f83981-251019.jpeg)
 
 ### <font style="color:rgb(31, 35, 40);">分组合并</font>
+
 <font style="color:rgb(31, 35, 40);">上面的样式虽然区分了不同的订单，有利于导入到其它系统，但为了更能体现</font>**<font style="color:rgb(31, 35, 40);">每日</font>**<font style="color:rgb(31, 35, 40);">的订单我们还需要将日期进行分组，学习更多单元格合并功能请</font>[<font style="color:rgb(31, 35, 40);">点击这里</font>](https://github.com/wangguanquan/eec/wiki/%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC)<font style="color:rgb(31, 35, 40);"> </font><font style="color:rgb(31, 35, 40);">，好吧！接着改造>>></font>
 
 <font style="color:rgb(31, 35, 40);">我们为每个订单添加一个小计，用于订单内商品数量和价格合计，然后每个订单内"日期“、“客户”和“关联订单”两列做合并</font>
@@ -2215,6 +2303,7 @@ public static class GroupStyleProcessor2<U extends Group & Summary> implements S
 <font style="color:rgb(31, 35, 40);">现在一个漂亮的报表已经呈现，没有模板似乎也很轻松。</font>
 
 ## <font style="color:rgb(31, 35, 40);">EEC与E3 support兼容性对照表</font>
+
 <font style="color:rgb(31, 35, 40);">eec支持xlsx格式读取/写入，eec-e3-support支持xls格式读取，后者依赖前者，但是两个工具经常不在一起发版，版本可能存在不兼容的情况。</font>
 
 <font style="color:rgb(31, 35, 40);">下面列出两者相互兼容的映射表</font>
@@ -2252,5 +2341,3 @@ public static class GroupStyleProcessor2<U extends Group & Summary> implements S
 | [<font style="color:rgb(31, 35, 40);">0.4.8</font>](https://github.com/wangguanquan/eec/releases/tag/v0.4.8) | <font style="color:rgb(31, 35, 40);">2020-10-09   </font><font style="color:rgb(31, 35, 40);">- ExcelColumn注解增加format属性来支持自定义单元格格式化   </font><font style="color:rgb(31, 35, 40);">- 为减少数据泄露风险，现在对象属性必须明确指定   </font><font style="color:rgb(31, 35, 40);">ExcelColumn注解才会被导出</font> | <font style="color:rgb(31, 35, 40);">0.4.6</font> |
 | [<font style="color:rgb(31, 35, 40);">0.4.7</font>](https://github.com/wangguanquan/eec/releases/tag/v0.4.7) | <font style="color:rgb(31, 35, 40);">2020-08-14   </font><font style="color:rgb(31, 35, 40);">- 安全更新，修复dom4j小于2.1.3版本可能启用XXE攻击。   </font><font style="color:rgb(31, 35, 40);">- ExcelColumn注解增加comment属性，允许在Excel列头添加“批注”功能   </font><font style="color:rgb(31, 35, 40);">- 修复一些已知BUG</font> | |
 | [<font style="color:rgb(31, 35, 40);">0.4.6</font>](https://github.com/wangguanquan/eec/releases/tag/v0.4.4) | <font style="color:rgb(31, 35, 40);">2020-04-20   </font><font style="color:rgb(31, 35, 40);">- 优化SharedStringTable   </font><font style="color:rgb(31, 35, 40);">- 支持读取Excel97~2003文件(需要依懒eec-e3-support)   </font><font style="color:rgb(31, 35, 40);">- 修复一些已知BUG</font> | |
-
-

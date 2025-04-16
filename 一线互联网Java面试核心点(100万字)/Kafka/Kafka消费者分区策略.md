@@ -1,6 +1,7 @@
 # Kafka消费者分区策略
 
 ### <font style="color:rgb(51, 51, 51);">消费者分区策略</font>
+
 <font style="color:rgb(51, 51, 51);">可以通过消费者参数</font>
 
 **<font style="color:rgb(51, 51, 51);">partition.assignment.strategy</font>**
@@ -8,6 +9,7 @@
 <font style="color:rgb(51, 51, 51);">设置分区分配给消费者的策略。默认为Range。允许自定义策略。</font>
 
 #### **<font style="color:rgb(51, 51, 51);">Range（范围）</font>**
+
 <font style="color:rgb(51, 51, 51);">把主题的连续分区分配给消费者。（如果分区数量无法被消费者整除、第一个消费者会分到更多分区）</font>
 
 **<font style="color:rgb(51, 51, 51);">对每个Topic进行独立的分区分配</font>**<font style="color:rgb(51, 51, 51);">，首先对分区按照分区ID进行排序，然后订阅这个Topic的消费组的消费者再进行排序，尽量均衡地将分区分配给消费者。这里的“尽量均衡”是因为分区数可能无法被消费者数量整除，导致某些消费者可能会多分配到一些分区</font>
@@ -27,6 +29,7 @@
 <font style="color:rgb(51, 51, 51);">可以看到此种情况已经相差3个分区，如果主题进一步扩大差距会愈发明显。</font>
 
 #### **<font style="color:rgb(51, 51, 51);">RoundRobin（轮询）</font>**
+
 <font style="color:rgb(51, 51, 51);">把主题的分区循环分配给消费者。</font>
 
 <font style="color:rgb(51, 51, 51);">一种轮询式的分配策略，即每个人都会得到一个分区，顺序取决于他们注册时的顺序。这有助于确保所有消费者都能访问到所有数据。</font>
@@ -76,6 +79,7 @@
 <font style="color:rgb(51, 51, 51);">注意：上面介绍的两种分区分配方式,多多少少都会有一些分配上的偏差, 而且每次</font>**<font style="color:rgb(51, 51, 51);">重新分配</font>**<font style="color:rgb(51, 51, 51);">的时候都是把所有的都</font>**<font style="color:rgb(51, 51, 51);">重新来计算并分配</font>**<font style="color:rgb(51, 51, 51);">一遍, 那么每次分配的结果都会偏差很多, 如果我们在计算的时候能够考虑上一次的分配情况,来尽量的减少分配的变动,这样我们将尽可能地撤销更少的分区，因为撤销过程是昂贵的</font>
 
 #### <font style="color:rgb(51, 51, 51);">StickyAssignor(粘性)</font>
+
 <font style="color:rgb(51, 51, 51);">粘性分区：每一次分配变更相对上一次分配做最少的变动.</font>
 
 <font style="color:rgb(51, 51, 51);">当某个消费者的某个分区出现故障或不可用时，它会尝试保留它已经分配但尚未处理的分区。如果其他消费者也出现了问题，则会尽力维持原先的分区分配。这意味着一旦某个分区被分配给了某个消费者，除非该消费者退出或者分区不可用，否则不会重新分配给其他消费者。</font>
@@ -139,6 +143,7 @@
 ![1737698387618-031a6cb0-e8ae-4a80-a39f-374f67aa0e77.png](./img/5ab67-dCWffn22Ll/1737698387618-031a6cb0-e8ae-4a80-a39f-374f67aa0e77-789171.png)
 
 #### <font style="color:rgb(51, 51, 51);">自定义策略</font>
+
 <font style="color:rgb(51, 51, 51);">extends 类AbstractPartitionAssignor，然后在消费者端增加参数：</font>
 
 <font style="color:rgb(51, 51, 51);">properties.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG,类.class.getName());</font>
@@ -146,6 +151,7 @@
 <font style="color:rgb(51, 51, 51);">即可。</font>
 
 ### <font style="color:rgb(51, 51, 51);">消费者分区策略源码分析</font>
+
 <font style="color:rgb(51, 51, 51);">接着上个章节的代码。</font>
 
 ![1737698387649-76de593e-3659-490c-a7c3-2a65c066fe60.png](./img/5ab67-dCWffn22Ll/1737698387649-76de593e-3659-490c-a7c3-2a65c066fe60-454427.png)
@@ -159,6 +165,7 @@
 ![1737698388054-fbc4879b-e659-4bf8-b344-4c9364d412a9.png](./img/5ab67-dCWffn22Ll/1737698388054-fbc4879b-e659-4bf8-b344-4c9364d412a9-567412.png)
 
 ## <font style="color:rgb(51, 51, 51);">Consumer拉取数据</font>
+
 <font style="color:rgb(51, 51, 51);">这里就是拉取数据，核心Fetch类</font>
 
 ![1737698388084-8c62124d-35c1-4331-9ca3-25eaf66767e8.png](./img/5ab67-dCWffn22Ll/1737698388084-8c62124d-35c1-4331-9ca3-25eaf66767e8-993587.png)
@@ -168,6 +175,7 @@
 ![1737698388121-022b53b2-074e-4d95-8b18-661506694506.png](./img/5ab67-dCWffn22Ll/1737698388121-022b53b2-074e-4d95-8b18-661506694506-117382.png)
 
 ## <font style="color:rgb(51, 51, 51);">自动提交偏移量</font>
+
 ![1737698388195-8ff532a6-8ca5-4c80-a1fc-1f1c35b36cdf.png](./img/5ab67-dCWffn22Ll/1737698388195-8ff532a6-8ca5-4c80-a1fc-1f1c35b36cdf-749830.png)
 
 ![1737698388425-dcfcd91d-5908-49bd-8eaf-ad3f6bc230da.png](./img/5ab67-dCWffn22Ll/1737698388425-dcfcd91d-5908-49bd-8eaf-ad3f6bc230da-105616.png)
@@ -199,4 +207,3 @@
 <font style="color:rgb(51, 51, 51);">maybeAutoCommitOffsetsAsync 最后这个就是poll的时候会自动提交，而且没到auto.commit.interval.ms间隔时间也不会提交，如果没到下次自动提交的时间也不会提交。</font>
 
 <font style="color:rgb(51, 51, 51);">这个autoCommitIntervalMs就是auto.commit.interval.ms设置的</font>
-

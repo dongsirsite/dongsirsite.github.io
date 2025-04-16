@@ -30,8 +30,6 @@ public class LocalCacheManager {
 }
 ```
 
-
-
 2. **请求分摊**
 
 <font style="color:rgba(0, 0, 0, 0.82);">把热Key拆分成多个子Key，这样可以将读请求分摊到多个Key上，从而降低单Key的压力。</font>
@@ -55,8 +53,6 @@ public class KeyDistributor {
 } 
 ```
 
-
-
 3. **限流**  
 对热Key的访问进行限流，防止过多请求进入。
 
@@ -76,8 +72,5 @@ public class RateLimiterExample {
 }
 ```
 
-
-
 4. **监控和报警**  
 通过设置监控来实时观测Redis的使用情况，及时应对热Key问题，例如通过Redis的INFO命令或使用监控工具。对于不可预知的热Key场景，我们一般来说都会接入我们的**热点探测系统**，定期上报我们对应key的调用次数，有热点探测系统检测是否是热key，然后通过sdk通知各个应用节点快速构建本地缓存，来抗住这些热key带来的流量。
-

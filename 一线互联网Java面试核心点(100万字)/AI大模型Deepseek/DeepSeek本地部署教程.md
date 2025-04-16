@@ -21,8 +21,7 @@
 
 ![1738743300113-5a08960f-dc7f-4099-9644-59426dcb73ae.png](./img/j7bFAx6rfeXrZshZ/1738743300113-5a08960f-dc7f-4099-9644-59426dcb73ae-051170.png)
 
-  
-🌈** 步骤二：回到ollama的官网，搜索框里搜索deepseek-r1，选择要安装的模型**
+🌈**步骤二：回到ollama的官网，搜索框里搜索deepseek-r1，选择要安装的模型**
 
 ![1738743300121-9d39cc88-ae53-4d76-a0ca-9e1de285d7f8.png](./img/j7bFAx6rfeXrZshZ/1738743300121-9d39cc88-ae53-4d76-a0ca-9e1de285d7f8-229536.png)<font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
@@ -59,13 +58,12 @@
 
 ![1738743300734-6fe32845-556f-464e-ba5e-9eecb18faf4b.png](./img/j7bFAx6rfeXrZshZ/1738743300734-6fe32845-556f-464e-ba5e-9eecb18faf4b-152476.png)
 
-  
-**🌈**** 步骤四：安装可视化工具：chatbox**
+**🌈****步骤四：安装可视化工具：chatbox**
 
 是时候告别黑乎乎的窗口了！咱们请出颜值担当：
 
 🔥 ChatBox客户端  
-▌官网直达：https://chatboxai.app
+▌官网直达：<https://chatboxai.app>
 
 ![1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4.png](./img/j7bFAx6rfeXrZshZ/1738743300843-12bb2525-70cc-42f3-a774-a56c2c0317e4-997074.png)
 
@@ -77,8 +75,6 @@
 
 ![1738743300852-2a616e68-87d9-41e5-8eb2-f83f6994243e.png](./img/j7bFAx6rfeXrZshZ/1738743300852-2a616e68-87d9-41e5-8eb2-f83f6994243e-320333.png)
 
-  
 点击右下角的设置，设置好模型，选择Ollama API，最后选择已经安装好的模型就可以了。
 
 ![1738743301011-df586ec5-d1c0-451b-a840-88ee4b61006f.png](./img/j7bFAx6rfeXrZshZ/1738743301011-df586ec5-d1c0-451b-a840-88ee4b61006f-784884.png)
-

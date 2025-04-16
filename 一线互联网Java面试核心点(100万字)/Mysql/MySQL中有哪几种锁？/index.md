@@ -11,4 +11,3 @@
 7. **<font style="color:rgb(36, 41, 47);">临键锁（Next-Key Locks）：</font>**<font style="color:rgb(36, 41, 47);"> </font><font style="color:rgb(36, 41, 47);">临键锁是记录锁和间隙锁的结合，锁定的是一个范围，并且包括记录本身。</font>
 
 需要注意的是，MySQL的不同存储引擎对锁的支持和实现方式可能有所不同。例如，MyISAM存储引擎使用表级锁来控制并发访问，而InnoDB存储引擎则支持更细粒度的行级锁，提供更好的并发性能和数据一致性。
-

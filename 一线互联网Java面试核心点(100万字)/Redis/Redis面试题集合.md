@@ -1,32 +1,43 @@
 # 💎Redis 面试题集合
 
 # <font style="color:#01B2BC;">全面解析Redis-RDB与AOF持久化机制</font>
+
 Redis之所以能够提供高速读写操作是因为数据存储在内存中，但这也带来了一个风险，即在服务器宕机或断电的情况下，内存中的数据会丢失。为了解决这个问题，Redis提供了持久化机制来确保数据的持久性和可靠性。
 
-## Redis持久化机制：
+## Redis持久化机制
+
 + RDB(Redis Data Base) ：内存快照
 + AOF(Append Only File)： 增量日志
 + 混合持久化：RDB + AOF
 
 ## RDB持久化
+
 在指定的时间间隔内将内存中的数据集快照写入磁盘，RDB是内存快照（内存数据的二进制序列化形式）的方式持久化，每次都是从Redis中生成一个快照进行数据的全量备份。
 
-### RDB持久化流程：
+### RDB持久化流程
+
 ### ![1690442924685-3c3fb9f3-187c-4775-93a6-5b46b71b90e2.png](./img/jnvWIILUrfmcvM5T/1690442924685-3c3fb9f3-187c-4775-93a6-5b46b71b90e2-970740.png)
+
 RDB持久化方案进行备份时，Redis会单独fork一个子进程来进行持久化，会将数据写入一个临时文件中，持久化完成后替换旧的RDB文件。
 
 在整个持久化过程中，主进程（为客户端提供服务的进程）不参与IO操作，这样能确保Redis服务的高性能，RDB持久化机制适合对数据完整性要求不高但追求高效恢复的使用场景。
 
 ### <font style="color:#01B2BC;">RDB触发规则</font>
+
 #### 手动触发
+
 ##### <font style="color:#01B2BC;">save：</font>
+
 阻塞当前 Redis进程，直到RDB持久化过程完成，如果内存实例比较大会造成长时间阻塞，尽量不要使用这方式
 
 ##### <font style="color:#01B2BC;">bgsave：</font>
+
 Redis主进程fork创建子进程，由子进程完成持久化，阻塞时间很短（微秒级）
 
 #### 自动触发
-##### 配置触发：
+
+##### 配置触发
+
 + 在Redis安装目录下的redis.conf配置文件中搜索 /snapshot即可快速定位，配置文件默认注释了下面三行数据，通过配置规则来触发RDB的持久化，需要开启或者根据自己的需求按照规则来配置。
 
 ![1690443464611-3a8ff6a5-0231-4e7d-a363-0a4c08f17883.png](./img/jnvWIILUrfmcvM5T/1690443464611-3a8ff6a5-0231-4e7d-a363-0a4c08f17883-792251.png)
@@ -35,35 +46,43 @@ Redis主进程fork创建子进程，由子进程完成持久化，阻塞时间�
 <font style="color:#01B2BC;">save 300 100</font> -- 300 秒内有100个key被修改，触发RDB  
 <font style="color:#01B2BC;">save 60 10000</font> -- 60 秒内有10000个key被修改，触发RDB
 
-##### shutdown触发：
+##### shutdown触发
+
 + shutdown触发Redis的RDB持久化机制非常简单，我们在客户端执行shutdown即可。
 
 ![1690443816682-c00d5a78-4b20-4311-b863-5106810e72bc.png](./img/jnvWIILUrfmcvM5T/1690443816682-c00d5a78-4b20-4311-b863-5106810e72bc-551672.png)
 
-##### flushall触发:
+##### flushall触发
+
 + flushall清空Redis所有数据库的数据（16个库数据都会被删除）（<font style="color:#DF2A3F;">等同于删库跑路</font>）
 
 ![1690444134757-801a4f7c-8e6e-491f-8194-9c9fbede2bec.png](./img/jnvWIILUrfmcvM5T/1690444134757-801a4f7c-8e6e-491f-8194-9c9fbede2bec-233536.png)
 
-### 优点：
+### 优点
+
 + 性能高：RDB持久化是通过生成一个快照文件来保存数据，因此在恢复数据时速度非常快。
 + 文件紧凑：RDB文件是二进制格式的数据库文件，相对于AOF文件来说，文件体积较小。
 
-### 缺点：
+### 缺点
+
 + 可能丢失数据：由于RDB是定期生成的快照文件，如果Redis意外宕机，最近一次的修改可能会丢失。
 
 ### TIPS
+
 Redis持久化默认开启为<font style="color:#01B2BC;">RDB持久化</font>
 
 ## AOF持久化
+
 AOF持久化需要手动修改conf配置开启。
 
-### AOF持久化流程：
+### AOF持久化流程
+
 ![1690445284780-e580af7d-a1cb-435e-a769-d713282aa816.png](./img/jnvWIILUrfmcvM5T/1690445284780-e580af7d-a1cb-435e-a769-d713282aa816-718187.png)
 
 AOF持久化方案进行备份时，客户端所有请求的写命令都会被追加到AOF缓冲区中，缓冲区中的数据会根据Redis配置文件中配置的同步策略来同步到磁盘上的AOF文件中，同时当AOF的文件达到重写策略配置的阈值时，Redis会对AOF日志文件进行重写，给AOF日志文件瘦身。Redis服务重启的时候，通过加载AOF日志文件来恢复数据。
 
-### AOF配置：
+### AOF配置
+
 AOF默认不开启，默认为appendonly no，开启则需要修改为appendonly yes
 
 ![1690445466874-a6515360-95ed-4ad6-b1ed-62281df6859d.png](./img/jnvWIILUrfmcvM5T/1690445466874-a6515360-95ed-4ad6-b1ed-62281df6859d-463015.png)
@@ -72,19 +91,24 @@ AOF默认不开启，默认为appendonly no，开启则需要修改为appendonly
 
 ![1690451988744-6e525b7a-73a4-413e-8d9a-7844a09049e5.png](./img/jnvWIILUrfmcvM5T/1690451988744-6e525b7a-73a4-413e-8d9a-7844a09049e5-764168.png)
 
-### AOF同步策略：
+### AOF同步策略
+
 ![1690445805405-f92c28cd-2fbf-4106-9422-c05206557bdb.png](./img/jnvWIILUrfmcvM5T/1690445805405-f92c28cd-2fbf-4106-9422-c05206557bdb-594100.png)
 
-#### appendfsync always：
+#### appendfsync always
+
     - 每次Redis写操作，都写入AOF日志，非常耗性能的。
 
 #### appendfsync everysec
+
     - 每秒刷新一次缓冲区中的数据到AOF文件，这个Redis配置文件中默认的策略，兼容了性能和数据完整性的折中方案，这种配置，理论上丢失的数据在一秒钟左右
 
 #### appendfsync no
+
     - Redis进程不会主动的去刷新缓冲区中的数据到AOF文件中，而是直接交给操作系统去判断，这种操作也是不推荐的，丢失数据的可能性非常大。
 
-### AOF修复功能：
+### AOF修复功能
+
 redis 7版本，AOF文件存储在appendonlydir文件下，base是基准文件，incr是追加数据。
 
 ![1690452025161-490b228f-e58c-4a37-90af-8cfcc4661793.png](./img/jnvWIILUrfmcvM5T/1690452025161-490b228f-e58c-4a37-90af-8cfcc4661793-407427.png)
@@ -106,12 +130,15 @@ redis 7版本，AOF文件存储在appendonlydir文件下，base是基准文件�
 观察数据可以知道，丢失了cc-key值。这种丢失是被允许的。
 
 ### AOF重写
+
 重写其实是针对AOF存储的重复性冗余指令进行整理，比如有些key反复修改，又或者key反复修改后最终被删除，这些过程中的指令都是冗余且不需要存储的。
 
-#### 自动重写：
+#### 自动重写
+
 当AOF日志文件达到阈值时会触发自动重写。
 
-##### 重写阈值配置：
+##### 重写阈值配置
+
 ![1690447212053-f6b7929d-fc0f-447e-9691-7f2029058863.png](./img/jnvWIILUrfmcvM5T/1690447212053-f6b7929d-fc0f-447e-9691-7f2029058863-610269.png)
 
 + auto-aof-rewrite-percentage 100：当AOF文件体积达到上次重写之后的体积的100%时，会触发AOF重写。
@@ -120,6 +147,7 @@ redis 7版本，AOF文件存储在appendonlydir文件下，base是基准文件�
 当AOF文件的体积达到或超过上次重写之后的比例，并且超过了最小体积阈值时，Redis会自动触发AOF重写操作，生成一个新的AOF文件。
 
 #### 手动重写：bgrewriteaof
+
 正常启动后存在三个文件：
 
 ![1690452025161-490b228f-e58c-4a37-90af-8cfcc4661793.png](./img/jnvWIILUrfmcvM5T/1690452025161-490b228f-e58c-4a37-90af-8cfcc4661793-407427.png)
@@ -132,15 +160,18 @@ redis 7版本，AOF文件存储在appendonlydir文件下，base是基准文件�
 
 ![1690452307033-be943d10-801a-48cd-929d-835fe374ea47.png](./img/jnvWIILUrfmcvM5T/1690452307033-be943d10-801a-48cd-929d-835fe374ea47-724266.png)
 
-### 优点：
+### 优点
+
 + 数据更加可靠：AOF持久化记录了每个写命令的操作，因此在出现故障时，可以通过重新执行AOF文件来保证数据的完整性。
 + 可以保留写命令历史：AOF文件是一个追加日志文件，可以用于回放过去的写操作。
 
-### 缺点：
+### 缺点
+
 + 文件较大：由于记录了每个写命令，AOF文件体积通常比RDB文件要大。
 + 恢复速度较慢：当AOF文件较大时，Redis重启时需要重新执行整个AOF文件，恢复速度相对较慢。
 
 ## 混合持久化
+
 Redis4.0版本开始支持混合持久化，因为RDB虽然加载快但是存在数据丢失，AOF数据安全但是加载缓慢。
 
 混合持久化通过aof-use-rdb-preamble yes开启，Redis 4.0以上版本默认开启
@@ -158,26 +189,32 @@ Redis4.0版本开始支持混合持久化，因为RDB虽然加载快但是存在
 ![1690457335654-b8b3ca6e-98ef-45c9-8ec7-888403a2c898.png](./img/jnvWIILUrfmcvM5T/1690457335654-b8b3ca6e-98ef-45c9-8ec7-888403a2c898-317758.png)
 
 ## 总结
+
 + 推荐两者均开启
 + 如果对数据不敏感，可以选单独用RDB
 + 不建议单独用AOF，因为可能会出现Bug
 + 如果只是做纯内存缓存，可以都不用
 
 # <font style="color:#01B2BC;">Redis的过期策略</font>
+
 ## <font style="color:#2F4BDA;">Redis的过期策略</font>
+
 ### <font style="color:#74B602;">惰性删除（Lazy expiration）</font>
+
 + 当客户端尝试访问某个键时，Redis会先检查该键是否设置了过期时间，并判断是否过期。
 + 如果键已过期，则Redis会立即将其删除。这就是惰性删除策略。
 
 该策略可以最大化地节省CPU资源，却对内存非常不友好。极端情况可能出现大量的过期key没有再次被访问，从而不会被清除，占用大量内存。
 
 ### <font style="color:#74B602;">定期删除（Active expiration）</font>
+
 + Redis会每隔一段时间（默认100毫秒）随机检查一部分设置了过期时间的键。
 + 定期过期策略通过使用循环遍历方式，逐个检查键是否过期，并删除已过期的键值对。
 
 通过调整定时扫描的时间间隔和每次扫描的限定耗时，可以在不同情况下使得CPU和内存资源达到最优的平衡效果
 
-## Redis中同时使用了<font style="color:#DF2A3F;">惰性过期</font>和<font style="color:#DF2A3F;">定期过期</font>两种过期策略。
+## Redis中同时使用了<font style="color:#DF2A3F;">惰性过期</font>和<font style="color:#DF2A3F;">定期过期</font>两种过期策略
+
 + 假设Redis当前存放20万个key，并且都设置了过期时间，如果你每隔100ms就去检查这全部的key，CPU负载会特别高，最后可能会挂掉。
 + 因此redis采取的是定期过期，每隔100ms就随机抽取一定数量的key来检查和删除的。
 + 但是呢，最后可能会有很多已经过期的key没被删除。这时候，redis采用惰性删除。在你获取某个key的时候，redis会检查一下，这个key如果设置了过期时间并且已经过期了，此时就会删除。
@@ -185,67 +222,87 @@ Redis4.0版本开始支持混合持久化，因为RDB虽然加载快但是存在
 需要注意如果定期删除漏掉了很多过期的key，然后也没走惰性删除。就会有很多过期key积在内存中，可能会导致内存溢出，或者是业务量太大，内存不够用然后溢出了，为了应对这个问题，Redis引入了内存淘汰策略进行优化。
 
 # <font style="color:#01B2BC;">Redis的内存淘汰策略</font>
+
 ![画板](./img/jnvWIILUrfmcvM5T/1691156206687-42587c87-dcdf-40a9-a616-be973f9efb11-588952.jpeg)
 
 ## <font style="color:#2F4BDA;">Redis的内存淘汰策略</font>
+
 内存淘汰策略允许Redis在内存资源紧张时，根据一定的策略主动删除一些键值对，以释放内存空间并保持系统的稳定性。
 
 ### <font style="color:#74B602;">noeviction（不淘汰策略）</font>
+
 当内存不足以容纳新写入数据时，Redis 将新写入的命令返回错误。这个策略确保数据的完整性，但会导致写入操作失败。
 
 ### <font style="color:#74B602;">volatile-lru（最近最少使用）</font>
+
 从设置了过期时间的键中选择最少使用的键进行删除。该策略优先删除最久未被访问的键，保留最常用的键。
 
 ### <font style="color:#74B602;">volatile-ttl（根据过期时间优先）</font>
+
 从设置了过期时间的键中选择剩余时间最短的键进行删除。该策略优先删除剩余时间较短的键，以尽量保留剩余时间更长的键。
 
 ### <font style="color:#74B602;">volatile-random（随机删除）</font>
+
 从设置了过期时间的键中随机选择一个键进行删除。
 
 ### <font style="color:#74B602;">allkeys-lru（全局最近最少使用）</font>
+
 从所有键中选择最少使用的键进行删除。无论键是否设置了过期时间，都将参与淘汰。
 
 ### <font style="color:#74B602;">allkeys-random（全局随机删除）</font>
+
 从所有键中随机选择一个键进行删除。
 
 # <font style="color:#01B2BC;">缓存击穿、缓存穿透、缓存雪崩</font>
+
 缓存击穿、缓存雪崩和缓存穿透是我们在<font style="color:rgba(251,11,138,0.44);">日常开发</font>与<font style="color:rgba(251,11,138,0.44);">手撕面试官</font>过程中<font style="color:rgba(251,11,138,0.44);">必须battle的常见问题</font>，下面我会解释它们的含义与解决方案。
 
 ## <font style="color:#2F4BDA;">缓存击穿（Cache Miss） </font>
+
 ### <font style="color:#ECAA04;">什么是缓存击穿？</font>
+
 缓存击穿是指在高并发访问下，一个<font style="color:rgba(251,11,138,0.44);">热点数据失效</font>时，大量请求会直接绕过缓存，<font style="color:rgba(251,11,138,0.44);">直接查询数据库</font>，导致数据库压力剧增。
 
 通常情况下，缓存是为了减轻数据库的负载，提高读取性能而设置的。当某个特定的缓存键（key）失效后，在下一次请求该缓存时，由于缓存中没有对应的数据，因此会去数据库中查询，这就是缓存击穿。
 
 ### <font style="color:#ECAA04;">解决方案：</font>
+
 + <font style="color:#5C8D07;">合理的过期时间：</font>设置热点数据<font style="color:rgba(251,11,138,0.44);">永不过期</font>，或者设置<font style="color:rgba(251,11,138,0.44);">较长的过期时间</font>，以免频繁失效。
 + <font style="color:#5C8D07;">使用互斥锁：</font>保证同一时间只有一个线程来查询数据库，其他线程等待查询结果。
 
 ## <font style="color:#2F4BDA;">缓存雪崩（Cache Avalanche） </font>
+
 ### <font style="color:#ECAA04;">什么是缓存雪崩？</font>
+
 缓存雪崩是指在<font style="color:rgba(251,11,138,0.44);">大规模缓存失效</font>或者<font style="color:rgba(251,11,138,0.44);">缓存宕机</font>的情况下，<font style="color:rgba(251,11,138,0.44);">大量请求同时涌入数据库</font>，导致数据库负载过大甚至崩溃的情况。
 
 正常情况下，缓存中的数据会根据过期时间进行更新，当大量数据同时失效时，下一次请求就会直接访问数据库，给数据库带来巨大压力。
 
 ### <font style="color:#ECAA04;">解决方案：</font>
+
 + <font style="color:#5C8D07;">合理的过期时间：</font>为缓存的过期时间引入随机值，分散缓存过期时间，避免大规模同时失效。或者是粗暴的设置热点数据永不过期
 + <font style="color:#5C8D07;">多级缓存：</font>使用多级缓存架构，如本地缓存 + 分布式缓存，提高系统的容错能力。
 + <font style="color:#5C8D07;">使用互斥锁：</font>保证同一时间只有一个线程来查询数据库，其他线程等待查询结果。
 + <font style="color:#5C8D07;">高可用架构：</font>使用Redis主从复制或者集群来增加缓存的可用性，避免单点故障导致整个系统无法使用。
 
 ## <font style="color:#2F4BDA;">缓存穿透（Cache Penetration） </font>
+
 ### <font style="color:#ECAA04;">什么是缓存穿透？</font>
+
 缓存穿透是指恶意请求<font style="color:rgba(251,11,138,0.44);">查询</font>一个<font style="color:rgba(251,11,138,0.44);">不存在于缓存和数据库中的数据</font>，导致每次请求都<font style="color:rgba(251,11,138,0.44);">直接访问数据库</font>，从而增加数据库的负载。
 
 攻击者可以通过故意构造不存在的 Key 来进行缓存穿透攻击。
 
 ### <font style="color:#ECAA04;">解决方案：</font>
+
 + <font style="color:#5C8D07;">缓存空对象：</font>对于查询结果为空的情况，也将其缓存起来，但使用较短的过期时间，防止攻击者利用同样的 key 进行频繁攻击。
 + <font style="color:#5C8D07;">参数校验：</font>在接收到请求之前进行参数校验，判断请求参数是否合法。
 + <font style="color:#5C8D07;">布隆过滤器：</font>判断请求的参数是否存在于缓存或数据库中。
 
 # <font style="color:#01B2BC;">Redis哨兵机制</font>
+
 ## <font style="color:#ECAA04;">为什么需要哨兵机制？</font>
+
 Redis的主从复制主要用于实现数据的冗余备份和读分担，并不是为了提供高可用性。因此在系统高可用方面，单纯的主从架构无法很好的保证整个系统高可用。比如说：
 
 ![1690979398655-fee550b6-dba7-4979-b3be-2f6b86a03c32.png](./img/jnvWIILUrfmcvM5T/1690979398655-fee550b6-dba7-4979-b3be-2f6b86a03c32-380984.png)
@@ -257,6 +314,7 @@ Redis的主从复制主要用于实现数据的冗余备份和读分担，并不
 因此通常是使用<font style="color:#74B602;">Redis哨兵机制</font>或<font style="color:#74B602;">Redis集群模式</font>来提高整个系统的可用性、扩展性和负载均衡能力。
 
 ## <font style="color:#ECAA04;">哨兵机制(sentinel)的原理</font>
+
 Redis哨兵机制是通过在独立的哨兵节点上运行特定的哨兵进程来实现的。这些哨兵进程监控主从节点的状态，并在发现故障时<font style="color:#74B602;">自动完成故障发现和转移，并通知应用方，实现高可用性</font><font style="color:rgb(37, 41, 51);">。</font>
 
 以下是哨兵机制的工作原理：
@@ -264,20 +322,25 @@ Redis哨兵机制是通过在独立的哨兵节点上运行特定的哨兵进程
 ![1690979157166-85450979-37c1-4797-a6e3-46fcd5ab665b.png](./img/jnvWIILUrfmcvM5T/1690979157166-85450979-37c1-4797-a6e3-46fcd5ab665b-326334.png)
 
 ### <font style="color:#DF2A3F;">哨兵选举：</font>
+
 在启动时，每个哨兵节点会执行选举过程，其中一个哨兵节点被选为领导者（leader），负责协调其他哨兵节点。
 
-#### 选举过程：
+#### 选举过程
+
 + <font style="color:rgb(37, 41, 51);">每个在线的哨兵节点都可以成为领导者，</font><font style="color:#74B602;">每个哨兵节点</font><font style="color:rgb(37, 41, 51);">会向其它哨兵发is-master-down-by-addr命令，征求判断并要求将自己设置为领导者；</font>
 + <font style="color:rgb(37, 41, 51);">当其它哨兵收到此命令时，可以同意或者拒绝它成为领导者；</font>
 + <font style="color:rgb(37, 41, 51);">如果哨兵发现自己在选举的票数大于等于num(sentinels)/2+1时，将成为领导者，如果没有超过，继续选举。</font>
 
 ### <font style="color:#DF2A3F;">监控主从节点：</font>
+
 哨兵节点通过发送命令周期性地检查主从节点的健康状态，包括主节点是否在线、从节点是否同步等。如果哨兵节点发现主节点不可用，它会触发一次故障转移。
 
 ### <font style="color:#DF2A3F;">故障转移：</font>
+
 一旦主节点被判定为不可用，哨兵节点会执行故障转移操作。它会从当前的从节点中选出一个新的主节点，并将其他从节点切换到新的主节点。这样，系统可以继续提供服务而无需人工介入。
 
-#### 故障转移过程：
+#### 故障转移过程
+
     - <font style="color:#DF2A3F;">由Sentinel节点定期监控发现主节点是否出现了故障：</font> sentinel会向master发送心跳PING来确认master是否存活，如果master在“一定时间范围”内不回应PONG 或者是回复了一个错误消息，那么这个sentinel会主观地(单方面地)认为这个master已经不可用了。
     - <font style="color:#DF2A3F;">确认主节点：</font>
         * 过滤掉不健康的（下线或断线），没有回复过哨兵ping响应的从节点
@@ -287,21 +350,26 @@ Redis哨兵机制是通过在独立的哨兵节点上运行特定的哨兵进程
 <font style="color:#74B602;">当主节点出现故障， 由领导者负责处理主节点的故障转移</font>。
 
 ### <font style="color:#DF2A3F;">客户端重定向：</font>
+
 哨兵节点会通知客户端新的主节点的位置，使其能够与新的主节点建立连接并发送请求。这确保了客户端可以无缝切换到新的主节点，继续进行操作。
 
 此外，哨兵节点还负责监控从节点的状态。如果从节点出现故障，哨兵节点可以将其下线，并在从节点恢复正常后重新将其加入集群。
 
 ## 客观下线
+
 当主观下线的节点是主节点时，此时该哨兵3节点会通过指令sentinel is-masterdown-by-addr寻求其它哨兵节点对主节点的判断，当超过quorum（选举）个数，此时哨兵节点则认为该主节点确实有问题，这样就客观下线了，大部分哨兵节点都同意下线操作，也就说是客观下线。
 
 ## <font style="color:rgb(37, 41, 51);">总结</font>
+
 redis哨兵的作用:
 
 + 监控主数据库和从数据库是否正常运行。
 + 主数据库出现故障时，可以自动将从数据库转换为主数据库，实现自动切换。
 
 # <font style="color:#01B2BC;">数据库和缓存一致性问题</font>
+
 ## 问题来源
+
 使用redis做一个缓冲操作，让请求先访问到redis，而不是直接访问MySQL等数据库：
 
 ![1691911161900-02a5e730-8b09-4ac6-9186-93c5a5ee0bca.png](./img/jnvWIILUrfmcvM5T/1691911161900-02a5e730-8b09-4ac6-9186-93c5a5ee0bca-726586.png)
@@ -310,7 +378,8 @@ redis哨兵的作用:
 
 不管是先写MySQL数据库，再删除Redis缓存；还是先删除缓存，再写库，都有可能出现数据不一致的情况。
 
-## 举一个例子：
+## 举一个例子
+
 + <font style="color:#DF2A3F;">先更新Mysql，再更新Redis。</font>
 
    如果更新Redis失败，可能仍然不一致
@@ -321,11 +390,14 @@ redis哨兵的作用:
 
 因为写和读是并发的，没法保证顺序,就会出现缓存和数据库的数据不一致的问题
 
-## 解决方案：
+## 解决方案
+
 ### <font style="color:#DF2A3F;">延时双删</font>
+
    先删除Redis缓存数据，再更新Mysql，延迟几百毫秒再删除Redis缓存数据，这样就算在更新Mysql时，有其他线程读了Mysql，把老数据读到了Redis中，那么也会被删除掉，从而把数据保持一致。
 
 ### <font style="color:#DF2A3F;">队列 + 重试机制</font>
+
 ![1691917750473-32ce4f56-aa89-4e07-afc1-5bbb25541a3f.png](./img/jnvWIILUrfmcvM5T/1691917750473-32ce4f56-aa89-4e07-afc1-5bbb25541a3f-277919.png)
 
         * 更新数据库数据；
@@ -334,22 +406,26 @@ redis哨兵的作用:
         * 自己消费消息，获得需要删除的key
         * 继续重试删除操作，直到成功
 
-####  缺陷
+#### 缺陷
+
 对业务线代码造成大量的侵入。
 
 ### <font style="color:#DF2A3F;">异步更新缓存(基于订阅binlog的同步机制)</font>
+
 ![1691925278364-ae26d897-a6b6-4418-9348-728b7284d066.png](./img/jnvWIILUrfmcvM5T/1691925278364-ae26d897-a6b6-4418-9348-728b7284d066-350258.png)
 
 MySQL中产生了新的写入、更新、删除等操作，就可以把binlog相关的消息推送至Redis，Redis再根据binlog中的记录，对Redis进行更新。
 
 其实这种机制，很类似MySQL的主从备份机制，因为MySQL的主备也是通过binlog来实现的数据一致性。
 
-## 实际应用：
+## 实际应用
+
 使用阿里的一款开源框架<font style="color:#DF2A3F;">canal</font>，通过该框架可以对MySQL的binlog进行订阅，而canal正是<font style="color:#DF2A3F;">模仿了mysql的slave数据库的备份请求</font>，使得Redis的数据更新达到了相同的效果。
 
 MQ消息中间可以采用<font style="color:#DF2A3F;">RocketMQ</font>来实现推送。
 
 # <font style="color:#01B2BC;">Redis实现分布式锁的6种方案，及正确使用姿势！</font>
+
 <font style="color:rgb(51, 51, 51);">已经 2024 年了，如果还不会使用 Redis 实现分布式锁，那么请好好看看本篇文章。本文分享六种Redis分布式锁的正确使用方式，由易到难。</font>
 
 + <font style="color:rgb(51, 51, 51);">什么是分布式锁</font>
@@ -361,6 +437,7 @@ MQ消息中间可以采用<font style="color:#DF2A3F;">RocketMQ</font>来实现�
 + <font style="color:rgb(51, 51, 51);">方案六：多机实现的分布式锁Redlock</font>
 
 ## <font style="color:rgb(0, 0, 0);">什么是分布式锁</font>
+
 分布式锁是一种机制，用于确保在分布式系统中，多个节点在同一时刻只能有一个节点对共享资源进行操作。它是解决分布式环境下并发控制和数据一致性问题的关键技术之一。
 
 <font style="color:rgb(51, 51, 51);">分布式锁的特征：</font>
@@ -372,6 +449,7 @@ MQ消息中间可以采用<font style="color:#DF2A3F;">RocketMQ</font>来实现�
 + 「安全性」：锁只能被持有的客户端删除，不能被其他客户端删除
 
 ## <font style="color:rgb(0, 0, 0);">Redis分布式锁方案一：SETNX + EXPIRE</font>
+
 <font style="color:rgb(51, 51, 51);">提到Redis的分布式锁，很多小伙伴马上就会想到</font><font style="color:rgb(192, 52, 29);background-color:rgb(251, 229, 225);">setnx</font><font style="color:rgb(51, 51, 51);">+ </font><font style="color:rgb(192, 52, 29);background-color:rgb(251, 229, 225);">expire</font><font style="color:rgb(51, 51, 51);">命令。即先用</font><font style="color:rgb(192, 52, 29);background-color:rgb(251, 229, 225);">setnx</font><font style="color:rgb(51, 51, 51);">来抢锁，如果抢到之后，再用</font><font style="color:rgb(192, 52, 29);background-color:rgb(251, 229, 225);">expire</font><font style="color:rgb(51, 51, 51);">给锁设置一个过期时间，防止锁忘记了释放。</font>
 
 `<font style="color:rgb(85, 85, 85);">SETNX 是SET IF NOT EXISTS的简写。日常命令格式是SETNX key value，如果 key不存在，则SETNX成功返回1，如果这个key已经存在了，则返回0。</font>`
@@ -394,6 +472,7 @@ if（jedis.setnx(key_resource_id,lock_value) == 1）{ //加锁
 缺陷：加锁与设置过期时间是非原子操作，如果加锁后未来得及设置过期时间系统异常等，会导致其他线程永远获取不到锁。
 
 ## <font style="color:rgb(0, 0, 0);">Redis分布式锁方案二：SETNX + value值(系统时间+过期时间)</font>
+
 <font style="color:rgb(51, 51, 51);">为了解决方案一，</font>**<font style="color:rgb(51, 51, 51);">「发生异常锁得不到释放的场景」</font>**<font style="color:rgb(51, 51, 51);">，有小伙伴认为，可以把过期时间放到</font><font style="color:rgb(192, 52, 29);background-color:rgb(251, 229, 225);">setnx</font><font style="color:rgb(51, 51, 51);">的value值里面。如果加锁失败，再拿出value值校验一下即可。加锁代码如下：</font>
 
 ```java
@@ -430,6 +509,7 @@ return false;
 + <font style="color:rgb(85, 85, 85);">该锁没有保存持有者的唯一标识，可能被别的客户端释放/解锁。</font>
 
 ## <font style="color:rgb(0, 0, 0);">Redis分布式锁方案三：使用Lua脚本(包含SETNX + EXPIRE两条指令)</font>
+
 <font style="color:rgb(51, 51, 51);">实际上，我们还可以使用Lua脚本来保证原子性（包含setnx和expire两条指令），lua脚本如下：</font>
 
 ```java
@@ -453,6 +533,7 @@ return result.equals(1L);
 <font style="color:rgb(51, 51, 51);">这个方案，跟方案二对比，大家觉得哪个更好呢？</font>
 
 ## <font style="color:rgb(0, 0, 0);">Redis分布式锁方案四：SET的扩展命令（SET EX PX NX）</font>
+
 <font style="color:rgb(51, 51, 51);">除了使用，使用Lua脚本，保证</font><font style="color:rgb(192, 52, 29);background-color:rgb(251, 229, 225);">SETNX + EXPIRE</font><font style="color:rgb(51, 51, 51);">两条指令的原子性，我们还可以巧用Redis的SET指令扩展参数！（</font><font style="color:rgb(192, 52, 29);background-color:rgb(251, 229, 225);">SET key value[EX seconds][PX milliseconds][NX|XX]</font><font style="color:rgb(51, 51, 51);">），它也是原子性的！</font>
 
 `<font style="color:rgb(85, 85, 85);">SET key value[EX seconds][PX milliseconds][NX|XX]</font>`
@@ -516,6 +597,7 @@ end;
 至于问题一可以将过期时间设置的相对长一点，当然也可以另开一个线程续期，不过这种就不用我们去实现了，利用 Redisson 进行处理，也就是方案五。
 
 ## <font style="color:rgb(0, 0, 0);">Redis分布式锁方案五：Redisson框架</font>
+
 <font style="color:rgb(51, 51, 51);">方案四还是可能存在</font>**<font style="color:rgb(51, 51, 51);">「锁过期释放，业务没执行完」</font>**<font style="color:rgb(51, 51, 51);">的问题。</font>
 
 <font style="color:rgb(51, 51, 51);">有些小伙伴认为，稍微把锁过期时间设置长一些就可以啦。其实我们设想一下，是否可以给获得锁的线程，开启一个定时守护线程，每隔一段时间检查锁是否还存在，存在则对锁的过期时间延长，防止锁过期提前释放。</font>
@@ -531,6 +613,7 @@ end;
 **<font style="color:rgb(51, 51, 51);">前面五种方案都是基于单机版的讨论，那么集群部署该怎么处理？大家思考思考，把答案打到弹幕。</font>**
 
 ## <font style="color:rgb(0, 0, 0);">Redis分布式锁方案六：多机实现的分布式锁Redlock+Redisson</font>
+
 ![1714026095624-5b31bc0f-378b-4769-b0eb-f42aa3cc4322.png](./img/jnvWIILUrfmcvM5T/1714026095624-5b31bc0f-378b-4769-b0eb-f42aa3cc4322-244616.png)
 
 <font style="color:rgb(51, 51, 51);">如果线程一在Redis的master节点上拿到了锁，但是加锁的key还没同步到slave节点。</font>
@@ -563,6 +646,7 @@ end;
 <font style="color:rgb(51, 51, 51);">Redisson实现了redLock版本的锁，有兴趣的小伙伴，可以去了解一下哈~</font>
 
 # <font style="color:#01B2BC;">Redis大Key是什么东西啊？分分钟拿下</font>
+
 经常在八股文里边看到 Redis 大 Key 问题，那么你知道以下几个问题的答案吗？又或者说是有关注过这几个问题吗？
 
 + 大Key的定义
@@ -574,6 +658,7 @@ end;
 如果不知道也没关系，本文就以最简单的方式给大家讲解以上几个问题。
 
 ## 大Key的定义
+
 Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那些在存储和性能方面可能引起问题的键，通常指的是占用大量内存空间的键，可能是大型数据结构，如大型字符串、列表、哈希表或集合。
 
 当然我们可以根据经验总结以下几点：
@@ -583,6 +668,7 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 + **Key中成员的数据量过大**：一个Hash类型的Key成员数量虽然只有1K人但这些成员的Value总大小为100MB
 
 ## 大Key引发的问题
+
 当Redis中存在大量的大 Key 时，会对性能和内存使用产生负面影响，如下：
 
 + **内存占用过高**
@@ -610,6 +696,7 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 `在Redis集群中，大Key可能导致数据在节点之间不均匀分布，影响负载均衡和集群性能。`
 
 ## 大Key产生的原因
+
 只有了解大 Key 产生的原因，才能从根源解决问题，常见的大key 原因有以下几种：
 
 + **大型数据结构存储**
@@ -633,6 +720,7 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 `随着时间的推移，某些键可能会不断累积数据，导致其大小超出预期，从而成为大Key。`
 
 ## 如何快速找出大Key
+
 要快速找出Redis中的大键，可以通过以下三种方式：
 
 + **SCAN命令**
@@ -656,6 +744,7 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 `rdb —commond memory —bytes 1024 —largest 3 dump.rbd`
 
 ## 大Key的优化方案
+
 既然我们知道了大 key 带来的影响与产生原因
 
 1. **拆分成多个小key：**这是最容易想到的办法，降低单key的大小，读取可以用mget批量读取。
@@ -667,12 +756,15 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 7. **增加内存容量：**如果经过以上优化仍无法解决大Key导致的内存问题，可以考虑增加Redis实例的内存容量，提升整体性能和稳定性。
 
 ## 总结
+
 ![画板](./img/jnvWIILUrfmcvM5T/1714390704409-8cd6125a-7bba-4fa4-805a-e302b4baa3d4-460646.jpeg)
 
 # <font style="color:#01B2BC;">Redis到底支不支持事务啊？</font>
+
 先说答案：**redis 是支持事务的，****<font style="color:rgb(6, 6, 7);">但是它与传统的关系型数据库中的事务是有所不同的</font>**<font style="color:rgb(6, 6, 7);">。</font>
 
-## 概述：
+## 概述
+
 **概念：** 可以一次执行多个命令，本质是一组命令的集合。一个事务中的所有命令都会序列化，按顺序地串行化执行而不会被其它命令插入，不许加塞。
 
 **常用命令：**
@@ -680,44 +772,56 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 + **multi：**开启一个事务，multi 执行之后，客户端可以继续向服务器发送任意多条命令，这些命令不会立即被执行，而是被放到一个队列中。
 + **exec：**执行队列中所有的命令
 + **discard：**中断当前事务，然后清空事务队列并放弃执行事务
-+ **watch key1 key2 ...	**：监视一个(或多个) key ，如果在事务执行之前这个(或这些) key 被其他命令所改动，那么事务将被打断。
++ **watch key1 key2 ... **：监视一个(或多个) key ，如果在事务执行之前这个(或这些) key 被其他命令所改动，那么事务将被打断。
 
-## 使用：
-### 正常执行：
+## 使用
+
+### 正常执行
+
 ##### ![1716102426275-d9656ea8-2da3-4348-aee1-1e298cf27ee0.png](./img/jnvWIILUrfmcvM5T/1716102426275-d9656ea8-2da3-4348-aee1-1e298cf27ee0-595122.png)
-### 主动放弃事务：
+
+### 主动放弃事务
+
 使用 discard 主动中断 multi 操作，然后清空并放弃执行当前事务。
 
 ![1716102448498-61f5bbc2-9c87-46b1-ba97-fd335b3e9c5d.png](./img/jnvWIILUrfmcvM5T/1716102448498-61f5bbc2-9c87-46b1-ba97-fd335b3e9c5d-208642.png)
 
-### 全部回滚：
+### 全部回滚
+
 开启 multi 之后，命令语法导致执行错误，会放弃当前所有队列中的命令。
 
 ![1716102669766-2621b62d-b067-45c5-a10f-dd724cbd3310.png](./img/jnvWIILUrfmcvM5T/1716102669766-2621b62d-b067-45c5-a10f-dd724cbd3310-080739.png)
 
-### 部分支持事务：
+### 部分支持事务
+
 开启 multi 之后，命令逻辑执行错误，会主动忽略报错语句，继续执行后续命令。
 
 ![1716104103891-9228cc7d-9b33-4e2b-92ac-58c05eb13ab1.png](./img/jnvWIILUrfmcvM5T/1716104103891-9228cc7d-9b33-4e2b-92ac-58c05eb13ab1-510707.png)
 
-### WATCH：
+### WATCH
+
 <font style="color:rgb(6, 6, 7);">Redis 的 watch 命令是一种乐观锁的实现方式。余额修改示例：</font>
 
-#### 正常情况：
+#### 正常情况
+
 ![1716104356898-8db2e1ea-44f3-4d50-a62e-e346bc9f9777.png](./img/jnvWIILUrfmcvM5T/1716104356898-8db2e1ea-44f3-4d50-a62e-e346bc9f9777-875011.png)
 
-#### 并发修改情况：
+#### 并发修改情况
+
 #### ![1716104471782-6e49bbdc-0710-4d57-a017-2e35a2b81f59.png](./img/jnvWIILUrfmcvM5T/1716104471782-6e49bbdc-0710-4d57-a017-2e35a2b81f59-613880.png)
+
 在 <font style="color:rgb(6, 6, 7);">watch</font> 监控后，有人修改了balance，会导致事务会被打断，必须更新最新值，才能成功执行事务，类似于乐观锁的版本号机制。
 
-### 事务三阶段：
+### 事务三阶段
+
 1、开启：以 multi 开始一个事务
 
 2、入队：将多个命令入队到事务中，接到这些命令并不会立即执行，而是放到等待执行的事务队列里面
 
 3、执行：由 exec 命令触发事务
 
-## 小结：
+## 小结
+
 <font style="color:rgb(6, 6, 7);">Redis 事务区别于关系型数据库在于：</font>
 
 1. **<font style="color:rgb(6, 6, 7);">原子性</font>**<font style="color:rgb(6, 6, 7);">：Redis 事务保证的是队列中的命令作为一个整体要么全部执行，要么全部不执行。但是，如果事务中的某个命令因为执行错误而失败，Redis 会继续执行事务中的其他命令，而不是回滚整个事务。</font>
@@ -729,6 +833,7 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 7. **<font style="color:rgb(6, 6, 7);">有限的回滚</font>**<font style="color:rgb(6, 6, 7);">：Redis 事务不支持命令级别的回滚。如果事务中的某个命令失败，Redis 会停止执行后续命令，而不是回滚到事务开始前的状态。</font>
 
 # <font style="color:#01B2BC;">Redis相比memcached有哪些优势？</font>
+
 这是一道非常常见的面试题，也是大家在工作中很容易忽略掉的点，大部分场景下redis确实更适合用于我们项目，但是我们可能答不上来它们都作为键值对数据库其中的区别是什么。
 
 从数据结构侧来说，memcached仅支持value为string类型，而我们redis支持的类型是相当丰富的，有string、hash、list、set、sort set等等，所以在功能上redis是比我们memcached支持的更好的。还有就是memcached的单value值容量只有1M，而我们的redis则最大支持至512M。
@@ -738,6 +843,7 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 同时我们的redis还支持lua脚本，脚本提交是原子执行的，我们在面对复杂业务场景中，需要保证按照我们所需的顺序一步步执行就可以通过我们的lua脚本来解决。
 
 # <font style="color:#01B2BC;">Redis真的是单线程吗？</font>
+
 所谓的redis单线程其实指的是在网络IO和键值对读写时是通过一个线程完成的。而其他的一些模块比如说持久化存储、集群支撑模块这些都是多线程的。
 
 那为什么网络操作模块和数据存储模块不用多线程呢？
@@ -747,12 +853,15 @@ Redis 没有显示定义大 Key，这是一个通用的术语，用来描述那�
 另一方面，Redis的绝大部分操作都是在内存中完成的，内存操作本来就比硬盘读写快了百倍以上，并且在数据结构上也进行了大量的优化，比如hash表和跳表。而使用单线程还能避免多线程下的锁竞争，省去了线程的时间和性能开销也不会存在锁竞争的问题。
 
 # <font style="color:#01B2BC;">Redis6为何引入多线程？</font>
+
 redis6中引入的多线程是正对于网络IO模块进行了多线程改造，因为多路复用的IO模型本质上来说还是同步阻塞型IO模型，在调用epoll的过程是阻塞的，并发量极高的场景就成为了性能瓶颈，那么在碰到这类问题上，就可以通过多线程来解决。它通过多线程解决了网络IO等待造成的影响，还可以充分利用CPU的多核优势。对于我们读写模块依旧还是采用的单线程模型，避免了多线程环境下并发访问带来的很多问题。在简单的get/set命令性能上多线程IO模型提升了有接近一倍。
 
 # <font style="color:#01B2BC;">Redis是如何解决Hash冲突的？</font>
+
 redis是通过我们的链式hash来解决我们的hash冲突问题，<font style="color:rgb(77, 77, 77);">哈希算法产生的哈希值的长度是固定并且是有限的，比如说我们通过MD5算法生成32位的散列值，那么它能生成出来的长度则是有限的，我们的数据如果大于32位是不是就可能存在不同数据生成同一个散列值，那么redis通过链式hash，以不扩容的前提下把有相同值的数据链接起来，但是如果链表变得很长就会导致性能下降，那么redis就采用了rehash的机制来解决，类似于hashmap里面的扩容机制，但是redis中的rehash并不是一次把hash表中的数据映射到另外一张表，而是通过了一种渐进式的方式来处理，将rehash分散到多次请求过程中，避免阻塞耗时。</font>
 
 # <font style="color:#01B2BC;">MySQL里有2000w数据Redis中只存20w的数据，如何保证 redis 中的数据都是热点数据？</font>
+
 首先我们可以看到Redis的空间时间上比我们MySQL少的多，那么Redis如何能够筛选出热点数据，这道题主要考察的是Redis的数据淘汰策略（这里有个误区，很多人容易混淆把数据淘汰策略当做数据过期策略），在Redis 4.0之后是为我们提供了8种淘汰策略，4.0之前则是提供的6种，主要是新增了LFU算法。其实说说是有8种，但是真正意义上是5种，针对random、lru、lfu是提供了两种不同数据范围的策略，一种是针对设置了过期时间的，一种是没有设置过期时间的。具体的五种策略分别为：
 
 1. noeviction 选择这种策略则代表不进行数据淘汰，同时它也是redis中默认的淘汰策略，当缓存写满时redis就不再提供写服务了，写请求则直接返回失败。
@@ -764,6 +873,7 @@ redis是通过我们的链式hash来解决我们的hash冲突问题，<font styl
 我们再回看我们的这个问题，我们能很清楚的知道，我们需要的策略是LFU算法。选择volatile还是allkeys就要根据具体的业务需求了。
 
 # <font style="color:#01B2BC;">高并发场景下我们如何保证幂等性？</font>
+
 首先普及下幂等的概念“<font style="color:rgb(89, 89, 89);">在计算机中编程中，一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同。</font>”
 
 那么在我们的实际业务场景中幂等是一个非常高频的场景，比如：
@@ -776,11 +886,11 @@ redis是通过我们的链式hash来解决我们的hash冲突问题，<font styl
 那么我们有那些方案可以解决我们的幂等性问题呢？
 
 + 数据库唯一主键实现幂等性<font style="color:#E8323C;"></font>
-    - 其实现方式是使用分布式ID充当主键，不使用MySQL中的自增主键
+  + 其实现方式是使用分布式ID充当主键，不使用MySQL中的自增主键
 + 乐观锁实现幂等性
-    - 在表中增加版本号标识，只有版本号标识一直才更新成功
+  + 在表中增加版本号标识，只有版本号标识一直才更新成功
 + 分布式锁
-    - 简单来说就是分布式的排他锁，但是我们可以控制锁的粒度以提高程序的执行性能
+  + 简单来说就是分布式的排他锁，但是我们可以控制锁的粒度以提高程序的执行性能
 + 获取token
     1. 服务端提供获取 Token 的接口，请求前客户端调用接口获取 Token
     2. 然后将该串存入 Redis 数据库中，以该 Token 作为 Redis 的键（注意设置过期时间）。
@@ -789,6 +899,7 @@ redis是通过我们的链式hash来解决我们的hash冲突问题，<font styl
     5. 如果存在就将该 key 删除，然后正常执行业务逻辑。如果不存在就抛异常，返回重复提交的错误信息。
 
 # <font style="color:#01B2BC;">Redis 事务支持 ACID 么？</font>
+
 **<font style="color:rgb(51, 51, 51);">原子性(Atomicity)：</font>**<font style="color:rgb(51, 51, 51);">一个事务的多个操作必须完成，或者都不完成。</font>
 
 **<font style="color:rgb(51, 51, 51);">一致性(Consistency)：</font>**<font style="color:rgb(51, 51, 51);">事务执行结束后，数据库的完整性约束没有被破坏，事务执行的前后顺序都是合法数据状态。</font>
@@ -822,4 +933,3 @@ redis是通过我们的链式hash来解决我们的hash冲突问题，<font styl
 <font style="color:rgb(33, 37, 41);">3）通过调用DISCARD，客户端可以清空事务队列，并放弃执行事务， 并且客户端会从事务状态中退出。</font>
 
 <font style="color:rgb(33, 37, 41);">4）WATCH 命令可以为 Redis 事务提供 check-and-set （CAS）行为。可以监控一个或多个键，一旦其中有一个键被修改（或删除），之后的事务就不会执行，监控一直持续到EXEC命令。</font>
-

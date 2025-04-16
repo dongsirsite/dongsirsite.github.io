@@ -50,4 +50,3 @@ public class LoggingInterceptor implements Interceptor {
 最后，当你执行查询操作时，插件会自动拦截并执行你在`intercept`方法中定义的逻辑。
 
 需要注意的是，这只是一个简单的插件示例。MyBatis插件可以实现更复杂的逻辑，比如性能分析、自定义SQL改写等。编写插件时要确保逻辑正确，不影响系统稳定性和性能。
-

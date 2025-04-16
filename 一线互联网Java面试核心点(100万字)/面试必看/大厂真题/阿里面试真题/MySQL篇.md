@@ -90,8 +90,6 @@
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
-
-
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
@@ -124,8 +122,6 @@
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
-
-
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
@@ -299,17 +295,11 @@
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
-
-
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
-
-
-
-
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
@@ -420,8 +410,6 @@
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
-
-
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
@@ -432,8 +420,6 @@
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
-
-
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
@@ -671,8 +657,6 @@
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
-
-
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
@@ -733,8 +717,6 @@
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
-
-
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
@@ -812,8 +794,6 @@
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
-
-
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
@@ -836,8 +816,6 @@
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
-
-
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
@@ -859,8 +837,6 @@
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
-
-
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
@@ -946,8 +922,8 @@
 + <font style="color:rgb(62, 62, 62);">原理：将主服务器的binlog日志复制到从服务器上执行一遍，达到主从数据的一致状态。</font>
 + <font style="color:rgb(62, 62, 62);">过程：从库开启一个I/O线程，向主库请求Binlog日志。主节点开启一个binlog dump线程，检查自己的二进制日志，并发送给从节点；从库将接收到的数据保存到中继日志（Relay log）中，另外开启一个SQL线程，把Relay中的操作在自身机器上执行一遍</font>
 + <font style="color:rgb(62, 62, 62);">优点：</font>
-    - <font style="color:rgb(62, 62, 62);">作为备用数据库，并且不影响业务</font>
-    - <font style="color:rgb(62, 62, 62);">可做读写分离，一个写库，一个或多个读库，在不同的服务器上，充分发挥服务器和数据库的性能，但要保证数据的一致性</font>
+  + <font style="color:rgb(62, 62, 62);">作为备用数据库，并且不影响业务</font>
+  + <font style="color:rgb(62, 62, 62);">可做读写分离，一个写库，一个或多个读库，在不同的服务器上，充分发挥服务器和数据库的性能，但要保证数据的一致性</font>
 
 **<font style="color:rgb(62, 62, 62);">binlog记录格式：</font>**<font style="color:rgb(62, 62, 62);">statement、row、mixed</font>
 
@@ -1075,6 +1051,7 @@
 </font>
 
 ##### <font style="color:rgb(127, 127, 127);">如何进行分库分表</font>
+
 <font style="color:rgb(127, 127, 127);">分表用户id进行分表，每个表控制在300万数据。</font>
 
 <font style="color:rgba(0, 0, 0, 0.9);">  
@@ -1243,8 +1220,6 @@
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
-
-
 <font style="color:rgba(0, 0, 0, 0.9);">  
 </font>
 
@@ -1362,8 +1337,6 @@
 <font style="color:rgb(62, 62, 62);">  
 </font>
 
-
-
 <font style="color:rgb(62, 62, 62);">  
 </font>
 
@@ -1371,8 +1344,6 @@
 
 <font style="color:rgb(62, 62, 62);">  
 </font>
-
-
 
 <font style="color:rgb(62, 62, 62);">  
 </font>
@@ -1413,8 +1384,6 @@
 
 <font style="color:rgb(62, 62, 62);">  
 </font>
-
-
 
 <font style="color:rgb(62, 62, 62);">  
 </font>
@@ -1504,4 +1473,3 @@ select * from user where 1=1
 ```plain
 int getUserSize() {        List<User> users = dao.getAllUser();
 ```
-

@@ -3,9 +3,11 @@
 <font style="color:rgba(0, 0, 0, 0.82);">RocketMQ提供了两种级别的顺序消息：全局顺序消息和分区顺序消息。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">1. 全局顺序消息</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">全局顺序消息确保一个主题内的所有消息都按照发送顺序被消费。这通常通过将所有消息路由到同一个队列来实现。</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">生产者代码示例：</font>
+
 ```java
 import org.apache.rocketmq.client.producer.DefaultMQProducer;  
 import org.apache.rocketmq.client.producer.SendResult;  
@@ -31,6 +33,7 @@ public class GlobalOrderProducer {
 ```
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">消费者代码示例：</font>
+
 ```java
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;  
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;  
@@ -63,9 +66,11 @@ public class GlobalOrderConsumer {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">2. 分区顺序消息</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">分区顺序消息保证具有相同分区键的消息按顺序被消费。这允许更高的并行度，因为不同分区键的消息可以并行处理。</font>
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">生产者代码示例：</font>
+
 ```java
 import org.apache.rocketmq.client.producer.DefaultMQProducer;  
 import org.apache.rocketmq.client.producer.SendResult;  
@@ -95,6 +100,7 @@ public class PartitionOrderProducer {
 ```
 
 #### <font style="color:rgba(0, 0, 0, 0.82);">消费者代码示例：</font>
+
 ```java
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;  
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;  
@@ -133,6 +139,7 @@ public class PartitionOrderConsumer {
 ```
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">关键点解释</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">消息队列选择</font>**<font style="color:rgba(0, 0, 0, 0.82);">：</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">全局顺序：所有消息都发送到同一个队列。</font>
     - <font style="color:rgba(0, 0, 0, 0.82);">分区顺序：使用自定义的队列选择算法，确保相同分区键的消息进入同一队列。</font>
@@ -148,10 +155,10 @@ public class PartitionOrderConsumer {
 </font><font style="color:rgba(0, 0, 0, 0.82);">分区顺序消息允许更好的负载均衡，因为不同的分区可以并行处理。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">注意事项</font>
+
 1. <font style="color:rgba(0, 0, 0, 0.82);">全局顺序消息可能会限制系统的吞吐量，因为所有消息都经过单一队列。</font>
 2. <font style="color:rgba(0, 0, 0, 0.82);">分区顺序消息在保证局部顺序的同时提供了更好的并行性。</font>
 3. <font style="color:rgba(0, 0, 0, 0.82);">选择合适的分区键对于分区顺序消息至关重要，以确保相关消息进入同一队列。</font>
 4. <font style="color:rgba(0, 0, 0, 0.82);">消费者端需要正确处理并发和重试逻辑，以维护消息顺序。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">通过这些机制和实践，RocketMQ 能够在不同场景下有效地保证消息的顺序性，同时兼顾系统的性能和可扩展性。</font>
-

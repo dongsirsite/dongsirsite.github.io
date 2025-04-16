@@ -11,4 +11,3 @@
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">串行化是</font>**<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">最高的隔离级别</font>**<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">，强制</font>**<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">事务串行执行</font>**<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">，避免了脏读、不可重复读和幻读等问题。但是会导致</font>**<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">并发性能下降</font>**<font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">，一般情况下不建议使用。</font>
 
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 248, 248);">在选择事务隔离级别时，需要根据具体的业务需求和并发情况进行权衡。较低的隔离级别可以提高并发性能，但可能会出现数据不一致的问题；而较高的隔离级别可以保证数据的一致性，但会降低并发性能。大家公司里选择的是哪种隔离级别？</font>
-

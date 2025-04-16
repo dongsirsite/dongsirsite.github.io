@@ -3,6 +3,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">Servicemesh和Serverless是与现代云计算和分布式系统架构相关的两个不同概念。以下是对这两个术语的解释：</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">Service Mesh</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">Service Mesh是一种用于处理微服务之间通信的基础设施层。它在应用程序架构中提供对微服务通信的管理。这包括服务发现、负载均衡、故障恢复、指标监控和可观测性。Service Mesh通常通过对服务间的网络流量进行透明代理来管理这些功能。它的目标是解决传统微服务架构中网络通信的复杂性，提高系统的可靠性、安全性和可观察性。</font>
 
 **<font style="color:rgba(0, 0, 0, 0.82);">特点：</font>**
@@ -15,6 +16,7 @@
 <font style="color:rgba(0, 0, 0, 0.82);">常见的Service Mesh实现包括Istio、Linkerd和Consul Connect等。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">Serverless</font>
+
 <font style="color:rgba(0, 0, 0, 0.82);">Serverless是一种云计算执行模型，开发者可以编写和部署代码而无需管理底层的服务器。也称为“无服务器架构”，它是事件驱动的，并允许开发者将焦点放在代码逻辑上，而不是基础设施。Serverless通常与FaaS（Function as a Service）结合使用，这意味着开发者上传的代码在特定事件触发时由云提供商自动运行。</font>
 
 **<font style="color:rgba(0, 0, 0, 0.82);">特点：</font>**
@@ -27,4 +29,3 @@
 <font style="color:rgba(0, 0, 0, 0.82);">常见的Serverless平台包括AWS Lambda、Azure Functions和Google Cloud Functions等。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">这两个技术解决方案都致力于简化和优化现代应用程序的开发和运维，但它们解决的问题和使用的场景略有不同。</font>
-

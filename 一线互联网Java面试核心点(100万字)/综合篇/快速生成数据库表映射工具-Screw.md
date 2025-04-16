@@ -5,12 +5,14 @@
 本篇文章主要是帮助还在手工维护数据库表关系的老爷们，直接进入主题：
 
 ## <font style="color:rgb(89, 89, 89);">screw 特点</font>
+
 + <font style="color:rgb(89, 89, 89);">简洁、轻量、设计良好。不需要 powerdesigner 这种重量的建模工具</font>
 + <font style="color:rgb(89, 89, 89);">多数据库支持 。支持市面常见的数据库类型 MySQL、Oracle、SqlServer</font>
 + <font style="color:rgb(89, 89, 89);">多种格式文档。支持 MD、HTML、WORD 格式</font>
 + <font style="color:rgb(89, 89, 89);">灵活扩展。支持用户自定义模板和展示样式</font>
 
 ## <font style="color:rgb(89, 89, 89);">支持数据库类型</font>
+
 + <font style="color:rgb(89, 89, 89);">[</font><font style="color:rgb(89, 89, 89);">✔️</font><font style="color:rgb(89, 89, 89);">] MySQL</font>
 + <font style="color:rgb(89, 89, 89);">[</font><font style="color:rgb(89, 89, 89);">✔️</font><font style="color:rgb(89, 89, 89);">] MariaDB</font>
 + <font style="color:rgb(89, 89, 89);">[</font><font style="color:rgb(89, 89, 89);">✔️</font><font style="color:rgb(89, 89, 89);">] TIDB</font>
@@ -20,11 +22,13 @@
 + <font style="color:rgb(89, 89, 89);">[</font><font style="color:rgb(89, 89, 89);">✔️</font><font style="color:rgb(89, 89, 89);">] Cache DB</font>
 
 ## <font style="color:rgb(89, 89, 89);">生成文档类型</font>
+
 + <font style="color:rgb(89, 89, 89);">[</font><font style="color:rgb(89, 89, 89);">✔️</font><font style="color:rgb(89, 89, 89);">] Html</font>
 + <font style="color:rgb(89, 89, 89);">[</font><font style="color:rgb(89, 89, 89);">✔️</font><font style="color:rgb(89, 89, 89);">] Word</font>
 + <font style="color:rgb(89, 89, 89);">[</font><font style="color:rgb(89, 89, 89);">✔️</font><font style="color:rgb(89, 89, 89);">] Markdown</font>
 
 ## <font style="color:rgb(89, 89, 89);">代码</font>
+
 用 springboot3 + jdk17 进行测试。
 
 ```java
@@ -160,10 +164,11 @@ void document() {
 ```
 
 ## <font style="color:rgb(89, 89, 89);">数据库数据截图</font>
+
 ![1714132423411-6f8d52d7-dd94-4577-a77a-d0935e9042b6.png](./img/MyBfGfMEcl03wzvg/1714132423411-6f8d52d7-dd94-4577-a77a-d0935e9042b6-369710.png)
 
 ## <font style="color:rgb(89, 89, 89);">生成文档截图</font>
+
 ![1714132459300-140d1a22-888f-4db6-bb75-5676da33e875.png](./img/MyBfGfMEcl03wzvg/1714132459300-140d1a22-888f-4db6-bb75-5676da33e875-028391.png)
 
 ![1714132466985-7238abc3-cafe-4447-b083-776ef6f1b2bc.png](./img/MyBfGfMEcl03wzvg/1714132466985-7238abc3-cafe-4447-b083-776ef6f1b2bc-763827.png)
-

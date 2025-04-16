@@ -1,6 +1,7 @@
-# 为什么QQ忘记密码只能重置，不能直接告诉你原密码？腾讯面试官揭秘：你的密码连系统都不知道！
+# 为什么QQ忘记密码只能重置，不能直接告诉你原密码？腾讯面试官揭秘：你的密码连系统都不知道
 
 #### **<font style="color:rgb(64, 64, 64);">一个让千万网友抓狂的瞬间</font>**
+>
 > <font style="color:rgb(64, 64, 64);">“密码错误！”</font><font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">第5次输入生日+纪念日+手机尾号的排列组合后，你瘫在椅子上哀嚎：“QQ啊QQ，连我自己都不记得密码了，你为什么不直接告诉我？！”</font>
 >
@@ -16,7 +17,9 @@
 <font style="color:rgb(64, 64, 64);">（是不是感觉大脑突然宕机？别急，往下看！）</font>
 
 ### **<font style="color:rgb(64, 64, 64);">1. 你的密码，在服务器眼里竟是“乱码”？</font>**
+
 #### **<font style="color:rgb(64, 64, 64);">1.1 黑客电影里的“密码库”都是骗人的！</font>**
+
 <font style="color:rgb(64, 64, 64);">电影里黑客轻松盗取“密码库”的场景，在现实中根本不存在！</font><font style="color:rgb(64, 64, 64);">  
 </font>**<font style="color:rgb(64, 64, 64);">真相是：腾讯服务器里，压根没存你的真实密码！</font>**<font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">当你设置密码“1314520”时，系统会把它丢进一个**“魔法搅拌机”**（哈希算法），出来就变成：</font><font style="color:rgb(64, 64, 64);">  
@@ -26,6 +29,7 @@
 ![1740550923784-70e73397-9131-4095-8477-9689c96605ae.png](./img/fpxwX88YdWAdZAa2/1740550923784-70e73397-9131-4095-8477-9689c96605ae-831797.png)
 
 #### **<font style="color:rgb(64, 64, 64);">1.2 为什么非要搞这么麻烦？</font>**
+
 <font style="color:rgb(64, 64, 64);">想象一下：如果腾讯存了你的明文密码——</font><font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">✅</font><font style="color:rgb(64, 64, 64);"> 程序员小哥可能偷偷看你密码</font><font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">✅</font><font style="color:rgb(64, 64, 64);"> 黑客攻破服务器就能盗走所有账号</font><font style="color:rgb(64, 64, 64);">  
@@ -43,7 +47,9 @@
 </font><font style="color:rgb(64, 64, 64);">从此，全世界只有你自己知道“1314520”！</font>
 
 ### **<font style="color:rgb(64, 64, 64);">2. 加盐！给你的密码撒一把“秘密调料”</font>**
+
 #### **<font style="color:rgb(64, 64, 64);">2.1 当全中国人都在用“123456”...</font>**
+
 <font style="color:rgb(64, 64, 64);">你以为“密码搅拌机”很安全？太天真！</font><font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">黑客早就整理了《全球常用密码哈希值词典》：</font>
 
@@ -67,6 +73,7 @@
 >
 
 #### **<font style="color:rgb(64, 64, 64);">2.2 腾讯的绝招：撒一把“盐”</font>**
+
 <font style="color:rgb(64, 64, 64);">工程师们灵机一动：</font>**<font style="color:rgb(64, 64, 64);">在搅拌密码前，随机撒一把“盐”（Salt）！</font>**<font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">比如你的密码“1314520”+盐“%t7#k” → 搅拌后变成</font>`<font style="color:rgb(64, 64, 64);">7g8h9i...</font>`<font style="color:rgb(64, 64, 64);">  
 </font>**<font style="color:rgb(64, 64, 64);">从此：</font>**<font style="color:rgb(64, 64, 64);">  
@@ -77,6 +84,7 @@
 ![1740562001289-008cbb2a-2620-4530-813b-f66587fea8d4.png](./img/fpxwX88YdWAdZAa2/1740562001289-008cbb2a-2620-4530-813b-f66587fea8d4-048382.png)
 
 ### **<font style="color:rgb(64, 64, 64);">SHA-256 + Salt代码示例</font>**
+
 ```java
 String password = "123456";  
 String salt = "1abd1c";  
@@ -92,18 +100,20 @@ System.out.println("SHA-256 Hash: " + hexString.toLowerCase());
 ```
 
 ### **<font style="color:rgb(64, 64, 64);">3.为什么找回密码比登天还难？</font>**
+
 #### **<font style="color:rgb(64, 64, 64);">3.1 你眼中的密码 VS 系统眼中的密码</font>**
+
 | **你输入的密码** | **系统眼中的模样** |
 | --- | --- |
 | `<font style="color:rgb(64, 64, 64);">1314520</font>` | `<font style="color:rgb(64, 64, 64);">4f3d7a2e1c...</font>` |
 | `<font style="color:rgb(64, 64, 64);">5201314</font>` | `<font style="color:rgb(64, 64, 64);">8b9c0d3e2f...</font>` |
-
 
 **<font style="color:rgb(64, 64, 64);">当你忘记密码时：</font>**<font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">❌</font><font style="color:rgb(64, 64, 64);"> 系统无法把</font>`<font style="color:rgb(64, 64, 64);">4f3d7a2e1c...</font>`<font style="color:rgb(64, 64, 64);">变回“1314520”</font><font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">✅</font><font style="color:rgb(64, 64, 64);"> 只能请你重新设置密码，再搅拌一次存进去！</font>
 
 #### **<font style="color:rgb(64, 64, 64);">3.2 终极安全逻辑</font>**
+>
 > <font style="color:rgb(64, 64, 64);">“</font>**<font style="color:rgb(64, 64, 64);">最好的保密，就是连自己都别相信！</font>**<font style="color:rgb(64, 64, 64);">”</font><font style="color:rgb(64, 64, 64);">—— 腾讯安全工程师的至理名言</font>
 >
 
@@ -114,6 +124,7 @@ System.out.println("SHA-256 Hash: " + hexString.toLowerCase());
 </font>**<font style="color:rgb(64, 64, 64);">这才是真正的“绝对安全”！</font>**
 
 ### **<font style="color:rgb(64, 64, 64);">下次忘记密码时，请骄傲地重置吧！</font>**
+
 **<font style="color:rgb(64, 64, 64);">因为：</font>**<font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">🔐</font><font style="color:rgb(64, 64, 64);"> 你的密码是腾讯都无法破解的“量子态”</font><font style="color:rgb(64, 64, 64);">  
 </font><font style="color:rgb(64, 64, 64);">🔐</font><font style="color:rgb(64, 64, 64);"> 每一次重置，都在为全球网络安全做贡献</font><font style="color:rgb(64, 64, 64);">  
@@ -135,4 +146,3 @@ System.out.println("SHA-256 Hash: " + hexString.toLowerCase());
 >
 > 教授含泪补刀：这届学生用密码的水平，还不如ATM机密码「666666」安全！
 >
-

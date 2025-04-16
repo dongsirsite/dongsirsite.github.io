@@ -31,6 +31,7 @@ EXPLAIN SELECT * FROM table WHERE C = 3 AND B > 2 AND A = 1;
 <font style="color:rgba(0, 0, 0, 0.82);">这两个查询可能会产生相同的执行计划，因为优化器会重新排列条件以最佳利用索引。</font>
 
 ### <font style="color:rgba(0, 0, 0, 0.82);">最佳实践</font>
+
 1. **<font style="color:rgba(0, 0, 0, 0.82);">索引设计</font>**<font style="color:rgba(0, 0, 0, 0.82);">：根据查询模式设计合适的索引。</font>
 2. **<font style="color:rgba(0, 0, 0, 0.82);">使用EXPLAIN</font>**<font style="color:rgba(0, 0, 0, 0.82);">：经常使用EXPLAIN来分析查询执行计划。</font>
 3. **<font style="color:rgba(0, 0, 0, 0.82);">优化器提示</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在必要时使用优化器提示来影响索引选择。</font>
@@ -38,4 +39,3 @@ EXPLAIN SELECT * FROM table WHERE C = 3 AND B > 2 AND A = 1;
 5. **<font style="color:rgba(0, 0, 0, 0.82);">范围条件考虑</font>**<font style="color:rgba(0, 0, 0, 0.82);">：在复合索引中，将范围条件放在等值条件之后。</font>
 
 <font style="color:rgba(0, 0, 0, 0.82);">总之，虽然WHERE条件的顺序在大多数情况下不会直接影响索引的使用，但了解这些原则有助于编写更高效和可维护的查询。始终通过EXPLAIN来验证实际的索引使用情况。</font>
-

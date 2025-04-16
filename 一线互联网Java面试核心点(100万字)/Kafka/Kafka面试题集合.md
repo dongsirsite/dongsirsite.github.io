@@ -1,7 +1,9 @@
 # 💎Kafka面试题集合
 
 ## Kafka入门
+
 ### 什么是消息队列与Kafka简介
+
 消息队列（Message Queue，简称MQ），指保存消息的一个容器，本质是个队列。
 
 消息（Message）是指在应用之间传送的数据，消息可以非常简单，比如只包含文本字符串，也可以更复杂，可能包含嵌入对象。
@@ -15,6 +17,7 @@
 + <font style="color:rgb(18, 18, 18);">Consumer：消息消费者，负责从 Broker 中获取消息，并进行相应处理；</font>
 
 #### <font style="color:rgb(18, 18, 18);">为什么需要消息队列？</font>
+
 1、屏蔽异构平台的细节：发送方、接收方系统之间不需要了解双方，只需认识消息。
 
 2、异步：消息堆积能力；发送方接收方不需同时在线，发送方接收方不需同时扩容（削峰）。
@@ -28,6 +31,7 @@
 6、提供路由：发送者无需与接收者建立连接，双方通过消息队列保证消息能够从发送者路由到接收者，甚至对于本来网络不易互通的两个服务，也可以提供消息路由。
 
 #### <font style="color:rgb(18, 18, 18);">消息队列有什么优点和缺点？</font>
+
 1. <font style="color:rgb(18, 18, 18);">核心优点</font>
     1. <font style="color:rgb(18, 18, 18);">解耦</font>
     2. <font style="color:rgb(18, 18, 18);">异步</font>
@@ -38,23 +42,26 @@
     3. <font style="color:rgb(18, 18, 18);">一致性问题：消息传递给多个系统，部分执行成功，部分执行失败，容易导致数据不一致</font>
 
 #### Kafka简介
+
 Kafka是一个分布式流处理系统，流处理系统使它可以像消息队列一样publish或者subscribe消息，分布式提供了容错性，并发处理消息的机制。
 
 ### Kafka的优势和特点
+
 + **<font style="color:rgb(51, 51, 51);">高吞吐量</font>**<font style="color:rgb(51, 51, 51);">：单机每秒处理几十上百万的消息量。即使存储了许多TB的消息，它也保持稳定的性能。</font>
 + **<font style="color:rgb(51, 51, 51);">高性能</font>**<font style="color:rgb(51, 51, 51);">：单节点支持上千个客户端，并保证零停机和零数据丢失，异步化处理机制</font>
 + **<font style="color:rgb(51, 51, 51);">持久化：</font>**<font style="color:rgb(51, 51, 51);">将消息持久化到磁盘。通过将数据持久化到硬盘以及replica(follower节点)防止数据丢失。</font>
 + **<font style="color:rgb(51, 51, 51);">零拷贝</font>**<font style="color:rgb(51, 51, 51);">：减少了很多的拷贝技术，以及可以总体减少阻塞事件，提高吞吐量。</font>
 + **<font style="color:rgb(51, 51, 51);">可靠性 ：</font>**<font style="color:rgb(51, 51, 51);">Kafka是分布式，分区，复制和容错的。</font>
 + <font style="color:rgb(51, 51, 51);">Kafka的特点 ：</font>
-    - **<font style="color:rgb(102, 102, 102);">顺序读，顺序写</font>**
-    - **<font style="color:rgb(102, 102, 102);">利用Linux的页缓存</font>**
-    - **<font style="color:rgb(102, 102, 102);">分布式系统，易于向外扩展。所有的Producer、Broker和Consumer都会有多个，均为分布式的。无需停机即可扩展机器。多个Producer、Consumer可能是不同的应用。</font>**
-    - **<font style="color:rgb(102, 102, 102);">客户端状态维护:消息被处理的状态是在Consumer端维护，而不是由server端维护。当失败时能自动平衡。</font>**
-    - **<font style="color:rgb(102, 102, 102);">支持online（在线）和offline（离线）的场景。</font>**
-    - **<font style="color:rgb(102, 102, 102);">支持多种客户端语言。Kafka支持Java、.NET、PHP、Python等多种语言。</font>**
+  + **<font style="color:rgb(102, 102, 102);">顺序读，顺序写</font>**
+  + **<font style="color:rgb(102, 102, 102);">利用Linux的页缓存</font>**
+  + **<font style="color:rgb(102, 102, 102);">分布式系统，易于向外扩展。所有的Producer、Broker和Consumer都会有多个，均为分布式的。无需停机即可扩展机器。多个Producer、Consumer可能是不同的应用。</font>**
+  + **<font style="color:rgb(102, 102, 102);">客户端状态维护:消息被处理的状态是在Consumer端维护，而不是由server端维护。当失败时能自动平衡。</font>**
+  + **<font style="color:rgb(102, 102, 102);">支持online（在线）和offline（离线）的场景。</font>**
+  + **<font style="color:rgb(102, 102, 102);">支持多种客户端语言。Kafka支持Java、.NET、PHP、Python等多种语言。</font>**
 
 ### Kafka与传统消息队列的对比
+
 ![1690613810956-354f0a8a-b2da-4b00-a722-0f3dc016335b.png](./img/Ik4qNZwqdCVSBjbV/1690613810956-354f0a8a-b2da-4b00-a722-0f3dc016335b-792372.png)
 
 各种对比之后，有如下建议：
@@ -65,6 +72,7 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 + Kafka，如果是大数据领域的实时计算、日志采集等场景，用 Kafka 是业内标准的，绝对没问题，社区活跃度很高，绝对不会黄，何况几乎是全世界这个领域的事实性规范。
 
 ### Kafka的架构设计
+
 ![1704627052660-503dc323-5354-415c-8e98-e870b95d63e3.png](./img/Ik4qNZwqdCVSBjbV/1704627052660-503dc323-5354-415c-8e98-e870b95d63e3-580255.png)
 
 <font style="color:rgb(18, 18, 18);">kafka运行在集群上，集群包含一个或多个服务器。kafka把消息存在topic中，每一条消息包含键值（key），值（value）和时间戳（timestamp）。</font>
@@ -86,7 +94,9 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 **<font style="color:rgb(18, 18, 18);">Offset </font>**<font style="color:rgb(18, 18, 18);">- 消息在partition中的偏移量。每一条消息在partition都有唯一的偏移量，消息者可以指定偏移量来指定要消费的消息。</font>
 
 ### <font style="color:rgb(18, 18, 18);">基本概念：</font>
+
 #### <font style="color:rgb(51, 51, 51);">消息和批次</font>
+
 **<font style="color:rgb(51, 51, 51);">消息</font>**<font style="color:rgb(51, 51, 51);"> ，Kafka里的数据单元，也就是我们一般消息中间件里的消息的概念（可以比作数据库中一条记录）。消息由字节数组组成。消息还可以包含键（可选元数据，也是字节数组），主要用于对消息选取分区。</font>
 
 <font style="color:rgb(51, 51, 51);">作为一个高效的消息系统，为了提高效率，消息可以被分批写入Kafka。</font>**<font style="color:rgb(51, 51, 51);">批次</font>**<font style="color:rgb(51, 51, 51);">就是一组消息，这些消息属于同一个主题和分区。如果只传递单个消息，会导致大量的网络开销，把消息分成批次传输可以减少这开销。但是，这个需要权衡（时间延迟和吞吐量之间），批次里包含的消息越多，单位时间内处理的消息就越多，单个消息的传输时间就越长（吞吐量高延时也高）。如果进行压缩，可以提升数据的传输和存储能力，但需要更多的计算处理。</font>
@@ -94,6 +104,7 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 <font style="color:rgb(51, 51, 51);">对于Kafka来说，消息是晦涩难懂的字节数组，一般我们使用序列化和反序列化技术，格式常用的有JSON和XML，还有Avro（Hadoop开发的一款序列化框架），具体怎么使用依据自身的业务来定。</font>
 
 #### <font style="color:rgb(51, 51, 51);">主题和分区</font>
+
 <font style="color:rgb(51, 51, 51);">Kafka里的消息用</font>**<font style="color:rgb(51, 51, 51);">主题</font>**<font style="color:rgb(51, 51, 51);">进行分类（主题好比数据库中的表），主题下有可以被分为若干个 </font>**<font style="color:rgb(51, 51, 51);">分区（分表技术）</font>**<font style="color:rgb(51, 51, 51);"> 。分区本质上是个提交日志文件，有新消息，这个消息就会以追加的方式写入分区（写文件的形式），然后用先入先出的顺序读取。</font>
 
 ![1744182398974-3379f1d8-3cf1-4ff2-9c47-c1723ef8723e.png](./img/Ik4qNZwqdCVSBjbV/1744182398974-3379f1d8-3cf1-4ff2-9c47-c1723ef8723e-363926.png)
@@ -105,6 +116,7 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 <font style="color:rgb(51, 51, 51);">前面我们说Kafka可以看成一个流平台，很多时候，我们会把一个主题的数据看成一个流，不管有多少个分区。</font>
 
 #### <font style="color:rgb(51, 51, 51);">生产者和消费者、偏移量、消费者群组</font>
+
 <font style="color:rgb(51, 51, 51);">就是一般消息中间件里生产者和消费者的概念。一些其他的高级客户端API，像数据管道API和流式处理的Kafka Stream，都是使用了最基本的生产者和消费者作为内部组件，然后提供了高级功能。</font>
 
 <font style="color:rgb(51, 51, 51);">生产者默认情况下把消息均衡分布到主题的所有分区上，如果需要指定分区，则需要使用消息里的消息键和分区器。</font>
@@ -120,6 +132,7 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 <font style="color:rgb(51, 51, 51);">（吃饭的故事：一桌一个分区，多桌多个分区，生产者不断生产消息(消费)，消费者就是买单的人，消费者群组就是一群买单的人），一个分区只能被消费者群组中的一个消费者消费（不能重复消费），如果有一个消费者挂掉了</font><font style="color:rgb(51, 51, 51);"><</font><font style="color:rgb(51, 51, 51);">James跑路了>，另外的消费者接上）</font>
 
 #### <font style="color:rgb(51, 51, 51);">Broker和集群</font>
+
 <font style="color:rgb(51, 51, 51);">一个独立的Kafka服务器叫Broker。</font>
 
 <font style="color:rgb(51, 51, 51);">broker的主要工作是，接收生产者的消息，设置偏移量，提交消息到磁盘保存；为消费者提供服务，响应请求，返回消息。在合适的硬件上，单个broker可以处理上千个分区和每秒百万级的消息量。（要达到这个目的需要做操作系统调优和JVM调优）</font>
@@ -135,9 +148,11 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 <font style="color:rgb(51, 51, 51);">分区复制带来的好处是，提供了消息冗余。一旦首领broker失效，其他broker可以接管领导权。当然相关的消费者和生产者都要重新连接到新的首领上。（详细过程可见下面的选举部分）</font>
 
 #### <font style="color:rgb(51, 51, 51);">保留消息</font>
+
 <font style="color:rgb(51, 51, 51);">在一定期限内保留消息是Kafka的一个重要特性，Kafka broker默认的保留策略是：要么保留一段时间（7天），要么保留一定大小（比如1个G）。到了限制，旧消息过期并删除。但是每个主题可以根据业务需求配置自己的保留策略（开发时要注意，Kafka不像Mysql之类的永久存储）。</font>
 
 ### <font style="color:rgb(18, 18, 18);">工作流程</font>
+
 ![1704628275351-d101b349-c0b4-45d0-adea-e0d378856c59.png](./img/Ik4qNZwqdCVSBjbV/1704628275351-d101b349-c0b4-45d0-adea-e0d378856c59-898668.png)
 
 + producer先从zookeeper的 "/brokers/.../state"节点找到该partition的leader
@@ -148,11 +163,14 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 + leader收到所有ISR中的replication的ACK后，增加HW（high watermark，最后commit 的offset）并向producer发送ACK
 
 #### tips
+
 + Kafka 中消息是以topic 进行分类的，生产者生产消息，消费者消费消息，都是面向topic的。
 + topic 是逻辑上的概念，而partition 是物理上的概念，每个partition 对应一个log 文件，该log 文件中存储的就是producer 生产的数据。Producer 生产的数据会被不断追加到该log 文件末端，且每条数据都有自己的offset。消费者组中的每个消费者，都会实时记录自己消费到了哪个offset，以便出错恢复时，从上次的位置继续消费。
 
 ### Kafka的数据模型与消息存储机制
+
 #### 消息存储结构![1704628728989-5c90216e-e2b7-4c79-8bbe-d2895d31342d.png](./img/Ik4qNZwqdCVSBjbV/1704628728989-5c90216e-e2b7-4c79-8bbe-d2895d31342d-509262.png)
+
 <font style="color:rgb(64, 64, 64);">Kafka 有 Topic 和 Partition 两个概念，一个 Topic 可以有多个 Partition。在实际存储的时候，Topic + Partition 对应一个文件夹，这个文件夹对应的是这个 Partition 的数据。</font>
 
 <font style="color:rgb(64, 64, 64);">在 Kafka 的数据文件目录下，一个 Partition 对应一个唯一的文件夹。如果有 4 个 Topic，每个 Topic 有 5 个 Partition，那么一共会有 4 * 5 = 20 个文件夹。而在 文件夹下，Kafka 消息是采用 Segment File 的存储方式进行存储的。 </font>
@@ -166,6 +184,7 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 <font style="color:rgb(64, 64, 64);">在 Kafka 的数据文件夹下，分为两种类型的文件：索引文件（Index File）和数据文件（Data File）。索引文件存的是消息的索引信息，帮助快速定位到某条消息。数据文件存储的是具体的消息内容。</font>
 
 #### <font style="color:rgb(64, 64, 64);">索引文件</font>
+
 <font style="color:rgb(64, 64, 64);">索引文件的命名统一为数字格式，其名称表示 Kafka 消息的偏移量。我们假设索引文件的数字为 N，那么就代表该索引文件存储的第一条 Kafka 消息的偏移量为 N + 1，而上个文件存储的最后一条 Kafka 消息的偏移量为 N（因为 Kafka 是顺序存储的）。例如下图的 368769.index 索引文件，其表示文件存储的第一条 Kafka 消息的偏移量为 368770。而 368769 表示的是 0000.index 这个索引文件的最后一条消息。所以 368769.index 索引文件，其存储的 Kafka 消息偏移量范围为 368769-737337。</font>
 
 ![1690641015311-7db1e045-e083-4853-922d-4aff101fb21f.png](./img/Ik4qNZwqdCVSBjbV/1690641015311-7db1e045-e083-4853-922d-4aff101fb21f-336132.png)
@@ -177,6 +196,7 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 <font style="color:rgb(64, 64, 64);">其他的以此类推，例如：「8,1686」表示 offset 为 368777 的 Kafka 消息，其在数据文件中的物理偏移地址为 1686。</font>
 
 #### <font style="color:rgb(64, 64, 64);">数据文件</font>
+
 <font style="color:rgb(64, 64, 64);">数据文件的命名格式与索引文件的命名格式完全一样，这里就不再赘述了。</font>
 
 <font style="color:rgb(64, 64, 64);">通过上面索引文件的分析，我们已经可以根据 offset 快速定位到某个数据文件了。那接着我们怎么读取到这条消息的内容呢？要读取到这条消息的内容，我们需要搞清楚数据文件的存储格式。</font>
@@ -188,41 +208,48 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 <font style="color:rgb(64, 64, 64);">从上图可以看到 Kafka 消息的物理结构，其包含了 Kafka 消息的 offset 信息、Kafka 消息的大小信息、版本号等等。有了这些信息之后，我们就可以正确地读取到 Kafka 消息的实际内容。</font>
 
 ### <font style="color:rgb(37, 41, 51);">Kafka文件存储优势</font>
+
 **Kafka运行时很少有大量读磁盘的操作，主要是定期批量写磁盘操作，因此操作磁盘很高效**。这跟Kafka文件存储中读写message的设计是息息相关的。Kafka中读写message有如下特点:
 
 #### 写message
+
 + 消息从java堆转入page cache(即物理内存)。
 + 由异步线程刷盘,消息从page cache刷入磁盘。
 
 #### 读message
+
 + 消息直接从page cache转入socket发送出去。
 + 当从page cache没有找到相应数据时，此时会产生磁盘IO，从磁 盘Load消息到page cache,然后直接从socket发出去
 
 #### Kafka高效文件存储设计特点
+
 + Kafka把topic中一个parition大文件分成多个小文件段，通过多个小文件段，就容易定期清除或删除已经消费完文件，减少磁盘占用。
 + 通过索引信息可以快速定位message和确定response的最大大小。
 + 通过index元数据全部映射到memory，可以避免segment file的IO磁盘操作。
 + 通过索引文件稀疏存储，可以大幅降低index文件元数据占用空间大小。
 
 ### Kafka 副本同步机制
+
 为保证producer发送的数据，能可靠到指定topic，topic的每个的partition收到 producer发送的数据后，都需要向producer发送 ack（acknowledgement确认收到），如果 producer收到 ack，就会进行下一轮的发送。
 
 ![1704896649152-158f7830-bcef-43c3-a6f8-fc8ee5d2ac46.png](./img/Ik4qNZwqdCVSBjbV/1704896649152-158f7830-bcef-43c3-a6f8-fc8ee5d2ac46-186450.png)
 
 #### <font style="color:rgb(37, 41, 51);">ACKS 机制</font>
+
 <font style="color:rgb(55, 65, 81);">在 Kafka 中，消息的 ACK（Acknowledgment，确认）机制与生产者的 </font>**acks**<font style="color:rgb(55, 65, 81);"> 配置有关。</font>**acks**<font style="color:rgb(55, 65, 81);"> 配置表示生产者在接收到消息后等待副本同步确认的方式，具体取值有：</font>
 
 + **acks=0：**
-    - <font style="color:rgb(55, 65, 81);">意义：生产者在成功将消息发送给 Kafka 服务端后不等待任何确认。</font>
-    - <font style="color:rgb(55, 65, 81);">结果：生产者无法知道消息是否成功到达 Kafka 服务器，可能会导致消息的丢失。这种配置下，生产者不会收到任何 ACK。</font>
+  + <font style="color:rgb(55, 65, 81);">意义：生产者在成功将消息发送给 Kafka 服务端后不等待任何确认。</font>
+  + <font style="color:rgb(55, 65, 81);">结果：生产者无法知道消息是否成功到达 Kafka 服务器，可能会导致消息的丢失。这种配置下，生产者不会收到任何 ACK。</font>
 + **acks=1：**
-    - <font style="color:rgb(55, 65, 81);">意义：生产者在成功将消息发送给 Kafka 服务端后，等待该分区的首领节点（leader）确认。</font>
-    - <font style="color:rgb(55, 65, 81);">结果：生产者会收到分区首领节点的 ACK。这意味着只要分区首领节点成功接收到消息，生产者就会得到确认，而不需要等待其他副本。</font>
+  + <font style="color:rgb(55, 65, 81);">意义：生产者在成功将消息发送给 Kafka 服务端后，等待该分区的首领节点（leader）确认。</font>
+  + <font style="color:rgb(55, 65, 81);">结果：生产者会收到分区首领节点的 ACK。这意味着只要分区首领节点成功接收到消息，生产者就会得到确认，而不需要等待其他副本。</font>
 + **acks=all 或 acks=-1：**
-    - <font style="color:rgb(55, 65, 81);">意义：生产者在成功将消息发送给 Kafka 服务端后，等待所有分区副本确认。</font>
-    - <font style="color:rgb(55, 65, 81);">结果：生产者会等待分区的所有副本都成功接收到消息并确认。这是最安全的配置，因为只有当所有副本都确认接收到消息后，才认为消息被成功提交。</font>
+  + <font style="color:rgb(55, 65, 81);">意义：生产者在成功将消息发送给 Kafka 服务端后，等待所有分区副本确认。</font>
+  + <font style="color:rgb(55, 65, 81);">结果：生产者会等待分区的所有副本都成功接收到消息并确认。这是最安全的配置，因为只有当所有副本都确认接收到消息后，才认为消息被成功提交。</font>
 
-#### 生产者重试机制：
+#### 生产者重试机制
+
 <font style="color:rgb(55, 65, 81);">Kafka 生产者在发送消息后，如果设置了等待服务器的确认（通过 </font>**acks**<font style="color:rgb(55, 65, 81);"> 参数配置），会等待一定时间来收到来自服务器的确认（ack）。这个等待时间由 </font>**timeout.ms**<font style="color:rgb(55, 65, 81);"> 参数控制，默认是 </font>**10000**<font style="color:rgb(55, 65, 81);"> 毫秒（10秒）。</font>
 
 <font style="color:rgb(55, 65, 81);">如果在等待时间内没有收到服务器的确认，生产者可以选择重试发送或者处理发送失败的逻辑。这取决于生产者的配置。通常，生产者会根据配置的重试次数和重试间隔来进行重试，以确保消息最终被成功发送。</font>
@@ -233,6 +260,7 @@ Kafka是一个分布式流处理系统，流处理系统使它可以像消息队
 + **retry.backoff.ms**<font style="color:rgb(55, 65, 81);">: 定义了两次重试之间的等待时间间隔。</font>
 
 #### <font style="color:rgb(37, 41, 51);">ISR 机制：</font>
+
 Kafka根据**副本同步**的情况，分成了3个**集合**：
 
 + AR（Assigned Replicas）：包括ISR和OSR
@@ -244,26 +272,31 @@ Kafka根据**副本同步**的情况，分成了3个**集合**：
 Leader维护了一个动态的in-sync replica set (ISR-同步副本列表)，意为和leader保持同步的follower集合。根据follower发来的FETCH请求中的fetch offset判断ISR中的follower完成数据同步是否成功。如果follower长时间未向leader同步数据，则该follower将被踢出ISR，该时间阈值由replica.lag.time.max.ms参数设定。Leader发生故障之后，就会从ISR中选举新的leader。
 
 + ISR(In-Sync Replicas )：与leader保持同步的follower集合
-+ AR(Assigned Replicas)：分区的所有副本 
-    - ISR是由leader维护，follower从leader同步数据有一些延迟（包括延迟时间replica.lag.time.max.ms和延迟条数replica.lag.max.messages两个维度, 当前最新的版本0.10.x中只支持replica.lag.time.max.ms这个维度），任意一个超过阈值都会把follower剔除出ISR， 存入OSR(Outof-Sync Replicas)列表，新加入的follower也会先存放在OSR中。
-    - AR=ISR+OSR。	
++ AR(Assigned Replicas)：分区的所有副本
+  + ISR是由leader维护，follower从leader同步数据有一些延迟（包括延迟时间replica.lag.time.max.ms和延迟条数replica.lag.max.messages两个维度, 当前最新的版本0.10.x中只支持replica.lag.time.max.ms这个维度），任意一个超过阈值都会把follower剔除出ISR， 存入OSR(Outof-Sync Replicas)列表，新加入的follower也会先存放在OSR中。
+  + AR=ISR+OSR。 
 
 #### <font style="color:rgb(51, 51, 51);">ISR的伸缩</font>
+
 <font style="color:rgb(51, 51, 51);">Kafka在启动的时候会开启两个与ISR相关的定时任务，名称分别为“isr-expiration"和”isr-change-propagation".。isr-expiration任务会周期性的检测每个分区是否需要缩减其ISR集合。这个周期和“</font>**<font style="color:rgb(51, 51, 51);">replica.lag.time.max.ms</font>**<font style="color:rgb(51, 51, 51);">”(延迟时间)参数有关。大小是这个参数一半。默认值为5000ms，当检测到ISR中有是失效的副本的时候，就会缩减ISR集合。如果某个分区的ISR集合发生变更， 则会将变更后的数据记录到ZooKerper对应/brokers/topics//partition//state节点中。</font>
 
 ### <font style="color:rgb(51, 51, 51);">Kafka选举机制</font>
+
 <font style="color:rgb(51, 51, 51);">在kafka集群中有2个种leader，一种是broker的leader即controller leader，还有一种就是partition的leader。</font>
 
 #### <font style="color:rgb(51, 51, 51);">【Controller leader】</font>
+
 <font style="color:rgb(51, 51, 51);">当broker启动的时候，都会创建KafkaController对象，但是集群中只能有一个leader对外提供服务，这些每个节点上的KafkaController会在指定的zookeeper路径下创建临时节点，只有第一个成功创建的节点的KafkaController才可以成为leader，其余的都是follower。当leader故障后，所有的follower会收到通知，再次竞争在该路径下创建节点从而选举新的leader</font>
 
 #### <font style="color:rgb(51, 51, 51);">【Partition leader】</font>
+
 <font style="color:rgb(51, 51, 51);">由controller leader执行</font>
 
 + <font style="color:rgb(51, 51, 51);">从Zookeeper中读取当前分区的所有ISR(in-sync replicas)集合</font>
 + <font style="color:rgb(51, 51, 51);">调用配置的分区选择算法选择分区的leader</font>
 
 #### kafka中的 zookeeper 起到什么作用
+
 zookeeper 是一个分布式的协调组件，早期版本的kafka用zk做meta信息存储，consumer的消费状态，group的管理以及 offset的值。考虑到zk本身的一些因素以及整个架构较大概率存在单点问题，新版本中逐渐弱化了zookeeper的作用
 
 新的consumer使用了kafka内部的group coordination协议，也减少了对zookeeper的依赖， 但是broker依然依赖于ZK，zookeeper 在kafka中还用来选举controller 和 检测broker是否存活等等。
@@ -273,6 +306,7 @@ zookeeper 是一个分布式的协调组件，早期版本的kafka用zk做meta�
 2.8.0版本以前需借助Zookeeper完成选举投票，后续版本kafka自身已集成该功能。
 
 #### <font style="color:rgb(51, 51, 51);">选举示意图：</font>
+
 <font style="color:rgb(51, 51, 51);">LEO 表示 Log End Offset 下一条等待写入的消息的offset（最新的Offset+1。每一个消息都有一个offset ，offset实际也是topic默认50个）</font>
 
 <font style="color:rgb(51, 51, 51);">HW 表示 Hign Watermark ISR中最小的LED（因为数据可能没有完全保持同步，所以Consumer最多只能消费到HW之前的位置，比如这里消费到offset5的消息，也就是说其他副本没有同步过去的消息，是不能被消费的）</font>
@@ -285,17 +319,18 @@ zookeeper 是一个分布式的协调组件，早期版本的kafka用zk做meta�
 
 ![1744182715678-fc2a7a9c-cd85-4609-8d19-b7c94a812506.png](./img/Ik4qNZwqdCVSBjbV/1744182715678-fc2a7a9c-cd85-4609-8d19-b7c94a812506-166083.png)
 
-#### 选举过程：
+#### 选举过程
+
 故障检测：当 Leader Broker 发生故障或不可用时，Zookeeper 会检测到该变化，并通知相关的 Broker。
 
 选举触发：Zookeeper 会触发 Leader 选举过程，选择一个新的 Leader Broker。
 
 选举算法：Kafka 使用一种基于 Zookeeper 的选举算法（如 Zab 协议）来选择新的 Leader Broker。
 
-
-
 ### Kafka 副本<font style="color:rgb(37, 41, 51);">数据一致性</font>
-#### 尽管采用 acks = all 但是也会出现 不一致的场景，例如：
+
+#### 尽管采用 acks = all 但是也会出现 不一致的场景，例如
+
 :::tips
 假设 leader 接受了 producer 传来的数据为 8 条，ISR 中三台 follower（broker0,broker1,broker2）开始同步数据，由于网络传输，另外两台 follower 同步数据的速率不同。当 broker1 同步了 4 条数据，broker2 已经同步了 6 条数据，此时，leader-broker0 突然挂掉，从 ISR 中选取了 broker1 作为主节点，此时 leader-broker1 同步了 4 条，broker2 同步 6，就会造成 leader 和 followe r之间数据不一致问题。
 
@@ -306,12 +341,13 @@ zookeeper 是一个分布式的协调组件，早期版本的kafka用zk做meta�
 + **HW** （High Watermark）俗称高水位，它标识了一个特定的消息偏移量（offset），消费者只能拉取到这个offset之前的消息，对于同一个副本对象而言，其 HW 值不会大于 LEO 值。小于等于 HW 值的所有消息都被认为是“已备份”的（replicated） 。**所有分区副本中消息偏移量最小值。**
 + **LEO**（Log End Offset），即日志末端位移(log end offset)，记录了该副本底层日志(log)中下一条消息的位移值。**注意是下一条消息！也就是说**，如果 LEO =8，那么表示该副本保存了 8 条消息，位移值范围是[0, 7]。LEO 的大小相当于当前日志分区中最后一条消息的 offset 值加1，分区 ISR 集合中的每个副本都会维护自身的 LEO，而 **ISR 集合中最小的 LEO 即为分区的 HW**，**对消费者而言只能消费 HW 之前的消息**。
 
-#### 针对不同的产生原因，解决方案不同：
+#### 针对不同的产生原因，解决方案不同
+
 + 当服务出现故障时：如果是 Follower 发生故障，这不会影响消息写入，只不过是少了一个备份而已。处理 相对简单一点。Kafka 会做如下处理：  ![1705064485653-5132d45a-abd0-4040-b6d2-86a034367248.png](./img/Ik4qNZwqdCVSBjbV/1705064485653-5132d45a-abd0-4040-b6d2-86a034367248-582723.png)
-    - 将故障的 Follower 节点临时踢出 ISR 集合。而其他 Leader 和 Follower 继续正常接收消息。 
-    - 出现故障的 Follower 节点恢复后，不会立即加入 ISR 集合。该 Follower 节点会读取本地记录的上一次的 HW，将自己的日志中高于 HW 的部分信息全部删除掉，然后从 HW 开始，向 Leader 进行消息同步。 
-    - 等到该 Follower 的 LEO 大于等于整个 Partiton 的 HW 后，就重新加入到 ISR 集合中。这也就是说这个 Follower 的消息进度追上了 Leader。  
-+  如果是 Leader 节点出现故障，Kafka 为了保证消息的一致性，处理就会相对复杂一点。 
+  + 将故障的 Follower 节点临时踢出 ISR 集合。而其他 Leader 和 Follower 继续正常接收消息。
+  + 出现故障的 Follower 节点恢复后，不会立即加入 ISR 集合。该 Follower 节点会读取本地记录的上一次的 HW，将自己的日志中高于 HW 的部分信息全部删除掉，然后从 HW 开始，向 Leader 进行消息同步。
+  + 等到该 Follower 的 LEO 大于等于整个 Partiton 的 HW 后，就重新加入到 ISR 集合中。这也就是说这个 Follower 的消息进度追上了 Leader。  
++ 如果是 Leader 节点出现故障，Kafka 为了保证消息的一致性，处理就会相对复杂一点。
 
 ![1705064515417-5c004a06-0492-4988-bf65-505352834d0c.png](./img/Ik4qNZwqdCVSBjbV/1705064515417-5c004a06-0492-4988-bf65-505352834d0c-454606.png)
 
@@ -320,9 +356,11 @@ zookeeper 是一个分布式的协调组件，早期版本的kafka用zk做meta�
     - 旧的 Leader 恢复后，将作为 Follower 节点，进行数据恢复。  
 
 ### 如何确保消息不丢失
+
 此问题在RabbitMQ中已详细解答，这里实则类似也就是三端都需确保。
 
 #### <font style="color:rgb(25, 27, 31);">Producer 端</font>
+
 <font style="color:rgb(25, 27, 31);">发送数据有 ACK 机制</font>
 
 + **<font style="color:rgb(25, 27, 31);">acks =0：</font>**<font style="color:rgb(25, 27, 31);">由于发送后就自认为发送成功，这时如果发生网络抖动， Producer 端并不会校验 ACK 自然也就丢了，且无法重试。</font>
@@ -330,9 +368,11 @@ zookeeper 是一个分布式的协调组件，早期版本的kafka用zk做meta�
 + **<font style="color:rgb(25, 27, 31);">acks = -1 或者 all：</font>**<font style="color:rgb(25, 27, 31);">消息发送需要等待 ISR 中 Leader Partition 和 所有的 Follower Partition 都确认收到消息才算发送成功, 可靠性最高。当然万一有副本出问题，这就只能干等了，可以配合 </font>**<font style="color:rgb(25, 27, 31);">min.insync.replicas:</font>**<font style="color:rgb(25, 27, 31);">设置必须确认的最小同步副本数</font>
 
 #### <font style="color:rgb(25, 27, 31);">KafkaBroker </font>
+
 **<font style="color:rgb(25, 27, 31);">集群</font>**<font style="color:rgb(25, 27, 31);">接收到数据后会将数据进行持久化存储到磁盘，为了提高吞吐量和性能，采用的是「</font>**<font style="color:rgb(25, 27, 31);">异步批量刷盘的策略</font>**<font style="color:rgb(25, 27, 31);">」，也就是说按照一定的消息量和间隔时间进行刷盘。首先会将数据存储到 「</font>**<font style="color:rgb(25, 27, 31);">PageCache</font>**<font style="color:rgb(25, 27, 31);">」 中，至于什么时候将 Cache 中的数据刷盘是由「</font>**<font style="color:rgb(25, 27, 31);">操作系统</font>**<font style="color:rgb(25, 27, 31);">」根据自己的策略决定或者调用 fsync 命令进行强制刷盘，如果此时 Broker 宕机 Crash 掉，且选举了一个落后 Leader Partition 很多的 Follower Partition 成为新的 Leader Partition，那么落后的消息数据就会丢失。所以只有配合生产者acks=-1除了leader落盘还有</font>
 
 #### <font style="color:rgb(25, 27, 31);">Comsumer端</font>
+
 + <font style="color:rgb(25, 27, 31);">手动提交位移：关闭自动提交位移（</font>`<font style="color:rgba(0, 0, 0, 0.9);">enable.auto.commit=false</font>`<font style="color:rgb(25, 27, 31);">），改为手动提交offset。只有在消息成功处理后才提交位移，确保消息不会因消费者故障而丢失。</font>
 + <font style="color:rgb(25, 27, 31);">位移重置策略</font><font style="color:rgb(25, 27, 31);">：通过</font>`<font style="color:rgba(0, 0, 0, 0.9);">auto.offset.reset=earliest</font>`<font style="color:rgb(25, 27, 31);">，确保消费者在重新启动时从最早未消费的消息开始消费，避免消息丢失。</font>
 + <font style="color:rgb(25, 27, 31);">消费者组机制：通过消费者组实现消息的负载均衡，确保消息能够被均匀分配给消费者，避免某些消费者过载导致的消息丢失。</font>
@@ -454,13 +494,12 @@ public class KafkaConsumerAsyncExample {
 当然如何确保不重复消费，这里就不累赘了，可参看链接：[RabbitMQ中的处理](https://www.yuque.com/tulingzhouyu/db22bv/gmmoedg89h3z6576#GWIbr)。
 
 ### 生产者消息发送流程
+
 整体推拉流程梳理：
 
 ![1744184690438-0104b9f4-f6ed-492c-9c81-fdfc3d8a9ba5.png](./img/Ik4qNZwqdCVSBjbV/1744184690438-0104b9f4-f6ed-492c-9c81-fdfc3d8a9ba5-726276.png)
 
-
-
-深入浅出之前 先思考下 
+深入浅出之前 先思考下
 
 <font style="color:rgb(255, 0, 1);">物流快递 如何发送？： </font>
 
@@ -478,7 +517,8 @@ public class KafkaConsumerAsyncExample {
 
 <font style="color:rgb(0, 0, 0);">7.集装箱装机 第一次 和 下一个集装箱满时再来一个 （tryAppend 判断是否为空 ）</font>
 
-#### 源码解读：
+#### 源码解读
+
 如果直接从初始化的 KafkaProducer 进入 send 即可推送消息 除了网络通信， 没啥可看
 
 所以我们<font style="color:rgb(243, 50, 50);">回顾springboot 自动装配 </font>
@@ -508,7 +548,7 @@ public class KafkaAutoConfiguration {
 
 我这里配置的三台 集群上面
 
-我们回过头看 KafkaAutoConfiguration 关于配置的properties 
+我们回过头看 KafkaAutoConfiguration 关于配置的properties
 
 ```java
 @EnableConfigurationProperties({KafkaProperties.class})
@@ -582,7 +622,7 @@ public Producer<K, V> createProducer(@Nullable String txIdPrefixArg) {
 
 Producer的send方法可见有三个实现 <font style="color:rgb(92, 92, 92);"> (首先是CloseSafeProducer 是 DefaultKafkaProducerFactory的)</font>
 
-而这个工厂刚才看过是通过 委派 创建了KafkaProducer 来发送的 
+而这个工厂刚才看过是通过 委派 创建了KafkaProducer 来发送的
 
 ![1744184826446-1fec7f0a-5e9f-42ff-94db-5f81b97741a3.png](./img/Ik4qNZwqdCVSBjbV/1744184826446-1fec7f0a-5e9f-42ff-94db-5f81b97741a3-596907.png)
 
@@ -860,9 +900,8 @@ b）dq中无producerBatch，返回null，代表没有能追加成功。
 
 如果tryAppend返回null，说明没能直接在现有的batch上追加成功（也可能还没有batch），此时需要初始化新的ProducerBatch
 
+#### 总结一下
 
-
-#### 总结一下：
 1、RecordAccumulator使用ProducerBatch缓存消息。每个主题分区拥有一个ProducerBatch的队列。
 
 2、当ProducerBatch队列的队尾batch不能再容纳新消息时，对其进行封箱操作，同时新建ProducerBatch放入队尾来存放新消息。
@@ -873,12 +912,11 @@ b）dq中无producerBatch，返回null，代表没有能追加成功。
 
 ![1744185296357-95f20203-2ddf-4f28-8554-734a66ec1303.png](./img/Ik4qNZwqdCVSBjbV/1744185296357-95f20203-2ddf-4f28-8554-734a66ec1303-753198.png)
 
-
-
 既然已经深入源码解读了 发送消息流程，当然少不了对应的消费流程了。
 
 ### 消费者消费消息流程
-同样的我们也先深入浅出滴思考下 
+
+同样的我们也先深入浅出滴思考下
 
 <font style="color:rgb(255, 0, 1);">物流快递 如何收件？： </font>
 
@@ -890,9 +928,8 @@ b）dq中无producerBatch，返回null，代表没有能追加成功。
 
 4.送货上门 （返回InvokeIfHaveRecords(recods)）
 
+#### 源码解读
 
-
-####  源码解读
 如果直接从初始化的 KafkaConsumer 进入 poll 即可拉取消息 除了网络通信， 没啥可看
 
 所以 首先我们应该已经知道消费者 comsumer 会在一个 group 里面，然后消费一个topic
@@ -976,7 +1013,7 @@ public Object postProcessAfterInitialization(Object bean, String beanName) throw
     
 ```
 
-进入 <font style="color:rgb(243, 50, 50);">processKafListener</font> 方法 可见 设置 endpoint 信息 和 this.<font style="color:rgb(243, 50, 50);">processListener</font>方法 进入可见 <font style="color:rgb(243, 50, 50);">registerEndpoint</font> 方法 。 
+进入 <font style="color:rgb(243, 50, 50);">processKafListener</font> 方法 可见 设置 endpoint 信息 和 this.<font style="color:rgb(243, 50, 50);">processListener</font>方法 进入可见 <font style="color:rgb(243, 50, 50);">registerEndpoint</font> 方法 。
 
 进入 registerEndpoint 方法可见 startImmediately <font style="color:rgb(243, 50, 50);">/ɪˈmiːdiətli/ </font>默认false 所以 将信息add 到 List< KafakaListenerEndpointDescriptor><font style="color:rgb(243, 50, 50);">endpointDescriptors List集合中</font>
 
@@ -1033,7 +1070,7 @@ public void registerListenerContainer(KafkaListenerEndpoint endpoint, KafkaListe
 }
 ```
 
-进入 this.<font style="color:rgb(243, 50, 50);">startIfNecessay 实际用的参数的start方法</font> 再进入 方法参数 <font style="color:rgb(243, 50, 50);">MessageListenerContainer</font> 接口的实现类 <font style="color:rgb(243, 50, 50);">AbstractMessageListenerContainer</font> 的 <font style="color:rgb(243, 50, 50);">start</font> 方法 
+进入 this.<font style="color:rgb(243, 50, 50);">startIfNecessay 实际用的参数的start方法</font> 再进入 方法参数 <font style="color:rgb(243, 50, 50);">MessageListenerContainer</font> 接口的实现类 <font style="color:rgb(243, 50, 50);">AbstractMessageListenerContainer</font> 的 <font style="color:rgb(243, 50, 50);">start</font> 方法
 
 发现是一个<font style="color:rgb(243, 50, 50);">abstract的 doStart 方法</font> ，说明实现是交给它的子类去实现
 
@@ -1116,7 +1153,7 @@ public void run() {
 }
 ```
 
-进入 <font style="color:rgb(243, 50, 50);">pollAdnInvoke</font> 方法 最后 <font style="color:rgb(243, 50, 50);">invokeIfHaveRecords</font> > <font style="color:rgb(243, 50, 50);">invokeListener</font>(records) > 判断是否批量消费 invokeBatchListener / invokeRecordListener 
+进入 <font style="color:rgb(243, 50, 50);">pollAdnInvoke</font> 方法 最后 <font style="color:rgb(243, 50, 50);">invokeIfHaveRecords</font> > <font style="color:rgb(243, 50, 50);">invokeListener</font>(records) > 判断是否批量消费 invokeBatchListener / invokeRecordListener
 
 可以配置参数：<font style="color:rgb(255, 0, 1);">concurrency</font> 控制listener 的线程数量 ，并发开关可以通过batchListener = true 开启 配合<font style="color:rgb(255, 0, 1);">max_poll_records_config</font>=50 多少条一次poll返回 也可以配置间隔时间<font style="color:rgb(255, 0, 1);">tnterval.ms</font> 间隔多久poll一次 最多多少条
 
@@ -1131,13 +1168,13 @@ public void run() {
 
  是否开启事务模板 invokeRecordListenerInTx 和 doInvokeWithRecords
 
- 默认 > doInvokeRecordListener > invokeOnMessage > doInvokeOnMessage 
+ 默认 > doInvokeRecordListener > invokeOnMessage > doInvokeOnMessage
 
 四种type 类型的listener . 提供不同的接口处理
 
- 1。 Simple 不考虑提交偏移量和consumer对象 ； 
+ 1。 Simple 不考虑提交偏移量和consumer对象 ；
 
-2。Acknowledgine 需要手动提交时 而不是自动提交或者 spring-kafka自己实现提交方式时，需要如下接口中acknowledment 的 acknowlegge()方法提交偏移量 
+2。Acknowledgine 需要手动提交时 而不是自动提交或者 spring-kafka自己实现提交方式时，需要如下接口中acknowledment 的 acknowlegge()方法提交偏移量
 
 3.consumer_aware 类似SpringIOC的 ApplicationContextAware功能，如果消费消息时，需要用consumer对象，则使用这个类型
 
@@ -1147,28 +1184,27 @@ public void run() {
 
 最终   > onMessage 返回消息
 
-#### 总结一下：
-1.入口<font style="color:rgb(243, 50, 50);">KafkaListenerAnnotationBeanPostProcessor</font>，实现了 BeanPostProcessor等接口，所以Bean加载完后会进入<font style="color:rgb(243, 50, 50);">postProcessAfterInitialization</font>方法 
+#### 总结一下
+
+1.入口<font style="color:rgb(243, 50, 50);">KafkaListenerAnnotationBeanPostProcessor</font>，实现了 BeanPostProcessor等接口，所以Bean加载完后会进入<font style="color:rgb(243, 50, 50);">postProcessAfterInitialization</font>方法
 
 2.找到有@KafkaListener注解的类或者方法，并且将注解的信息封装成MethodKafkaListenerEndpoint 进入processListener中registerEndpoint方法，将数据封装到 <font style="color:rgb(243, 50, 50);">KafkaListenerEndpointDescriptor</font>，并且添加到List
 
-3.KafkaListenerAnnotationBeanPostProcessor 实现了SmartInitializingSingleton，在当所有单例 bean 都初始化完成以后，会调 用<font style="color:rgb(243, 50, 50);">afterSingletonsInstantiated</font>方法 
+3.KafkaListenerAnnotationBeanPostProcessor 实现了SmartInitializingSingleton，在当所有单例 bean 都初始化完成以后，会调 用<font style="color:rgb(243, 50, 50);">afterSingletonsInstantiated</font>方法
 
-4.在afterSingletonsInstantiated方法中调用 <font style="color:rgb(243, 50, 50);">registerListenerContainer</font>方法，将消费者信息封装到 listenerContainers中 
+4.在afterSingletonsInstantiated方法中调用 <font style="color:rgb(243, 50, 50);">registerListenerContainer</font>方法，将消费者信息封装到 listenerContainers中
 
-5.KafkaListenerEndpointRegistry类实现了SmartLifecycle接口，所以会容器<font style="color:rgb(243, 50, 50);">启动调用start</font>方法 8.进入AbstractMessageListenerContainer的start方法 发现静态方法交给子类实现 
+5.KafkaListenerEndpointRegistry类实现了SmartLifecycle接口，所以会容器<font style="color:rgb(243, 50, 50);">启动调用start</font>方法 8.进入AbstractMessageListenerContainer的start方法 发现静态方法交给子类实现
 
-6.进入<font style="color:rgb(243, 50, 50);">KafkaMessageListenerContainer</font>的<font style="color:rgb(243, 50, 50);">doStart</font>方法 
+6.进入<font style="color:rgb(243, 50, 50);">KafkaMessageListenerContainer</font>的<font style="color:rgb(243, 50, 50);">doStart</font>方法
 
-7.<font style="color:rgb(243, 50, 50);">实例化一个listenerConsumer</font>，listenerConsumer实现了<font style="color:rgb(243, 50, 50);">SchedulingAwareRunnable</font>。SchedulingAwareRunnable继承了runnable，并将<font style="color:rgb(243, 50, 50);">listenerConsumer添加至线程池</font> 
+7.<font style="color:rgb(243, 50, 50);">实例化一个listenerConsumer</font>，listenerConsumer实现了<font style="color:rgb(243, 50, 50);">SchedulingAwareRunnable</font>。SchedulingAwareRunnable继承了runnable，并将<font style="color:rgb(243, 50, 50);">listenerConsumer添加至线程池</font>
 
 8.进入listenerConsumer的run方法，循环调用<font style="color:rgb(243, 50, 50);">this.pollAndInvoke();</font>
 
 9.pollAndInvoke中调用<font style="color:rgb(243, 50, 50);">this.doPoll()；获取信息</font>
 
 最后再给你们**上个图**吧。（图太大，看关键部分吧）
-
-
 
 ![1744185843125-f1cb6dc6-25d8-46b7-9d96-3f0ae0c33fda.png](./img/Ik4qNZwqdCVSBjbV/1744185843125-f1cb6dc6-25d8-46b7-9d96-3f0ae0c33fda-485459.png)
 
@@ -1191,4 +1227,3 @@ public void run() {
 <font style="color:rgb(0, 0, 0);background-color:rgb(248, 249, 250);">实际IO操作在</font><font style="color:rgb(255, 0, 1);background-color:rgb(248, 249, 250);">Channel.write / read</font>
 
 <font style="color:rgb(255, 0, 1);background-color:rgb(248, 249, 250);">实际底层 发送的是包装Channel的 NetworkSend</font>
-

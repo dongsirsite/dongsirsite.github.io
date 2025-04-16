@@ -10,4 +10,3 @@
 6. **<font style="background-color:rgb(247, 247, 248);">返回结果</font>**<font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">：数据库执行查询后，将结果返回给Sharding-JDBC，然后Sharding-JDBC将结果返回给应用程序。</font>
 
 <font style="color:rgb(55, 65, 81);background-color:rgb(247, 247, 248);">ShardingSphere的读写分离实现主要依赖于SQL解析和读写分离规则。通过解析SQL语句，它能够识别查询类型并将其路由到适当的数据库数据源。这使得应用程序可以实现自动的读写分离，从而提高了系统性能和负载均衡。开发人员只需配置好数据源和读写分离规则，ShardingSphere会自动处理剩下的工作。具体的配置方式，根据 ShardingSphere 版本不同会略有不同。</font>
-

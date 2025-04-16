@@ -7,13 +7,17 @@
 上面这位学员简历的项目二没突出亮点和难点，投出去面试机会可能不多，经过和老师沟通后，着重优化了第二个项目《Sun-Club程序员社区》，优化如下：
 
 ### <font style="color:rgba(6, 8, 31, 0.88);">项目名称：</font><font style="color:rgb(6, 6, 7);">Sun-Club程序员社区</font>
+
 #### <font style="color:rgba(6, 8, 31, 0.88);">项目描述：</font>
+
 <font style="color:rgb(6, 6, 7);">Sun-Club程序员社区是一个专为程序员设计的在线学习平台，</font><font style="color:rgba(6, 8, 31, 0.88);">目前注册用户规模10000+，日均活跃用户1000+。</font><font style="color:rgb(6, 6, 7);">它利用微服务架构和领域驱动设计（DDD）思想，实现了一个高效的题库管理系统和智能化的面试训练平台。该项目集成了Spring Boot、Spring Cloud Alibaba等先进技术，提供了统一认证、权限管理以及动态题目处理等核心功能，旨在通过优化学习资源和训练流程，提升程序员的技能和面试准备效率。</font>
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">技术栈与工具：</font>
+
 <font style="color:rgb(6, 6, 7);">Spring Boot, Spring Cloud Alibaba, MyBatis-Plus</font><font style="color:rgba(6, 8, 31, 0.88);"> + MySQL + Redis + kafka + Sa-Token</font>
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">核心亮点：</font>
+
 1. **<font style="color:rgb(6, 6, 7);">高效的题库管理系统</font>**
     - **<font style="color:rgb(6, 6, 7);">技术架构</font>**<font style="color:rgb(6, 6, 7);">：采用Spring Boot, Spring Cloud Alibaba, MyBatis-Plus等技术栈，构建了一个高效的题库管理系统。</font>
     - **<font style="color:rgb(6, 6, 7);">领域驱动设计（DDD）</font>**<font style="color:rgb(6, 6, 7);">：通过领域驱动设计优化题目和鉴权模块，增强了系统的独立性和灵活性，便于未来扩展。</font>
@@ -35,6 +39,7 @@
     - **<font style="color:rgb(6, 6, 7);">数据加密</font>**<font style="color:rgb(6, 6, 7);">：实现敏感数据加密存储和传输机制，保护用户数据安全。</font>
 
 #### <font style="color:rgba(6, 8, 31, 0.88);">技术难点及解决方案：</font>
+
 1. **文档处理性能优化：**
     - 设计基于MinIO的分布式文件存储方案，支持PB级文档存储
     - 实现文档断点续传和秒传功能，提升10倍传输效率
@@ -56,15 +61,6 @@
 
     - <font style="color:rgb(6, 6, 7);">解决方案：避免过度的线程同步，减少锁竞争；检查并解决死锁问题，以提高程序执行效率</font>
 
-
-
 <font style="color:rgba(6, 8, 31, 0.88);">这样的包装既突出了技术深度，又结合了具体的业务场景，面试时可以重点展开这些亮点，并准备具体的技术方案和数据支撑。每个点都可以深入展开讨论，展现你的技术实力和解决问题的能力。</font>
 
 <font style="color:rgba(6, 8, 31, 0.88);">面试问答可参看OA项目中的文件处理，和保险分销并发处理等。</font>
-
-
-
-
-
-
-
