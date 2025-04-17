@@ -16,7 +16,7 @@ top
 
 2. **获取线程信息**
 
-使用top -Hp <PID>命令查看该进程内各个线程的CPU占用情况：
+使用`top -Hp <PID>`命令查看该进程内各个线程的CPU占用情况：
 
 ```plain
 top -Hp <PID>
