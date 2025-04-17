@@ -7,7 +7,7 @@ deepseek最近非常火，有时很卡顿，用不了，**那么本地部署的�
 **🚀****十分钟搞定！Windows电脑玩转DeepSeek本地部署**
 
 **🌈****步骤一：安装灵魂工具Ollama**  
-▌官网下载直通车：👉` <https://ollama.com> ` 
+▌官网下载直通车：👉` <https://ollama.com> `
 
 ![1738743300127-433b94b7-4509-4f69-bb6f-f7ebb5d66b53.png](./img/j7bFAx6rfeXrZshZ/1738743300127-433b94b7-4509-4f69-bb6f-f7ebb5d66b53-584004.png)
 

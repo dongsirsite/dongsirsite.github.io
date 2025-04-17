@@ -43,6 +43,7 @@ Redis中的内存淘汰策略用于在内存不足时选择要淘汰的键，以
 ![1737699410027-41f0c757-2340-4ae0-b014-e06007b48c7f.png](./img/bAomvefbwUC-f7oy/1737699410027-41f0c757-2340-4ae0-b014-e06007b48c7f-664825.png)
 
 最后再给大家详细分析源码部分
+
 ```
 首先再 server.h redisObject {  
 
@@ -95,7 +96,7 @@ if(server.lru >= redisObject.lru){
 
 源码实现： evict.c evictionPoolPopulate方法
 
-判断LRU 进入 estimateObjectIdleTime 方法 
+判断LRU 进入 estimateObjectIdleTime 方法
 
 跟上面讲的对应上
 
