@@ -6,9 +6,9 @@
 
 目前，千问QwQ-32B已在魔搭社区、HuggingFace及GitHub等平台基于宽松的Apache2.0协议开源，所有人都可免费下载模型进行本地部署，或者通过阿里云百炼平台直接调用模型API服务。  
 具体链接如下：  
-• `<https://huggingface.co/Qwen/QwQ-32B>  `
-• ` <https://modelscope.cn/models/Qwen/QwQ-32B>  `
-• `<https://ollama.com/library/qwq> ` 
+• `<https://huggingface.co/Qwen/QwQ-32B>`
+• `<https://modelscope.cn/models/Qwen/QwQ-32B>`
+• `<https://ollama.com/library/qwq>`
   
 **如何实现本地部署QwQ-32B**  
 如果想要快速本地部署尝试，可以借助Ollama快速部署  
@@ -20,7 +20,7 @@
 
 **Spring AI Alibaba集成QwQ-32B实战**  
 **通过阿里云百炼平台直接调用模型API服务**  
-`<https://bailian.console.aliyun.com/#/model-market>  `
+`<https://bailian.console.aliyun.com/#/model-market>`
 
 ![1741243474642-93f829f7-d674-4204-9c4f-078d54b2697a.webp](./img/FQpOeO-cawT8XZ-K/1741243474642-93f829f7-d674-4204-9c4f-078d54b2697a-552645.webp)
 

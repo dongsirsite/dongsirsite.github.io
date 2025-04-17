@@ -394,7 +394,7 @@ protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 
 ---
 
-##### **步骤3：创建Bean A（**`**createBean**`******→**** **`**doCreateBean**`**）**
+##### **步骤3：创建Bean A（**`**createBean**`******→******`**doCreateBean**`**）**
 
 若缓存中无Bean A，进入创建流程：
 

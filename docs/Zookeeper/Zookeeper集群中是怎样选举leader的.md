@@ -1,6 +1,6 @@
 # Zookeeper 集群中是怎样选举leader的
 
-## zookeeper集群中服务器被划分为以下四种状态：
+## zookeeper集群中服务器被划分为以下四种状态
 
 + LOOKING：寻找Leader状态。**处于该状态的服务器会认为集群中没有Leader，需要进行Leader选举**；
 + FOLLOWING：跟随着状态，说明当前服务器角色为Follower；
@@ -12,17 +12,11 @@
 + 集群启动，这个时候需要选举出新的Leader；
 + Leader服务器宕机；
 
-
-
 ## 第一次启动Leader选举
 
 假设想在的有三台机器搭建集群：
 
-
-
 ![1693810241595-e55a8ad8-b1aa-45a8-9444-077cb201ba85.png](./img/GqJblNIa8sO4xoZP/1693810241595-e55a8ad8-b1aa-45a8-9444-077cb201ba85-797848.png)
-
-
 
 1. **每个Server发出一个投票投给自己**。当server1启动的时候，为Looking状态，对应的myid记为1，ZXID为0，他先投自己一票，此时他的投票为(1,0);然后需要把自己的选票发给集群中的其他机器。
 2. server2这个时候也启动了，也是Looking状态，也先投自己一票，也就是(2,0)，然后需要把自己的选票发给集群中的其他机器。
@@ -39,13 +33,9 @@
 
 3. 这个时候Server3启动了， 发现集群中已经有了Leader，就建立连接并把自己的状态置为Following。  
 
-
 ## 非第一次启动Leader选举
 
 ![1693810240917-33b74676-8224-4a21-8589-20be50958c8d.webp](./img/GqJblNIa8sO4xoZP/1693810240917-33b74676-8224-4a21-8589-20be50958c8d-379788.webp)
-
-  
-
 
 在zookeeper运行期间，即便有新服务器加入，也不会影响到Leader，**新加入的服务器会将原有的Leader服务器视为Leader，进行同步。但是一旦Leader宕机了，那么整个集群就将暂停对外服务，进行新一轮Leader的选举**，其过程和启动时期的Leader选举过程基本一致。假设正在运行的有Server1、Server2、Server3三台服务器，当前Leader是Server2，若某一时刻Leader挂了，此时便开始Leader选举。这里我们假设server3为原本的Leader，其余四台均为Follower，某一时刻server3和server5都宕机了，那么选举过程如下：
 

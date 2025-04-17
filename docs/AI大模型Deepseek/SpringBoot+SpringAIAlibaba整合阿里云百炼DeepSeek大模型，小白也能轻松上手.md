@@ -8,15 +8,12 @@ Spring 官方开源了 Spring AI 框架，用来简化 Spring 开发者开发智
 
 [官网卡顿怎么办？亲测有效！6种DeepSeek-R1满血模型替代方案分享](https://mp.weixin.qq.com/s?__biz=MzU1ODk1NTQ0Mg==&mid=2247485221&idx=1&sn=18f2cfc6b1fcf9ac39fa171e99ae964a&scene=21#wechat_redirect)
 
-https://bailian.console.aliyun.com/#/model-market
+`<https://bailian.console.aliyun.com/#/model-market>`
 
 其中 deepseek-r1 与 deepseek-v3 分别有 100  
 万的免费 Token，部分蒸馏模型限时免费体验。
 
 ![1740312879960-d3cdc00c-522c-44de-bf9c-96a51378fed3.webp](./img/tBCSlVg7zhOV6uHr/1740312879960-d3cdc00c-522c-44de-bf9c-96a51378fed3-966814.webp)
-
-  
-
 
 **SpringBoot接入deepseek实战**
 
@@ -135,7 +132,7 @@ https://bailian.console.aliyun.com/#/model-market
 </project>
 ```
 
-**2.配置 **`**application.yml**`** **
+**2.配置 **`**application.yml**`****
 
 指定 API-KEY（可通过访问阿里云百炼模型服务平台获取，有免费额度可用）
 
@@ -180,11 +177,11 @@ public class ChatController {
 
 + 全局默认值，即 `ChatClient` 实例初始化参数
 
-可以在 `application.yml` 文件中指定 
+可以在 `application.yml` 文件中指定
 
-spring.ai.dashscope.chat.options.* 
+spring.ai.dashscope.chat.options.*
 
-或调用构造函数 
+或调用构造函数
 
 ChatClient.Builder.defaultOptions(options)完成配置初始化。
 

@@ -60,7 +60,7 @@
 
 ![1738824890811-d161fc98-5612-49b1-bd9d-fa4a49858329.png](./img/IZgVRkEqdbsTeaL-/1738824890811-d161fc98-5612-49b1-bd9d-fa4a49858329-317818.png)
 
-参考配置文档`<https://api-docs.deepseek.com/zh-cn/> `  **将模型改为 R1 模型**
+参考配置文档`<https://api-docs.deepseek.com/zh-cn/>`  **将模型改为 R1 模型**
 
 ![1738826899911-0deac04f-01f6-43b0-9fd4-9a7d6b1ef789.png](./img/IZgVRkEqdbsTeaL-/1738826899911-0deac04f-01f6-43b0-9fd4-9a7d6b1ef789-299650.png)
 
@@ -74,7 +74,7 @@
 
 FIM template：选择**DeepSeek Coder**
 
-URL：填入 **https://api.deepseek.com/beta/completions**  
+URL：填入 **`<https://api.deepseek.com/beta/completions>`**  
 ![1738824249253-bbb999e6-a7e7-40bf-9b26-c0804025acba.png](./img/IZgVRkEqdbsTeaL-/1738824249253-bbb999e6-a7e7-40bf-9b26-c0804025acba-512729.png)
 
 参考配置文档[https://api-docs.deepseek.com/zh-cn/guides/chat_prefix_completion](https://api-docs.deepseek.com/zh-cn/guides/chat_prefix_completion)   **将模型改为 R1 模型**

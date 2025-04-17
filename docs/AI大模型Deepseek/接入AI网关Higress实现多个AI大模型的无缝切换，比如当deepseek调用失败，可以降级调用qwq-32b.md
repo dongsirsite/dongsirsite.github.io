@@ -52,8 +52,6 @@ curl -sS https://higress.cn/ai-gateway/install.sh | bash
 
 ![1741763823855-cc658a01-39c1-4cef-aed8-00f3daa74870.png](./img/0L-CuNkt1mXzFGRf/1741763823855-cc658a01-39c1-4cef-aed8-00f3daa74870-551185.png)
 
-
-
 ### 3.测试示例
 
 统一访问Higress网关地址即可，可以通过设置model进行模型的切换

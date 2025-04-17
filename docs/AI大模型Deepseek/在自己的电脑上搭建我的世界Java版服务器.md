@@ -66,6 +66,3 @@ server.properties文件如何配置呢？
 大家感兴趣可以看看Minecraft的Wiki：[https://minecraft.fandom.com/zh/wiki/Server.properties?variant=zh](https://minecraft.fandom.com/zh/wiki/Server.properties?variant=zh)
 
 修改后，记得重启MC服务器!!!  
-
-  
-

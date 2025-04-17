@@ -29,7 +29,7 @@
 
 在部署之前大家还需要准备 docker + MySQL 环境，本次演示 docker 采用 Windows 桌面端，MySQL 版本为 8.0 并运行在宿主机，非服务器，非 docker。
 
-如果大家不了解 MySQL，可以参考该链接，包教包会：https://www.yuque.com/tulingzhouyu/db22bv/bkgyx9eokguvv3tm?singleDoc# 《👍 一小时快速入门MySQL+傻瓜式安装教程》 
+如果大家不了解 MySQL，可以参考该链接，包教包会：`<https://www.yuque.com/tulingzhouyu/db22bv/bkgyx9eokguvv3tm?singleDoc#>` 《👍 一小时快速入门MySQL+傻瓜式安装教程》
 
 ### 部署Ollama并加载模型
 
@@ -47,7 +47,7 @@
 
 #### 使用Ollama部署大模型
 
-Ollama安装完毕后，还需要继续下载大模型，支持的大模型可以在Ollama官网找到：https://ollama.com/library。
+Ollama安装完毕后，还需要继续下载大模型，支持的大模型可以在Ollama官网找到：`<https://ollama.com/library。>`
 
 Ollama默认没有提供WEB界面，需要通过命令行来使用。
 
@@ -113,7 +113,7 @@ http://host.docker.internal:11434
 
 - 配置硅基流动模型
 
-如果大家没有使用过硅基流动，参考这个链接，包教包会：https://www.yuque.com/tulingzhouyu/db22bv/mhxbg9dqfhfms5qz?singleDoc# 《2分钟解决 DeepSeek 服务器繁忙问题》
+如果大家没有使用过硅基流动，参考这个链接，包教包会：`<https://www.yuque.com/tulingzhouyu/db22bv/mhxbg9dqfhfms5qz?singleDoc#>` 《2分钟解决 DeepSeek 服务器繁忙问题》
 
 ```powershell
 -- 模型重定向，由于sqlchat不支持选择模型，所以使用 3.5 跳转自己定义的模型，后面部署了sqlchat ，查看界面，大家就明白了

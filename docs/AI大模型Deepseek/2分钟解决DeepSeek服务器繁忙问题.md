@@ -33,7 +33,7 @@
 
 # 二. 下载Chatbox AI
 
-打开网址  https://chatboxai.app/zh#download
+打开网址  `<https://chatboxai.app/zh#download>`
 
 ![1738740897648-6d753ac7-456a-4b35-a14f-4dd32fb7a41e.png](./img/09GV11qRjPED-JZ-/1738740897648-6d753ac7-456a-4b35-a14f-4dd32fb7a41e-311880.png)
 
