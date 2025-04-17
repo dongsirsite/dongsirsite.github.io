@@ -84,7 +84,11 @@ dp[i] = min(dp[i], dp[i-num]+1)dp[i] = max(dp[i], dp[i-num]+1)
 
 **「资源消耗」**第 93 题 复原IP
 
-资源消耗def backtrack(i, tmp, flag):  if i == n and flag == 0:    res.append(tmp[:-1])  elif i<n and s[i] == '0':    backtrack(i + 1, tmp + s[i] + ".", flag - 1)  elif flag :    for j in range(i, min(n,i + 3)):      if 0 < int(s[i:j + 1]) <= 255:        backtrack(j + 1, tmp + s[i:j + 1] + ".", flag - 1)
+资源消耗
+
+```
+def backtrack(i, tmp, flag):  if i == n and flag == 0:    res.append(tmp[:-1])  elif i<n and s[i] == '0':    backtrack(i + 1, tmp + s[i] + ".", flag - 1)  elif flag :    for j in range(i, min(n,i + 3)):      if 0 < int(s[i:j + 1]) <= 255:        backtrack(j + 1, tmp + s[i:j + 1] + ".", flag - 1)
+```
 
 **「资源消耗」**第 17 题 电话号码
 
@@ -147,11 +151,15 @@ dp[i] = min(dp[i], dp[i-num]+1)dp[i] = max(dp[i], dp[i-num]+1)
 
 【二分模板】
 
+```
 # 1355579 T=5 => 13(5)55579 返回2# ps[i-1] < ps[i] <= ps[i+1]bisect.bisect_left(ps, T, L=0, R=len(ns))  # 1355579 T=5 => 13555(5)79 返回5# ps[i-1] <= ps[i] < ps[i+1]bisect.bisect_right(ps, T, L=0, R=len(ns))  bisect.bisect(ps, T, L=0, R=len(ns))
+```
 
 **「中位返回」**第 33 题 搜索旋转排序数组 | 第374题 猜数字大小 | 第69题 x平方根
 
+```
 # 中位返回while L <= R:    M = (L + R) // 2    if nums[M] == T:        return M    elif nums[M] < T:        L = M + 1    else:        R = M - 1
+```
 
 **「区域压缩」**第278题 第一个错误版本| 第162题 寻找峰值 | 第153题 寻找数组最小值
 
@@ -201,13 +209,13 @@ dp[i] = min(dp[i], dp[i-num]+1)dp[i] = max(dp[i], dp[i-num]+1)
 
 **「区间分治动态规划」**
 
-486 预测赢家：<https://leetcode-cn.com/problems/predict-the-winner/?spm=ata.21736010.0.0.49ae7ec0sfNWbz>
+486 预测赢家：`<https://leetcode-cn.com/problems/predict-the-winner/?spm=ata.21736010.0.0.49ae7ec0sfNWbz>`
 
-312 戳气球：<https://ata.atatech.org/articles/***https://leetcode-cn.com/problems/burst-balloons/***?spm=ata.21736010.0.0.49ae7ec0sfNWbz>
+312 戳气球：`<https://ata.atatech.org/articles/***https://leetcode-cn.com/problems/burst-balloons/***?spm=ata.21736010.0.0.49ae7ec0sfNWbz>`
 
-664 奇怪的打印机：<https://ata.atatech.org/articles/***https://leetcode-cn.com/problems/strange-printer/***?spm=ata.21736010.0.0.49ae7ec0sfNWbz>
+664 奇怪的打印机：`<https://ata.atatech.org/articles/***https://leetcode-cn.com/problems/strange-printer/***?spm=ata.21736010.0.0.49ae7ec0sfNWbz>`
 
-546 移除盒子：<https://ata.atatech.org/articles/***https://leetcode-cn.com/problems/remove-boxes/***?spm=ata.21736010.0.0.49ae7ec0sfNWbz>
+546 移除盒子：`<https://ata.atatech.org/articles/***https://leetcode-cn.com/problems/remove-boxes/***?spm=ata.21736010.0.0.49ae7ec0sfNWbz>`
 
 ```plain
 # 区间分治动态规划def helper(self, ns: List[int]) :    N = len(ns)    dp = [[0] * N for _ in range(N+1)]    for l in range(N): # 长度从小到大        for i in range(N-l): # 以 i 为 开头            j = i + l           # 以 j 为 终点            for k in range(i,j): # 以 k 为分割点，进行分治                         // Todo 业务逻辑
@@ -233,32 +241,32 @@ dp[i] = min(dp[i], dp[i-num]+1)dp[i] = max(dp[i], dp[i-num]+1)
 525 最长相等01子数组
 
 325 最长和为k 子数组
-
+```
 # 前缀和初始化psd = {0: -1}  for i in range(len(s)):    t ^= cd.get(s[i], 0) # 业务逻辑    if t not in psd:        psd[t] = i       # 第一次存入数组    else:        ans = max(ans, i - psd[t]) #已存入则开始计算
-
+```
 **「累加和存数量」**
 
 560 和为K的子数组数量
 
 统计优美子数组
-
+```
 # 累加和存数量psd = {0:1}for i in range(len(ns)):    s += ns[i]    if s - T in psd:        ans += psd[s - T] # 存数量    psd[s] = psd.get(s,0) + 1
-
+```
 **「模K状态前缀和」**
 
 523 连续和为 k 倍 的子数组（存索引）
 
 974 和被k 整除 子数组数量（存数量）
-
+```
 # 模K状态前缀和psd = {0:-1}ans = s = 0for i in range(len(ns)):    s += ns[i]                # 业务逻辑    if T != 0: s %= abs(T)    # 模k状态做key，索引做值    if s not in psd:        psd[s] = i    elif i - psd[s] > 1:        return True
-
+```
 **「矩阵前缀和」**
 
 + 363 不超过K的最大数值和
 + 1074 和为目标值的子矩阵数量
-
+```
 # 矩阵前缀和for i in range(m):        #固定左边界    ps = [0] * n    for j in range(i, m): #固定右边界        psS = 0            dct = {0:1}       #初始只有一种可能        for k in range(n): # 以高做前缀和            ps[k] += mtx[j][k]          # 每行前缀和            psS += ps[k]                # n行前缀和            cnt += dct.get(psS - T, 0)  # 满足条件cnt            dct[psS] = dct.get(psS,0) + 1 # 保存当前状态return cnt
-
+```
 【双指针】
 
 # 双指针def removeElement(self, ns: List[int], val: int) -> int:    slow = 0    n = len(ns)    for fast in range(n):        if ns[fast] != val:            ns[slow] = ns[fast]            slow += 1    return slow

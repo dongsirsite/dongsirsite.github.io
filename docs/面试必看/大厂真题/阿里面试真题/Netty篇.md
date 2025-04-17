@@ -341,7 +341,7 @@ Entry 继承自弱引用类 WeakReference，Entry 的 key 是弱引用，value �
 
 FastThreadLocal
 
-FastThreadLocal 使用 Object 数组替代了 Entry 数组，Object[0] 存储的是一个Set<FastThreadLocal<?>> 集合，从数组下标 1 开始都是直接存储的 value 数据，不再采用 ThreadLocal 的键值对形式进行存储。主要是针对set方法，增加了两个额外的行为。
+FastThreadLocal 使用 Object 数组替代了 Entry 数组，Object[0] 存储的是一个`Set<FastThreadLocal<?>>` 集合，从数组下标 1 开始都是直接存储的 value 数据，不再采用 ThreadLocal 的键值对形式进行存储。主要是针对set方法，增加了两个额外的行为。
 
 1. 找到数组下标 index 位置，设置新的 value。
 2. 将 **FastThreadLocal 对象保存到待清理的 Set 中**。
@@ -383,7 +383,7 @@ Timer小根堆队列，deadline 任务位于堆顶端，弹出的始终是最优
 DelayedQueue 采用优先级队列 PriorityQueue延迟获取对象的阻塞队列。DelayQueue中的每个对象都必须实现Delayed 接口，并重写 compareTo 和 getDelay 方法。
 ```
 
-DelayQueue 提供了 put() 和 take() 的阻塞方法，可以向队列中添加对象和取出对象。对象被添加到 DelayQueue 后，会根据 compareTo() 方法进行优先级排序。getDelay() 方法用于计算消息延迟的剩余时间，只有 getDelay <=0 时，该对象才能从 DelayQueue 中取出。
+DelayQueue 提供了 put() 和 take() 的阻塞方法，可以向队列中添加对象和取出对象。对象被添加到 DelayQueue 后，会根据 compareTo() 方法进行优先级排序。getDelay() 方法用于计算消息延迟的剩余时间，只有 `getDelay <=0` 时，该对象才能从 DelayQueue 中取出。
 
 DelayQueue 在日常开发中最常用的场景就是实现重试机制。例如，接口调用失败或者请求超时后，可以将当前请求对象放入 DelayQueue，通过一个异步线程 take() 取出对象然后继续进行重试。如果还是请求失败，继续放回 DelayQueue。可以设置重试的最大次数以及采用指数退避算法设置对象的 deadline，如 2s、4s、8s、16s ……以此类推。DelayQueue的时间复杂度和Timer基本一致。
 

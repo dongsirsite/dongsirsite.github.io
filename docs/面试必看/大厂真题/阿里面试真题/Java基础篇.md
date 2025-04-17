@@ -92,7 +92,7 @@ final修饰类时，表明这个类不能被继承。final类中的所有成员�
 
 #### 5、泛型以及泛型擦除
 
-参考：<https://blog.csdn.net/baoyinwang/article/details/107341997>
+参考：`<https://blog.csdn.net/baoyinwang/article/details/107341997>`
 
 **泛型：**
 
@@ -225,7 +225,7 @@ fail-fast主要是体现在当我们在遍历集合元素的时候，经常会�
 
 **角度：**数据结构+扩容情况+put查找的详细过程+哈希函数+容量为什么始终都是2^N，JDK1.7与1.8的区别。
 
-参考：<https://www.jianshu.com/p/9fe4cb316c05>
+参考：`<https://www.jianshu.com/p/9fe4cb316c05>`
 
 **数据结构：**
 
