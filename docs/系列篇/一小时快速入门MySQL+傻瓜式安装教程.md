@@ -204,7 +204,7 @@ mysql> flush privileges;
 
 至此 MySQL8.0 的安装完成，远程登录也搞定（就是步骤 4.15）。
 
-需要注意通过这种方式安装的 MySQL，并没有加载 my.cnf 这个配置文件，修改方式点击这个[链接](<https://www.yuque.com/tulingzhouyu/db22bv/ugdfg4q0ccqo0r28?singleDoc#> 《👍 一小时快速入门数据同步神器-Canal》 密码：ilps)，参考第四章节
+需要注意通过这种方式安装的 MySQL，并没有加载 my.cnf 这个配置文件，修改方式点击这个[链接](`<https://www.yuque.com/tulingzhouyu/db22bv/ugdfg4q0ccqo0r28?singleDoc#>` 《👍 一小时快速入门数据同步神器-Canal》 密码：ilps)，参考第四章节
 
 ## 5.HeidiSQL
 

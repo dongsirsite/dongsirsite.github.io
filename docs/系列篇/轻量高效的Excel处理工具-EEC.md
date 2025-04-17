@@ -2105,9 +2105,9 @@ new Workbook()
 | --- | --- | --- |
 | FREEZE | 冻结窗格 | Dimension |
 | STYLE_DESIGN | 运态样式 | StyleProcessor |
-| MERGE_CELLS | 合并单元格 | List<Dimension> |
+| MERGE_CELLS | 合并单元格 | `List<Dimension>` |
 | AUTO_FILTER | 筛选 | Dimension |
-| DATA_VALIDATION | 数据验证 | List<Validation> |
+| DATA_VALIDATION | 数据验证 | `List<Validation>` |
 | ZOOM_SCALE | 缩放 | Integer |
 
 ### 可能出现的几种异常

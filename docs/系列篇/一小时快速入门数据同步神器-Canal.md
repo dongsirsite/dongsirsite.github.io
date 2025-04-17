@@ -78,7 +78,7 @@ MySQL Binlog 的格式有三种，分别是 STATEMENT,MIXED,ROW。在配置文�
 
 ## 数据同步
 
-Canal 可以帮助用户进行多种数据同步操作，如实时同步 MySQL 数据到 Elasticsearch、Redis 等数据存储介质中。![](images/image-20230509125645254.png)
+Canal 可以帮助用户进行多种数据同步操作，如实时同步 MySQL 数据到 Elasticsearch、Redis 等数据存储介质中。
 
 ![1721224286403-e7d7ff73-ab3e-40eb-ace3-e85b036579d4.png](./img/bVPs796BjEMbVN29/1721224286403-e7d7ff73-ab3e-40eb-ace3-e85b036579d4-106427.png)
 
@@ -116,7 +116,7 @@ Canal 可以协助完成 MySQL 数据库的版本升级及数据迁移任务。
 
 ## MySQL 配置
 
-首先我们需要一个 MySQL 的服务，如果没有 MySQL 服务，可以看下这个教程[入门+安装+面试题](<https://www.yuque.com/tulingzhouyu/db22bv/bkgyx9eokguvv3tm?singleDoc#> 《一小时快速入门MySQL》 密码：yk3o)
+首先我们需要一个 MySQL 的服务，如果没有 MySQL 服务，可以看下这个教程[入门+安装+面试题](`<https://www.yuque.com/tulingzhouyu/db22bv/bkgyx9eokguvv3tm?singleDoc#>` 《一小时快速入门MySQL》 密码：yk3o)
 
 当前的 canal 支持 MySQL 版本包括 5.1.x , 5.5.x , 5.6.x , 5.7.x , 8.0.x
 
