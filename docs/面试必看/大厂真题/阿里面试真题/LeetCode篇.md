@@ -104,9 +104,9 @@ def backtrack(i, tmp, flag):  if i == n and flag == 0:    res.append(tmp[:-1])  
 ```
 
 **「递归」**第 10 题 正则匹配
-
+```
 # 递归def isMatch(self, s: str, p: str) -> bool:  if not p:     return not s  f = bool(s and p[0] in {s[0],'.'})  if len(p) >= 2 and p[1] == "*":    return self.isMatch(s, p[2:]) or f and self.isMatch(s[1:], p)  else:    return f and self.isMatch(s[1:], p[1:])
-
+```
 【并查集模板】
 
 ```plain
@@ -314,5 +314,6 @@ def backtrack(i, tmp, flag):  if i == n and flag == 0:    res.append(tmp[:-1])  
 ```
 
 **「Floyd 求图中路径」**
-
+```
 # Floyd算法 求图中任意2点距离ds = defaultdict(int)st = set()for i, (x, y) in enumerate(ess):    ds[(x, y)] = vs[i]    ds[(y, x)] = 1 / vs[i]    st.update({x,y})arr = list(st)for k in arr:    for i in arr:        for j in arr:            if ds[(i, k)] and ds[(k, j)]:                ds[(i, j)] = ds[(i, k)] * ds[(k, j)]
+```

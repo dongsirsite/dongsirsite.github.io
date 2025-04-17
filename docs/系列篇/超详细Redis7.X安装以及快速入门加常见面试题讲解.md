@@ -1956,10 +1956,10 @@ RDB持久化方案进行备份时，Redis会单独fork一个子进程来进行�
     - 配置触发：
 
 在Redis安装目录下的redis.conf配置文件中搜索 /snapshot 即可快速定位，配置文件默认注释了下面三行数据，通过配置规则来触发RDB的持久化，需要开启或者根据自己的需求按照规则来配置。
-
+```
 <details class="lake-collapse"><summary id="u383cf0fb"><span class="ne-text" style="font-size: 24px">配置解释</span></summary><p id="u5e5131a2" class="ne-p"><span class="ne-text" style="font-size: 24px">save 3600 1</span><span class="ne-text" style="font-size: 24px"> -- 3600 秒内有1个key被修改，触发RDB</span></p><p id="u53d96b00" class="ne-p"><span class="ne-text" style="font-size: 24px">save 300 100</span><span class="ne-text" style="font-size: 24px"> -- 300 秒内有100个key被修改，触发RDB</span></p><p id="u89882af4" class="ne-p"><span class="ne-text" style="font-size: 24px">save 60 10000</span><span class="ne-text" style="font-size: 24px"> -- 60 秒内有10000个key被修改，触发RDB</span></p></details>
 ![1716357628204-3c5285da-e442-4029-8c9a-a288c6faf37c.png](./img/6PscNGN3Y6C5nou2/1716357628204-3c5285da-e442-4029-8c9a-a288c6faf37c-290656.png)
-
+```
     - shutdown触发
 
 shutdown触发Redis的RDB持久化机制非常简单，我们在客户端执行shutdown即可![1716361159464-8f140955-d37c-4390-8ca2-2afb823a6ddf.png](./img/6PscNGN3Y6C5nou2/1716361159464-8f140955-d37c-4390-8ca2-2afb823a6ddf-112949.png)

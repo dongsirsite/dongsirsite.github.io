@@ -400,7 +400,7 @@ PATCH  /comments/{id}： 修改评论的部分信息
 DELETE  /comments/{id}： 删除评论
 ```
 
-这里有一点比较特殊，永远使用可以指向资源最短的 URL，也就是说既然 /comments/{id} 可以指向一条评论了，就不要用 /articles/{id}/comments/{id} 特意指出所属文章了。
+这里有一点比较特殊，永远使用可以指向资源最短的 URL，也就是说既然 `/comments/{id}` 可以指向一条评论了，就不要用 `/articles/{id}/comments/{id}` 特意指出所属文章了。
 
 ```plain
 GET  /articles/{id}/like：查看文章是否被点赞
