@@ -1,7 +1,7 @@
 # 短 URL 生成器设计：百亿短 URL 怎样做到无冲突
 
 :::info
-在社交媒体上，人们经常需要分享一些URL，但是有些URL可能会很长，比如：<https://geek.qq.org/hybrid/pvip?utm_source=geek-pc-discover-banner&utm_term=geek-pc-discover-banner>
+在社交媒体上，人们经常需要分享一些URL，但是有些URL可能会很长，比如：`<https://geek.qq.org/hybrid/pvip?utm_source=geek-pc-discover-banner&utm_term=geek-pc-discover-banner>`
 
 这样长的URL显然体验并不友好。我们期望分享的是一些更短、更易于阅读的短URL，比如像 [http://1.cn/ScW4dt](http://1.cn/ScW4dt) 这样的。当用户点击这个短URL的时候，可以重定向访问到原始的链接地址。为此我们将设计开发一个短URL生成器，产品名称是“Fuxi（伏羲）”。
 

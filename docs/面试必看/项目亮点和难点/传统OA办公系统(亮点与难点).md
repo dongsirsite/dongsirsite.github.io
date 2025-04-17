@@ -63,7 +63,7 @@
 + 使用Nginx做负载均衡
 + 采用Redis缓存热点文件元数据
 + MySQL存储文件索引信息
-
+```
 <details class="lake-collapse"><summary id="u0d93fe58"><span class="ne-text" style="font-size: 14px">上面这里文件存储的整体架构很容易被问到，我通过redis和mysql的一些关键存储结构举例说明：</span></summary><p id="u7c73c603" class="ne-p"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">MySQL表结构设计</span></p><pre data-language="sql" id="DDJqA" class="ne-codeblock language-sql"><code>-- 文件信息主表：存储文件的基本信息  
 CREATE TABLE file_info (  
     file_id VARCHAR(32) COMMENT '文件ID，主键',  
@@ -95,6 +95,9 @@ CREATE TABLE file_chunk (
 ) COMMENT '文件分片信息表';  </code></pre><p id="u72f5e463" class="ne-p"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">Redis存热点文件元数据设计</span></p><pre data-language="json" id="YVN9H" class="ne-codeblock language-json"><code>
 # 文件基本信息(Hash结构)  
 key: file:info:`{fileId}`
+```
+
+```
 {  
   fileName: &quot;测试文档.pdf&quot;,  
   fileSize: &quot;1024000&quot;,  
@@ -103,26 +106,31 @@ key: file:info:`{fileId}`
   uploadStatus: &quot;1&quot;,  
   bucketName: &quot;documents&quot;,  
   objectName: &quot;2024/01/测试文档.pdf&quot;  
-}  
+}
+```
 
 # 文件分片上传进度(Hash结构)  
-
+```
 key: upload:{fileId}  
 {  
   chunk:0: &quot;1&quot;,  
   chunk:1: &quot;1&quot;,  
   chunk:2: &quot;1&quot;  
 }  
-
+```
 # 热门文件访问计数(String结构)  
 
 key: file:access:{fileId}  
 value: 访问次数  
 
 # 文件下载URL缓存(String结构)  
-
+```
 key: file:url:{fileId}  
-value: 临时下载URL</code></pre><p id="ue683c082" class="ne-p"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">代码实现示例</span></p><pre data-language="java" id="onTMu" class="ne-codeblock language-java"><code>@Service  
+value: 临时下载URL</code></pre><p id="ue683c082" class="ne-p"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">代码实现示例</span></p><pre data-language="java" id="onTMu" class="ne-codeblock language-java"><code>
+```
+
+```
+@Service  
 public class FileService {  
     @Autowired  
     private RedisTemplate&lt;String, Object&gt; redisTemplate;  
@@ -180,7 +188,11 @@ public class FileService {
         fileChunk.setUploadTime(new Date());  
         fileChunkMapper.insert(fileChunk);  
     }  
-}</code></pre><ol class="ne-ol"><li id="u1abf4881" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">缓存策略说明：</span></li></ol><ul class="ne-ul"><li id="u562bc202" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">热点文件判定：访问次数超过阈值的文件元数据会被缓存</span></li><li id="ub65b3300" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">缓存时间：一般文件信息缓存24小时，上传进度缓存12小时</span></li><li id="u4f70a014" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">更新机制：采用先更新数据库，再更新缓存的策略</span></li><li id="u996e42f6" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">缓存击穿防护：使用互斥锁防止缓存击穿</span></li></ul><ol start="2" class="ne-ol"><li id="uc281c924" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">数据一致性保证：</span></li></ol><ul class="ne-ul"><li id="u43d7cb31" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">采用Cache Aside Pattern模式</span></li><li id="u8891fe38" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">更新时先更新数据库，再删除缓存</span></li><li id="u14c28caa" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">定时任务对比数据库和缓存数据，确保一致性</span></li></ul></details>
+}
+```
+```
+缓存策略说明：热点文件判定：访问次数超过阈值的文件元数据会被缓存</span></li><li id="ub65b3300" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">缓存时间：一般文件信息缓存24小时，上传进度缓存12小时</span></li><li id="u4f70a014" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">更新机制：采用先更新数据库，再更新缓存的策略</span></li><li id="u996e42f6" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">缓存击穿防护：使用互斥锁防止缓存击穿</span></li></ul><ol start="2" class="ne-ol"><li id="uc281c924" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">数据一致性保证：</span></li></ol><ul class="ne-ul"><li id="u43d7cb31" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">采用Cache Aside Pattern模式</span></li><li id="u8891fe38" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">更新时先更新数据库，再删除缓存</span></li><li id="u14c28caa" data-lake-index-type="0"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">定时任务对比数据库和缓存数据，确保一致性</span></li></ul></details>
+```
 3. 存储策略实现
 
 + 文件目录采用分层设计：业务/年/月/日/文件

@@ -20,7 +20,7 @@
 
 例如QQ微博的url.cn，新郎的sinaurl.cn等。
 
-在QQ、微博上发布网址的时候，会自动判别网址，并将其转换，例如：[url.cn/2hytQx](http://xn--url-4m0aa.cn/2hytQx%E2%80%8B%E2%80%8B)
+在QQ、微博上发布网址的时候，会自动判别网址，并将其转换，例如：`[url.cn/2hytQx](http://xn--url-4m0aa.cn/2hytQx%E2%80%8B%E2%80%8B)`
 
 为什么要这样做的，无外乎几点：
 

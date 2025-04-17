@@ -270,8 +270,8 @@ public Integer sum(Integer a, Integer b) {
 
 若无特殊的使用场景，推荐总是使用基本类型。若不得不使用装箱基本类型，注意 == 操作和 NullPointerException 异常。装箱基本类型的使用场景：
 
-+ 作为集合中的元素（e.g. Set<Long>）
-+ 参数化类型（e.g. ThreadLocal<Long>）
++ 作为集合中的元素（e.g. `Set<Long>`）
++ 参数化类型（e.g. `ThreadLocal<Long>`）
 + 反射的方法调用
 
 ### **六  异常**
