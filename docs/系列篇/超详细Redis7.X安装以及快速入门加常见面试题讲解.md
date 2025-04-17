@@ -95,11 +95,11 @@ ll /usr/local/bin
 ```
 
 ![1716282659428-cb236dec-d036-4713-afd8-45eeb6252986.png](./img/6PscNGN3Y6C5nou2/1716282659428-cb236dec-d036-4713-afd8-45eeb6252986-579259.png)
-
+```
 <details class="lake-collapse"><summary id="ubf883347"><span class="ne-text" style="font-size: 24px">文件介绍：</span></summary><p id="u6cefdd26" class="ne-p"><span class="ne-text" style="font-size: 24px">redis-benchmark：性能测试工具</span></p><p id="ud229f0e6" class="ne-p"><span class="ne-text" style="font-size: 24px">redis-check-aof：修复有问题的 aof 文件</span></p><p id="u0951c1ba" class="ne-p"><span class="ne-text" style="font-size: 24px">redis-check-rdb：修复有问题的rdb文件</span></p><p id="ua76f1fe0" class="ne-p"><span class="ne-text" style="font-size: 24px">redis-sentinel：Redis集群使用</span></p><p id="udac18a62" class="ne-p"><span class="ne-text" style="font-size: 24px">redis-server：Redis服务器启动命令</span></p><p id="u03ad4b68" class="ne-p"><span class="ne-text" style="font-size: 24px">redis-cli：客户端，操作入口</span></p></details>
 ### 启动 Redis
 到这里其实我们可以在使用 /opt/software/redis/redis-stable/src 或者 /usr/local/bin 目录下的 redis-server 启动 Redis 服务了。
-
+```
 ```shell
 Redis 源码路径下启动
 ./src/redis-server
