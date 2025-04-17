@@ -92,8 +92,9 @@ CREATE TABLE file_chunk (
     upload_time DATETIME COMMENT '分片上传完成时间',  
     PRIMARY KEY (chunk_id),  
     INDEX idx_file_id (file_id) COMMENT '文件ID索引'  
-) COMMENT '文件分片信息表';  </code></pre><p id="u72f5e463" class="ne-p"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">Redis存热点文件元数据设计</span></p><pre data-language="json" id="YVN9H" class="ne-codeblock language-json"><code># 文件基本信息(Hash结构)  
-key: file:info:{fileId}  
+) COMMENT '文件分片信息表';  </code></pre><p id="u72f5e463" class="ne-p"><span class="ne-text" style="color: rgba(6, 8, 31, 0.88); font-size: 14px">Redis存热点文件元数据设计</span></p><pre data-language="json" id="YVN9H" class="ne-codeblock language-json"><code>
+# 文件基本信息(Hash结构)  
+key: file:info:`{fileId}`
 {  
   fileName: &quot;测试文档.pdf&quot;,  
   fileSize: &quot;1024000&quot;,  
