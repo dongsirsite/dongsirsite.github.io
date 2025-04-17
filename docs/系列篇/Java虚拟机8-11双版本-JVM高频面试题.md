@@ -861,7 +861,7 @@ jmap -dump:file=d:\user.hprof 1246
 - **jhat**
   - jhat dump 文件名**  
 **![1698572614253-7085551e-cb0b-453a-9eeb-f32d1632fc84.jpeg](./img/NOnl_1sHwBboK9v9/1698572614253-7085551e-cb0b-453a-9eeb-f32d1632fc84-934189.jpeg)**  
-**后屏幕显示“Server is ready.”的提示后，用户在浏览器中键入 <http://localhost:7000/就可以访问详情。>
+**后屏幕显示“Server is ready.”的提示后，用户在浏览器中键入 `<http://localhost:7000/就可以访问详情。>`
 - **jstack**
 
 jstack [vmid]  

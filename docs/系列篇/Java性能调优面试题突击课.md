@@ -117,7 +117,7 @@ Java是一门半解释半编译型语言，所以执行引擎又分为了`**解�
 
 假设一个类变量的定义为：public static int value = 3；
 
-那么变量value在准备阶段过后的初始值为0，而不是3，因为这时候尚未开始执行任何Java方法，而把value赋值为3的public static指令是在程序编译后，存放于类构造器<clinit>（）方法之中的，所以把value赋值为3的动作将在初始化阶段才会执行。
+那么变量value在准备阶段过后的初始值为0，而不是3，因为这时候尚未开始执行任何Java方法，而把value赋值为3的public static指令是在程序编译后，存放于类构造器`<clinit>`（）方法之中的，所以把value赋值为3的动作将在初始化阶段才会执行。
 
 这里还需要注意如下几点：
 
@@ -610,7 +610,7 @@ Java程序可以通过在启动参数中添加相应的参数来开启GC日志�
 + -XX:+PrintGCDetails：在GC日志中输出详细的信息；
 + -XX:+PrintGCDateStamps：在GC日志中输出时间戳；
 + -Xlog:gc+heap=trace：在GC前后输出堆的详细信息；
-+ -Xlog:gc:<filename>：将GC日志输出到指定的文件中。
++ -Xlog:gc:`<filename>`：将GC日志输出到指定的文件中。
 
 基于Java17版本：
 
@@ -724,7 +724,7 @@ logging.level.gc=info
 jmap -dump:format=b,file=<filename> <pid>
 ```
 
-其中，<filename>是您想要为dump文件指定的名称，<pid>是您的Java应用程序的进程ID。
+其中，`<filename>`是您想要为dump文件指定的名称，`<pid>`是您的Java应用程序的进程ID。
 
 要获取一个线程转储文件，您可以使用以下命令：
 
@@ -732,7 +732,7 @@ jmap -dump:format=b,file=<filename> <pid>
 jstack -F <pid> > <filename>
 ```
 
-其中，<filename>是您想要为dump文件指定的名称，<pid>是您的Java应用程序的进程ID。
+其中，`<filename>`是您想要为dump文件指定的名称，`<pid>`是您的Java应用程序的进程ID。
 
 + 使用JMX API：如果您的Java应用程序正在运行，您可以使用Java Management Extensions（JMX）API获取dump文件。使用JMX API，您可以远程连接到应用程序并生成转储文件。有关如何使用JMX API获取dump文件的更多信息，请参阅Oracle的官方文档。
 + 使用调试器：如果您在调试模式下运行您的Java应用程序，您可以使用调试器（如Eclipse、IntelliJ IDEA等）来获取dump文件。这些调试器通常提供了内存转储和线程转储的选项。
@@ -743,7 +743,7 @@ jstack -F <pid> > <filename>
 java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=<filename> <your-class>
 ```
 
-其中，<filename>是您想要为转储文件指定的路径和名称，<your-class>是您的Java应用程序的类名
+其中，`<filename>`是您想要为转储文件指定的路径和名称，`<your-class>`是您的Java应用程序的类名
 
 + 使用第三方工具：还有许多第三方工具可用于生成Java程序的dump文件，例如VisualVM、MA（Memory Analyzer Tool）、JProfiler等。这些工具通常提供了丰富的功能，可以帮助您更好地分析和解决Java应用程序中的问题。
 
