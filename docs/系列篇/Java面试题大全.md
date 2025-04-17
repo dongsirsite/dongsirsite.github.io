@@ -552,7 +552,7 @@ BeanFactory是Spring中非常核心的组件，表示Bean工厂，可以生成Be
     1. @SpringBootConfiguration：这个注解实际就是一个@Configuration，表示启动类也是一个配置类
     2. @EnableAutoConfiguration：向Spring容器中导入了一个Selector，用来加载ClassPath下SpringFactories中所定义的自动配置类，将这些自动加载为配置Bean
     3. @ComponentScan：标识扫描路径，因为默认是没有配置实际扫描路径，所以SpringBoot扫描的路径是启动类所在的当前目录
-2. @Bean注解：用来定义Bean，类似于XML中的<bean>标签，Spring在启动时，会对加了@Bean注解的方法进行解析，将方法的名字做为beanName，并通过执行方法得到bean对象
+2. @Bean注解：用来定义Bean，类似于XML中的`<bean>`标签，Spring在启动时，会对加了@Bean注解的方法进行解析，将方法的名字做为beanName，并通过执行方法得到bean对象
 3. @Controller、@Service、@ResponseBody、@Autowired都可以说
 
 ## Spring Boot是如何启动Tomcat的
@@ -737,9 +737,9 @@ e字段的类型是vachar，下面这个sql需要把e字段中的字符转换成
 
 ![1676441574914-0b982490-b3cb-45ab-a5f5-9b92380e78dc.png](./img/rQ74o8W65QSsoCPH/1676441574914-0b982490-b3cb-45ab-a5f5-9b92380e78dc-687887.png)
 
-### 5. <>不等于导致索引失效
+### 5. `<>`不等于导致索引失效
 
-b=1可以走索引，b<>1就不能走索引
+b=1可以走索引，`b<>1`就不能走索引
 
 ![1676441625277-08d21740-9d77-485f-9915-3f43e703cfe2.png](./img/rQ74o8W65QSsoCPH/1676441625277-08d21740-9d77-485f-9915-3f43e703cfe2-554814.png)
 

@@ -348,7 +348,7 @@ public class Thread implements Runnable {
 }
 ```
 
-ThreadLocalMap既然被称为Map，那么毫无疑问它是<key,value>型的数据结构。我们都知道map的本质是一个个<key,value>形式的节点组成的数组，那ThreadLocalMap的节点是什么样的呢？
+ThreadLocalMap既然被称为Map，那么毫无疑问它是`<key,value>`型的数据结构。我们都知道map的本质是一个个`<key,value>`形式的节点组成的数组，那ThreadLocalMap的节点是什么样的呢？
 
 ```plain
 static class Entry extends WeakReference<ThreadLocal<?>> {
